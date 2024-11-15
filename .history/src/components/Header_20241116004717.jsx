@@ -228,7 +228,7 @@ const Header = () => {
                                     <div className="relative">
                                         <BsCart3 className="h-5 w-5 ml-2" />
                                         {cartCount >= 0 && (
-                                            <div className="absolute -top-2 -right-2 bg-[#ec905c] text-white text-xs 
+                                            <div className="absolute -top-2 -right-2 bg- text-white text-xs 
                                                 rounded-full h-4 w-4 flex items-center justify-center
                                                 transform transition-all duration-300">
                                                 {cartCount}
