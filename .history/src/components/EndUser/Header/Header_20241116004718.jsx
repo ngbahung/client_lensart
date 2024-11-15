@@ -5,15 +5,14 @@ import { BsCart3 } from "react-icons/bs";
 import { AiOutlineClose } from "react-icons/ai";
 
 const Header = () => {
-    // Các state quản lý trạng thái của component
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);    // Quản lý trạng thái dropdown tài khoản
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // Quản lý trạng thái menu mobile
-    const dropdownRef = useRef(null);     // Reference để xử lý click outside dropdown
-    const [isRegistered, setIsRegistered] = useState(false);        // Quản lý trạng thái đăng nhập
-    const [searchQuery, setSearchQuery] = useState('');             // Quản lý giá trị tìm kiếm
-    const [cartCount, setCartCount] = useState(0);                  // Quản lý số lượng sản phẩm trong giỏ hàng
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const dropdownRef = useRef(null);
+    const [isRegistered, setIsRegistered] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [cartCount, setCartCount] = useState(0);
 
-    // Hook xử lý đóng dropdown khi click ra ngoài
+    // Close dropdown when clicking outside
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -25,14 +24,12 @@ const Header = () => {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-    // Xử lý đăng xuất
     const handleLogout = () => {
         setIsRegistered(false);
         setIsDropdownOpen(false);
         // Add your logout logic here
     };
 
-    // Dữ liệu điều hướng chính
     const navItems = [
         { 
             name: 'Gọng kính', 
@@ -51,7 +48,6 @@ const Header = () => {
         },
     ];
 
-    // Các liên kết phụ
     const additionalLinks = [
         { name: 'Về LensArt', path: '/ve-lensart' },
         { name: 'Blog', path: '/blog' },
@@ -62,9 +58,8 @@ const Header = () => {
         <>
             <header className="w-full bg-white shadow-sm">
                 <div className="container mx-auto px-4">
-                    {/* Header Row 1: Logo, Search, Account */}
                     <div className="flex items-center justify-between h-16">
-                        {/* Nút menu mobile */}
+                        {/* Mobile Menu Button */}
                         <button 
                             className="md:hidden p-2"
                             onClick={() => setIsMobileMenuOpen(true)}
@@ -73,7 +68,7 @@ const Header = () => {
                         </button>
 
                         <div>
-                            {/* Logo thương hiệu */}
+                            {/* Logo */}
                             <Link to='/' className="flex-shrink-0">
                                 <img 
                                     src="/src/assets/images/logoBrand.png" 
@@ -84,7 +79,7 @@ const Header = () => {
                         </div>
 
                         
-                        {/* Thanh tìm kiếm */}
+                        {/* Search Bar */}
                         <div className="flex-1 mx-4 lg:mx-8">
                             <div className="relative">
                                 <input
@@ -98,7 +93,7 @@ const Header = () => {
                             </div>
                         </div>
 
-                        {/* Các nút thao tác (Tài khoản, Chính sách) */}
+                        {/* Action Buttons */}
                         <div className="flex items-center space-x-2 md:space-x-4">
                             <div className="relative" ref={dropdownRef}>
                                 <button 
@@ -161,7 +156,7 @@ const Header = () => {
                     </div>
                 </div>
 
-                {/* Header Row 2: Navigation - Ẩn trên mobile */}
+                {/* Second Row Navigation - Hidden on Mobile */}
                 <div className='hidden md:block bg-[#6fd4d2]'>
                     <div className="container mx-auto px-4 ">
                         <div className="flex items-center justify-between h-16">
@@ -247,7 +242,7 @@ const Header = () => {
                 </div>
             </header>
 
-            {/* Sidebar cho mobile - Hiển thị khi click vào nút menu */}
+            {/* Mobile Sidebar */}
             <div className={`fixed inset-0 bg-black bg-opacity-50 z-50 transition-opacity duration-300 md:hidden ${
                 isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
             }`}>
@@ -298,7 +293,7 @@ const Header = () => {
                 </div>
             </div>
 
-            {/* Nút giỏ hàng nổi - Chỉ hiển thị trên mobile */}
+            {/* Mobile Floating Cart Button */}
             <Link 
                 to="/gio-hang" 
                 className="fixed bottom-4 right-4 bg-[#6fd4d2] p-3 rounded-full shadow-lg md:hidden z-40"
