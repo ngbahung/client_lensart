@@ -154,79 +154,62 @@ const Header = () => {
 
                 {/* Header Row 2: Navigation - Ẩn trên mobile */}
                 <div className='hidden md:block bg-[#6fd4d2]'>
-                    <div className="container mx-auto px-4 ">
-                        <div className="flex items-center justify-between h-16">
-                            <div>
-                                {/* Navigation */}
-                                <nav className="hidden md:flex space-x-4 lg:space-x-8">
-                                    {navItems.map((item) => (
-                                        <div key={item.path} className="relative group">
-                                            <Link
-                                                to={item.path}
-                                                className="flex items-center text-gray-600 hover:text-white transition-colors text-sm lg:text-base pb-2"
-                                            >
-                                                {item.name}
-                                                <BiChevronDown className="h-5 w-5 ml-1 transition-transform group-hover:rotate-180" />
-                                            </Link>
-                                            
-                                            {/* Navigation Dropdown */}
-                                            <div className="absolute left-0 invisible group-hover:visible opacity-0 group-hover:opacity-100 
-                                                transition-all duration-300 ease-in-out mt-0 w-48 bg-[#6fd4d2] rounded-md shadow-lg z-50">
-                                                <div className="py-2">
-                                                    {item.subItems.map((subItem, index) => (
-                                                        <Link
-                                                            key={index}
-                                                            to={`${item.path}/${subItem.toLowerCase().replace(/\s+/g, '-')}`}
-                                                            className="block px-4 py-2 text-sm text-white hover:bg-[#5fc2c0] transition-colors"
-                                                        >
-                                                            {subItem}
-                                                        </Link>
-                                                    ))}
-                                                </div>
+                    <div className="container mx-auto px-4">
+                        <div className="flex items-center justify-between py-4">
+                            {/* Main Navigation */}
+                            <nav className="flex space-x-8">
+                                {navItems.map((item) => (
+                                    <div key={item.path} className="relative group">
+                                        <Link
+                                            to={item.path}
+                                            className="flex items-center text-white hover:text-gray-200 transition-colors text-base font-medium"
+                                        >
+                                            {item.name}
+                                            <BiChevronDown className="h-5 w-5 ml-1 transition-transform group-hover:rotate-180" />
+                                        </Link>
+                                        
+                                        {/* Dropdown Menu */}
+                                        <div className="absolute left-0 top-full invisible group-hover:visible opacity-0 group-hover:opacity-100 
+                                            transition-all duration-200 w-48 bg-white rounded-md shadow-lg z-50">
+                                            <div className="py-2">
+                                                {item.subItems.map((subItem, index) => (
+                                                    <Link
+                                                        key={index}
+                                                        to={`${item.path}/${subItem.toLowerCase().replace(/\s+/g, '-')}`}
+                                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-[#6fd4d2] hover:text-white transition-colors"
+                                                    >
+                                                        {subItem}
+                                                    </Link>
+                                                ))}
                                             </div>
                                         </div>
-                                    ))}
-                                </nav>
-                            </div>
-                            <div className="hidden md:flex items-center justify-end space-x-4 lg:space-x-8 py-3">
-                                <Link 
-                                    to="/ve-lensart" 
-                                    className="text-gray-700 hover:text-white transition-colors text-sm lg:text-base"
-                                >
-                                    Về LensArt
-                                </Link>
+                                    </div>
+                                ))}
+                            </nav>
+
+                            {/* Additional Links */}
+                            <div className="flex items-center space-x-8">
+                                {additionalLinks.map((link) => (
+                                    <Link
+                                        key={link.path}
+                                        to={link.path}
+                                        className="text-white hover:text-gray-200 transition-colors text-base font-medium"
+                                    >
+                                        {link.name}
+                                    </Link>
+                                ))}
                                 
-                                <div className="relative group">
-                                    <Link 
-                                        to="/blog" 
-                                        className="flex items-center text-gray-700 hover:text-white transition-colors text-sm lg:text-base"
-                                    >
-                                        Blog
-                                    </Link>
-                                </div>
-
-                                <div className="relative group">
-                                    <Link 
-                                        to="/lien-he" 
-                                        className="flex items-center text-gray-700 hover:text-white transition-colors text-sm lg:text-base"
-                                    >
-                                        Liên hệ
-                                    </Link>
-                                </div>
-                            </div>
-
-                            <div className="relative">
+                                {/* Cart */}
                                 <Link 
                                     to="/gio-hang" 
-                                    className="flex items-center text-gray-700 hover:text-white transition-colors text-sm lg:text-base"
+                                    className="flex items-center text-white hover:text-gray-200 transition-colors text-base font-medium"
                                 >
                                     <span>Giỏ hàng</span>
-                                    <div className="relative">
-                                        <BsCart3 className="h-5 w-5 ml-2" />
-                                        {cartCount >= 0 && (
+                                    <div className="relative ml-2">
+                                        <BsCart3 className="h-5 w-5" />
+                                        {cartCount > 0 && (
                                             <div className="absolute -top-2 -right-2 bg-[#ec905c] text-white text-xs 
-                                                rounded-full h-4 w-4 flex items-center justify-center
-                                                transform transition-all duration-300">
+                                                rounded-full h-4 w-4 flex items-center justify-center">
                                                 {cartCount}
                                             </div>
                                         )}

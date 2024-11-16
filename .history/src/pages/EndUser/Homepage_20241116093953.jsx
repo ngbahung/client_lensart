@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 const Homepage = () => {
     useEffect(() => {
-        document.title = 'Trang chủ | LensArt Eyewear';
+        document.title = 'Trang chủ | Your Site Name';
     }, []);
 
     return (

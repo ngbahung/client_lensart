@@ -73,8 +73,18 @@ const Header = () => {
                             <BiMenu className="h-6 w-6" />
                         </button>
 
-                        <Logo />
+                        <div>
+                            {/* Logo thương hiệu */}
+                            <Link to='/' className="flex-shrink-0">
+                                <img 
+                                    src="/src/assets/images/logoBrand.png" 
+                                    alt="Logo" 
+                                    className="h-8 w-auto sm:h-10 md:h-12 lg:h-14 transition-all duration-200"
+                                />
+                            </Link>
+                        </div>
 
+                        
                         {/* Thanh tìm kiếm */}
                         <div className="flex-1 mx-4 lg:mx-8">
                             <div className="relative">

@@ -75,6 +75,7 @@ const Header = () => {
 
                         <Logo />
 
+                        
                         {/* Thanh tìm kiếm */}
                         <div className="flex-1 mx-4 lg:mx-8">
                             <div className="relative">
