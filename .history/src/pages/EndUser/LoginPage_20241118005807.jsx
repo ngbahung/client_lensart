@@ -94,7 +94,7 @@ const LoginPage = () => {
                             </LoginButton>
                             <p className="text-center mt-4">
                                 <span 
-                                    className="text-[#ec905c] hover:underline cursor-pointer"
+                                    className="text-blue-600 hover:text-blue-800 cursor-pointer"
                                     onClick={() => navigate('/signup')}
                                 >
                                     Nếu chưa có tài khoản, đăng ký tại đây.

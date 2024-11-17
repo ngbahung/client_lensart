@@ -105,30 +105,14 @@ const RegistrationForm = () => {
     loadWards();
   }, [formData.district]);
 
-  const isValidEmail = (email) => {
-    // Basic email format validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) return false;
-    
-    // Check for valid domain extension (at least 2 characters)
-    const parts = email.split('@');
-    const domain = parts[1];
-    if (!domain || domain.split('.')[1]?.length < 2) return false;
-    
-    // Check length constraints
-    if (email.length < 5 || email.length > 254) return false;
-    
-    return true;
-  };
-
   const validateForm = () => {
     const newErrors = {};
     
-    // Enhanced email validation
+    // Email validation
     if (!formData.email) {
       newErrors.email = 'Email là bắt buộc';
-    } else if (!isValidEmail(formData.email)) {
-      newErrors.email = 'Email không hợp lệ. Vui lòng kiểm tra lại định dạng email';
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = 'Email không hợp lệ';
     }
 
     // Password validation

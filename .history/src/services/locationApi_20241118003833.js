@@ -8,9 +8,7 @@ export const fetchCities = async () => {
     return data
       .map(city => ({
         value: String(city.code),
-        label: city.name
-          .replace('Tỉnh ', '')
-          .replace('Thành phố ', 'TP. ')
+        label: city.name.replace('Tỉnh ', '')
       }))
       .sort((a, b) => a.label.localeCompare(b.label));
   } catch (error) {

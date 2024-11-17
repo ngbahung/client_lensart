@@ -4,9 +4,9 @@ import { BiHide, BiShow } from 'react-icons/bi';
 import Logo from '../../components/Logo';
 import InputField from '../../components/Admin/Login/InputField';
 import LoginButton from '../../components/Admin/Login/Button';
+import BannerSlider from '../../components/BannerSlider';
 
 const LoginPage = () => {
-    useEffect(() => {
         document.title = 'Đăng nhập | LensArt';
     }, []);
 
@@ -95,7 +95,7 @@ const LoginPage = () => {
                             <p className="text-center mt-4">
                                 <span 
                                     className="text-[#ec905c] hover:underline cursor-pointer"
-                                    onClick={() => navigate('/signup')}
+                                    onClick={() => navigate('/register')}
                                 >
                                     Nếu chưa có tài khoản, đăng ký tại đây.
                                 </span>

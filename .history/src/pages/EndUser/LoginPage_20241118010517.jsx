@@ -4,6 +4,7 @@ import { BiHide, BiShow } from 'react-icons/bi';
 import Logo from '../../components/Logo';
 import InputField from '../../components/Admin/Login/InputField';
 import LoginButton from '../../components/Admin/Login/Button';
+import BannerSlider from '../../components/BannerSlider';
 
 const LoginPage = () => {
     useEffect(() => {
@@ -48,8 +49,7 @@ const LoginPage = () => {
     return (
         <div className="min-h-screen bg-[#eff9f9]">
             {/* <Header /> */}
-            <div className="flex items-center justify-center px-4 sm:px-6 md:px-8 py-10 sm:py-16 md:py-20">
-                <div className="w-full max-w-[320px] sm:max-w-[380px] md:max-w-md bg-white rounded-xl shadow-lg p-4 sm:p-6 md:p-8 relative z-10">
+            <BannerSlider />
                     <div className="flex justify-center mb-4 sm:mb-6">
                         <Logo />
                     </div>
@@ -95,7 +95,7 @@ const LoginPage = () => {
                             <p className="text-center mt-4">
                                 <span 
                                     className="text-[#ec905c] hover:underline cursor-pointer"
-                                    onClick={() => navigate('/signup')}
+                                    onClick={() => navigate('/register')}
                                 >
                                     Nếu chưa có tài khoản, đăng ký tại đây.
                                 </span>

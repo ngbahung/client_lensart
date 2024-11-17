@@ -77,7 +77,7 @@ const Homepage = () => {
     ];
 
     return (
-        <div>
+        <>
             <div className="banner-slider mb-4 md:mb-8">
                 <Slider {...bannerSettings}>
                     {banners.map(banner => (
@@ -102,7 +102,7 @@ const Homepage = () => {
                     <ProductSlider products={products} />
                 </div>
             </div>
-        </div>
+        </>
     );
 }
 

@@ -6,11 +6,10 @@ export const fetchCities = async () => {
   try {
     const { data } = await axios.get(`${BASE_URL}/p`);
     return data
+      .filter(city => !city.name.includes('Tỉnh'))
       .map(city => ({
         value: String(city.code),
         label: city.name
-          .replace('Tỉnh ', '')
-          .replace('Thành phố ', 'TP. ')
       }))
       .sort((a, b) => a.label.localeCompare(b.label));
   } catch (error) {

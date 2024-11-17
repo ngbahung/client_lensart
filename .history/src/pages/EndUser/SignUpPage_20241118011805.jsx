@@ -1,10 +1,9 @@
 import RegistrationForm from '../../components/EndUser/Register/RegistrationForm';
-import { useEffect } from 'react';
 
 const SignUpPage = () => {
 
   useEffect(() => {
-    document.title = 'Đăng ký | LensArt';
+    document.title = 'Đăng nhập | LensArt';
   }, []);
 
   return (

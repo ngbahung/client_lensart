@@ -78,18 +78,18 @@ const Homepage = () => {
 
     return (
         <div>
-            <div className="banner-slider mb-4 md:mb-8">
+            <div className="banner-slider mb-8">
                 <Slider {...bannerSettings}>
                     {banners.map(banner => (
                         <div key={banner.id} className="relative">
                             <img 
                                 src={banner.image} 
                                 alt={banner.alt}
-                                className="w-full h-[300px] md:h-[600px] object-cover"
+                                className="w-full h-[600px] object-cover"
                             />
-                            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/50 to-transparent p-4 md:p-8">
+                            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/50 to-transparent p-8">
                                 <div className="container mx-auto">
-                                    <h2 className="text-2xl md:text-4xl font-bold text-white mb-2">{banner.alt}</h2>
+                                    <h2 className="text-4xl font-bold text-white mb-2">{banner.alt}</h2>
                                 </div>
                             </div>
                         </div>

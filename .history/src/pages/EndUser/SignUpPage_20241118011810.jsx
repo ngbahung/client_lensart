@@ -1,5 +1,4 @@
 import RegistrationForm from '../../components/EndUser/Register/RegistrationForm';
-import { useEffect } from 'react';
 
 const SignUpPage = () => {
 
