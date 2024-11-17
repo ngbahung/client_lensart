@@ -1,9 +1,9 @@
 import React from 'react';
 import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import LoginPage from './pages/Admin/LoginPage';
-import AdminHomePage from './pages/Admin/AdminHomePage';
 import Homepage from './pages/EndUser/Homepage';
 import Header from './components/EndUser/Header/Header';
+import DashboardPage from './pages/Admin/DashboardPage';
 
 const UserLayout = () => (
   <>
@@ -14,7 +14,6 @@ const UserLayout = () => (
 
 const AdminLayout = () => (
   <>
-    <h2>Admin Layout</h2>
     <Outlet />
   </>
 );
@@ -27,7 +26,7 @@ const AppRoutes = () => {
         {/* Trang login mặc định khi vào /admin */}
         <Route index element={<LoginPage />} />
         {/* Các route admin khác */}
-        <Route path="home" element={<AdminHomePage />} />
+        <Route path="dashboard" element={<DashboardPage />} />
       </Route>
 
       {/* User Routes */}

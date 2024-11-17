@@ -39,7 +39,7 @@ const LoginPage = () => {
             await new Promise(resolve => setTimeout(resolve, 1000));
     
             // Điều hướng tới AdminHomePage sau khi đăng nhập thành công
-            navigate('/admin/home');
+            navigate('/admin/dashboard');
         } catch (err) {
             setError('Đăng nhập thất bại. Vui lòng thử lại.');
         } finally {
