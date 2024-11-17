@@ -35,14 +35,18 @@ const LoginPage = () => {
         
         setIsLoading(true);
         try {
-            await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
-            navigate('/admin/dashboard');
+            // Simulate API call
+            await new Promise(resolve => setTimeout(resolve, 1000));
+    
+            // Điều hướng tới AdminHomePage sau khi đăng nhập thành công
+            navigate('/admin/home');
         } catch (err) {
             setError('Đăng nhập thất bại. Vui lòng thử lại.');
         } finally {
             setIsLoading(false);
         }
     };
+    
 
     return (
         <div className="fixed inset-0 min-h-screen bg-[#eff9f9] flex items-center justify-center px-4">
