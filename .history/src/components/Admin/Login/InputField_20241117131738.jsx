@@ -1,6 +1,5 @@
 const InputField = ({ 
     type, 
-    name,  // Add name prop
     placeholder, 
     value, 
     onChange, 
@@ -9,7 +8,6 @@ const InputField = ({
     <div className="relative mb-4">
       <input
         type={type}
-        name={name}  // Add name attribute
         placeholder={placeholder}
         value={value}
         onChange={onChange}
