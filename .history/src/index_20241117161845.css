@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import 'nprogress/nprogress.css';
+
+@font-face {
+    font-family: 'SF Pro Display';
+    src: url('/fonts/SF-Pro-Display-Regular.otf') format('opentype');
+    font-weight: 400;
+  }
+  
+  @font-face {
+    font-family: 'SF Pro Display';
+    src: url('/fonts/SF-Pro-Display-Medium.otf') format('opentype');
+    font-weight: 500;
+  }
+  
+  @font-face {
+    font-family: 'SF Pro Display';
+    src: url('/fonts/SF-Pro-Display-Bold.otf') format('opentype');
+    font-weight: 700;
+  }
+
+  /* Custom NProgress styles */
+#nprogress .bar {
+  background: #6fd4d2;
+}
+
+#nprogress .peg {
+  box-shadow: 0 0 10px #6fd4d2, 0 0 5px #6fd4d2;
+}

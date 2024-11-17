@@ -1,0 +1,21 @@
+
+.product-slider .slick-track {
+    margin-left: 0;
+    padding: 1rem 0;
+}
+
+.product-slider .slick-slide {
+    padding: 0 0.5rem;
+}
+
+.product-slider .slick-dots li button:before {
+    color: #2DD4BF;
+}
+
+.product-slider .slick-dots li.slick-active button:before {
+    color: #14B8A6;
+}
+
+.product-slider .slick-list {
+    margin: 0 -0.5rem;
+}
