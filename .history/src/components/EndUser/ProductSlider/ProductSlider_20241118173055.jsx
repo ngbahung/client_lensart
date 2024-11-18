@@ -57,7 +57,7 @@ const ProductSlider = ({ products }) => {
             {
                 breakpoint: 640,
                 settings: {
-                    slidesToShow: 2,
+                    slidesToShow: 1,
                     arrows: false,
                     dots: true
                 }
@@ -66,10 +66,10 @@ const ProductSlider = ({ products }) => {
     };
 
     return (
-        <div className="product-slider relative px-4 sm:px-16 py-2">
+        <div className="product-slider relative px-6 sm:px-16 py-2">
             <Slider {...settings}>
                 {products.map(product => (
-                    <div key={product.id} className="px-0.5 sm:px-2">
+                    <div key={product.id} className="px-1 sm:px-2">
                         <ProductCard
                             {...product}
                             onBuyClick={() => console.log('Buy clicked', product.id)}
@@ -89,6 +89,7 @@ ProductSlider.propTypes = {
             discount: PropTypes.string,
             image: PropTypes.string.isRequired,
             name: PropTypes.string.isRequired,
+            sku: PropTypes.string.isRequired,
             currentPrice: PropTypes.number.isRequired,
             originalPrice: PropTypes.number,
         })

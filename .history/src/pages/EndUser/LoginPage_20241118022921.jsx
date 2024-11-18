@@ -35,11 +35,18 @@ const LoginPage = () => {
         
         setIsLoading(true);
         try {
-            // Add your login API call here
-            await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
-            navigate('/');
-        } catch (err) {
-            setError('Đăng nhập thất bại. Vui lòng thử lại.');
+            const response = await api.post('/login', {
+                email: formData.email,
+                password: formData.password,
+            });
+
+            if (response.status === 'success') {
+                localStorage.setItem('token', response.authorization.token);
+                localStorage.setItem('user', JSON.stringify(response.user));
+                navigate('/');
+            }
+        } catch (error) {
+            setError(error.message || 'An error occurred during login');
         } finally {
             setIsLoading(false);
         }
@@ -95,7 +102,7 @@ const LoginPage = () => {
                             <p className="text-center mt-4">
                                 <span 
                                     className="text-[#ec905c] hover:underline cursor-pointer"
-                                    onClick={() => navigate('/register')}
+                                    onClick={() => navigate('/signup')}
                                 >
                                     Nếu chưa có tài khoản, đăng ký tại đây.
                                 </span>

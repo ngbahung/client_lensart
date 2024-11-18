@@ -11,20 +11,21 @@ const DiscountBadge = memo(({ discount }) => (
 ));
 
 const ProductImage = memo(({ src, alt }) => (
-  <div className="relative w-full h-48 rounded-lg overflow-hidden bg-gray-100 mb-3">
-    <img
-      src={src}
-      alt={alt}
-      className="w-full h-full object-cover"
-    />
-  </div>
+  <img
+    src={src}
+    alt={alt}
+    className="relative w-full h-48 rounded-lg object-cover bg-gray-100 mb-3"
+  />
 ));
 
-const ProductInfo = memo(({ name }) => (
+const ProductInfo = memo(({ name, sku }) => (
   <div className="px-1">
-    <h3 className="font-medium text-gray-900 uppercase text-sm tracking-wide">
+    <h3 className="font-medium text-gray-900 uppercase text-sm tracking-wide mb-1">
       {name}
     </h3>
+    <p className="text-gray-500 text-xs">
+      {sku}
+    </p>
   </div>
 ));
 
@@ -55,17 +56,18 @@ const ProductCard = ({
   discount,
   image,
   name,
+  sku,
   currentPrice,
   originalPrice,
   onBuyClick,
   onProductClick
 }) => (
-  <div className="w-full max-w-[280px] sm:max-w-[340px] mx-auto bg-white rounded-xl shadow-md p-2 sm:p-3 relative hover:shadow-xl transition-shadow">
+  <div className="w-full max-w-[240px] sm:max-w-[300px] mx-auto bg-white rounded-xl shadow-md p-2 sm:p-3 relative hover:shadow-xl transition-shadow">
     {discount && <DiscountBadge discount={discount} />}
     
     <div onClick={onProductClick} className="cursor-pointer">
       <ProductImage src={image} alt={name} />
-      <ProductInfo name={name} />
+      <ProductInfo name={name} sku={sku} />
       <ProductPrice currentPrice={currentPrice} originalPrice={originalPrice} />
     </div>
 
@@ -77,6 +79,7 @@ ProductCard.propTypes = {
   discount: PropTypes.string,
   image: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  sku: PropTypes.string.isRequired,
   currentPrice: PropTypes.number.isRequired,
   originalPrice: PropTypes.number,
   onBuyClick: PropTypes.func.isRequired,

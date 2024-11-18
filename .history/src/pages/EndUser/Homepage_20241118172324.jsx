@@ -35,6 +35,7 @@ const Homepage = () => {
             discount: '-20%',
             image: 'https://picsum.photos/400/400', // Using placeholder image
             name: 'Classic Aviator',
+            sku: 'AV-001',
             currentPrice: 1200000,
             originalPrice: 1500000,
         },
@@ -43,6 +44,7 @@ const Homepage = () => {
             discount: '-15%',
             image: 'https://picsum.photos/400/400?random=1',
             name: 'Modern Square',
+            sku: 'MS-002',
             currentPrice: 900000,
             originalPrice: 1050000,
         },
@@ -51,6 +53,7 @@ const Homepage = () => {
             discount: '-25%',
             image: 'https://picsum.photos/400/400?random=2',
             name: 'Round Vintage',
+            sku: 'RV-003',
             currentPrice: 850000,
             originalPrice: 1100000,
         },
@@ -59,6 +62,7 @@ const Homepage = () => {
             discount: '-10%',
             image: 'https://picsum.photos/400/400?random=3',
             name: 'Cat Eye Classic',
+            sku: 'CE-004',
             currentPrice: 950000,
             originalPrice: 1050000,
         },
@@ -68,13 +72,11 @@ const Homepage = () => {
         <div>
             <BannerSlider banners={banners} />
             
-            <div className="hidden md:block">
-                <PromotionalBanner 
-                    imageSrc="/src/assets/images/lensart_policy.png"
-                    title="Chính sách chỉ có tại LensArt Eyewear"
-                    description="Discover our exclusive eyewear collection"
-                />
-            </div>
+            <PromotionalBanner 
+                imageSrc="/src/assets/images/lensart_policy.png"
+                title="Chính sách chỉ có tại LensArt Eyewear"
+                description="Discover our exclusive eyewear collection"
+            />
 
             <div className="container mx-auto px-4 md:px-8">
                 <div className="py-4 md:py-8">

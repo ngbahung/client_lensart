@@ -70,6 +70,10 @@ const ProductCard = ({
     </div>
 
     <BuyButton onClick={onBuyClick} />
+      <ProductPrice currentPrice={currentPrice} originalPrice={originalPrice} />
+    </div>
+
+    <BuyButton onClick={onBuyClick} />
   </div>
 );
 
@@ -77,6 +81,7 @@ ProductCard.propTypes = {
   discount: PropTypes.string,
   image: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  sku: PropTypes.string.isRequired,
   currentPrice: PropTypes.number.isRequired,
   originalPrice: PropTypes.number,
   onBuyClick: PropTypes.func.isRequired,

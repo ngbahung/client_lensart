@@ -89,6 +89,7 @@ ProductSlider.propTypes = {
             discount: PropTypes.string,
             image: PropTypes.string.isRequired,
             name: PropTypes.string.isRequired,
+            sku: PropTypes.string.isRequired,
             currentPrice: PropTypes.number.isRequired,
             originalPrice: PropTypes.number,
         })

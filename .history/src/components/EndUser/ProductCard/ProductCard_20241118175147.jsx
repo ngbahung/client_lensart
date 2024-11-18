@@ -29,6 +29,9 @@ const ProductInfo = memo(({ name }) => (
 ));
 
 const ProductPrice = memo(({ currentPrice, originalPrice }) => (
+));
+
+const ProductPrice = memo(({ currentPrice, originalPrice }) => (
   <div className="flex items-center gap-2 mt-2 px-1">
     <span className="text-lg font-semibold text-teal-500">
       {formatPrice(currentPrice)}
@@ -55,6 +58,7 @@ const ProductCard = ({
   discount,
   image,
   name,
+  sku,
   currentPrice,
   originalPrice,
   onBuyClick,
@@ -65,7 +69,7 @@ const ProductCard = ({
     
     <div onClick={onProductClick} className="cursor-pointer">
       <ProductImage src={image} alt={name} />
-      <ProductInfo name={name} />
+      <ProductInfo name={name} sku={sku} />
       <ProductPrice currentPrice={currentPrice} originalPrice={originalPrice} />
     </div>
 
@@ -77,6 +81,7 @@ ProductCard.propTypes = {
   discount: PropTypes.string,
   image: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  sku: PropTypes.string.isRequired,
   currentPrice: PropTypes.number.isRequired,
   originalPrice: PropTypes.number,
   onBuyClick: PropTypes.func.isRequired,

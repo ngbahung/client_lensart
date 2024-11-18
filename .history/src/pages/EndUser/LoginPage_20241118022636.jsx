@@ -31,15 +31,29 @@ const LoginPage = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        if (!validateForm()) return;
-        
-        setIsLoading(true);
         try {
-            // Add your login API call here
-            await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
-            navigate('/');
-        } catch (err) {
-            setError('Đăng nhập thất bại. Vui lòng thử lại.');
+            const response = await fetch('http://localhost:8000/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: formData.email,
+                    password: formData.password,
+                }),
+            });
+
+            const data = await response.json();
+
+            if (data.status === 'success') {
+                localStorage.setItem('token', data.authorization.token);
+                localStorage.setItem('user', JSON.stringify(data.user));
+                navigate('/');
+            } else {
+                setError(data.message);
+            }
+        } catch (error) {
+            setError('Error:', error);
         } finally {
             setIsLoading(false);
         }
@@ -95,7 +109,7 @@ const LoginPage = () => {
                             <p className="text-center mt-4">
                                 <span 
                                     className="text-[#ec905c] hover:underline cursor-pointer"
-                                    onClick={() => navigate('/register')}
+                                    onClick={() => navigate('/signup')}
                                 >
                                     Nếu chưa có tài khoản, đăng ký tại đây.
                                 </span>

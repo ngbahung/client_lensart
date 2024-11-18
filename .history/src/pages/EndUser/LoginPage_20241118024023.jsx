@@ -4,17 +4,29 @@ import { BiHide, BiShow } from 'react-icons/bi';
 import Logo from '../../components/Logo';
 import InputField from '../../components/Admin/Login/InputField';
 import LoginButton from '../../components/Admin/Login/Button';
+import { useAuth } from '../../contexts/AuthContext';
+import api from '../../utils/api';
 
 const LoginPage = () => {
-    useEffect(() => {
-        document.title = 'Đăng nhập | LensArt';
-    }, []);
-
     const navigate = useNavigate();
+    const { login, user, loading } = useAuth();
     const [formData, setFormData] = useState({ email: '', password: '' });
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
+
+    useEffect(() => {
+        document.title = 'Đăng nhập | LensArt';
+        // Redirect if already logged in
+        if (user) {
+            navigate('/');
+        }
+    }, [user, navigate]);
+
+    // If auth context is still loading, show loading state
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -34,12 +46,19 @@ const LoginPage = () => {
         if (!validateForm()) return;
         
         setIsLoading(true);
+        setError('');
+        
         try {
-            // Add your login API call here
-            await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
-            navigate('/');
-        } catch (err) {
-            setError('Đăng nhập thất bại. Vui lòng thử lại.');
+            const response = await api.post('/login', formData);
+            
+            if (response.data && response.data.authorization) {
+                await login(response.data.user, response.data.authorization.token);
+                navigate('/');
+            } else {
+                throw new Error('Invalid response format');
+            }
+        } catch (error) {
+            setError(error.message || 'Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.');
         } finally {
             setIsLoading(false);
         }
@@ -95,7 +114,7 @@ const LoginPage = () => {
                             <p className="text-center mt-4">
                                 <span 
                                     className="text-[#ec905c] hover:underline cursor-pointer"
-                                    onClick={() => navigate('/register')}
+                                    onClick={() => navigate('/signup')}
                                 >
                                     Nếu chưa có tài khoản, đăng ký tại đây.
                                 </span>

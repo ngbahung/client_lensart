@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
 import ProductSlider from '../../components/EndUser/ProductSlider/ProductSlider';
-import BannerSlider from '../../components/EndUser/BannerSlider/BannerSlider';
-import BlogSlider from '../../components/EndUser/BlogSlider/BlogSlider';
-import PromotionalBanner from '../../components/EndUser/PromotionalBanner/PromotionalBanner';
+import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
@@ -10,6 +8,16 @@ const Homepage = () => {
     useEffect(() => {
         document.title = 'Trang chủ | LensArt Eyewear';
     }, []);
+
+    const bannerSettings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 3000,
+    };
 
     const banners = [
         {
@@ -35,6 +43,7 @@ const Homepage = () => {
             discount: '-20%',
             image: 'https://picsum.photos/400/400', // Using placeholder image
             name: 'Classic Aviator',
+            sku: 'AV-001',
             currentPrice: 1200000,
             originalPrice: 1500000,
         },
@@ -43,6 +52,7 @@ const Homepage = () => {
             discount: '-15%',
             image: 'https://picsum.photos/400/400?random=1',
             name: 'Modern Square',
+            sku: 'MS-002',
             currentPrice: 900000,
             originalPrice: 1050000,
         },
@@ -51,6 +61,7 @@ const Homepage = () => {
             discount: '-25%',
             image: 'https://picsum.photos/400/400?random=2',
             name: 'Round Vintage',
+            sku: 'RV-003',
             currentPrice: 850000,
             originalPrice: 1100000,
         },
@@ -59,6 +70,7 @@ const Homepage = () => {
             discount: '-10%',
             image: 'https://picsum.photos/400/400?random=3',
             name: 'Cat Eye Classic',
+            sku: 'CE-004',
             currentPrice: 950000,
             originalPrice: 1050000,
         },
@@ -66,34 +78,28 @@ const Homepage = () => {
 
     return (
         <div>
-            <BannerSlider banners={banners} />
-            
-            <div className="hidden md:block">
-                <PromotionalBanner 
-                    imageSrc="/src/assets/images/lensart_policy.png"
-                    title="Chính sách chỉ có tại LensArt Eyewear"
-                    description="Discover our exclusive eyewear collection"
-                />
+            <div className="banner-slider mb-4 md:mb-8">
+                <Slider {...bannerSettings}>
+                    {banners.map(banner => (
+                        <div key={banner.id} className="relative">
+                            <img 
+                                src={banner.image} 
+                                alt={banner.alt}
+                                className="w-full h-[300px] md:h-[600px] object-cover"
+                            />
+                            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/50 to-transparent p-4 md:p-8">
+                                <div className="container mx-auto">
+                                    <h2 className="text-2xl md:text-4xl font-bold text-white mb-2">{banner.alt}</h2>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </Slider>
             </div>
-
-            <div className="container mx-auto px-4 md:px-8">
-                <div className="py-4 md:py-8">
-                    <h2 className="text-xl md:text-2xl font-semibold text-[#55d5d2] mb-4 md:mb-6 px-2 md:px-4 border-b-2 border-[#ecaa83] pb-2">BÁN CHẠY NHẤT</h2>
+            <div className="container mx-auto">
+                <div className="py-8">
+                    <h2 className="text-2xl font-semibold text-[#55d5d2] mb-6 px-4 border-b-2 border-[#ecaa83] pb-2">SẢN PHẨM NỔI BẬT</h2>
                     <ProductSlider products={products} />
-                </div>
-            </div>
-
-            <div className="container mx-auto px-4 md:px-8">
-                <div className="py-4 md:py-8">
-                    <h2 className="text-xl md:text-2xl font-semibold text-[#55d5d2] mb-4 md:mb-6 px-2 md:px-4 border-b-2 border-[#ecaa83] pb-2">MỚI NHẤT</h2>
-                    <ProductSlider products={products} />
-                </div>
-            </div>
-
-            <div className="container mx-auto px-4 md:px-8">
-                <div className="py-4 md:py-8">
-                    <h2 className="text-xl md:text-2xl font-semibold text-[#55d5d2] mb-4 md:mb-6 px-2 md:px-4 border-b-2 border-[#ecaa83] pb-2">BLOG</h2>
-                    <BlogSlider />
                 </div>
             </div>
         </div>
