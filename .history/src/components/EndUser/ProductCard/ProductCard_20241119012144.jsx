@@ -11,7 +11,7 @@ const DiscountBadge = memo(({ discount }) => (
 ));
 
 const ProductImage = memo(({ src, alt }) => (
-  <div className="relative w-full h-36 sm:h-48 rounded-lg overflow-hidden bg-gray-100 mb-2 sm:mb-3">
+  <div className="relative w-full h-48 rounded-lg overflow-hidden bg-gray-100 mb-3">
     <img
       src={src}
       alt={alt}
@@ -60,7 +60,7 @@ const ProductCard = ({
   onBuyClick,
   onProductClick
 }) => (
-  <div className="w-full bg-white rounded-xl shadow-md p-2 relative hover:shadow-xl transition-shadow">
+  <div className="w-full max-w-[280px] sm:max-w-[340px] mx-auto bg-white rounded-xl shadow-md p-2 sm:p-3 relative hover:shadow-xl transition-shadow">
     {discount && <DiscountBadge discount={discount} />}
     
     <div onClick={onProductClick} className="cursor-pointer">

@@ -261,19 +261,13 @@ const Header = () => {
                         <div className="mt-8">
                             {navItems.map((item) => (
                                 <div key={item.path} className="mb-4">
-                                    <Link 
-                                        to={item.path}
-                                        className="font-medium mb-2 block hover:text-[#6fd4d2]"
-                                        onClick={() => setIsMobileMenuOpen(false)}
-                                    >
-                                        {item.name}
-                                    </Link>
+                                    <div className="font-medium mb-2">{item.name}</div>
                                     <div className="pl-4">
                                         {item.subItems.map((subItem, index) => (
                                             <Link
                                                 key={index}
                                                 to={`${item.path}/${subItem.toLowerCase().replace(/\s+/g, '-')}`}
-                                                className="block py-2 text-gray-600 hover:text-[#6fd4d2]"
+                                                className="block py-2 text-gray-600"
                                                 onClick={() => setIsMobileMenuOpen(false)}
                                             >
                                                 {subItem}
