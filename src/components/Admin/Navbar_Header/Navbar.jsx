@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom'; // Import NavLink from react-router-dom
 import Logo from '../../Logo';
 import { FaImage, FaListUl, FaCartPlus, FaBloggerB, FaUsers, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { MdDashboard } from "react-icons/md";
@@ -21,7 +22,11 @@ const Navbar = () => {
       [menu]: !prev[menu]
     }));
   };
+  const [activeLink, setActiveLink] = useState(null); // Lưu trạng thái link đang active
 
+  const handleLinkClick = (linkId) => {
+    setActiveLink(linkId); // Cập nhật link đang được nhấn
+  };
   return (
     <div className="w-[17%] bg-white h-screen fixed left-0 top-0 shadow-lg flex flex-col">
       {/* Logo Section */}
@@ -38,10 +43,17 @@ const Navbar = () => {
           <ul className="space-y-1">
             {/* Dashboard */}
             <li className="hover:bg-gray-100 rounded-lg">
-              <a href="#" className="flex items-center px-4 py-3 text-black-700 hover:text-[rgba(85,213,210,1)]">
+              <NavLink
+                to="/admin/dashboard"
+                className={({ isActive }) =>
+                  isActive
+                    ? "flex items-center px-4 py-3 text-[rgba(85,213,210,1)]" // Khi active, áp dụng màu này
+                    : "flex items-center px-4 py-3 text-black-700 hover:text-[rgba(85,213,210,1)]"
+                }
+              >
                 <MdDashboard className="w-5 h-5 text-black-500 ml-[30px]" />
                 <span className="ml-3">Dashboard</span>
-              </a>
+              </NavLink>
             </li>
 
             {/* ECOMMERCE Section */}
@@ -57,23 +69,30 @@ const Navbar = () => {
                   <FaListUl className="w-5 h-5 text-black-500 ml-[30px]" />
                   <span className="ml-3">Manage Categories</span>
                 </div>
-                {/* Biểu tượng thay đổi dựa vào trạng thái menu */}
                 <span className="ml-auto pr-2">
                   {expandedMenus.categories ? <FaChevronUp /> : <FaChevronDown />}
                 </span>
               </button>
               {expandedMenus.categories && (
                 <ul className="ml-[50px] mt-2 space-y-1">
-                  {['Category', 'Shape', 'Material', 'Features'].map((item) => (
+                  {['Category', 'Shape', 'Materials', 'Features'].map((item) => (
                     <li key={item} className="hover:bg-gray-100 rounded-lg ml-[12px]">
-                      <a href="#" className="block px-4 py-2 text-black-700 hover:text-[rgba(85,213,210,1)]">
+                      <NavLink
+                        to={`/admin/categories/${item}`}
+                        className={({ isActive }) =>
+                          isActive
+                            ? "block px-4 py-2 text-[rgba(85,213,210,1)]" // Khi active
+                            : "block px-4 py-2 text-black-700 hover:text-[rgba(85,213,210,1)]"
+                        }
+                      >
                         {item}
-                      </a>
+                      </NavLink>
                     </li>
                   ))}
                 </ul>
               )}
             </li>
+
 
             {/* Manage Products */}
             <li className="hover:bg-gray-100 rounded-lg">
@@ -93,9 +112,12 @@ const Navbar = () => {
                 <ul className="ml-[50px] mt-2 space-y-1">
                   {['Brands', 'Products', 'Product Reviews'].map((item) => (
                     <li key={item} className="hover:bg-gray-100 rounded-lg ml-[12px]">
-                      <a href="#" className="block px-4 py-2 text-black-700 hover:text-[rgba(85,213,210,1)]">
+                      <NavLink
+                        to={`/admin/products/${item}`}
+                        className="block px-4 py-2 text-black-700 hover:text-[rgba(85,213,210,1)]"
+                      >
                         {item}
-                      </a>
+                      </NavLink>
                     </li>
                   ))}
                 </ul>
@@ -118,11 +140,14 @@ const Navbar = () => {
               </button>
               {expandedMenus.orders && (
                 <ul className="ml-[50px] mt-2 space-y-1">
-                  {['All Orders', 'All Pending Orders', 'All Processed Orders', 'All Out For Delivery Orders', 'All Delivered Orders', 'All Canceled Orders'].map((item) => (
+                  {['All Orders', 'Pending Orders', 'Completed Orders'].map((item) => (
                     <li key={item} className="hover:bg-gray-100 rounded-lg ml-[12px]">
-                      <a href="#" className="block px-4 py-2 text-black-700 hover:text-[rgba(85,213,210,1)]">
+                      <NavLink
+                        to={`/admin/orders/${item}`}
+                        className="block px-4 py-2 text-black-700 hover:text-[rgba(85,213,210,1)]"
+                      >
                         {item}
-                      </a>
+                      </NavLink>
                     </li>
                   ))}
                 </ul>
@@ -131,34 +156,62 @@ const Navbar = () => {
 
             {/* Transactions */}
             <li className="hover:bg-gray-100 rounded-lg">
-              <a href="#" className="flex items-center px-4 py-3 text-black-700 hover:text-[rgba(85,213,210,1)]">
+              <NavLink
+                to="/admin/transactions"
+                className={({ isActive }) =>
+                  isActive
+                    ? "flex items-center px-4 py-3 text-[rgba(85,213,210,1)]" // Màu active
+                    : "flex items-center px-4 py-3 text-black-700 hover:text-[rgba(85,213,210,1)]"
+                }
+              >
                 <TbTransactionDollar className="w-5 h-5 text-black-500 ml-[30px]" />
                 <span className="ml-3">Transactions</span>
-              </a>
+              </NavLink>
             </li>
 
             {/* Coupons */}
             <li className="hover:bg-gray-100 rounded-lg">
-              <a href="#" className="flex items-center px-4 py-3 text-black-700 hover:text-[rgba(85,213,210,1)]">
+              <NavLink
+                to="/admin/coupons"
+                className={({ isActive }) =>
+                  isActive
+                    ? "flex items-center px-4 py-3 text-[rgba(85,213,210,1)]" // Màu active
+                    : "flex items-center px-4 py-3 text-black-700 hover:text-[rgba(85,213,210,1)]"
+                }
+              >
                 <BiSolidCoupon className="w-5 h-5 text-black-500 ml-[30px]" />
                 <span className="ml-3">Coupons</span>
-              </a>
+              </NavLink>
             </li>
 
             {/* Manage Blogs */}
             <li className="hover:bg-gray-100 rounded-lg">
-              <a href="#" className="flex items-center px-4 py-3 text-black-700 hover:text-[rgba(85,213,210,1)]">
+              <NavLink
+                to="/admin/blogs"
+                className={({ isActive }) =>
+                  isActive
+                    ? "flex items-center px-4 py-3 text-[rgba(85,213,210,1)]" // Màu active
+                    : "flex items-center px-4 py-3 text-black-700 hover:text-[rgba(85,213,210,1)]"
+                }
+              >
                 <FaBloggerB className="w-5 h-5 text-black-500 ml-[30px]" />
                 <span className="ml-3">Manage Blogs</span>
-              </a>
+              </NavLink>
             </li>
 
             {/* Branches */}
             <li className="hover:bg-gray-100 rounded-lg">
-              <a href="#" className="flex items-center px-4 py-3 text-black-700 hover:text-[rgba(85,213,210,1)]">
+              <NavLink
+                to="/admin/branches"
+                className={({ isActive }) =>
+                  isActive
+                    ? "flex items-center px-4 py-3 text-[rgba(85,213,210,1)]" // Màu active
+                    : "flex items-center px-4 py-3 text-black-700 hover:text-[rgba(85,213,210,1)]"
+                }
+              >
                 <FaCodeBranch className="w-5 h-5 text-black-500 ml-[30px]" />
                 <span className="ml-3">Branches</span>
-              </a>
+              </NavLink>
             </li>
 
             {/* SETTINGS Section */}
@@ -180,11 +233,14 @@ const Navbar = () => {
               </button>
               {expandedMenus.users && (
                 <ul className="ml-[50px] mt-2 space-y-1">
-                  {['Customer List', 'Manage User'].map((item) => (
+                  {['User List', 'Add User', 'User Roles'].map((item) => (
                     <li key={item} className="hover:bg-gray-100 rounded-lg ml-[12px]">
-                      <a href="#" className="block px-4 py-2 text-black-700 hover:text-[rgba(85,213,210,1)]">
+                      <NavLink
+                        to={`/admin/users/${item}`}
+                        className="block px-4 py-2 text-black-700 hover:text-[rgba(85,213,210,1)]"
+                      >
                         {item}
-                      </a>
+                      </NavLink>
                     </li>
                   ))}
                 </ul>
@@ -193,10 +249,17 @@ const Navbar = () => {
 
             {/* Banners */}
             <li className="hover:bg-gray-100 rounded-lg">
-              <a href="#" className="flex items-center px-4 py-3 text-black-700 hover:text-[rgba(85,213,210,1)]">
+              <NavLink
+                to="/admin/banners"
+                className={({ isActive }) =>
+                  isActive
+                    ? "flex items-center px-4 py-3 text-[rgba(85,213,210,1)]" // Màu active
+                    : "flex items-center px-4 py-3 text-black-700 hover:text-[rgba(85,213,210,1)]"
+                }
+              >
                 <FaImage className="w-5 h-5 text-black-500 ml-[30px]" />
                 <span className="ml-3">Banners</span>
-              </a>
+              </NavLink>
             </li>
           </ul>
         </nav>

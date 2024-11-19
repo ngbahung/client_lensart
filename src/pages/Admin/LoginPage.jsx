@@ -7,7 +7,7 @@ import LoginButton from '../../components/Admin/Login/Button';
 
 const LoginPage = () => {
     useEffect(() => {
-        document.title = 'Đăng nhập Admin | LensArt';
+        document.title = 'Login Admin | LensArt';
     }, []);
 
     const navigate = useNavigate();
