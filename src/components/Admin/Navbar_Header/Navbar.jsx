@@ -32,13 +32,13 @@ const Navbar = () => {
       {/* Logo Section */}
       <div className="p-6 border-b">
         <div className="flex items-center gap-2">
-          <span className="text-xl font-semibold text-gray-800"><Logo /></span>
+          <span className="text-xl text-gray-800"><Logo /></span>
         </div>
       </div>
 
       {/* Menu Sections */}
       <div className="flex-1 overflow-y-auto">
-        <div className="px-4 py-2 text-xs font-semibold text-gray-400 ml-[10px]">DASHBOARD</div>
+        <div className="px-4 py-2 text-xs text-gray-400 ml-[10px]">DASHBOARD</div>
         <nav className="px-2">
           <ul className="space-y-1">
             {/* Dashboard */}
@@ -57,7 +57,7 @@ const Navbar = () => {
             </li>
 
             {/* ECOMMERCE Section */}
-            <div className="px-4 py-2 text-xs font-semibold text-gray-400 mt-4 ml-[2px]">ECOMMERCE</div>
+            <div className="px-4 py-2 text-xs text-gray-400 mt-4 ml-[2px]">ECOMMERCE</div>
 
             {/* Manage Categories */}
             <li className="hover:bg-gray-100 rounded-lg">
@@ -215,7 +215,7 @@ const Navbar = () => {
             </li>
 
             {/* SETTINGS Section */}
-            <div className="px-4 py-2 text-xs font-semibold text-gray-400 mt-4 ml-[2px]">SETTINGS</div>
+            <div className="px-4 py-2 text-xs text-gray-400 mt-4 ml-[2px]">SETTINGS</div>
 
             {/* Users */}
             <li className="hover:bg-gray-100 rounded-lg">

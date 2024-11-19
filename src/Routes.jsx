@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
+import { Routes, Route, Navigate, Outlet, useLocation } from 'react-router-dom';
 import LoginPage from './pages/Admin/LoginPage';
 import UserLoginPage from './pages/EndUser/LoginPage';
 import Homepage from './pages/EndUser/Homepage';
@@ -16,6 +16,8 @@ import Footer from './components/EndUser/Footer/Footer';
 import SignUpPage from './pages/EndUser/SignUpPage';
 import SendOTPPage from './pages/EndUser/SendOTPPage';
 import FramesPage from './pages/EndUser/FramesPage';
+import Navbar from './components/Admin/Navbar_Header/Navbar';
+import Header_Admin from './components/Admin/Navbar_Header/Header';
 
 const UserLayout = () => (
   <div className="min-h-screen flex flex-col pt-[128px] md:pt-[144px]">
@@ -27,11 +29,28 @@ const UserLayout = () => (
   </div>
 );
 
-const AdminLayout = () => (
-  <>
-    <Outlet />
-  </>
-);
+const AdminLayout = () => {
+  const location = useLocation();
+  const isLoginPage = location.pathname === "/admin";
+
+  return isLoginPage ? (
+    <div className="flex justify-center items-center min-h-screen bg-gray-100 admin-page">
+      <Outlet />
+    </div>
+  ) : (
+    <div className="flex min-h-screen admin-page">
+      <Navbar />
+      <div className="flex-1 bg-[#eff9f9] min-h-screen pl-[17%] flex flex-col">
+        <div className="md-4 h-[8%]">
+          <Header_Admin />
+        </div>
+        <div className="bg-white rounded-md flex-grow m-7 h-[98%]">
+          <Outlet />
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const AppRoutes = () => {
   return (
