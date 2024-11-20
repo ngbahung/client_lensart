@@ -78,7 +78,7 @@ const Navbar = () => {
                   {['Category', 'Shape', 'Materials', 'Features'].map((item) => (
                     <li key={item} className="hover:bg-gray-100 rounded-lg ml-[12px]">
                       <NavLink
-                        to={`/admin/categories/${item}`}
+                        to={`/admin/categories/${item.toLowerCase()}`}
                         className={({ isActive }) =>
                           isActive
                             ? "block px-4 py-2 text-[rgba(85,213,210,1)]" // Khi active
@@ -113,7 +113,7 @@ const Navbar = () => {
                   {['Brands', 'Products', 'Product Reviews'].map((item) => (
                     <li key={item} className="hover:bg-gray-100 rounded-lg ml-[12px]">
                       <NavLink
-                        to={`/admin/products/${item}`}
+                        to={`/admin/products/${item.toLowerCase().replace(' ', '-')}`}
                         className="block px-4 py-2 text-black-700 hover:text-[rgba(85,213,210,1)]"
                       >
                         {item}
@@ -143,7 +143,7 @@ const Navbar = () => {
                   {['All Orders', 'Pending Orders', 'Completed Orders'].map((item) => (
                     <li key={item} className="hover:bg-gray-100 rounded-lg ml-[12px]">
                       <NavLink
-                        to={`/admin/orders/${item}`}
+                        to={`/admin/orders/${item.toLowerCase().replace(' ', '-')}`}
                         className="block px-4 py-2 text-black-700 hover:text-[rgba(85,213,210,1)]"
                       >
                         {item}
@@ -236,7 +236,7 @@ const Navbar = () => {
                   {['User List', 'Add User', 'User Roles'].map((item) => (
                     <li key={item} className="hover:bg-gray-100 rounded-lg ml-[12px]">
                       <NavLink
-                        to={`/admin/users/${item}`}
+                        to={`/admin/users/${item.toLowerCase().replace(' ', '-')}`}
                         className="block px-4 py-2 text-black-700 hover:text-[rgba(85,213,210,1)]"
                       >
                         {item}

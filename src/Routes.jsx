@@ -33,22 +33,26 @@ const AdminLayout = () => {
   const location = useLocation();
   const isLoginPage = location.pathname === "/admin";
 
-  return isLoginPage ? (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100 admin-page">
-      <Outlet />
-    </div>
-  ) : (
-    <div className="flex min-h-screen admin-page">
-      <Navbar />
-      <div className="flex-1 bg-[#eff9f9] min-h-screen pl-[17%] flex flex-col">
-        <div className="md-4 h-[8%]">
-          <Header_Admin />
-        </div>
-        <div className="bg-white rounded-md flex-grow m-7 h-[98%]">
+  return (
+    <>
+      {isLoginPage ? (
+        <div className="min-h-screen bg-[#eff9f9] flex items-center justify-center px-4">
           <Outlet />
         </div>
-      </div>
-    </div>
+      ) : (
+        <div className="flex min-h-screen admin-page">
+          <Navbar />
+          <div className="flex-1 bg-[#eff9f9] min-h-screen pl-[17%] flex flex-col">
+            <div className="md-4 h-[8%]">
+              <Header_Admin />
+            </div>
+            <div className="bg-white rounded-md flex-grow m-7 h-[98%]">
+              <Outlet />
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
@@ -66,8 +70,8 @@ const AppRoutes = () => {
         <Route path="blogs" element={<ManageBlogsPage />} />
         <Route path="branches" element={<BranchesPage />} />
         <Route path="banners" element={<BannersPage />} />
-        <Route path="categories/Category" element={<CategoryPage />} />
-        <Route path="categories/Shape" element={<ShapePage />} />
+        <Route path="categories/category" element={<CategoryPage />} />
+        <Route path="categories/shape" element={<ShapePage />} />
       </Route>
 
       {/* User Routes */}
