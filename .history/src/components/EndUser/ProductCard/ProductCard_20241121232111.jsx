@@ -79,7 +79,7 @@ const ProductCard = ({
       <ProductPrice currentPrice={currentPrice} originalPrice={originalPrice} />
     </div>
 
-    <BuyButton onClick={onBuyClick} id={id} />
+    <BuyButton onClick={onBuyClick} />
   </div>
 );
 

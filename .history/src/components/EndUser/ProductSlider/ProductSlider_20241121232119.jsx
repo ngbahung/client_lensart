@@ -109,10 +109,6 @@ const ProductSlider = ({ products }) => {
                 ))}
             </Slider>
         </div>
-    );
-};
-
-ProductSlider.propTypes = {
     products: PropTypes.arrayOf(
         PropTypes.shape({
             id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,

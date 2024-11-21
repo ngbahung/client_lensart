@@ -42,7 +42,7 @@ const Homepage = () => {
 
     const products = [
         {
-            id: 'product1',  // Use meaningful IDs
+            id: 1,
             discount: '-20%',
             image: 'https://picsum.photos/400/400', // Using placeholder image
             name: 'Classic Aviator',
@@ -50,7 +50,7 @@ const Homepage = () => {
             originalPrice: 1500000,
         },
         {
-            id: 'product2',
+            id: 2,
             discount: '-15%',
             image: 'https://picsum.photos/400/400?random=1',
             name: 'Modern Square',
@@ -58,7 +58,7 @@ const Homepage = () => {
             originalPrice: 1050000,
         },
         {
-            id: 'product3',
+            id: 3,
             discount: '-25%',
             image: 'https://picsum.photos/400/400?random=2',
             name: 'Round Vintage',
@@ -66,7 +66,7 @@ const Homepage = () => {
             originalPrice: 1100000,
         },
         {
-            id: 'product4',
+            id: 4,
             discount: '-10%',
             image: 'https://picsum.photos/400/400?random=3',
             name: 'Cat Eye Classic',

@@ -91,10 +91,6 @@ const ProductSlider = ({ products }) => {
         navigate(`/gong-kinh/${productId}`);
     };
 
-    const handleBuyClick = (productId) => {
-        navigate(`/gong-kinh/${productId}?buy=true`);
-    };
-
     return (
         <div className="product-slider relative px-4 sm:px-16 py-2">
             <Slider {...settings}>
@@ -102,7 +98,7 @@ const ProductSlider = ({ products }) => {
                     <div key={product.id} className="px-0.5 sm:px-2">
                         <ProductCard
                             {...product}
-                            onBuyClick={handleBuyClick}
+                            onBuyClick={() => console.log('Buy clicked', product.id)}
                             onProductClick={handleProductClick}
                         />
                     </div>

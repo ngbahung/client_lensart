@@ -37,7 +37,6 @@ const AppRoutes = () => {
         <Route path="verify-otp" element={<SendOTPPage />} />
         <Route path="gong-kinh" element={<GongKinhPage />} />
         <Route path="gong-kinh/:productId" element={<ProductDetailPage />} />
-        <Route path="product/:productId" element={<Navigate to="/gong-kinh/:productId" replace />} />
         {/* Add other user routes here */}
       </Route>
       {/* Redirect all other routes to home */}

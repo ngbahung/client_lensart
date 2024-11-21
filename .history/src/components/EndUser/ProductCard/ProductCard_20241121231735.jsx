@@ -41,11 +41,11 @@ const ProductPrice = memo(({ currentPrice, originalPrice }) => (
   </div>
 ));
 
-const BuyButton = memo(({ onClick, id }) => (  // Add id prop
+const BuyButton = memo(({ onClick }) => (
   <button
     onClick={(e) => {
       e.stopPropagation();
-      onClick(id);  // Pass id to click handler
+      onClick();
     }}
     className="w-full mt-3 flex items-center justify-between bg-teal-400 text-white px-4 py-2 rounded-full hover:bg-[#ecaa83] transition-colors group"
   >
@@ -79,7 +79,7 @@ const ProductCard = ({
       <ProductPrice currentPrice={currentPrice} originalPrice={originalPrice} />
     </div>
 
-    <BuyButton onClick={onBuyClick} id={id} />
+    <BuyButton onClick={onBuyClick} />
   </div>
 );
 

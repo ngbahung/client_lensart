@@ -41,11 +41,11 @@ const ProductPrice = memo(({ currentPrice, originalPrice }) => (
   </div>
 ));
 
-const BuyButton = memo(({ onClick, id }) => (  // Add id prop
+const BuyButton = memo(({ onClick }) => (
   <button
     onClick={(e) => {
       e.stopPropagation();
-      onClick(id);  // Pass id to click handler
+      onClick();
     }}
     className="w-full mt-3 flex items-center justify-between bg-teal-400 text-white px-4 py-2 rounded-full hover:bg-[#ecaa83] transition-colors group"
   >
@@ -55,7 +55,7 @@ const BuyButton = memo(({ onClick, id }) => (  // Add id prop
 ));
 
 const ProductCard = ({
-  id,  // Ensure id is received
+  id,
   discount,
   image,
   name,
@@ -70,7 +70,7 @@ const ProductCard = ({
     <div 
       onClick={(e) => {
         e.preventDefault();
-        onProductClick(id);  // Pass id to click handler
+        onProductClick();
       }} 
       className="cursor-pointer"
     >
@@ -79,12 +79,11 @@ const ProductCard = ({
       <ProductPrice currentPrice={currentPrice} originalPrice={originalPrice} />
     </div>
 
-    <BuyButton onClick={onBuyClick} id={id} />
+    <BuyButton onClick={onBuyClick} />
   </div>
 );
 
 ProductCard.propTypes = {
-  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   discount: PropTypes.string,
   image: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,

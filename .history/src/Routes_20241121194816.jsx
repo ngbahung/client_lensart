@@ -8,7 +8,6 @@ import Footer from './components/EndUser/Footer/Footer';
 import SignUpPage from './pages/EndUser/SignUpPage';
 import SendOTPPage from './pages/EndUser/SendOTPPage';
 import GongKinhPage from './pages/EndUser/GongKinhPage';
-import ProductDetailPage from './pages/EndUser/ProductDetailPage';
 
 const UserLayout = () => (
   <div className="min-h-screen flex flex-col pt-[128px] md:pt-[144px]">
@@ -36,8 +35,6 @@ const AppRoutes = () => {
         <Route path="register" element={<SignUpPage />} />
         <Route path="verify-otp" element={<SendOTPPage />} />
         <Route path="gong-kinh" element={<GongKinhPage />} />
-        <Route path="gong-kinh/:productId" element={<ProductDetailPage />} />
-        <Route path="product/:productId" element={<Navigate to="/gong-kinh/:productId" replace />} />
         {/* Add other user routes here */}
       </Route>
       {/* Redirect all other routes to home */}
