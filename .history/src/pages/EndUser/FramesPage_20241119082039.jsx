@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ProductCard from '../../components/EndUser/ProductCard/ProductCard';
-import FilterDropdown from '../../components/EndUser/Filter/FilterDropdown';
+import FilterSidebar from '../../components/EndUser/Filter/FilterDropdown';
 
 const FramesPage = () => {
   const [filters, setFilters] = useState({
@@ -119,57 +119,47 @@ const FramesPage = () => {
 
   return (
     <div className="container mx-auto px-2 sm:px-6 lg:px-8 py-4 sm:py-8">
-      {/* Filter Section */}
-      <div className="mb-4 sm:mb-8 flex flex-row flex-wrap gap-2">
-        <FilterDropdown
-          title="Kiểu gọng"
-          options={filterOptions.frameStyles}
-          onFilterChange={(selected) => handleFilterChange('frameStyles', selected)}
-        />
-        <FilterDropdown
-          title="Thương hiệu"
-          options={filterOptions.brands}
-          onFilterChange={(selected) => handleFilterChange('brands', selected)}
-        />
-        <FilterDropdown
-          title="Giá"
-          options={filterOptions.priceRange}
-          onFilterChange={(selected) => handleFilterChange('priceRange', selected)}
-        />
-      </div>
+      <div className="flex flex-col md:flex-row gap-6">
+        {/* Sidebar Filter */}
+        <aside className="md:w-64 flex-shrink-0">
+          <FilterSidebar />
+        </aside>
 
-      {/* Product Grid Section */}
-      <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-4">
-        {products.slice(
-          (currentPage - 1) * itemsPerPage,
-          currentPage * itemsPerPage
-        ).map((product) => (
-          <ProductCard
-            key={product.id}
-            {...product}
-            onBuyClick={() => {/* Handle buy click */}}
-            onProductClick={() => {/* Handle product click */}}
-          />
-        ))}
-      </div>
+        {/* Main Content */}
+        <main className="flex-1">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {products.slice(
+              (currentPage - 1) * itemsPerPage,
+              currentPage * itemsPerPage
+            ).map((product) => (
+              <ProductCard
+                key={product.id}
+                {...product}
+                onBuyClick={() => {/* Handle buy click */}}
+                onProductClick={() => {/* Handle product click */}}
+              />
+            ))}
+          </div>
 
-      {/* Pagination */}
-      <div className="mt-6 sm:mt-8 flex justify-center">
-        <div className="flex flex-wrap justify-center gap-1 sm:gap-2">
-          {[...Array(Math.ceil(products.length / itemsPerPage))].map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setCurrentPage(i + 1)}
-              className={`px-3 sm:px-4 py-1 sm:py-2 text-sm sm:text-base rounded ${
-                currentPage === i + 1
-                  ? 'bg-teal-500 text-white'
-                  : 'bg-gray-200 hover:bg-gray-300'
-              }`}
-            >
-              {i + 1}
-            </button>
-          ))}
-        </div>
+          {/* Pagination */}
+          <div className="mt-6 flex justify-center">
+            <div className="flex flex-wrap justify-center gap-2">
+              {[...Array(Math.ceil(products.length / itemsPerPage))].map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setCurrentPage(i + 1)}
+                  className={`px-3 sm:px-4 py-1 sm:py-2 text-sm sm:text-base rounded ${
+                    currentPage === i + 1
+                      ? 'bg-teal-500 text-white'
+                      : 'bg-gray-200 hover:bg-gray-300'
+                  }`}
+                >
+                  {i + 1}
+                </button>
+              ))}
+            </div>
+          </div>
+        </main>
       </div>
     </div>
   );

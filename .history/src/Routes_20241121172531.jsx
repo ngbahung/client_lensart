@@ -33,6 +33,7 @@ const AppRoutes = () => {
         <Route path="login" element={<UserLoginPage />} />
         <Route path="register" element={<SignUpPage />} />
         <Route path="verify-otp" element={<SendOTPPage />} />
+      <Route path="gong-kinh" element={<FramesPage />} />
         {/* Add other user routes here */}
       </Route>
       {/* Redirect all other routes to home */}
