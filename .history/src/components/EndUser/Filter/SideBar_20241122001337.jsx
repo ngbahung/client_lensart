@@ -1,8 +1,6 @@
 import React, { memo, useState } from "react";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 
-// Cấu trúc dữ liệu cho các danh mục bộ lọc
-// Mỗi danh mục có title (tiêu đề) và options (các lựa chọn)
 const FILTER_CATEGORIES = {
   style: {
     title: "Kiểu Gọng",
@@ -22,22 +20,12 @@ const FILTER_CATEGORIES = {
   }
 };
 
-// Hàm định dạng giá từ dạng "min-max" sang dạng "xxxđ - xxxđ"
-// Input: "0-500000" -> Output: "0đ - 500.000đ"
 const formatPrice = (range) => {
   const [min, max] = range.split('-');
   return `${parseInt(min).toLocaleString()}đ - ${parseInt(max).toLocaleString()}đ`;
 };
 
-// Component FilterSection: Hiển thị một phần của bộ lọc
-// Props:
-// - title: Tiêu đề của phần bộ lọc
-// - options: Mảng các tùy chọn
-// - type: Loại bộ lọc (style, material, gender, priceRange)
-// - onFilterChange: Callback khi người dùng thay đổi lựa chọn
-// - selectedFilters: Trạng thái hiện tại của các bộ lọc
 const FilterSection = memo(({ title, options, type, onFilterChange, selectedFilters }) => {
-  // Quản lý trạng thái đóng/mở của section trên mobile
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -72,13 +60,8 @@ const FilterSection = memo(({ title, options, type, onFilterChange, selectedFilt
   );
 });
 
-// Component SideBar: Component chính quản lý toàn bộ bộ lọc
-// Props:
-// - onFilterChange: Callback khi có thay đổi bộ lọc
-// - selectedFilters: Object chứa trạng thái các bộ lọc đã chọn
-// - filterOptions: Cấu hình tùy chọn cho bộ l���c (mặc định: FILTER_CATEGORIES)
+// Update the SideBar component to receive and use filterOptions
 const SideBar = memo(({ onFilterChange, selectedFilters, filterOptions = FILTER_CATEGORIES }) => {
-  // Quản lý trạng thái đóng/mở của sidebar trên mobile
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (

@@ -5,23 +5,18 @@ import { BsCart3 } from "react-icons/bs";
 import { AiOutlineClose } from "react-icons/ai";
 import Logo from '../../Logo';
 
-/**
- * Component Header chính của ứng dụng
- * Xử lý hiển thị navigation, tìm kiếm, giỏ hàng và menu mobile
- */
 const Header = () => {
-    // === QUẢN LÝ STATE ===
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);    // Điều khiển dropdown menu tài khoản
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // Điều khiển menu mobile
-    const dropdownRef = useRef(null);     // Ref để xử lý click outside dropdown
-    const [isRegistered, setIsRegistered] = useState(false);        // Trạng thái đăng nhập
-    const [searchQuery, setSearchQuery] = useState('');             // Giá trị ô tìm kiếm
-    const [cartCount, setCartCount] = useState(0);                  // Số lượng trong giỏ hàng
+    // Các state quản lý trạng thái của component
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);    // Quản lý trạng thái dropdown tài khoản
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // Quản lý trạng thái menu mobile
+    const dropdownRef = useRef(null);     // Reference để xử lý click outside dropdown
+    const [isRegistered, setIsRegistered] = useState(false);        // Quản lý trạng thái đăng nhập
+    const [searchQuery, setSearchQuery] = useState('');             // Quản lý giá trị tìm kiếm
+    const [cartCount, setCartCount] = useState(0);                  // Quản lý số lượng sản phẩm trong giỏ hàng
     const navigate = useNavigate();
 
-    // === CÁC SIDE EFFECTS ===
+    // Hook xử lý đóng dropdown khi click ra ngoài
     useEffect(() => {
-        // Xử lý đóng dropdown khi click ra ngoài
         const handleClickOutside = (event) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
                 setIsDropdownOpen(false);
@@ -32,17 +27,15 @@ const Header = () => {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-    // === XỬ LÝ EVENTS ===
+    // Xử lý đăng xuất
     const handleLogout = () => {
-        // Xử lý đăng xuất và chuyển hướng
         setIsRegistered(false);
         setIsDropdownOpen(false);
         // Add your logout logic here
         navigate('/login');
     };
 
-    // === DỮ LIỆU ĐIỀU HƯỚNG ===
-    // Cấu trúc menu chính với các danh mục sản phẩm và bộ lọc
+    // Dữ liệu điều hướng chính
     const navItems = [
         { 
             name: 'Gọng kính', 
@@ -114,7 +107,7 @@ const Header = () => {
         },
     ];
 
-    // Các liên kết phụ trong footer và menu mobile
+    // Các liên kết phụ
     const additionalLinks = [
         { name: 'Về LensArt', path: '/ve-lensart' },
         { name: 'Blog', path: '/blog' },
@@ -123,10 +116,9 @@ const Header = () => {
 
     return (
         <>
-            {/* === HEADER CHÍNH === */}
             <header className="w-full bg-white shadow-sm fixed top-0 left-0 right-0 z-50">
                 <div className="container mx-auto px-4">
-                    {/* Hàng 1: Logo, Search, Account */}
+                    {/* Header Row 1: Logo, Search, Account */}
                     <div className="flex items-center justify-between h-16">
                         {/* Nút menu mobile */}
                         <div className="flex items-center md:w-1/4">
@@ -218,7 +210,7 @@ const Header = () => {
                     </div>
                 </div>
 
-                {/* Hàng 2: Navigation chính (ẩn trên mobile) */}
+                {/* Header Row 2: Navigation - Ẩn trên mobile */}
                 <div className='hidden md:block bg-[#6fd4d2]'>
                     <div className="container mx-auto px-4 ">
                         <div className="flex items-center justify-between h-16">
@@ -306,8 +298,7 @@ const Header = () => {
                 </div>
             </header>
 
-            {/* === MENU MOBILE === */}
-            {/* Hiển thị overlay và menu trượt khi nhấn nút mobile menu */}
+            {/* Sidebar cho mobile - Hiển thị khi click vào nút menu */}
             <div className={`fixed inset-0 bg-black bg-opacity-50 z-50 transition-opacity duration-300 md:hidden ${
                 isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
             }`}>
@@ -366,8 +357,7 @@ const Header = () => {
                 </div>
             </div>
 
-            {/* === NÚT GIỎ HÀNG === */}
-            {/* Nút giỏ hàng fixed góc phải dưới (chỉ hiển thị trên mobile) */}
+            {/* Nút giỏ hàng nổi - Chỉ hiển thị trên mobile */}
             <Link 
                 to="/gio-hang" 
                 className="fixed bottom-4 right-4 bg-[#6fd4d2] p-3 rounded-full shadow-lg md:hidden z-40"
