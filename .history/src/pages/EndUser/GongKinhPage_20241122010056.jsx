@@ -82,29 +82,31 @@ const GongKinhPage = () => {
         }
     }, [type, value]);
 
-    // Update handleFilterChange to only update the filters state
     const handleFilterChange = (name, value) => {
-        setFilters((prevFilters) => ({
-            ...prevFilters,
-            [name]: prevFilters[name].includes(value)
-                ? prevFilters[name].filter((val) => val !== value)
-                : [...prevFilters[name], value],
-        }));
-    };
+        setFilters((prevFilters) => {
+            const newFilters = {
+                ...prevFilters,
+                [name]: prevFilters[name].includes(value)
+                    ? prevFilters[name].filter((val) => val !== value)
+                    : [...prevFilters[name], value],
+            };
 
-    // Add new useEffect to handle URL updates
-    useEffect(() => {
-        const searchParams = new URLSearchParams();
-        Object.entries(filters).forEach(([key, values]) => {
-            if (values.length > 0) {
-                values.forEach(val => searchParams.append(key, val));
-            }
+            // Update URL with new filters
+            const searchParams = new URLSearchParams();
+            Object.entries(newFilters).forEach(([key, values]) => {
+                if (values.length > 0) {
+                    values.forEach(val => searchParams.append(key, val));
+                }
+            });
+
+            // Update URL without triggering navigation
+            const newSearch = searchParams.toString();
+            const newUrl = newSearch ? `?${newSearch}` : location.pathname;
+            navigate(newUrl, { replace: true });
+
+            return newFilters;
         });
-
-        const newSearch = searchParams.toString();
-        const newUrl = newSearch ? `?${newSearch}` : location.pathname;
-        navigate(newUrl, { replace: true });
-    }, [filters, location.pathname, navigate]);
+    };
 
     const handleBuyClick = (productId) => {
         console.log('Buy clicked for product:', productId);
