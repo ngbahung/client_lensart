@@ -199,24 +199,11 @@ const GongKinhPage = () => {
                 <div className="w-full lg:w-1/4">
                     <SideBar 
                         onFilterChange={handleFilterChange}
-                        selectedFilters={filters}
                         filterOptions={{
-                            style: {
-                                title: "Kiểu Gọng",
-                                options: ["Phi công", "Vuông", "Oval", "Browline", "Đa giác"]
-                            },
-                            material: {
-                                title: "Chất liệu",
-                                options: ["Kim loại", "Nhựa", "Titanium"]
-                            },
-                            gender: {
-                                title: "Giới tính",
-                                options: ["Nam", "Nữ", "Unisex"]
-                            },
-                            priceRange: {
-                                title: "Khoảng giá",
-                                options: ["0-500000", "500000-1000000", "1000000-2000000"]
-                            }
+                            style: ["Aviator", "Square", "Round", "Cat-Eye"],
+                            material: ["Metal", "Plastic", "Acetate"],
+                            gender: ["Men", "Women", "Unisex"],
+                            priceRange: ["0-500000", "500000-1000000", "1000000-2000000"]
                         }}
                     />
                 </div>

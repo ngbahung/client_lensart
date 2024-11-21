@@ -109,33 +109,6 @@ const Header = () => {
 
     // Các liên kết phụ
     const additionalLinks = [
-        { name: 'Về LensArt', path: '/ve-lensart' },
-        { name: 'Blog', path: '/blog' },
-        { name: 'Liên hệ', path: '/lien-he' },
-    ];
-
-    return (
-        <>
-            <header className="w-full bg-white shadow-sm fixed top-0 left-0 right-0 z-50">
-                <div className="container mx-auto px-4">
-                    {/* Header Row 1: Logo, Search, Account */}
-                    <div className="flex items-center justify-between h-16">
-                        {/* Nút menu mobile */}
-                        <div className="flex items-center md:w-1/4">
-                            <button 
-                                className="md:hidden p-2"
-                                onClick={() => setIsMobileMenuOpen(true)}
-                            >
-                                <BiMenu className="h-6 w-6" />
-                            </button>
-                            <Logo className="h-8 w-auto" />
-                        </div>
-
-                        {/* Thanh tìm kiếm - centered */}
-                        <div className="flex-1 mx-4 lg:mx-8 flex justify-center md:w-2/4">
-                            <div className="relative w-full max-w-[486px]">
-                                <input
-                                    type="text"
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                     placeholder="Tìm gọng kính, kính mát, tròng kính..."
@@ -231,12 +204,10 @@ const Header = () => {
                                             <div className="absolute left-0 invisible group-hover:visible opacity-0 group-hover:opacity-100 
                                                 transition-all duration-300 ease-in-out mt-0 w-48 bg-[#6fd4d2] rounded-md shadow-lg z-50">
                                                 <div className="py-2">
-                                                    {Array.isArray(item.subItems) && item.subItems.map((subItem) => (
+                                                    {item.subItems.map((subItem) => (
                                                         <Link
                                                             key={subItem.name}
-                                                            to={subItem.filterType && subItem.filterValue ? 
-                                                                `${item.path}?${subItem.filterType}=${encodeURIComponent(subItem.filterValue)}` :
-                                                                item.path}
+                                                            to={`${item.path}?${subItem.filterType}=${encodeURIComponent(subItem.filterValue)}`}
                                                             className="block px-4 py-2 text-sm text-white hover:bg-[#5fc2c0] transition-colors"
                                                         >
                                                             {subItem.name}
@@ -324,12 +295,10 @@ const Header = () => {
                                         {item.name}
                                     </Link>
                                     <div className="pl-4">
-                                        {Array.isArray(item.subItems) && item.subItems.map((subItem) => (
+                                        {item.subItems.map((subItem) => (
                                             <Link
                                                 key={subItem.name}
-                                                to={subItem.filterType && subItem.filterValue ? 
-                                                    `${item.path}?${subItem.filterType}=${encodeURIComponent(subItem.filterValue)}` :
-                                                    item.path}
+                                                to={`${item.path}?${subItem.filterType}=${encodeURIComponent(subItem.filterValue)}`}
                                                 className="block py-2 text-gray-600 hover:text-[#6fd4d2]"
                                                 onClick={() => setIsMobileMenuOpen(false)}
                                             >

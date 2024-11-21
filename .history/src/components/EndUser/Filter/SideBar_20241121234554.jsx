@@ -60,8 +60,7 @@ const FilterSection = memo(({ title, options, type, onFilterChange, selectedFilt
   );
 });
 
-// Update the SideBar component to receive and use filterOptions
-const SideBar = memo(({ onFilterChange, selectedFilters, filterOptions = FILTER_CATEGORIES }) => {
+const SideBar = memo(({ onFilterChange, selectedFilters }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
@@ -74,7 +73,7 @@ const SideBar = memo(({ onFilterChange, selectedFilters, filterOptions = FILTER_
         {isSidebarOpen ? <IoIosArrowUp /> : <IoIosArrowDown />}
       </div>
       <div className={`${isSidebarOpen ? 'block' : 'hidden'} lg:block p-4`}>
-        {Object.entries(filterOptions).map(([type, { title, options }]) => (
+        {Object.entries(FILTER_CATEGORIES).map(([type, { title, options }]) => (
           <FilterSection
             key={type}
             type={type}

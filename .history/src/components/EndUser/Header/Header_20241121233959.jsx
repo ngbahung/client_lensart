@@ -71,39 +71,12 @@ const Header = () => {
         { 
             name: 'Kính mát', 
             path: '/kinh-mat',
-            subItems: [
-                { 
-                    name: 'Kính Mát Nam',
-                    filterType: 'gender',
-                    filterValue: 'Nam'
-                },
-                { 
-                    name: 'Kính Mát Nữ',
-                    filterType: 'gender',
-                    filterValue: 'Nữ'
-                }
-            ]
+            subItems: ['Kính Mát Nam', 'Kính Mát Nữ']
         },
         { 
             name: 'Tròng kính', 
             path: '/trong-kinh',
-            subItems: [
-                { 
-                    name: 'Tròng Cận',
-                    filterType: 'type',
-                    filterValue: 'Cận'
-                },
-                { 
-                    name: 'Tròng Chống Ánh Sáng Xanh',
-                    filterType: 'type',
-                    filterValue: 'Chống Ánh Sáng Xanh'
-                },
-                { 
-                    name: 'Tròng Đổi Màu',
-                    filterType: 'type',
-                    filterValue: 'Đổi Màu'
-                }
-            ]
+            subItems: ['Tròng Cận', 'Tròng Chống Ánh Sáng Xanh', 'Tròng Đổi Màu']
         },
     ];
 
@@ -231,34 +204,12 @@ const Header = () => {
                                             <div className="absolute left-0 invisible group-hover:visible opacity-0 group-hover:opacity-100 
                                                 transition-all duration-300 ease-in-out mt-0 w-48 bg-[#6fd4d2] rounded-md shadow-lg z-50">
                                                 <div className="py-2">
-                                                    {Array.isArray(item.subItems) && item.subItems.map((subItem) => (
+                                                    {item.subItems.map((subItem) => (
                                                         <Link
                                                             key={subItem.name}
-                                                            to={subItem.filterType && subItem.filterValue ? 
-                                                                `${item.path}?${subItem.filterType}=${encodeURIComponent(subItem.filterValue)}` :
-                                                                item.path}
+                                                            to={`${item.path}?${subItem.filterType}=${encodeURIComponent(subItem.filterValue)}`}
                                                             className="block px-4 py-2 text-sm text-white hover:bg-[#5fc2c0] transition-colors"
                                                         >
-                                                            {subItem.name}
-                                                        </Link>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </nav>
-                            </div>
-                            <div className="hidden md:flex items-center justify-end space-x-4 lg:space-x-8 py-3">
-                                <Link 
-                                    to="/ve-lensart" 
-                                    className="text-gray-700 hover:text-white transition-colors text-sm lg:text-base"
-                                >
-                                    Về LensArt
-                                </Link>
-                                
-                                <div className="relative group">
-                                    <Link 
-                                        to="/blog" 
                                         className="flex items-center text-gray-700 hover:text-white transition-colors text-sm lg:text-base"
                                     >
                                         Blog
@@ -324,12 +275,10 @@ const Header = () => {
                                         {item.name}
                                     </Link>
                                     <div className="pl-4">
-                                        {Array.isArray(item.subItems) && item.subItems.map((subItem) => (
+                                        {item.subItems.map((subItem) => (
                                             <Link
                                                 key={subItem.name}
-                                                to={subItem.filterType && subItem.filterValue ? 
-                                                    `${item.path}?${subItem.filterType}=${encodeURIComponent(subItem.filterValue)}` :
-                                                    item.path}
+                                                to={`${item.path}?${subItem.filter}`}
                                                 className="block py-2 text-gray-600 hover:text-[#6fd4d2]"
                                                 onClick={() => setIsMobileMenuOpen(false)}
                                             >

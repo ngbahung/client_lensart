@@ -21,53 +21,35 @@ const GongKinhPage = () => {
 
     // Add URL parameter handling
     useEffect(() => {
-        const params = new URLSearchParams(location.search);
-        const newFilters = { ...filters };
-        let hasChanges = false;
+        const searchParams = new URLSearchParams(location.search);
+        const styleParam = searchParams.get('style');
+        const materialParam = searchParams.get('material');
+        const genderParam = searchParams.get('gender');
 
-        // Reset all filters first
-        Object.keys(newFilters).forEach(key => {
-            newFilters[key] = [];
-        });
-
-        // Parse each filter from URL
-        for (const [key, value] of params.entries()) {
-            if (newFilters.hasOwnProperty(key) && value) {
-                newFilters[key] = [decodeURIComponent(value)];
-                hasChanges = true;
+        if (styleParam || materialParam || genderParam) {
+            const newFilters = { ...filters };
+            
+            if (styleParam) {
+                newFilters.style = [styleParam];
             }
-        }
+            if (materialParam) {
+                newFilters.material = [materialParam];
+            }
+            if (genderParam) {
+                newFilters.gender = [genderParam];
+            }
 
-        // Only update state if there are changes
-        if (hasChanges) {
             setFilters(newFilters);
         }
     }, [location.search]);
 
     const handleFilterChange = (name, value) => {
-        setFilters((prevFilters) => {
-            const newFilters = {
-                ...prevFilters,
-                [name]: prevFilters[name].includes(value)
-                    ? prevFilters[name].filter((val) => val !== value)
-                    : [...prevFilters[name], value],
-            };
-
-            // Update URL with new filters
-            const searchParams = new URLSearchParams();
-            Object.entries(newFilters).forEach(([key, values]) => {
-                if (values.length > 0) {
-                    values.forEach(val => searchParams.append(key, val));
-                }
-            });
-
-            // Update URL without triggering navigation
-            const newSearch = searchParams.toString();
-            const newUrl = newSearch ? `?${newSearch}` : location.pathname;
-            navigate(newUrl, { replace: true });
-
-            return newFilters;
-        });
+        setFilters((prevFilters) => ({
+            ...prevFilters,
+            [name]: prevFilters[name].includes(value)
+                ? prevFilters[name].filter((val) => val !== value)
+                : [...prevFilters[name], value],
+        }));
     };
 
     const handleBuyClick = (productId) => {
@@ -199,24 +181,11 @@ const GongKinhPage = () => {
                 <div className="w-full lg:w-1/4">
                     <SideBar 
                         onFilterChange={handleFilterChange}
-                        selectedFilters={filters}
                         filterOptions={{
-                            style: {
-                                title: "Kiểu Gọng",
-                                options: ["Phi công", "Vuông", "Oval", "Browline", "Đa giác"]
-                            },
-                            material: {
-                                title: "Chất liệu",
-                                options: ["Kim loại", "Nhựa", "Titanium"]
-                            },
-                            gender: {
-                                title: "Giới tính",
-                                options: ["Nam", "Nữ", "Unisex"]
-                            },
-                            priceRange: {
-                                title: "Khoảng giá",
-                                options: ["0-500000", "500000-1000000", "1000000-2000000"]
-                            }
+                            style: ["Aviator", "Square", "Round", "Cat-Eye"],
+                            material: ["Metal", "Plastic", "Acetate"],
+                            gender: ["Men", "Women", "Unisex"],
+                            priceRange: ["0-500000", "500000-1000000", "1000000-2000000"]
                         }}
                     />
                 </div>

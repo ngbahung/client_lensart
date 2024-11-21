@@ -74,24 +74,6 @@ const GongKinhPage = () => {
         console.log('Buy clicked for product:', productId);
     };
 
-    const handleProductClick = (productId) => {
-        navigate(`/gong-kinh/${productId}`);
-    };
-
-    const filterProducts = (products) => {
-        return products.filter(product => {
-            const matchesStyle = filters.style.length === 0 || filters.style.includes(product.style);
-            const matchesMaterial = filters.material.length === 0 || filters.material.includes(product.material);
-            const matchesGender = filters.gender.length === 0 || filters.gender.includes(product.gender);
-            const matchesPriceRange = filters.priceRange.length === 0 || filters.priceRange.some(range => {
-                const [min, max] = range.split('-').map(Number);
-                return product.currentPrice >= min && product.currentPrice <= max;
-            });
-
-            return matchesStyle && matchesMaterial && matchesGender && matchesPriceRange;
-        });
-    };
-
     const filterAndSortProducts = (products) => {
         let result = filterProducts(products);
         
@@ -199,24 +181,11 @@ const GongKinhPage = () => {
                 <div className="w-full lg:w-1/4">
                     <SideBar 
                         onFilterChange={handleFilterChange}
-                        selectedFilters={filters}
                         filterOptions={{
-                            style: {
-                                title: "Kiểu Gọng",
-                                options: ["Phi công", "Vuông", "Oval", "Browline", "Đa giác"]
-                            },
-                            material: {
-                                title: "Chất liệu",
-                                options: ["Kim loại", "Nhựa", "Titanium"]
-                            },
-                            gender: {
-                                title: "Giới tính",
-                                options: ["Nam", "Nữ", "Unisex"]
-                            },
-                            priceRange: {
-                                title: "Khoảng giá",
-                                options: ["0-500000", "500000-1000000", "1000000-2000000"]
-                            }
+                            style: ["Aviator", "Square", "Round", "Cat-Eye"],
+                            material: ["Metal", "Plastic", "Acetate"],
+                            gender: ["Men", "Women", "Unisex"],
+                            priceRange: ["0-500000", "500000-1000000", "1000000-2000000"]
                         }}
                     />
                 </div>
