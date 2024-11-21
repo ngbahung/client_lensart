@@ -7,7 +7,7 @@ import LoginButton from '../../components/Admin/Login/Button';
 
 const LoginPage = () => {
     useEffect(() => {
-        document.title = 'Đăng nhập Admin | LensArt';
+        document.title = 'Login Admin | LensArt';
     }, []);
 
     const navigate = useNavigate();
@@ -35,8 +35,10 @@ const LoginPage = () => {
         
         setIsLoading(true);
         try {
-            // Add your login API call here
-            await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
+            // Simulate API call
+            await new Promise(resolve => setTimeout(resolve, 1000));
+    
+            // Điều hướng tới AdminHomePage sau khi đăng nhập thành công
             navigate('/admin/dashboard');
         } catch (err) {
             setError('Đăng nhập thất bại. Vui lòng thử lại.');
@@ -44,10 +46,11 @@ const LoginPage = () => {
             setIsLoading(false);
         }
     };
+    
 
     return (
         <div className="fixed inset-0 min-h-screen bg-[#eff9f9] flex items-center justify-center px-4">
-            <div className="max-w-md w-full bg-white rounded-xl shadow-lg p-8 relative z-10">
+            <div className="max-w-md w-full bg-white rounded-[20px] shadow-lg p-8 relative z-10">
                 <div className="flex justify-center mb-6">
                     <Logo />
                 </div>
@@ -82,7 +85,7 @@ const LoginPage = () => {
                     
                     {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
                     
-                    <div className="mt-8">
+                    <div className="mt-8 flex justify-center">
                         <LoginButton
                             type="submit"
                             isLoading={isLoading}
