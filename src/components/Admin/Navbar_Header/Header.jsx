@@ -2,10 +2,18 @@ import React, { useState, useEffect } from "react";
 
 const Header = () => {
   const [dateTime, setDateTime] = useState("");
-  const user = {
+  const [user, setUser] = useState({
     name: "Hiếu",
-    avatar: "https://cdn.tuoitre.vn/zoom/700_525/471584752817336320/2024/8/1/loopy-02-1722510337621638910331-72-0-596-1000-crop-1722510365891115014227.jpg", // URL ảnh hợp lệ để test
-  };
+    avatar: "https://cdn.tuoitre.vn/zoom/700_525/471584752817336320/2024/8/1/loopy-02-1722510337621638910331-72-0-596-1000-crop-1722510365891115014227.jpg",
+  });
+
+  useEffect(() => {
+    // Try to get user data from localStorage
+    const storedUser = localStorage.getItem('adminUser');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
 
   const updateDateTime = () => {
     const now = new Date();

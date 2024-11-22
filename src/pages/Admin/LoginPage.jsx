@@ -35,10 +35,16 @@ const LoginPage = () => {
         
         setIsLoading(true);
         try {
-            // Simulate API call
+            // Simulate API call with mock response
             await new Promise(resolve => setTimeout(resolve, 1000));
+            const mockUserData = {
+                name: "Hiếu",
+                avatar: "https://cdn.tuoitre.vn/zoom/700_525/471584752817336320/2024/8/1/loopy-02-1722510337621638910331-72-0-596-1000-crop-1722510365891115014227.jpg"
+            };
+            
+            // Store user data in localStorage
+            localStorage.setItem('adminUser', JSON.stringify(mockUserData));
     
-            // Điều hướng tới AdminHomePage sau khi đăng nhập thành công
             navigate('/admin/dashboard');
         } catch (err) {
             setError('Đăng nhập thất bại. Vui lòng thử lại.');
