@@ -19,10 +19,6 @@ const FILTER_CATEGORIES = {
   priceRange: {
     title: "Khoảng giá",
     options: ["0-500000", "500000-1000000", "1000000-2000000", "2000000-5000000"]
-  },
-  brands: {
-    title: "Thương hiệu",
-    options: ["Ray-Ban", "Oakley", "Gucci", "Prada", "Versace"]
   }
 };
 

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
-import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import SideBar from "../../components/EndUser/Filter/SideBar";
 import ProductGrid from "../../components/EndUser/ProductGrid/ProductGrid";
 import PromotionalBanner from "../../components/EndUser/PromotionalBanner/PromotionalBanner";
@@ -16,8 +16,7 @@ const GongKinhPage = () => {
         style: [],
         material: [],
         gender: [],
-        priceRange: [],
-        brands: []  // Add brands to filters
+        priceRange: []
     });
     const [sortBy, setSortBy] = useState('newest'); // Add this line
     const [currentPage, setCurrentPage] = useState(1);
@@ -122,13 +121,12 @@ const GongKinhPage = () => {
             const matchesStyle = filters.style.length === 0 || filters.style.includes(product.style);
             const matchesMaterial = filters.material.length === 0 || filters.material.includes(product.material);
             const matchesGender = filters.gender.length === 0 || filters.gender.includes(product.gender);
-            const matchesBrand = filters.brands.length === 0 || filters.brands.includes(product.brand);
             const matchesPriceRange = filters.priceRange.length === 0 || filters.priceRange.some(range => {
                 const [min, max] = range.split('-').map(Number);
                 return product.currentPrice >= min && product.currentPrice <= max;
             });
 
-            return matchesStyle && matchesMaterial && matchesGender && matchesPriceRange && matchesBrand;
+            return matchesStyle && matchesMaterial && matchesGender && matchesPriceRange;
         });
     };
 
@@ -171,60 +169,29 @@ const GongKinhPage = () => {
             id: 1,
             discount: "-20%",
             image: "https://picsum.photos/400/400",
-            name: "Gọng kính Phi công Ray-Ban",
+            images: [
+                "https://picsum.photos/400/400",
+                "https://picsum.photos/400/400?random=1",
+                "https://picsum.photos/400/400?random=2",
+                "https://picsum.photos/400/400?random=3"
+            ],
+            name: "Gọng kính Phi công",
+            description: "Gọng kính phi công với thiết kế hiện đại, chất liệu cao cấp mang lại cảm giác thoải mái khi đeo.",
             currentPrice: 1200000,
             originalPrice: 1500000,
             style: "Phi công",
             material: "Kim loại",
             gender: "Unisex",
-            brand: "Ray-Ban"
+            specifications: {
+                style: "Phi công",
+                material: "Kim loại",
+                gender: "Unisex",
+                weight: "20g",
+                size: "Medium",
+                warranty: "12 tháng"
+            }
         },
-        {
-            id: 2,
-            discount: "-15%",
-            image: "https://picsum.photos/400/400?random=1",
-            name: "Gọng kính Vuông Oakley",
-            currentPrice: 900000,
-            originalPrice: 1050000,
-            style: "Vuông",
-            material: "Nhựa",
-            gender: "Nam",
-            brand: "Oakley"
-        },
-        {
-            id: 3,
-            discount: "-25%",
-            image: "https://picsum.photos/400/400?random=2",
-            name: "Gọng kính Oval",
-            currentPrice: 850000,
-            originalPrice: 1100000,
-            style: "Oval",
-            material: "Kim loại",
-            gender: "Nữ"
-        },
-        {
-            id: 4,
-            discount: "-10%",
-            image: "https://picsum.photos/400/400?random=3",
-            name: "Gọng kính Browline",
-            currentPrice: 750000,
-            originalPrice: 900000,
-            style: "Browline",
-            material: "Nhựa",
-            gender: "Nam"
-        },
-        {
-            id: 5,
-            discount: "-30%",
-            image: "https://picsum.photos/400/400?random=4",
-            name: "Gọng kính Đa giác",
-            currentPrice: 1050000,
-            originalPrice: 1500000,
-            style: "Đa giác",
-            material: "Titanium",
-            gender: "Nữ"
-        },
-        // ... you can continue with the rest of the products following the same pattern
+        // Update other products with similar structure...
     ]
 
     const filteredProducts = filterAndSortProducts(products);
@@ -276,10 +243,6 @@ const GongKinhPage = () => {
                             material: {
                                 title: "Chất liệu",
                                 options: ["Kim loại", "Nhựa", "Titanium"]
-                            },
-                            brands: {
-                                title: "Thương hiệu",
-                                options: ["Ray-Ban", "Oakley", "Gucci", "Prada", "Versace"]
                             },
                             gender: {
                                 title: "Giới tính",

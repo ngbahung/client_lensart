@@ -116,8 +116,8 @@ const Homepage = () => {
             <div className="hidden md:block">
                 <PromotionalBanner 
                     imageSrc="/src/assets/images/lensart_policy.png"
-                    title="Chính sách chỉ có tại LensArt Eyewear"
-                    description="Discover our exclusive eyewear collection"
+                    // title="Chính sách chỉ có tại LensArt Eyewear"
+                    // description="Discover our exclusive eyewear collection"
                 />
             </div>
 

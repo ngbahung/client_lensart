@@ -288,7 +288,7 @@ const GongKinhPage = () => {
                             priceRange: {
                                 title: "Khoảng giá",
                                 options: ["0-500000", "500000-1000000", "1000000-2000000"]
-                            }
+                            },
                         }}
                     />
                 </div>

@@ -277,10 +277,6 @@ const GongKinhPage = () => {
                                 title: "Chất liệu",
                                 options: ["Kim loại", "Nhựa", "Titanium"]
                             },
-                            brands: {
-                                title: "Thương hiệu",
-                                options: ["Ray-Ban", "Oakley", "Gucci", "Prada", "Versace"]
-                            },
                             gender: {
                                 title: "Giới tính",
                                 options: ["Nam", "Nữ", "Unisex"]

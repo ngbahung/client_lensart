@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Breadcrumb from '../../components/EndUser/Breadcrumb/Breadcrumb';
@@ -69,21 +68,6 @@ const ProductDetailPage = () => {
             document.title = 'Loading... | LensArt Eyewear';
         }
     }, [product]);
-
-    const handleSubmitReview = (reviewData) => {
-        // In a real application, this would be an API call
-        const newReview = {
-            userName: "Current User", // This would come from auth
-            rating: reviewData.rating,
-            date: new Date().toISOString(),
-            comment: reviewData.comment
-        };
-
-        setProduct(prev => ({
-            ...prev,
-            reviews: [newReview, ...prev.reviews]
-        }));
-    };
 
     if (!product) {
         return <div className="container mx-auto px-4 py-8">Loading...</div>;
@@ -184,10 +168,7 @@ const ProductDetailPage = () => {
             
             {/* Customer Reviews Section */}
             <div className="mt-12 border-t pt-8">
-                <CustomerReviews 
-                    reviews={product.reviews} 
-                    onSubmitReview={handleSubmitReview}
-                />
+                <CustomerReviews reviews={product.reviews} />
             </div>
         </div>
     );

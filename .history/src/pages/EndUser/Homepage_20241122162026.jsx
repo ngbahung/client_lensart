@@ -85,27 +85,27 @@ const Homepage = () => {
         {
             id: 2,
             name: 'Oakley',
-            logo: 'https://i.pinimg.com/originals/1c/e1/80/1ce180da62952af7c28170616ce807e7.jpg'
+            logo: 'https://example.com/oakley-logo.png'
         },
         {
             id: 3,
             name: 'Gucci',
-            logo: 'https://logowik.com/content/uploads/images/493_gucci.jpg'
+            logo: 'https://example.com/gucci-logo.png'
         },
         {
             id: 4,
             name: 'Prada',
-            logo: 'https://cdn.sanity.io/images/kts928pd/production/5be7f05ad50b4254e440898461e4ad1026a11723-900x592.png'
+            logo: 'https://example.com/prada-logo.png'
         },
         {
             id: 5,
             name: 'Tom Ford',
-            logo: 'https://logos-world.net/wp-content/uploads/2020/12/Tom-Ford-Logo.png'
+            logo: 'https://example.com/tomford-logo.png'
         },
         {
             id: 6,
             name: 'Dior',
-            logo: 'https://kreafolk.com/cdn/shop/articles/dior-logo-design-history-and-evolution-kreafolk_637ca925-15a9-4a0f-8b46-ee73ee0236eb.jpg?v=1717725054&width=2048'
+            logo: 'https://example.com/dior-logo.png'
         }
     ];
 

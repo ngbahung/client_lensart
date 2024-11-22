@@ -100,12 +100,12 @@ const Homepage = () => {
         {
             id: 5,
             name: 'Tom Ford',
-            logo: 'https://logos-world.net/wp-content/uploads/2020/12/Tom-Ford-Logo.png'
+            logo: 'https://example.com/tomford-logo.png'
         },
         {
             id: 6,
             name: 'Dior',
-            logo: 'https://kreafolk.com/cdn/shop/articles/dior-logo-design-history-and-evolution-kreafolk_637ca925-15a9-4a0f-8b46-ee73ee0236eb.jpg?v=1717725054&width=2048'
+            logo: 'https://example.com/dior-logo.png'
         }
     ];
 

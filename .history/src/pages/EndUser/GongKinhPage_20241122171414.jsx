@@ -280,7 +280,7 @@ const GongKinhPage = () => {
                             brands: {
                                 title: "Thương hiệu",
                                 options: ["Ray-Ban", "Oakley", "Gucci", "Prada", "Versace"]
-                            },
+                              },
                             gender: {
                                 title: "Giới tính",
                                 options: ["Nam", "Nữ", "Unisex"]
@@ -288,7 +288,7 @@ const GongKinhPage = () => {
                             priceRange: {
                                 title: "Khoảng giá",
                                 options: ["0-500000", "500000-1000000", "1000000-2000000"]
-                            }
+                            },
                         }}
                     />
                 </div>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react"; // Add useCallback
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import SideBar from "../../components/EndUser/Filter/SideBar";
@@ -16,13 +16,22 @@ const GongKinhPage = () => {
         style: [],
         material: [],
         gender: [],
-        priceRange: [],
-        brands: []  // Add brands to filters
+        priceRange: []
     });
     const [sortBy, setSortBy] = useState('newest'); // Add this line
     const [currentPage, setCurrentPage] = useState(1);
     const productsPerPage = 16;
     const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+    // Add handleFilterChange function before the useEffect hooks
+    const handleFilterChange = (name, value) => {
+        setFilters(prevFilters => ({
+            ...prevFilters,
+            [name]: prevFilters[name].includes(value)
+                ? prevFilters[name].filter(val => val !== value)
+                : [...prevFilters[name], value]
+        }));
+    };
 
     // Handle page title based on filter params
     useEffect(() => {
@@ -50,52 +59,44 @@ const GongKinhPage = () => {
         }
     }, [type, value]);
 
-    // Add URL parameter handling
-    useEffect(() => {
+    // Memoize the filter update function
+    const updateFiltersFromParams = useCallback(() => {
         const params = new URLSearchParams(location.search);
-        const newFilters = { ...filters };
-        let hasChanges = false;
+        const newFilters = {
+            style: [],
+            material: [],
+            gender: [],
+            priceRange: []
+        };
 
-        // Reset all filters first
-        Object.keys(newFilters).forEach(key => {
-            newFilters[key] = [];
-        });
-
-        // Parse each filter from URL
         for (const [key, value] of params.entries()) {
             if (newFilters.hasOwnProperty(key) && value) {
                 newFilters[key] = [decodeURIComponent(value)];
-                hasChanges = true;
             }
         }
 
-        // Only update state if there are changes
-        if (hasChanges) {
-            setFilters(newFilters);
-        }
-    }, [location.search]);
+        setFilters(newFilters);
+    }, []);
 
-    // Update the filter handling
+    // Update from URL params
+    useEffect(() => {
+        updateFiltersFromParams();
+    }, [location.search, updateFiltersFromParams]);
+
+    // Update from route params
     useEffect(() => {
         if (type && value) {
-            setFilters(prev => ({
-                ...prev,
-                [type]: [decodeURIComponent(value)]
-            }));
+            setFilters(prev => {
+                const newFilters = {
+                    ...prev,
+                    [type]: [decodeURIComponent(value)]
+                };
+                return JSON.stringify(newFilters) !== JSON.stringify(prev) ? newFilters : prev;
+            });
         }
     }, [type, value]);
 
-    // Update handleFilterChange to only update the filters state
-    const handleFilterChange = (name, value) => {
-        setFilters((prevFilters) => ({
-            ...prevFilters,
-            [name]: prevFilters[name].includes(value)
-                ? prevFilters[name].filter((val) => val !== value)
-                : [...prevFilters[name], value],
-        }));
-    };
-
-    // Add new useEffect to handle URL updates
+    // Update URL from filters
     useEffect(() => {
         const searchParams = new URLSearchParams();
         Object.entries(filters).forEach(([key, values]) => {
@@ -105,8 +106,11 @@ const GongKinhPage = () => {
         });
 
         const newSearch = searchParams.toString();
-        const newUrl = newSearch ? `?${newSearch}` : location.pathname;
-        navigate(newUrl, { replace: true });
+        const currentSearch = location.search.replace(/^\?/, '');
+        
+        if (newSearch !== currentSearch) {
+            navigate(newSearch ? `?${newSearch}` : location.pathname, { replace: true });
+        }
     }, [filters, location.pathname, navigate]);
 
     const handleBuyClick = (productId) => {
@@ -122,13 +126,12 @@ const GongKinhPage = () => {
             const matchesStyle = filters.style.length === 0 || filters.style.includes(product.style);
             const matchesMaterial = filters.material.length === 0 || filters.material.includes(product.material);
             const matchesGender = filters.gender.length === 0 || filters.gender.includes(product.gender);
-            const matchesBrand = filters.brands.length === 0 || filters.brands.includes(product.brand);
             const matchesPriceRange = filters.priceRange.length === 0 || filters.priceRange.some(range => {
                 const [min, max] = range.split('-').map(Number);
                 return product.currentPrice >= min && product.currentPrice <= max;
             });
 
-            return matchesStyle && matchesMaterial && matchesGender && matchesPriceRange && matchesBrand;
+            return matchesStyle && matchesMaterial && matchesGender && matchesPriceRange;
         });
     };
 
@@ -171,25 +174,23 @@ const GongKinhPage = () => {
             id: 1,
             discount: "-20%",
             image: "https://picsum.photos/400/400",
-            name: "Gọng kính Phi công Ray-Ban",
+            name: "Gọng kính Phi công",
             currentPrice: 1200000,
             originalPrice: 1500000,
             style: "Phi công",
             material: "Kim loại",
-            gender: "Unisex",
-            brand: "Ray-Ban"
+            gender: "Unisex"
         },
         {
             id: 2,
             discount: "-15%",
             image: "https://picsum.photos/400/400?random=1",
-            name: "Gọng kính Vuông Oakley",
+            name: "Gọng kính Vuông",
             currentPrice: 900000,
             originalPrice: 1050000,
             style: "Vuông",
             material: "Nhựa",
-            gender: "Nam",
-            brand: "Oakley"
+            gender: "Nam"
         },
         {
             id: 3,
@@ -276,10 +277,6 @@ const GongKinhPage = () => {
                             material: {
                                 title: "Chất liệu",
                                 options: ["Kim loại", "Nhựa", "Titanium"]
-                            },
-                            brands: {
-                                title: "Thương hiệu",
-                                options: ["Ray-Ban", "Oakley", "Gucci", "Prada", "Versace"]
                             },
                             gender: {
                                 title: "Giới tính",

@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
-import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import SideBar from "../../components/EndUser/Filter/SideBar";
 import ProductGrid from "../../components/EndUser/ProductGrid/ProductGrid";
 import PromotionalBanner from "../../components/EndUser/PromotionalBanner/PromotionalBanner";
@@ -16,13 +15,11 @@ const GongKinhPage = () => {
         style: [],
         material: [],
         gender: [],
-        priceRange: [],
-        brands: []  // Add brands to filters
+        priceRange: []
     });
     const [sortBy, setSortBy] = useState('newest'); // Add this line
     const [currentPage, setCurrentPage] = useState(1);
     const productsPerPage = 16;
-    const [isFilterOpen, setIsFilterOpen] = useState(false);
 
     // Handle page title based on filter params
     useEffect(() => {
@@ -122,13 +119,12 @@ const GongKinhPage = () => {
             const matchesStyle = filters.style.length === 0 || filters.style.includes(product.style);
             const matchesMaterial = filters.material.length === 0 || filters.material.includes(product.material);
             const matchesGender = filters.gender.length === 0 || filters.gender.includes(product.gender);
-            const matchesBrand = filters.brands.length === 0 || filters.brands.includes(product.brand);
             const matchesPriceRange = filters.priceRange.length === 0 || filters.priceRange.some(range => {
                 const [min, max] = range.split('-').map(Number);
                 return product.currentPrice >= min && product.currentPrice <= max;
             });
 
-            return matchesStyle && matchesMaterial && matchesGender && matchesPriceRange && matchesBrand;
+            return matchesStyle && matchesMaterial && matchesGender && matchesPriceRange;
         });
     };
 
@@ -161,35 +157,28 @@ const GongKinhPage = () => {
         setCurrentPage(1); // Reset to first page when sorting changes
     };
 
-    const handleInlineFilter = (type, value) => {
-        handleFilterChange(type, value);
-        setIsFilterOpen(false);
-    };
-
     const products = [
         {
             id: 1,
             discount: "-20%",
             image: "https://picsum.photos/400/400",
-            name: "Gọng kính Phi công Ray-Ban",
+            name: "Gọng kính Phi công",
             currentPrice: 1200000,
             originalPrice: 1500000,
             style: "Phi công",
             material: "Kim loại",
-            gender: "Unisex",
-            brand: "Ray-Ban"
+            gender: "Unisex"
         },
         {
             id: 2,
             discount: "-15%",
             image: "https://picsum.photos/400/400?random=1",
-            name: "Gọng kính Vuông Oakley",
+            name: "Gọng kính Vuông",
             currentPrice: 900000,
             originalPrice: 1050000,
             style: "Vuông",
             material: "Nhựa",
-            gender: "Nam",
-            brand: "Oakley"
+            gender: "Nam"
         },
         {
             id: 3,
@@ -242,29 +231,8 @@ const GongKinhPage = () => {
                 title="New Collection Available"
                 description="Discover our latest eyewear collection with exclusive discounts"
             />
-            
-            {/* Add inline filter buttons */}
-            <div className="flex flex-wrap gap-2 mb-4">
-                <button
-                    onClick={() => setIsFilterOpen(!isFilterOpen)}
-                    className="px-4 py-2 bg-gray-100 rounded-full text-sm flex items-center gap-2"
-                >
-                    <span>Bộ lọc</span>
-                    {isFilterOpen ? <IoIosArrowUp /> : <IoIosArrowDown />}
-                </button>
-                {Object.entries(filters).map(([key, values]) => 
-                    values.map(value => (
-                        <div key={`${key}-${value}`} 
-                             className="px-4 py-2 bg-teal-100 rounded-full text-sm flex items-center gap-2">
-                            <span>{value}</span>
-                            <button onClick={() => handleFilterChange(key, value)}>×</button>
-                        </div>
-                    ))
-                )}
-            </div>
-
             <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
-                <div className={`w-full lg:w-1/4 ${isFilterOpen ? '' : 'hidden lg:block'}`}>
+                <div className="w-full lg:w-1/4">
                     <SideBar 
                         onFilterChange={handleFilterChange}
                         selectedFilters={filters}
@@ -276,10 +244,6 @@ const GongKinhPage = () => {
                             material: {
                                 title: "Chất liệu",
                                 options: ["Kim loại", "Nhựa", "Titanium"]
-                            },
-                            brands: {
-                                title: "Thương hiệu",
-                                options: ["Ray-Ban", "Oakley", "Gucci", "Prada", "Versace"]
                             },
                             gender: {
                                 title: "Giới tính",
