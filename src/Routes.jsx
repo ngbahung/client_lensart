@@ -58,9 +58,12 @@ const AppRoutes = () => {
         <Route path="login" element={<UserLoginPage />} />
         <Route path="register" element={<SignUpPage />} />
         <Route path="verify-otp" element={<SendOTPPage />} />
-        <Route path="gong-kinh" element={<GongKinhPage />} />
-        <Route path="gong-kinh/:productId" element={<ProductDetailPage />} />
-        <Route path="product/:productId" element={<Navigate to="/gong-kinh/:productId" replace />} />
+        <Route path="gong-kinh">
+          <Route index element={<GongKinhPage />} />
+          <Route path="filter/:type/:value" element={<GongKinhPage />} />
+          <Route path=":productId" element={<ProductDetailPage />} />
+        </Route>
+        <Route path="product/:productId" element={<Navigate to={location => `/gong-kinh/${location.pathname.split('/').pop()}`} replace />} />
         {/* Add other user routes here */}
       </Route>
 
