@@ -1,9 +1,15 @@
 import React from 'react';
-import { Routes, Route, Navigate, Outlet, useLocation } from 'react-router-dom';
+import { Routes, Route, Navigate, Outlet, useLocation, useParams } from 'react-router-dom';
 import LoginPage from './pages/Admin/LoginPage';
 import UserLoginPage from './pages/EndUser/LoginPage';
 import Homepage from './pages/EndUser/Homepage';
 import Header from './components/EndUser/Header/Header';
+import Footer from './components/EndUser/Footer/Footer';
+import SignUpPage from './pages/EndUser/SignUpPage';
+import SendOTPPage from './pages/EndUser/SendOTPPage';
+import GongKinhPage from './pages/EndUser/GongKinhPage';
+import ProductDetailPage from './pages/EndUser/ProductDetailPage';
+
 import DashboardPage from './pages/Admin/DashboardPage';
 import TransactionsPage from './pages/Admin/TransactionsPage';
 import CouponsPage from './pages/Admin/CouponsPage';
@@ -12,13 +18,8 @@ import BranchesPage from './pages/Admin/BranchesPage';
 import BannersPage from './pages/Admin/BannersPage';
 import CategoryPage from './pages/Admin/Categories/CategoryPage';
 import ShapePage from './pages/Admin/Categories/ShapePage';
-import Footer from './components/EndUser/Footer/Footer';
-import SignUpPage from './pages/EndUser/SignUpPage';
-import SendOTPPage from './pages/EndUser/SendOTPPage';
-import FramesPage from './pages/EndUser/FramesPage';
 import Navbar from './components/Admin/Navbar_Header/Navbar';
 import Header_Admin from './components/Admin/Navbar_Header/Header';
-
 const UserLayout = () => (
   <div className="min-h-screen flex flex-col pt-[128px] md:pt-[144px]">
     <Header />
@@ -80,7 +81,12 @@ const AppRoutes = () => {
         <Route path="login" element={<UserLoginPage />} />
         <Route path="register" element={<SignUpPage />} />
         <Route path="verify-otp" element={<SendOTPPage />} />
-        <Route path="gong-kinh" element={<FramesPage />} />
+        <Route path="gong-kinh" element={<GongKinhPage />} />
+        <Route path="gong-kinh/:productId" element={<ProductDetailPage />} />
+        <Route
+          path="product/:productId"
+          element={<Navigate to={to => `/gong-kinh/${to.params.productId}`} replace />}
+        />
         {/* Add other user routes here */}
       </Route>
 
