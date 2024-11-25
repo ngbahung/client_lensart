@@ -1,18 +1,35 @@
 import React, { useState, useEffect } from "react";
+import axios from 'axios';
 
 const Header = () => {
   const [dateTime, setDateTime] = useState("");
-  const [user, setUser] = useState({
+  const mockData = {
     name: "Hiếu",
-    avatar: "https://cdn.tuoitre.vn/zoom/700_525/471584752817336320/2024/8/1/loopy-02-1722510337621638910331-72-0-596-1000-crop-1722510365891115014227.jpg",
-  });
+    avatar: "https://cdn.tuoitre.vn/zoom/700_525/471584752817336320/2024/8/1/loopy-02-1722510337621638910331-72-0-596-1000-crop-1722510365891115014227.jpg"
+  };
+  
+  const [user, setUser] = useState(mockData);
 
   useEffect(() => {
-    // Try to get user data from localStorage
-    const storedUser = localStorage.getItem('adminUser');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
+    const fetchUserData = async () => {
+      const adminEmail = localStorage.getItem('adminEmail');
+      if (!adminEmail) return;
+
+      try {
+        const response = await axios.get(`http://your-api-url/api/admin/user-info/${adminEmail}`);
+        if (response.data && response.data.user) {
+          setUser(response.data.user);
+          // Update localStorage with latest user data
+          localStorage.setItem('adminUser', JSON.stringify(response.data.user));
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+        // Fallback to mock data if API fails
+        setUser(mockData);
+      }
+    };
+
+    fetchUserData();
   }, []);
 
   const updateDateTime = () => {

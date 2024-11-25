@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
+import axios from 'axios';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
@@ -18,7 +19,7 @@ const LineGraph = ({ selectedBranch, selectedMonth, selectedYear }) => {
   const generateMockDataForMonth = (daysCount) => {
     return {
       completedOrders: Array.from({ length: daysCount }, () => Math.floor(Math.random() * 20) + 10),
-      pendingOrders: Array.from({ length: daysCount }, () => Math.floor(Math.random() * 10) + 5),
+      processedOrders: Array.from({ length: daysCount }, () => Math.floor(Math.random() * 10) + 5),
       cancelledOrders: Array.from({ length: daysCount }, () => Math.floor(Math.random() * 5))
     };
   };
@@ -26,13 +27,20 @@ const LineGraph = ({ selectedBranch, selectedMonth, selectedYear }) => {
   useEffect(() => {
     const fetchOrderData = async () => {
       try {
-        const response = await fetch(
-          `your-api-endpoint/orders?branch=${selectedBranch}&month=${selectedMonth}&year=${selectedYear}`
+        const { data } = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/orders/statistics`,
+          {
+            params: {
+              branch: selectedBranch,
+              month: selectedMonth,
+              year: selectedYear
+            }
+          }
         );
-        const data = await response.json();
         setOrderData(data);
       } catch (error) {
-        console.log('Error fetching data, using mock data instead:', error);
+        console.error('Error fetching data:', error);
+        // Generate mock data when API fails
         const daysInMonth = getDaysInMonth(parseInt(selectedMonth), parseInt(selectedYear));
         const mockDataForMonth = generateMockDataForMonth(daysInMonth.length);
         setOrderData({
@@ -59,8 +67,8 @@ const LineGraph = ({ selectedBranch, selectedMonth, selectedYear }) => {
         tension: 0.4
       },
       {
-        label: 'Pending Orders',
-        data: orderData?.pendingOrders || [],
+        label: 'Processed Orders',
+        data: orderData?.processedOrders || [],
         fill: true,
         backgroundColor: 'rgba(123, 212, 111, 0.2)',
         borderColor: 'rgba(123, 212, 111, 1)',

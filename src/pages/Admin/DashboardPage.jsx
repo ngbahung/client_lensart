@@ -2,7 +2,7 @@ import { useState } from "react";
 import CardGroup from "../../components/Admin/Dashboard/CardGroup";
 import LineGraph from "../../components/Admin/Dashboard/LineGraph";
 import BarChart from "../../components/Admin/Dashboard/BarChart";
-
+ 
 const DashboardPage = () => {
   const [selectedBranch, setSelectedBranch] = useState("Hồ Chí Minh");
   const [selectedMonth, setSelectedMonth] = useState("1");
@@ -13,7 +13,7 @@ const DashboardPage = () => {
   const years = Array.from(
     { length: new Date().getFullYear() - 2009 },
     (_, i) => (2010 + i).toString()
-  );
+  ).reverse(); // Sort years in descending order
 
   return (
     <div className="bg-white p-6 rounded-md">
@@ -32,7 +32,7 @@ const DashboardPage = () => {
             ))}
           </select>
         </div>
-        <div className="flex flex-col gap-2 w-[130px]">
+        <div className="flex flex-col gap-2 w-[90px]">
           <label className="text-[rgba(85,213,210,1)] font-bold text-center">Month</label>
           <select
             value={selectedMonth}
@@ -41,12 +41,12 @@ const DashboardPage = () => {
           >
             {months.map((month) => (
               <option key={month} value={month} className="text-left hover:bg-[rgba(85,213,210,1)] hover:text-white">
-                Tháng {month}
+                {month}
               </option>
             ))}
           </select>
         </div>
-        <div className="flex flex-col gap-2 w-[130px]">
+        <div className="flex flex-col gap-2 w-[90px]">
           <label className="text-[rgba(85,213,210,1)] font-bold text-center">Year</label>
           <select
             value={selectedYear}
@@ -55,7 +55,7 @@ const DashboardPage = () => {
           >
             {years.map((year) => (
               <option key={year} value={year} className="text-left hover:bg-[rgba(85,213,210,1)] hover:text-white">
-                Năm {year}
+                {year}
               </option>
             ))}
           </select>

@@ -140,7 +140,7 @@ const Navbar = () => {
               </button>
               {expandedMenus.orders && (
                 <ul className="ml-[50px] mt-2 space-y-1">
-                  {['All Orders', 'Pending Orders', 'Completed Orders'].map((item) => (
+                  {['All Orders', 'All Pending Orders', 'All Processed Orders', 'All Out For Delivery Orders', 'All Delivered Orders', 'All Canceled Orders'].map((item) => (
                     <li key={item} className="hover:bg-gray-100 rounded-lg ml-[12px]">
                       <NavLink
                         to={`/admin/orders/${item.toLowerCase().replace(' ', '-')}`}

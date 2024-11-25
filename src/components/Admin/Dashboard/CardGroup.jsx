@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 import Card from './Card';
 
 const CardGroup = ({ selectedBranch, selectedMonth, selectedYear }) => {
@@ -7,29 +8,35 @@ const CardGroup = ({ selectedBranch, selectedMonth, selectedYear }) => {
 
   const mockData = [
     { title: "New Customers", value: "5" },
-    { title: "Revenue", value: "$500" },
+    { title: "Revenue", value: "500000 VND" },
     { title: "Products Sold", value: "20" },
     { title: "Completed Orders", value: "18" },
-    { title: "Pending Orders", value: "2" },
+    { title: "Processed Orders", value: "2" },
     { title: "Cancelled Orders", value: "1" }
   ];
 
   useEffect(() => {
     const fetchCardData = async () => {
       try {
-        const response = await fetch(
-          `your-api-endpoint/statistics?branch=${selectedBranch}&month=${selectedMonth}&year=${selectedYear}`
+        const { data } = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/dashboard/statistics`,
+          {
+            params: {
+              branch: selectedBranch,
+              month: selectedMonth,
+              year: selectedYear
+            }
+          }
         );
-        const data = await response.json();
         setCardData(data);
       } catch (error) {
-        console.log('Error fetching card data, using mock data:', error);
-        // Generate some random variations in mock data based on selected values
+        console.error('Error fetching card data:', error);
+        // Use mock data when API fails
         const randomFactor = Math.random() * 2 + 0.5;
         const adjustedMockData = mockData.map(card => ({
           ...card,
           value: card.title === "Revenue" 
-            ? `$${Math.floor(parseInt(card.value.slice(1)) * randomFactor)}`
+            ? `${Math.floor(parseInt(card.value) * randomFactor)} VND`
             : Math.floor(parseInt(card.value) * randomFactor).toString()
         }));
         setCardData(adjustedMockData);

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
+import axios from 'axios';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -20,11 +21,20 @@ const BarChart = ({ selectedBranch, selectedMonth, selectedYear }) => {
   useEffect(() => {
     const fetchRevenueData = async () => {
       try {
-        const response = await fetch(`your-api-endpoint/revenue?branch=${selectedBranch}&month=${selectedMonth}&year=${selectedYear}`);
-        const data = await response.json();
+        const { data } = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/revenue/statistics`,
+          {
+            params: {
+              branch: selectedBranch,
+              month: selectedMonth,
+              year: selectedYear
+            }
+          }
+        );
         setRevenueData(data);
       } catch (error) {
-        console.log('Error fetching revenue data, using mock data:', error);
+        console.error('Error fetching revenue data:', error);
+        // Generate mock data when API fails
         const daysInMonth = getDaysInMonth(parseInt(selectedMonth), parseInt(selectedYear));
         const mockRevenue = generateMockRevenueData(daysInMonth.length);
         setRevenueData({

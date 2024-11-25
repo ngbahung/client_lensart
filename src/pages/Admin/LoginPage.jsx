@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BiHide, BiShow } from 'react-icons/bi';
+import axios from 'axios';
 import Logo from '../../components/Logo';
 import InputField from '../../components/Admin/Login/InputField';
 import LoginButton from '../../components/Admin/Login/Button';
@@ -35,19 +36,22 @@ const LoginPage = () => {
         
         setIsLoading(true);
         try {
-            // Simulate API call with mock response
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            const mockUserData = {
-                name: "Hiếu",
-                avatar: "https://cdn.tuoitre.vn/zoom/700_525/471584752817336320/2024/8/1/loopy-02-1722510337621638910331-72-0-596-1000-crop-1722510365891115014227.jpg"
-            };
-            
-            // Store user data in localStorage
-            localStorage.setItem('adminUser', JSON.stringify(mockUserData));
-    
-            navigate('/admin/dashboard');
+            const response = await axios.post('http://your-api-url/api/admin/login', {
+                email: formData.email,
+                password: formData.password
+            });
+
+            if (response.data && response.data.user) {
+                // Store email separately for Header component
+                localStorage.setItem('adminEmail', formData.email);
+                localStorage.setItem('adminUser', JSON.stringify(response.data.user));
+                if (response.data.token) {
+                    localStorage.setItem('adminToken', response.data.token);
+                }
+                navigate('/admin/dashboard');
+            }
         } catch (err) {
-            setError('Đăng nhập thất bại. Vui lòng thử lại.');
+            setError(err.response?.data?.message || 'Đăng nhập thất bại. Vui lòng thử lại.');
         } finally {
             setIsLoading(false);
         }
