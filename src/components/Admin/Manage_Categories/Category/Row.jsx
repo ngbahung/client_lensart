@@ -3,7 +3,7 @@ import { BiEdit } from "react-icons/bi";
 import PropTypes from "prop-types";
 import ConfirmChangeStatusModal from "./ConfirmChangeStatusModal";
 
-const ToggleSwitch = ({ id, status, onToggle }) => {
+const ToggleSwitch = ({ id, status, onToggle, disabled }) => {
   return (
     <div className="relative inline-flex items-center">
       <input
@@ -12,6 +12,7 @@ const ToggleSwitch = ({ id, status, onToggle }) => {
         checked={status}
         onChange={() => onToggle(id)}
         className="sr-only"
+        disabled={disabled}
       />
       <label
         htmlFor={`toggle-${id}`}
@@ -29,16 +30,24 @@ const ToggleSwitch = ({ id, status, onToggle }) => {
   );
 };
 
-const Row = ({ category, onStatusChange }) => {
+const Row = ({ category, onStatusChange, onEdit }) => {
   const [showStatusModal, setShowStatusModal] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
 
-  const handleStatusChange = (categoryId) => {
+  const handleStatusChange = () => {
     setShowStatusModal(true);
   };
 
-  const handleConfirmStatusChange = () => {
-    onStatusChange(category.id);
-    setShowStatusModal(false);
+  const handleConfirmStatusChange = async () => {
+    setIsUpdating(true);
+    try {
+      await onStatusChange(category.id, !category.status);
+      setShowStatusModal(false);
+    } catch (error) {
+      console.error("Error updating status:", error);
+    } finally {
+      setIsUpdating(false);
+    }
   };
 
   const handleCancelStatusChange = () => {
@@ -46,7 +55,7 @@ const Row = ({ category, onStatusChange }) => {
   };
 
   const handleEdit = () => {
-    console.log(`Editing category ID: ${category.id}`);
+    onEdit(category);
   };
 
   return (
@@ -59,6 +68,7 @@ const Row = ({ category, onStatusChange }) => {
             id={category.id}
             status={category.status}
             onToggle={handleStatusChange}
+            disabled={isUpdating}
           />
         </td>
         <td className="py-2 px-4 grid place-items-center">
@@ -75,6 +85,7 @@ const Row = ({ category, onStatusChange }) => {
         <ConfirmChangeStatusModal
           onConfirm={handleConfirmStatusChange}
           onCancel={handleCancelStatusChange}
+          isLoading={isUpdating}
         />
       )}
     </>
@@ -85,6 +96,7 @@ ToggleSwitch.propTypes = {
   id: PropTypes.number.isRequired,
   status: PropTypes.bool.isRequired,
   onToggle: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
 };
 
 Row.propTypes = {
@@ -94,6 +106,7 @@ Row.propTypes = {
     status: PropTypes.bool.isRequired,
   }).isRequired,
   onStatusChange: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
 };
 
 export default Row;

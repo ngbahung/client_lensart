@@ -1,6 +1,6 @@
 import React from "react";
 
-const ConfirmChangeStatusModal = ({ onConfirm, onCancel }) => {
+const ConfirmChangeStatusModal = ({ onConfirm, onCancel, isLoading }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center z-50">
       <div className="bg-white rounded-[20px] shadow-lg p-6 w-[450px] h-[200px]">
@@ -13,13 +13,15 @@ const ConfirmChangeStatusModal = ({ onConfirm, onCancel }) => {
         <div className="flex justify-around">
           <button
             onClick={onConfirm}
-            className="bg-[rgb(85,213,210)] text-white font-semibold py-2 px-6 w-[120px] rounded-[20px] transition-colors hover:opacity-80"
+            className="bg-[rgb(85,213,210)] text-white font-semibold py-2 px-6 w-[120px] rounded-[20px] transition-colors hover:opacity-80 disabled:opacity-50"
+            disabled={isLoading}
           >
-            Xác nhận
+            {isLoading ? "Loading..." : "Xác nhận"}
           </button>
           <button
             onClick={onCancel}
-            className="border border-[rgb(85,213,210)] text-[rgb(85,213,210)] font-semibold py-2 px-6 w-[120px] rounded-[20px] transition-colors hover:bg-[rgb(85,213,210)]/10"
+            className="border border-[rgb(85,213,210)] text-[rgb(85,213,210)] font-semibold py-2 px-6 w-[120px] rounded-[20px] transition-colors hover:bg-[rgb(85,213,210)]/10 disabled:opacity-50"
+            disabled={isLoading}
           >
             Hủy bỏ
           </button>

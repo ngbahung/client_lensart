@@ -1,8 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
 import { FiPlusCircle } from "react-icons/fi";
 import Row from "./Row";
+import CreateCategory from "./CreateCategory";
+import EditCategory from './EditCategory';
 
-const Table = ({ categories, isLoading, error, onStatusChange }) => {
+const Table = ({ categories, isLoading, error, onStatusChange, onSearch, searchTerm }) => {
+  const [showCreateForm, setShowCreateForm] = useState(false);
+  const [editingCategory, setEditingCategory] = useState(null);
+
+  const handleShowCreate = () => {
+    setShowCreateForm(true);
+  };
+
+  const handleSearch = (e) => {
+    onSearch(e.target.value);
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      onSearch(e.target.value);
+    }
+  };
+
+  const handleEdit = (category) => {
+    setEditingCategory(category);
+  };
+
+  if (editingCategory) {
+    return <EditCategory 
+      category={editingCategory} 
+      onClose={() => setEditingCategory(null)} 
+    />;
+  }
+
+  if (showCreateForm) {
+    return <CreateCategory onClose={() => setShowCreateForm(false)} />;
+  }
+
   return (
     <div className="bg-white p-6 rounded-md">
       {error && (
@@ -17,7 +51,10 @@ const Table = ({ categories, isLoading, error, onStatusChange }) => {
               <h1 className="text-xl font-semibold">All Categories</h1>
             </th>
             <th colSpan="1" className="py-2 px-4 text-right place-items-center"> 
-              <button className="px-4 py-2 bg-[rgba(85,213,210,1)] text-white rounded-[10px] hover:opacity-90 font-normal flex items-center gap-2 mr-0">
+              <button 
+                onClick={handleShowCreate}
+                className="px-4 py-2 bg-[rgba(85,213,210,1)] text-white rounded-[10px] hover:opacity-90 font-normal flex items-center gap-2 mr-0"
+              >
                 <FiPlusCircle className="w-5 h-5" /> Create New
               </button>
             </th>
@@ -29,7 +66,11 @@ const Table = ({ categories, isLoading, error, onStatusChange }) => {
                 <input
                   id="searchId"
                   type="text"
+                  value={searchTerm}
+                  onChange={handleSearch}
+                  onKeyPress={handleKeyPress}
                   className="border rounded-[10px] px-2 py-1 w-48 font-normal"
+                  placeholder="ID or name..."
                 />
               </div>
             </th>
@@ -52,6 +93,7 @@ const Table = ({ categories, isLoading, error, onStatusChange }) => {
                 key={category.id} 
                 category={category} 
                 onStatusChange={onStatusChange}
+                onEdit={handleEdit}
               />
             ))
           )}
