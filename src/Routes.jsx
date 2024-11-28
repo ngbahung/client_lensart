@@ -18,6 +18,8 @@ import BranchesPage from './pages/Admin/BranchesPage';
 import BannersPage from './pages/Admin/BannersPage';
 import CategoryPage from './pages/Admin/Categories/CategoryPage';
 import ShapePage from './pages/Admin/Categories/ShapePage';
+import MaterialsPage from './pages/Admin/Categories/MaterialsPage';
+import FeaturesPage from './pages/Admin/Categories/FeaturesPage';
 import Navbar from './components/Admin/Navbar_Header/Navbar';
 import Header_Admin from './components/Admin/Navbar_Header/Header';
 const UserLayout = () => (
@@ -71,8 +73,10 @@ const AppRoutes = () => {
         <Route path="blogs" element={<ManageBlogsPage />} />
         <Route path="branches" element={<BranchesPage />} />
         <Route path="banners" element={<BannersPage />} />
-        <Route path="categories/category" element={<CategoryPage />} />
-        <Route path="categories/shape" element={<ShapePage />} />
+        <Route path="category" element={<CategoryPage />} />
+        <Route path="shape" element={<ShapePage />} />
+        <Route path="materials" element={<MaterialsPage />} />
+        <Route path="features" element={<FeaturesPage />} />
       </Route>
 
       {/* User Routes */}

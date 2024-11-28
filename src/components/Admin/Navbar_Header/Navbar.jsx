@@ -78,7 +78,7 @@ const Navbar = () => {
                   {['Category', 'Shape', 'Materials', 'Features'].map((item) => (
                     <li key={item} className="hover:bg-gray-100 rounded-lg ml-[12px]">
                       <NavLink
-                        to={`/admin/categories/${item.toLowerCase()}`}
+                        to={`/admin/${item.toLowerCase()}`}
                         className={({ isActive }) =>
                           isActive
                             ? "block px-4 py-2 text-[rgba(85,213,210,1)]" // Khi active
@@ -113,8 +113,12 @@ const Navbar = () => {
                   {['Brands', 'Products', 'Product Reviews'].map((item) => (
                     <li key={item} className="hover:bg-gray-100 rounded-lg ml-[12px]">
                       <NavLink
-                        to={`/admin/products/${item.toLowerCase().replace(' ', '-')}`}
-                        className="block px-4 py-2 text-black-700 hover:text-[rgba(85,213,210,1)]"
+                        to={`/admin${item.toLowerCase().replace(' ', '-')}`}
+                        className={({ isActive }) =>
+                          isActive
+                            ? "block px-4 py-2 text-[rgba(85,213,210,1)]" // Khi active
+                            : "block px-4 py-2 text-black-700 hover:text-[rgba(85,213,210,1)]"
+                        }
                       >
                         {item}
                       </NavLink>
@@ -143,8 +147,12 @@ const Navbar = () => {
                   {['All Orders', 'All Pending Orders', 'All Processed Orders', 'All Out For Delivery Orders', 'All Delivered Orders', 'All Canceled Orders'].map((item) => (
                     <li key={item} className="hover:bg-gray-100 rounded-lg ml-[12px]">
                       <NavLink
-                        to={`/admin/orders/${item.toLowerCase().replace(' ', '-')}`}
-                        className="block px-4 py-2 text-black-700 hover:text-[rgba(85,213,210,1)]"
+                        to={`/admin${item.toLowerCase().replace(' ', '-')}`}
+                        className={({ isActive }) =>
+                          isActive
+                            ? "block px-4 py-2 text-[rgba(85,213,210,1)]" // Khi active
+                            : "block px-4 py-2 text-black-700 hover:text-[rgba(85,213,210,1)]"
+                        }
                       >
                         {item}
                       </NavLink>
@@ -236,8 +244,12 @@ const Navbar = () => {
                   {['User List', 'Add User', 'User Roles'].map((item) => (
                     <li key={item} className="hover:bg-gray-100 rounded-lg ml-[12px]">
                       <NavLink
-                        to={`/admin/users/${item.toLowerCase().replace(' ', '-')}`}
-                        className="block px-4 py-2 text-black-700 hover:text-[rgba(85,213,210,1)]"
+                        to={`/admin${item.toLowerCase().replace(' ', '-')}`}
+                        className={({ isActive }) =>
+                          isActive
+                            ? "block px-4 py-2 text-[rgba(85,213,210,1)]" // Khi active
+                            : "block px-4 py-2 text-black-700 hover:text-[rgba(85,213,210,1)]"
+                        }
                       >
                         {item}
                       </NavLink>
