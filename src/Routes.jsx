@@ -20,6 +20,7 @@ import CategoryPage from './pages/Admin/Categories/CategoryPage';
 import ShapePage from './pages/Admin/Categories/ShapePage';
 import MaterialsPage from './pages/Admin/Categories/MaterialsPage';
 import FeaturesPage from './pages/Admin/Categories/FeaturesPage';
+import BrandsPage from './pages/Admin/Products/BrandsPage';
 import Navbar from './components/Admin/Navbar_Header/Navbar';
 import Header_Admin from './components/Admin/Navbar_Header/Header';
 const UserLayout = () => (
@@ -77,6 +78,7 @@ const AppRoutes = () => {
         <Route path="shape" element={<ShapePage />} />
         <Route path="materials" element={<MaterialsPage />} />
         <Route path="features" element={<FeaturesPage />} />
+        <Route path="brands" element={<BrandsPage />} />
       </Route>
 
       {/* User Routes */}
