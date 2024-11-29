@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FaAngleDown } from "react-icons/fa";
 import axios from "axios";
 
-const CreateBrand = ({ onClose }) => {
+const CreateBrand = ({ onClose, refreshBrands }) => {
   const [name, setName] = useState("");
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");
@@ -24,6 +24,7 @@ const CreateBrand = ({ onClose }) => {
       });
       
       console.log("Brand saved:", response.data);
+      await refreshBrands(); // Add this line
       alert("Brand saved successfully!");
       onClose();
     } catch (err) {

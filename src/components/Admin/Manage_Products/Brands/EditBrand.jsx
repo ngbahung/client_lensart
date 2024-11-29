@@ -3,7 +3,7 @@ import { FaAngleDown } from "react-icons/fa";
 import axios from "axios";
 import PropTypes from "prop-types";
 
-const EditBrand = ({ brand, onClose }) => {
+const EditBrand = ({ brand, onClose, refreshBrands }) => {  // Add refreshBrands prop
   const [name, setName] = useState("");
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");
@@ -27,6 +27,7 @@ const EditBrand = ({ brand, onClose }) => {
       });
 
       if (response.status === 200) {
+        await refreshBrands(); // Add this line to refresh the list
         onClose();
       }
     } catch (error) {
@@ -121,6 +122,7 @@ EditBrand.propTypes = {
     status: PropTypes.bool.isRequired,
   }).isRequired,
   onClose: PropTypes.func.isRequired,
+  refreshBrands: PropTypes.func.isRequired, // Add this line
 };
 
 export default EditBrand;

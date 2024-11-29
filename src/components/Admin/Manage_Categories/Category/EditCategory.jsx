@@ -3,7 +3,7 @@ import { FaAngleDown } from "react-icons/fa";
 import axios from "axios";
 import PropTypes from "prop-types";
 
-const EditCategory = ({ category, onClose }) => {
+const EditCategory = ({ category, onClose, refreshCategories }) => {
   const [name, setName] = useState("");
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");
@@ -27,6 +27,7 @@ const EditCategory = ({ category, onClose }) => {
       });
 
       if (response.status === 200) {
+        await refreshCategories(); // Refresh the category list
         onClose();
       }
     } catch (error) {
@@ -121,6 +122,7 @@ EditCategory.propTypes = {
     status: PropTypes.bool.isRequired,
   }).isRequired,
   onClose: PropTypes.func.isRequired,
+  refreshCategories: PropTypes.func.isRequired, // Add this prop type
 };
 
 export default EditCategory;

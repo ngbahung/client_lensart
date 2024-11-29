@@ -3,7 +3,7 @@ import { FaAngleDown } from "react-icons/fa";
 import axios from "axios";
 import PropTypes from "prop-types";
 
-const EditFeature = ({ feature, onClose }) => {
+const EditFeature = ({ feature, onClose, onRefresh }) => {  // Add onRefresh prop
   const [name, setName] = useState("");
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");
@@ -27,6 +27,7 @@ const EditFeature = ({ feature, onClose }) => {
       });
 
       if (response.status === 200) {
+        await onRefresh(); // Call refresh function after successful update
         onClose();
       }
     } catch (error) {
@@ -121,6 +122,7 @@ EditFeature.propTypes = {
     status: PropTypes.bool.isRequired,
   }).isRequired,
   onClose: PropTypes.func.isRequired,
+  onRefresh: PropTypes.func.isRequired, // Add prop type validation
 };
 
 export default EditFeature;

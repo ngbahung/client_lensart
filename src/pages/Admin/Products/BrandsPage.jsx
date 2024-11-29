@@ -35,26 +35,26 @@ const BrandsPage = () => {
     { id: 20, name: "Calvin Klein", status: true }
   ];
 
-  useEffect(() => {
-    const fetchBrands = async () => {
-      try {
-        const response = await axios.get('http://localhost:8000/api/brands');
-        if (response.data) {
-          const allBrands = response.data.data || mockData;
-          setBrands(allBrands);
-          // Tính tổng số trang dựa trên số lượng items
-          setTotalPages(Math.ceil(allBrands.length / ITEMS_PER_PAGE));
-          setError(null);
-        }
-      } catch (error) {
-        console.error("Failed to fetch brands:", error);
-        setBrands(mockData);
-        setTotalPages(Math.ceil(mockData.length / ITEMS_PER_PAGE));
-      } finally {
-        setIsLoading(false);
+  const fetchBrands = async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get('http://localhost:8000/api/brands');
+      if (response.data) {
+        const allBrands = response.data.data || mockData;
+        setBrands(allBrands);
+        setTotalPages(Math.ceil(allBrands.length / ITEMS_PER_PAGE));
+        setError(null);
       }
-    };
+    } catch (error) {
+      console.error("Failed to fetch brands:", error);
+      setBrands(mockData);
+      setTotalPages(Math.ceil(mockData.length / ITEMS_PER_PAGE));
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchBrands();
   }, []);
 
@@ -116,6 +116,7 @@ const BrandsPage = () => {
             onStatusChange={handleStatusChange}
             onSearch={handleSearch}
             searchTerm={searchTerm}
+            refreshBrands={fetchBrands}  // Add this line
           />
         </div>
       </div>

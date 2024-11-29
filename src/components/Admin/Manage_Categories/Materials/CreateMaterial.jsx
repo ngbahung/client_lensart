@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FaAngleDown } from "react-icons/fa";
 import axios from "axios";
 
-const CreateMaterial = ({ onClose }) => {
+const CreateMaterial = ({ onClose, refreshMaterials }) => {
   const [name, setName] = useState("");
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");
@@ -24,6 +24,7 @@ const CreateMaterial = ({ onClose }) => {
       });
       
       console.log("Material saved:", response.data);
+      await refreshMaterials(); // Refresh the materials list
       alert("Material saved successfully!");
       onClose();
     } catch (err) {

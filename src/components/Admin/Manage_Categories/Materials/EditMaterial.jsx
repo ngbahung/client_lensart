@@ -3,7 +3,7 @@ import { FaAngleDown } from "react-icons/fa";
 import axios from "axios";
 import PropTypes from "prop-types";
 
-const EditMaterial = ({ material, onClose }) => {
+const EditMaterial = ({ material, onClose, refreshMaterials }) => {
   const [name, setName] = useState("");
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");
@@ -27,6 +27,7 @@ const EditMaterial = ({ material, onClose }) => {
       });
 
       if (response.status === 200) {
+        await refreshMaterials(); // Refresh the materials list
         onClose();
       }
     } catch (error) {
@@ -121,6 +122,7 @@ EditMaterial.propTypes = {
     status: PropTypes.bool.isRequired,
   }).isRequired,
   onClose: PropTypes.func.isRequired,
+  refreshMaterials: PropTypes.func.isRequired, // Add prop type for refreshMaterials
 };
 
 export default EditMaterial;

@@ -3,7 +3,7 @@ import { FaAngleDown } from "react-icons/fa";
 import axios from "axios";
 import PropTypes from "prop-types";
 
-const EditShape = ({ shape, onClose }) => {
+const EditShape = ({ shape, onClose, reloadShapes }) => {
   const [name, setName] = useState("");
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");
@@ -27,6 +27,7 @@ const EditShape = ({ shape, onClose }) => {
       });
 
       if (response.status === 200) {
+        await reloadShapes(); // Add this line
         onClose();
       }
     } catch (error) {
@@ -121,6 +122,7 @@ EditShape.propTypes = {
     status: PropTypes.bool.isRequired,
   }).isRequired,
   onClose: PropTypes.func.isRequired,
+  reloadShapes: PropTypes.func.isRequired,
 };
 
 export default EditShape;

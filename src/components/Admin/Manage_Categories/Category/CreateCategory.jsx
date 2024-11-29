@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FaAngleDown } from "react-icons/fa";
 import axios from "axios";
 
-const CreateCategory = ({ onClose }) => {
+const CreateCategory = ({ onClose, refreshCategories }) => {
   const [name, setName] = useState("");
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");
@@ -25,6 +25,7 @@ const CreateCategory = ({ onClose }) => {
       
       console.log("Category saved:", response.data);
       alert("Category saved successfully!");
+      await refreshCategories(); // Refresh the category list
       onClose();
     } catch (err) {
       setError(err.response?.data?.message || "Failed to save category");

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FaAngleDown } from "react-icons/fa";
 import axios from "axios";
 
-const CreateShape = ({ onClose }) => {
+const CreateShape = ({ onClose, reloadShapes }) => {
   const [name, setName] = useState("");
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");
@@ -25,6 +25,7 @@ const CreateShape = ({ onClose }) => {
       
       console.log("Shape saved:", response.data);
       alert("Shape saved successfully!");
+      await reloadShapes(); // Add this line
       onClose();
     } catch (err) {
       setError(err.response?.data?.message || "Failed to save shape");

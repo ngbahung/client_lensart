@@ -70,6 +70,26 @@ const CategoryPage = () => {
     fetchCategories();
   }, []);
 
+  const refreshCategories = async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get('http://localhost:8000/api/categories');
+      if (response.data) {
+        const allCategories = response.data.data || mockData;
+        setCategories(allCategories);
+        setTotalPages(Math.ceil(allCategories.length / ITEMS_PER_PAGE));
+        setError(null);
+      }
+    } catch (error) {
+      console.error("Failed to fetch categories:", error);
+      setCategories(mockData);
+      setTotalPages(Math.ceil(mockData.length / ITEMS_PER_PAGE));
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+
   const filteredCategories = categories.filter(category => 
     category.id.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
     category.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -128,6 +148,7 @@ const CategoryPage = () => {
             onStatusChange={handleStatusChange}
             onSearch={handleSearch}
             searchTerm={searchTerm}
+            refreshCategories={refreshCategories}
           />
         </div>
       </div>

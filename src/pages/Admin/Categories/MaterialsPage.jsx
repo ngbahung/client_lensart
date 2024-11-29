@@ -30,6 +30,25 @@ const MaterialsPage = () => {
     { id: 15, name: "Thép không gỉ 316L", status: true }
   ];
 
+  const refreshMaterials = async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get('http://localhost:8000/api/materials');
+      if (response.data) {
+        const allMaterials = response.data.data || mockData;
+        setMaterials(allMaterials);
+        setTotalPages(Math.ceil(allMaterials.length / ITEMS_PER_PAGE));
+        setError(null);
+      }
+    } catch (error) {
+      console.error("Failed to fetch materials:", error);
+      setMaterials(mockData);
+      setTotalPages(Math.ceil(mockData.length / ITEMS_PER_PAGE));
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     const fetchMaterials = async () => {
       try {
@@ -58,7 +77,7 @@ const MaterialsPage = () => {
     material.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Tính toán items cho trang hiện tại từ danh sách đã được lọc
+  // Tính toán items cho trang hiện tại từ danh sách đã được l���c
   const getCurrentPageItems = () => {
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
@@ -111,6 +130,7 @@ const MaterialsPage = () => {
             onStatusChange={handleStatusChange}
             onSearch={handleSearch}
             searchTerm={searchTerm}
+            refreshMaterials={refreshMaterials}
           />
         </div>
       </div>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FaAngleDown } from "react-icons/fa";
 import axios from "axios";
 
-const CreateFeature = ({ onClose }) => {
+const CreateFeature = ({ onClose, onRefresh }) => {  // Add onRefresh prop
   const [name, setName] = useState("");
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");
@@ -25,6 +25,7 @@ const CreateFeature = ({ onClose }) => {
       
       console.log("Feature saved:", response.data);
       alert("Feature saved successfully!");
+      await onRefresh(); // Call refresh function after successful save
       onClose();
     } catch (err) {
       setError(err.response?.data?.message || "Failed to save feature");
