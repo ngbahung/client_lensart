@@ -35,7 +35,7 @@ const MaterialsPage = () => {
     try {
       const response = await axios.get('http://localhost:8000/api/materials');
       if (response.data) {
-        const allMaterials = response.data.data || mockData;
+        const allMaterials = response.data.materials || mockData;
         setMaterials(allMaterials);
         setTotalPages(Math.ceil(allMaterials.length / ITEMS_PER_PAGE));
         setError(null);
@@ -54,7 +54,7 @@ const MaterialsPage = () => {
       try {
         const response = await axios.get('http://localhost:8000/api/materials');
         if (response.data) {
-          const allMaterials = response.data.data || mockData;
+          const allMaterials = response.data.materials || mockData;
           setMaterials(allMaterials);
           // Tính tổng số trang dựa trên số lượng items
           setTotalPages(Math.ceil(allMaterials.length / ITEMS_PER_PAGE));

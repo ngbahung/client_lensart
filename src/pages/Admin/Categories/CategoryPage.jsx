@@ -52,7 +52,7 @@ const CategoryPage = () => {
       try {
         const response = await axios.get('http://localhost:8000/api/categories');
         if (response.data) {
-          const allCategories = response.data.data || mockData;
+          const allCategories = response.data.categories || mockData;
           setCategories(allCategories);
           // Tính tổng số trang dựa trên số lượng items
           setTotalPages(Math.ceil(allCategories.length / ITEMS_PER_PAGE));
@@ -75,7 +75,7 @@ const CategoryPage = () => {
     try {
       const response = await axios.get('http://localhost:8000/api/categories');
       if (response.data) {
-        const allCategories = response.data.data || mockData;
+        const allCategories = response.data.categories || mockData;
         setCategories(allCategories);
         setTotalPages(Math.ceil(allCategories.length / ITEMS_PER_PAGE));
         setError(null);

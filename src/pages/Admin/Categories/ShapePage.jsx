@@ -27,12 +27,31 @@ const ShapePage = () => {
     { id: 12, name: "Oversized", status: true }
   ];
 
+  const reloadShapes = async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get('http://localhost:8000/api/shapes');
+      if (response.data) {
+        const allShapes = response.data.shapes || mockData;
+        setShapes(allShapes);
+        setTotalPages(Math.ceil(allShapes.length / ITEMS_PER_PAGE));
+        setError(null);
+      }
+    } catch (error) {
+      console.error("Failed to fetch shapes:", error);
+      setShapes(mockData);
+      setTotalPages(Math.ceil(mockData.length / ITEMS_PER_PAGE));
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
   useEffect(() => {
     const fetchShapes = async () => {
       try {
         const response = await axios.get('http://localhost:8000/api/shapes');
         if (response.data) {
-          const allShapes = response.data.data || mockData;
+          const allShapes = response.data.shapes || mockData;
           setShapes(allShapes);
           // Tính tổng số trang dựa trên số lượng items
           setTotalPages(Math.ceil(allShapes.length / ITEMS_PER_PAGE));
@@ -50,24 +69,7 @@ const ShapePage = () => {
     fetchShapes();
   }, []);
 
-  const reloadShapes = async () => {
-    setIsLoading(true);
-    try {
-      const response = await axios.get('http://localhost:8000/api/shapes');
-      if (response.data) {
-        const allShapes = response.data.data || mockData;
-        setShapes(allShapes);
-        setTotalPages(Math.ceil(allShapes.length / ITEMS_PER_PAGE));
-        setError(null);
-      }
-    } catch (error) {
-      console.error("Failed to fetch shapes:", error);
-      setShapes(mockData);
-      setTotalPages(Math.ceil(mockData.length / ITEMS_PER_PAGE));
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  
 
   const filteredShapes = shapes.filter(shape => 
     shape.id.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -85,9 +87,13 @@ const ShapePage = () => {
     setCurrentPage(page);
   };
 
-  const handleStatusChange = async (shapeId, newStatus) => {
+  const handleStatusChange = async (shapeId) => {
     try {
-      const response = await axios.put(`http://localhost:8000/api/shapes/${shapeId}/status`, {
+      // Tìm shape hiện tại và lấy status ngược lại
+      const currentShape = shapes.find(shape => shape.id === shapeId);
+      const newStatus = !currentShape.status;
+  
+      const response = await axios.put(`http://localhost:8000/api/shapes/switch-status/${shapeId}`, {
         status: newStatus
       });
       
@@ -101,7 +107,6 @@ const ShapePage = () => {
     } catch (error) {
       alert("Failed to update shape status");
       console.error("Failed to update shape status:", error);
-      // Optionally add error handling here
     }
   };
 

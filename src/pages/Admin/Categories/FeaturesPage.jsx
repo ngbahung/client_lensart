@@ -31,8 +31,8 @@ const FeaturesPage = () => {
     setIsLoading(true);
     try {
       const response = await axios.get('http://localhost:8000/api/features');
-      if (response.data && response.data.data) {
-        const allFeatures = response.data.data;
+      if (response.data && response.data.features) {
+        const allFeatures = response.data.features;
         setFeatures(allFeatures);
         setTotalPages(Math.ceil(allFeatures.length / ITEMS_PER_PAGE));
         setError(null);

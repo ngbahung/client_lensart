@@ -40,7 +40,7 @@ const BrandsPage = () => {
     try {
       const response = await axios.get('http://localhost:8000/api/brands');
       if (response.data) {
-        const allBrands = response.data.data || mockData;
+        const allBrands = response.data.brands || mockData;
         setBrands(allBrands);
         setTotalPages(Math.ceil(allBrands.length / ITEMS_PER_PAGE));
         setError(null);
@@ -74,23 +74,20 @@ const BrandsPage = () => {
     setCurrentPage(page);
   };
 
-  const handleStatusChange = async (brandId, newStatus) => {
+  const handleStatusChange = async (brandId) => {
     try {
-      const response = await axios.put(`http://localhost:8000/api/brands/${brandId}/status`, {
-        status: newStatus
-      });
+      const response = await axios.post(`http://localhost:8000/api/brands/switch-status/${brandId}`);
       
       if (response.status === 200) {
         setBrands(prevBrands => 
           prevBrands.map(brand => 
-            brand.id === brandId ? {...brand, status: newStatus} : brand
+            brand.id === brandId ? {...brand, status: !brand.status} : brand
           )
         );
       }
     } catch (error) {
       alert("Failed to update brand status");
       console.error("Failed to update brand status:", error);
-      // Optionally add error handling here
     }
   };
 
