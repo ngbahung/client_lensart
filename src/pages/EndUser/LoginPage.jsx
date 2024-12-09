@@ -4,6 +4,7 @@ import { BiHide, BiShow } from 'react-icons/bi';
 import Logo from '../../components/Logo';
 import InputField from '../../components/Admin/Login/InputField';
 import LoginButton from '../../components/Admin/Login/Button';
+import { useAuth } from '../../contexts/AuthContext';
 
 const LoginPage = () => {
     useEffect(() => {
@@ -11,10 +12,12 @@ const LoginPage = () => {
     }, []);
 
     const navigate = useNavigate();
-    const [formData, setFormData] = useState({ email: '', password: '' });
+    const [formData, setFormData] = useState({ username: '', password: '' });
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
+    const [success, setSuccess] = useState(false);
+    const { login } = useAuth();
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -22,7 +25,7 @@ const LoginPage = () => {
     };
 
     const validateForm = () => {
-        if (!formData.email || !formData.password) {
+        if (!formData.username || !formData.password) {
             setError('Vui lòng điền đầy đủ thông tin');
             return false;
         }
@@ -34,16 +37,23 @@ const LoginPage = () => {
         if (!validateForm()) return;
         
         setIsLoading(true);
+        setError('');
+        setSuccess(false);
+
         try {
-            // Add your login API call here
-            await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
-            navigate('/');
+            await login(formData);
+            setSuccess(true);
+            setTimeout(() => {
+                navigate('/');
+            }, 2000); // Wait 2 seconds before navigating
         } catch (err) {
-            setError('Đăng nhập thất bại. Vui lòng thử lại.');
+            // Display the specific error message from the server
+            setError(err.response?.data?.message || err.message || 'Đăng nhập thất bại');
         } finally {
             setIsLoading(false);
         }
     };
+
 
     return (
         <div className="min-h-screen bg-[#eff9f9]">
@@ -60,10 +70,10 @@ const LoginPage = () => {
                     
                     <form onSubmit={handleLogin}>
                         <InputField
-                            type="email"
-                            name="email"
-                            placeholder="Nhập email"
-                            value={formData.email}
+                            type="text"
+                            name="username"
+                            placeholder="Nhập tên đăng nhập"
+                            value={formData.username}
                             onChange={handleChange}
                             error={error}
                         />
@@ -83,6 +93,7 @@ const LoginPage = () => {
                         />
                         
                         {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+                        {success && <p className="text-green-500 text-sm mt-2">Đăng nhập thành công</p>}
                         
                         <div className="mt-8">
                             <LoginButton

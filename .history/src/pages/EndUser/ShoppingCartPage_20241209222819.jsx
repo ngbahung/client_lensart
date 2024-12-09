@@ -1,0 +1,46 @@
+import React, { useState } from 'react';
+import ShoppingCart from '../../components/EndUser/ShoppingCart/ShoppingCart';
+import CheckoutReview from '../../components/EndUser/ShoppingCart/CheckoutReview';
+import Breadcrumb from '../../components/EndUser/Breadcrumb/Breadcrumb';
+
+const ShoppingCartPage = () => {
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
+  
+  const cartBreadcrumbItems = ["Trang chủ", "Giỏ hàng"];
+  const checkoutBreadcrumbItems = ["Trang chủ", "Giỏ hàng", "Thanh toán"];
+
+  const handleContinueShopping = () => {
+    // Navigate to products page
+    window.history.back();
+  };
+
+  const handleProceedToCheckout = () => {
+    setIsCheckingOut(true);
+  };
+
+  const handleBackToCart = () => {
+    setIsCheckingOut(false);
+  };
+
+  return (
+    <div className="container mx-auto max-w-6xl">
+      <Breadcrumb items={isCheckingOut ? checkoutBreadcrumbItems : cartBreadcrumbItems} />
+      {!isCheckingOut ? (
+        <div className="shopping-cart-container">
+          <ShoppingCart 
+            onContinueShopping={handleContinueShopping}
+            onCheckout={handleProceedToCheckout}
+          />
+        </div>
+      ) : (
+        <div className="checkout-review-container">
+          <CheckoutReview 
+            onBackToCart={handleBackToCart}
+          />
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default ShoppingCartPage;

@@ -33,12 +33,12 @@ const ProductInfo = memo(({ name }) => (
 
 // Component hiển thị giá sản phẩm (giá hiện tại và giá gốc nếu có)
 const ProductPrice = memo(({ currentPrice, originalPrice }) => (
-  <div className="flex items-center gap-2 mt-2 px-1">
-    <span className="text-lg font-semibold text-teal-500">
+  <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2 mt-1 sm:mt-2 px-1">
+    <span className="text-base sm:text-lg font-semibold text-teal-500">
       {formatPrice(currentPrice)}
     </span>
     {originalPrice && (
-      <span className="text-sm text-gray-400 line-through">
+      <span className="text-xs sm:text-sm text-gray-400 line-through">
         {formatPrice(originalPrice)}
       </span>
     )}
@@ -71,7 +71,7 @@ const ProductCard = ({
   onBuyClick,
   onProductClick
 }) => (
-  <div className="w-full bg-white rounded-xl shadow-md p-2 relative hover:shadow-xl transition-shadow">
+  <div className="w-full bg-white rounded-xl shadow-md p-2 relative hover:shadow-xl transition-shadow flex flex-col min-h-[300px]">
     {discount && <DiscountBadge discount={discount} />}
     
     <div 
@@ -79,14 +79,16 @@ const ProductCard = ({
         e.preventDefault();
         onProductClick(id);  // Pass id to click handler
       }} 
-      className="cursor-pointer"
+      className="cursor-pointer flex-1"
     >
       <ProductImage src={image} alt={name} />
       <ProductInfo name={name} />
       <ProductPrice currentPrice={currentPrice} originalPrice={originalPrice} />
     </div>
 
-    <BuyButton onClick={onBuyClick} id={id} />
+    <div className="mt-auto">
+      <BuyButton onClick={onBuyClick} id={id} />
+    </div>
   </div>
 );
 

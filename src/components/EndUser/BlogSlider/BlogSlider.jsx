@@ -81,7 +81,7 @@ const BlogSlider = ({ blogs = dummyBlogs }) => {
     <div className="blog-slider relative px-4 sm:px-12">
       <Slider {...settings}>
         {blogs.map((blog) => (
-          <div key={blog.id} className="px-2">
+          <div key={blog.id} className="px-2 mb-4 sm:mb-0">
             <BlogCard blog={blog} />
           </div>
         ))}
