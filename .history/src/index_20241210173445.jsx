@@ -12,9 +12,8 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter future={{ v7_startTransition: true }}>
-      <CartProvider>
-        <App />
-      </CartProvider>
+    
+      <App />
     </BrowserRouter>
   </React.StrictMode>
 );

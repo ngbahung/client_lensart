@@ -13,7 +13,7 @@ const BranchInfo = ({ branchPrices, selectedLocation, onLocationChange }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <div className="bg-[#eff9f9] p-4 rounded-lg">
+        <div className="bg- p-4 rounded-lg">
             <h3 className="font-bold mb-2">GIÁ TẠI CÁC CHI NHÁNH</h3>
             
             <select

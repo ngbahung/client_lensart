@@ -1,12 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../contexts/CartContext';
-import ShoppingCart from '../../components/EndUser/ShoppingCart/ShoppingCart';
-import CheckoutReview from '../../components/EndUser/ShoppingCart/CheckoutReview';
-import Breadcrumb from '../../components/EndUser/Breadcrumb/Breadcrumb';
+import ShoppingCart from '../../components/EndUser/ShoppingCart/ShoppingCart.jsx';
+import CheckoutReview from '../../components/EndUser/ShoppingCart/CheckoutReview.jsx';
+import Breadcrumb from '../../components/EndUser/Breadcrumb/Breadcrumb.jsx';
 
 const ShoppingCartPage = () => {
-  const { cartItems = [], updateCart } = useCart();
+  const { cartItems, updateCart } = useCart();
   const navigate = useNavigate();
   const cartBreadcrumbItems = ["Trang chủ", "Giỏ hàng"];
 

@@ -1,13 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useCart } from '../../contexts/CartContext';
 import ShoppingCart from '../../components/EndUser/ShoppingCart/ShoppingCart';
 import CheckoutReview from '../../components/EndUser/ShoppingCart/CheckoutReview';
 import Breadcrumb from '../../components/EndUser/Breadcrumb/Breadcrumb';
 
 const ShoppingCartPage = () => {
-  const { cartItems = [], updateCart } = useCart();
   const navigate = useNavigate();
+  const mockGlasses = [
+    {
+      id: 1,
+      name: "Ray-Ban Aviator Classic",
+      price: 3590000,
+      image: "https://assets.ray-ban.com/is/image/RayBan/805289602057_1.png",
+      quantity: 1,
+      selected: true
+    },
+    {
+      id: 2,
+      name: "Oakley Holbrook",
+      price: 2890000,
+      image: "https://assets.oakley.com/is/image/OakleyEYE/888392487568_1.png",
+      quantity: 2,
+      selected: true
+    },
+    {
+      id: 3,
+      name: "Gucci Square Acetate",
+      price: 7890000,
+      image: "https://media.gucci.com/style/DarkGray_Center_0_0_800x800/1686893741/725662_J1691_1162_001_100_0000_Light.jpg",
+      quantity: 1,
+      selected: true
+    }
+  ];
+
+  const [cartItems, setCartItems] = useState(mockGlasses);
   const cartBreadcrumbItems = ["Trang chủ", "Giỏ hàng"];
 
   const handleContinueShopping = () => {
@@ -15,7 +41,7 @@ const ShoppingCartPage = () => {
   };
 
   const handleUpdateCart = (updatedItems) => {
-    updateCart(updatedItems);
+    setCartItems(updatedItems);
   };
 
   const handleCheckout = () => {
@@ -26,12 +52,12 @@ const ShoppingCartPage = () => {
     const updatedItems = cartItems.map(item => 
       item.id === id ? { ...item, selected: !item.selected } : item
     );
-    updateCart(updatedItems);
+    setCartItems(updatedItems);
   };
 
   const handleSelectAll = (isSelected) => {
     const updatedItems = cartItems.map(item => ({ ...item, selected: isSelected }));
-    updateCart(updatedItems);
+    setCartItems(updatedItems);
   };
 
   if (cartItems.length === 0) {

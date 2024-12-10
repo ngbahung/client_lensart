@@ -6,7 +6,7 @@ import CheckoutReview from '../../components/EndUser/ShoppingCart/CheckoutReview
 import Breadcrumb from '../../components/EndUser/Breadcrumb/Breadcrumb';
 
 const ShoppingCartPage = () => {
-  const { cartItems = [], updateCart } = useCart();
+  const { cartItems, updateCart } = useCart();
   const navigate = useNavigate();
   const cartBreadcrumbItems = ["Trang chủ", "Giỏ hàng"];
 

@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import { FaTrashAlt, FaTicketAlt } from "react-icons/fa";
-import { useNavigate } from 'react-router-dom';
 
 // CheckoutReview Component
 const CheckoutReview = ({ cartItems, onUpdateCart, onBackToCart }) => {
-  const navigate = useNavigate();
   const [couponCode, setCouponCode] = useState("");
   const [discount, setDiscount] = useState(0);
   const [couponError, setCouponError] = useState("");
@@ -31,10 +29,6 @@ const CheckoutReview = ({ cartItems, onUpdateCart, onBackToCart }) => {
       setDiscount(0);
       setCouponError("Mã giảm giá không hợp lệ");
     }
-  };
-
-  const handleCheckout = () => {
-    navigate('/checkout');
   };
 
   return (
@@ -86,7 +80,7 @@ const CheckoutReview = ({ cartItems, onUpdateCart, onBackToCart }) => {
       <div className="flex justify-end mt-3">
         <button 
           className="bg-[#ec905c] text-white w-full px-4 md:px-5 py-2 md:py-2.5 rounded-lg text-base"
-          onClick={handleCheckout}
+          onClick={() => {/* Handle order submission */}}
         >
           Tiếp tục thanh toán
         </button>

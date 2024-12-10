@@ -14,7 +14,7 @@ root.render(
     <BrowserRouter future={{ v7_startTransition: true }}>
       <CartProvider>
         <App />
-      </CartProvider>
+      
     </BrowserRouter>
   </React.StrictMode>
 );
