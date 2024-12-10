@@ -28,7 +28,7 @@ const CheckoutReview = ({ cartItems, onUpdateCart, onBackToCart }) => {
   const total = subtotal + shipping - discount;
 
   return (
-    <div className="w-full lg:max-w-md mx-auto p-4 md:p-6 space-y-3 md:space-y-5 bg-[#eff9f9] border-2 border-[#55d5d2] rounded-lg">
+    <div className="w-full max-w-md mx-auto p-4 md:p-6 space-y-3 md:space-y-5 bg-[#eff9f9] border-2 border-[#55d5d2] rounded-lg sticky top-4">
       {/* Coupon Field */}
       <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
         <input

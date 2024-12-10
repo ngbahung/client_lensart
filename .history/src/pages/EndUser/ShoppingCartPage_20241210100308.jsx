@@ -81,7 +81,6 @@ const ShoppingCartPage = () => {
       <Breadcrumb items={cartBreadcrumbItems} />
       {/* Use flex column on mobile, grid on desktop */}
       <div className="flex flex-col lg:grid lg:grid-cols-3 gap-4 md:gap-6 mt-4">
-        <div className="w-full lg:col-span-2">
           <ShoppingCart 
             cartItems={cartItems}
             onUpdateCart={handleUpdateCart}
@@ -91,14 +90,11 @@ const ShoppingCartPage = () => {
             onSelectAll={handleSelectAll}
           />
         </div>
-        {/* The checkout review will be full width on mobile */}
-        <div className="w-full">
-          <div className="lg:sticky lg:top-4">
-            <CheckoutReview 
-              cartItems={cartItems}
-              onUpdateCart={handleUpdateCart}
-            />
-          </div>
+        <div className="checkout-review-container order-1 lg:order-2">
+          <CheckoutReview 
+            cartItems={cartItems}
+            onUpdateCart={handleUpdateCart}
+          />
         </div>
       </div>
     </div>

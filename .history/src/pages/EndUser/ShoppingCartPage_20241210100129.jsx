@@ -77,11 +77,10 @@ const ShoppingCartPage = () => {
   }
 
   return (
-    <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-4">
+    <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <Breadcrumb items={cartBreadcrumbItems} />
-      {/* Use flex column on mobile, grid on desktop */}
-      <div className="flex flex-col lg:grid lg:grid-cols-3 gap-4 md:gap-6 mt-4">
-        <div className="w-full lg:col-span-2">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 mt-4">
+        <div className="shopping-cart-container lg:col-span-2 order-2 lg:order-1">
           <ShoppingCart 
             cartItems={cartItems}
             onUpdateCart={handleUpdateCart}
@@ -91,14 +90,11 @@ const ShoppingCartPage = () => {
             onSelectAll={handleSelectAll}
           />
         </div>
-        {/* The checkout review will be full width on mobile */}
-        <div className="w-full">
-          <div className="lg:sticky lg:top-4">
-            <CheckoutReview 
-              cartItems={cartItems}
-              onUpdateCart={handleUpdateCart}
-            />
-          </div>
+        <div className="checkout-review-container order-1 lg:order-2">
+          <CheckoutReview 
+            cartItems={cartItems}
+            onUpdateCart={handleUpdateCart}
+          />
         </div>
       </div>
     </div>
