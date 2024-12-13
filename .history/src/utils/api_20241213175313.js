@@ -25,10 +25,9 @@ api.interceptors.request.use(function (config) {
 });
 
 api.interceptors.response.use(
-  async response => {
+  response => {
     if (response.config.url === '/auth/login' && response.status === 200) {
-      const userResponse = await api.get('/users/profile');
-      localStorage.setItem('user', JSON.stringify(userResponse.data));
+      localStorage.setItem('user', JSON.stringify(response.data.user));
     }
     return response;
   },

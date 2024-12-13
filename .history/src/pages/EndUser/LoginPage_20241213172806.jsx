@@ -46,9 +46,11 @@ const LoginPage = () => {
         setSuccess(false);
 
         try {
-            const user = await login(formData);
+            await login(formData);
             setSuccess(true);
-            navigate('/'); // Navigate to homepage immediately after successful login
+            setTimeout(() => {
+                navigate('/');
+            }, 2000); // Wait 2 seconds before navigating
         } catch (err) {
             // Display the specific error message from the server
             setError(err.response?.data?.message || err.message || 'Đăng nhập thất bại');

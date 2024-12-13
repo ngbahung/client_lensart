@@ -46,7 +46,7 @@ const LoginPage = () => {
         setSuccess(false);
 
         try {
-            const user = await login(formData);
+            await login(formData);
             setSuccess(true);
             navigate('/'); // Navigate to homepage immediately after successful login
         } catch (err) {

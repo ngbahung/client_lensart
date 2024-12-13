@@ -4,7 +4,7 @@ import * as authService from '../services/authService';
 const AuthContext = createContext(null);
 
 const initialState = {
-  user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null,
+  user: JSON.parse(localStorage.getItem('user')),
   isAuthenticated: !!localStorage.getItem('user'),
   loading: true,
   error: null
@@ -63,9 +63,14 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (credentials) => {
     try {
-      const user = await authService.login(credentials);
-      dispatch({ type: 'LOGIN_SUCCESS', payload: user });
-      return user;
+      const loginData = await authService.login(credentials);
+      if (loginData.user) {  
+        const user = await authService.getUser();
+        dispatch({ type: 'LOGIN_SUCCESS', payload: user });
+        return user;
+      } else {
+        throw new Error(loginData.message || 'Authentication failed');
+      }
     } catch (error) {
       const errorMessage = error.response?.data?.message || error.message;
       dispatch({ type: 'LOGIN_FAILURE', payload: errorMessage });

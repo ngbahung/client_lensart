@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:8000/api',  
+  baseURL: '',  // Changed from '/api' to '/'
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
@@ -25,10 +25,9 @@ api.interceptors.request.use(function (config) {
 });
 
 api.interceptors.response.use(
-  async response => {
-    if (response.config.url === '/auth/login' && response.status === 200) {
-      const userResponse = await api.get('/users/profile');
-      localStorage.setItem('user', JSON.stringify(userResponse.data));
+  response => {
+    if (response.config.url === '/login' && response.status === 200) {
+      localStorage.setItem('user', JSON.stringify(response.data.user));
     }
     return response;
   },

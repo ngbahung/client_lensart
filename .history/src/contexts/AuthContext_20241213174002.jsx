@@ -63,9 +63,14 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (credentials) => {
     try {
-      const user = await authService.login(credentials);
-      dispatch({ type: 'LOGIN_SUCCESS', payload: user });
-      return user;
+      const loginData = await authService.login(credentials);
+      if (loginData.success) {  
+        const user = await authService.getUser();
+        dispatch({ type: 'LOGIN_SUCCESS', payload: user });
+        return user;
+      } else {
+        throw new Error(loginData.message || 'Authentication failed');
+      }
     } catch (error) {
       const errorMessage = error.response?.data?.message || error.message;
       dispatch({ type: 'LOGIN_FAILURE', payload: errorMessage });
