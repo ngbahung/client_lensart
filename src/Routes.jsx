@@ -9,6 +9,9 @@ import SignUpPage from './pages/EndUser/SignUpPage';
 import SendOTPPage from './pages/EndUser/SendOTPPage';
 import GongKinhPage from './pages/EndUser/GongKinhPage';
 import ProductDetailPage from './pages/EndUser/ProductDetailPage';
+import ShoppingCartPage from './pages/EndUser/ShoppingCartPage';
+import CheckOutPage from './pages/EndUser/CheckOutPage';
+import ProtectedRoute from './components/ProtectedRoute';
 
 import DashboardPage from './pages/Admin/DashboardPage';
 import TransactionsPage from './pages/Admin/TransactionsPage';
@@ -58,6 +61,13 @@ const AppRoutes = () => {
         <Route path="login" element={<UserLoginPage />} />
         <Route path="register" element={<SignUpPage />} />
         <Route path="verify-otp" element={<SendOTPPage />} />
+        <Route path="profile" element={
+          <ProtectedRoute>
+            {/* Your protected user profile component */}
+          </ProtectedRoute>
+        } />
+        <Route path="gio-hang" element={<ShoppingCartPage />} />
+        <Route path="checkout" element={<CheckOutPage />} />
         <Route path="gong-kinh">
           <Route index element={<GongKinhPage />} />
           <Route path="filter/:type/:value" element={<GongKinhPage />} />
