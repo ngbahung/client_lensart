@@ -61,26 +61,7 @@ export const resendOTP = async () => {
 
 export default { login, register };
 
-export const adminLogin = async (credentials) => {
-  try {
-    const response = await api.post('/auth/admin/login', credentials);
-    console.log('Login response:', response);
-    return response.data.token;
-  } catch (error) {
-    console.error('Error logging in:', error);
-    throw error;
-  }
-}
 
-export const adminLogout = async () => {
-  try {
-    const response = await api.post('/auth/admin/logout');
-    return response.data;
-  } catch (error) {
-    console.error('Error logging out:', error);
-    throw error;
-  }
-}
 
 
 

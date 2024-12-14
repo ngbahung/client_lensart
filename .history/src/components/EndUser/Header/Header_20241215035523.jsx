@@ -91,27 +91,32 @@ const Header = () => {
     // Cấu trúc menu chính với các danh mục sản phẩm và bộ lọc
     const navItems = [
         { 
-            name: 'Tròng kính', 
+            name: 'Tròng kính',
             path: '/trong-kinh',
             categoryId: 1,
             subItems: [
-                { 
-                    name: 'Tròng Cận',
-                    filterType: 'type',
-                    filterValue: 'Cận'
-                },
-                { 
-                    name: 'Tròng Chống Ánh Sáng Xanh',
-                    filterType: 'type',
-                    filterValue: 'Chống Ánh Sáng Xanh'
-                },
-                { 
-                    name: 'Tròng Đổi Màu',
-                    filterType: 'type',
-                    filterValue: 'Đổi Màu'
-                }
+              { 
+                name: 'Tròng Cận',
+                filterType: 'type',
+                filterValue: 'Cận'
+              },
+              { 
+                name: 'Tròng Viễn',
+                filterType: 'type',
+                filterValue: 'Viễn'
+              },
+              { 
+                name: 'Tròng Đa Tròng',
+                filterType: 'type',
+                filterValue: 'Đa tròng'
+              },
+              { 
+                name: 'Tròng Chống Ánh Sáng Xanh',
+                filterType: 'feature',
+                filterValue: 'Chống ánh sáng xanh'
+              }
             ]
-        },
+          },
         { 
             name: 'Gọng kính', 
             path: '/gong-kinh',
@@ -158,6 +163,27 @@ const Header = () => {
                     name: 'Kính Râm Nữ',
                     filterType: 'gender',
                     filterValue: 'Nữ'
+                }
+            ]
+        },
+        { 
+            name: 'Tròng kính', 
+            path: '/trong-kinh',
+            subItems: [
+                { 
+                    name: 'Tròng Cận',
+                    filterType: 'type',
+                    filterValue: 'Cận'
+                },
+                { 
+                    name: 'Tròng Chống Ánh Sáng Xanh',
+                    filterType: 'type',
+                    filterValue: 'Chống Ánh Sáng Xanh'
+                },
+                { 
+                    name: 'Tròng Đổi Màu',
+                    filterType: 'type',
+                    filterValue: 'Đổi Màu'
                 }
             ]
         },

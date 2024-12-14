@@ -65,7 +65,6 @@ const GongKinhPage = ({ categoryId = 2, pageTitle = "Gọng Kính" }) => {
             setProducts(transformedProducts);
           } catch (err) {
             setError(err.message);
-            toast.error('Không thể tải sản phẩm');
           } finally {
             setLoading(false);
           }
@@ -145,8 +144,7 @@ const GongKinhPage = ({ categoryId = 2, pageTitle = "Gọng Kính" }) => {
     };
 
     const handleProductClick = (productId) => {
-        const basePath = categoryId === 1 ? '/trong-kinh' : '/gong-kinh';
-        navigate(`${basePath}/${productId}`);
+        navigate(`/gong-kinh/${productId}`);
     };
 
     const filterProducts = (products) => {

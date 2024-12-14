@@ -65,7 +65,6 @@ const GongKinhPage = ({ categoryId = 2, pageTitle = "Gọng Kính" }) => {
             setProducts(transformedProducts);
           } catch (err) {
             setError(err.message);
-            toast.error('Không thể tải sản phẩm');
           } finally {
             setLoading(false);
           }
@@ -145,8 +144,7 @@ const GongKinhPage = ({ categoryId = 2, pageTitle = "Gọng Kính" }) => {
     };
 
     const handleProductClick = (productId) => {
-        const basePath = categoryId === 1 ? '/trong-kinh' : '/gong-kinh';
-        navigate(`${basePath}/${productId}`);
+        navigate(`/gong-kinh/${productId}`);
     };
 
     const filterProducts = (products) => {
@@ -217,6 +215,52 @@ const GongKinhPage = ({ categoryId = 2, pageTitle = "Gọng Kính" }) => {
         setIsFilterOpen(false);
     };
 
+    const getLensFilterOptions = () => {
+        return {
+          type: {
+            title: "Loại tròng",
+            options: ["Cận", "Viễn", "Đa tròng"]
+          },
+          feature: {
+            title: "Tính năng",
+            options: ["Chống ánh sáng xanh", "Chống UV", "Chống chói"]
+          },
+          material: {
+            title: "Chất liệu",
+            options: ["Nhựa", "Polycarbonate", "Thuỷ tinh"]
+          },
+          index: {
+            title: "Độ mỏng",
+            options: ["1.56", "1.60", "1.67", "1.74"]
+          },
+          priceRange: {
+            title: "Khoảng giá",
+            options: ["0-500000", "500000-1000000", "1000000-2000000"]
+          }
+        };
+      };
+    
+      const getFrameFilterOptions = () => {
+        return {
+          style: {
+            title: "Kiểu dáng",
+            options: ["Phi công", "Vuông", "Oval", "Browline", "Đa giác"]
+          },
+          material: {
+            title: "Chất liệu",
+            options: ["Kim loại", "Nhựa", "Titanium"]
+          },
+          gender: {
+            title: "Giới tính",
+            options: ["Nam", "Nữ", "Unisex"]
+          },
+          priceRange: {
+            title: "Khoảng giá",
+            options: ["0-500000", "500000-1000000", "1000000-2000000"]
+          }
+        };
+      };
+
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
     const filteredProducts = filterAndSortProducts(products);
@@ -260,28 +304,7 @@ const GongKinhPage = ({ categoryId = 2, pageTitle = "Gọng Kính" }) => {
                     <SideBar 
                         onFilterChange={handleFilterChange}
                         selectedFilters={filters}
-                        filterOptions={{
-                            style: {
-                                title: "Kiểu Gọng",
-                                options: ["Phi công", "Vuông", "Oval", "Browline", "Đa giác"]
-                            },
-                            material: {
-                                title: "Chất liệu",
-                                options: ["Kim loại", "Nhựa", "Titanium"]
-                            },
-                            brands: {
-                                title: "Thương hiệu",
-                                options: ["Ray-Ban", "Oakley", "Gucci", "Prada", "Versace"]
-                            },
-                            gender: {
-                                title: "Giới tính",
-                                options: ["Nam", "Nữ", "Unisex"]
-                            },
-                            priceRange: {
-                                title: "Khoảng giá",
-                                options: ["0-500000", "500000-1000000", "1000000-2000000"]
-                            }
-                        }}
+                        filterOptions={categoryId === 1 ? getLensFilterOptions() : getFrameFilterOptions()}
                     />
                 </div>
                 <div className="w-full lg:w-3/4 mb-8">

@@ -72,15 +72,7 @@ export const adminLogin = async (credentials) => {
   }
 }
 
-export const adminLogout = async () => {
-  try {
-    const response = await api.post('/auth/admin/logout');
-    return response.data;
-  } catch (error) {
-    console.error('Error logging out:', error);
-    throw error;
-  }
-}
+
 
 
 

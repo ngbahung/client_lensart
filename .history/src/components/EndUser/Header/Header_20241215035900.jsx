@@ -91,28 +91,6 @@ const Header = () => {
     // Cấu trúc menu chính với các danh mục sản phẩm và bộ lọc
     const navItems = [
         { 
-            name: 'Tròng kính', 
-            path: '/trong-kinh',
-            categoryId: 1,
-            subItems: [
-                { 
-                    name: 'Tròng Cận',
-                    filterType: 'type',
-                    filterValue: 'Cận'
-                },
-                { 
-                    name: 'Tròng Chống Ánh Sáng Xanh',
-                    filterType: 'type',
-                    filterValue: 'Chống Ánh Sáng Xanh'
-                },
-                { 
-                    name: 'Tròng Đổi Màu',
-                    filterType: 'type',
-                    filterValue: 'Đổi Màu'
-                }
-            ]
-        },
-        { 
             name: 'Gọng kính', 
             path: '/gong-kinh',
             categoryId: 2,
@@ -158,6 +136,27 @@ const Header = () => {
                     name: 'Kính Râm Nữ',
                     filterType: 'gender',
                     filterValue: 'Nữ'
+                }
+            ]
+        },
+        { 
+            name: 'Tròng kính', 
+            path: '/trong-kinh',
+            subItems: [
+                { 
+                    name: 'Tròng Cận',
+                    filterType: 'type',
+                    filterValue: 'Cận'
+                },
+                { 
+                    name: 'Tròng Chống Ánh Sáng Xanh',
+                    filterType: 'type',
+                    filterValue: 'Chống Ánh Sáng Xanh'
+                },
+                { 
+                    name: 'Tròng Đổi Màu',
+                    filterType: 'type',
+                    filterValue: 'Đổi Màu'
                 }
             ]
         },
