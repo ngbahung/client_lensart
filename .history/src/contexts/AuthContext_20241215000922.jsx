@@ -1,7 +1,6 @@
 import { createContext, useContext, useReducer, useEffect } from 'react';
 import authAPI from '../api/authAPI';
 import userAPI from '../api/userAPI';
-import api from '../utils/api';
 
 const AuthContext = createContext(null);
 
@@ -83,7 +82,7 @@ export const AuthProvider = ({ children }) => {
       api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       
       // Fetch user data after successful login
-      const userData = await userAPI.getUserData();
+      const userData = await userAPI.default.getUserData();
       console.log('User data:', userData);
       
       dispatch({ 

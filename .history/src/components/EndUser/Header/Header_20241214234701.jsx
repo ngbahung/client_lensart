@@ -7,8 +7,6 @@ import Logo from '../../Logo';
 import { useAuth } from '../../../contexts/AuthContext';
 
 const Header = () => {
-    const { user, isAuthenticated, logout } = useAuth();
-    
     // === QUẢN LÝ STATE ===
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);    // Điều khiển dropdown menu tài khoản
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // Điều khiển menu mobile
@@ -16,7 +14,8 @@ const Header = () => {
     const [searchQuery, setSearchQuery] = useState('');             // Giá trị ô tìm kiếm
     const [cartItemsCount, setCartItemsCount] = useState(0); // Temporary replacement
     const navigate = useNavigate();
-    console.log('User:', user);
+    const { user, isAuthenticated, logout } = useAuth();
+    
     // === CÁC SIDE EFFECTS ===
     useEffect(() => {
         // Xử lý đóng dropdown khi click ra ngoài
@@ -31,13 +30,10 @@ const Header = () => {
     }, []);
 
     // === XỬ LÝ EVENTS ===
-    const handleLogout = async () => {
-        try {
-            await logout();
-            navigate('/login');
-        } catch (error) {
-            console.error('Logout failed:', error);
-        }
+    const handleLogout = () => {
+        logout();
+        setIsDropdownOpen(false);
+        navigate('/login');
     };
 
     // === DỮ LIỆU ĐIỀU HƯỚNG ===
@@ -120,44 +116,6 @@ const Header = () => {
         { name: 'Liên hệ', path: '/lien-he' },
     ];
 
-    // Update user display in dropdown
-    const userDropdown = (
-        <div className="py-2">
-            {isAuthenticated && user ? (
-                <>
-                    <Link to="/profile" 
-                        className="flex items-center px-4 py-2 text-sm text-white hover:bg-[#e88547] transition-colors"
-                    >
-                        <BiUser className="mr-2" />
-                        {user.lastname || user.email}
-                    </Link>
-                    <button
-                        onClick={handleLogout}
-                        className="w-full flex items-center px-4 py-2 text-sm text-white hover:bg-[#e88547] transition-colors"
-                    >
-                        <BiLogOut className="mr-2" />
-                        Đăng xuất
-                    </button>
-                </>
-            ) : (
-                <>
-                    <Link to="/login" 
-                        className="flex items-center px-4 py-2 text-sm text-white hover:bg-[#e88547] transition-colors"
-                    >
-                        <BiUser className="mr-2" />
-                        Đăng nhập
-                    </Link>
-                    <Link to="/register" 
-                        className="flex items-center px-4 py-2 text-sm text-white hover:bg-[#e88547] transition-colors"
-                    >
-                        <BiCog className="mr-2" />
-                        Đăng ký
-                    </Link>
-                </>
-            )}
-        </div>
-    );
-
     return (
         <>
             {/* === HEADER CHÍNH === */}
@@ -204,7 +162,46 @@ const Header = () => {
                                 {/* Account Dropdown */}
                                 {isDropdownOpen && (
                                     <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-[#ec905c] z-50 transform transition-all duration-300 ease-in-out">
-                                        {userDropdown}
+                                        <div className="py-2">
+                                            {isAuthenticated ? (
+                                                <>
+                                                    <Link to="/profile" 
+                                                        className="flex items-center px-4 py-2 text-sm text-white hover:underline transition-all duration-300"
+                                                    >
+                                                        <BiUser className="mr-2" />
+                                                        {user.lastname}
+                                                    </Link>
+                                                    <Link to="/settings" 
+                                                        className="flex items-center px-4 py-2 text-sm text-white hover:underline transition-all duration-300"
+                                                    >
+                                                        <BiCog className="mr-2" />
+                                                        Lịch sử mua hàng
+                                                    </Link>
+                                                    <button
+                                                        onClick={handleLogout}
+                                                        className="w-full flex items-center px-4 py-2 text-sm text-white hover:underline transition-all duration-300"
+                                                    >
+                                                        <BiLogOut className="mr-2" />
+                                                        Đăng xuất
+                                                    </button>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <Link to="/login" 
+                                                        className="block px-4 py-2 text-sm text-white hover:bg-[#e88547] transition-all duration-300"
+                                                        onClick={() => setIsDropdownOpen(false)}
+                                                    >
+                                                        Đăng nhập
+                                                    </Link>
+                                                    <Link to="/register" 
+                                                        className="block px-4 py-2 text-sm text-white hover:bg-[#e88547] transition-all duration-300"
+                                                        onClick={() => setIsDropdownOpen(false)}
+                                                    >
+                                                        Đăng ký
+                                                    </Link>
+                                                </>
+                                            )}
+                                        </div>
                                     </div>
                                 )}
                             </div>

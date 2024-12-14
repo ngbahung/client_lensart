@@ -1,7 +1,6 @@
 import { createContext, useContext, useReducer, useEffect } from 'react';
 import authAPI from '../api/authAPI';
 import userAPI from '../api/userAPI';
-import api from '../utils/api';
 
 const AuthContext = createContext(null);
 
@@ -73,33 +72,23 @@ export const AuthProvider = ({ children }) => {
     initializeAuth();
   }, []);
 
-  const login = async (credentials) => {
-    try {
-      const response = await authAPI.login(credentials);
-      const token = response;
-      
-      // Set token in localStorage and axios headers
-      localStorage.setItem('token', token);
-      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      
-      // Fetch user data after successful login
-      const userData = await userAPI.getUserData();
-      console.log('User data:', userData);
-      
-      dispatch({ 
-        type: 'LOGIN_SUCCESS', 
-        payload: { token, user: userData }
-      });
-      
-      return userData;
-    } catch (error) {
-      dispatch({ 
-        type: 'LOGIN_FAILURE', 
-        payload: error.response?.data?.message || 'Login failed'
-      });
-      throw error;
-    }
-  };
+const login = async (credentials) => {
+  try {
+    const token = await authAPI.login(credentials);
+    const userData = await userAPI.getUserData();
+    dispatch({ 
+      type: 'LOGIN_SUCCESS', 
+      payload: { token, user: userData }
+    });
+    return userData;
+  } catch (error) {
+    dispatch({ 
+      type: 'LOGIN_FAILURE', 
+      payload: error.response?.data?.message || 'Login failed'
+    });
+    throw error;
+  }
+};
 
 const logout = () => {
   dispatch({ type: 'LOGOUT' });

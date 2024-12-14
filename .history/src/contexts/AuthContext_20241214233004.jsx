@@ -1,7 +1,5 @@
 import { createContext, useContext, useReducer, useEffect } from 'react';
-import authAPI from '../api/authAPI';
-import userAPI from '../api/userAPI';
-import api from '../utils/api';
+import * as authService from '../services/authService';
 
 const AuthContext = createContext(null);
 
@@ -75,22 +73,12 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (credentials) => {
     try {
-      const response = await authAPI.login(credentials);
-      const token = response;
-      
-      // Set token in localStorage and axios headers
-      localStorage.setItem('token', token);
-      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      
-      // Fetch user data after successful login
+      const token = await authAPI.login(credentials);
       const userData = await userAPI.getUserData();
-      console.log('User data:', userData);
-      
       dispatch({ 
         type: 'LOGIN_SUCCESS', 
         payload: { token, user: userData }
       });
-      
       return userData;
     } catch (error) {
       dispatch({ 
@@ -101,25 +89,20 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-const logout = () => {
-  dispatch({ type: 'LOGOUT' });
+  const logout = async () => {
+    try {
+      await authService.logout();
+      dispatch({ type: 'LOGOUT' });
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  };
+
+  return (
+    <AuthContext.Provider value={{ ...state, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
-return (
-  <AuthContext.Provider value={{ 
-    ...state,
-    login,
-    logout
-  }}>
-    {children}
-  </AuthContext.Provider>
-);
-};
-
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
-};
+export const useAuth = () => useContext(AuthContext);

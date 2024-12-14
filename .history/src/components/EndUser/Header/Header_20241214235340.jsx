@@ -126,31 +126,19 @@ const Header = () => {
             {isAuthenticated && user ? (
                 <>
                     <Link to="/profile" 
-                        className="flex items-center px-4 py-2 text-sm text-white hover:bg-[#e88547] transition-colors"
+                        className="flex items-center px-4 py-2 text-sm text-white hover:underline"
                     >
                         <BiUser className="mr-2" />
                         {user.lastname || user.email}
                     </Link>
-                    <button
-                        onClick={handleLogout}
-                        className="w-full flex items-center px-4 py-2 text-sm text-white hover:bg-[#e88547] transition-colors"
-                    >
-                        <BiLogOut className="mr-2" />
-                        Đăng xuất
-                    </button>
+                    {/* Rest of authenticated menu items */}
                 </>
             ) : (
                 <>
-                    <Link to="/login" 
-                        className="flex items-center px-4 py-2 text-sm text-white hover:bg-[#e88547] transition-colors"
-                    >
-                        <BiUser className="mr-2" />
+                    <Link to="/login" className="block px-4 py-2 text-sm text-white hover:bg-[#e88547]">
                         Đăng nhập
                     </Link>
-                    <Link to="/register" 
-                        className="flex items-center px-4 py-2 text-sm text-white hover:bg-[#e88547] transition-colors"
-                    >
-                        <BiCog className="mr-2" />
+                    <Link to="/register" className="block px-4 py-2 text-sm text-white hover:bg-[#e88547]">
                         Đăng ký
                     </Link>
                 </>

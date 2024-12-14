@@ -34,6 +34,7 @@ const Header = () => {
     const handleLogout = async () => {
         try {
             await logout();
+            setIsDropdownOpen(false);
             navigate('/login');
         } catch (error) {
             console.error('Logout failed:', error);
