@@ -297,7 +297,9 @@ const Header = () => {
                                                     {Array.isArray(item.subItems) && item.subItems.map((subItem) => (
                                                         <Link
                                                             key={subItem.name}
-                                                            to={`${item.path}/filter/${subItem.filterType}/${encodeURIComponent(subItem.filterValue)}`}
+                                                            to={subItem.filterType && subItem.filterValue ? 
+                                                                `${item.path}/filter/${subItem.filterType}/${encodeURIComponent(subItem.filterValue)}` :
+                                                                item.path}
                                                             className="block px-4 py-2 text-sm text-white hover:bg-[#5fc2c0] transition-colors"
                                                         >
                                                             {subItem.name}

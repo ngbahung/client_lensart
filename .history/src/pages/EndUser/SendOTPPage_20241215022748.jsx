@@ -59,34 +59,6 @@ const ResendCode = ({ onResend, countdown }) => (
       }
     }, [email, navigate]);
 
-    useEffect(() => {
-      let timer;
-      if (countdown > 0) {
-        timer = setInterval(() => {
-          setCountdown(prev => prev - 1);
-        }, 1000);
-      }
-      return () => clearInterval(timer);
-    }, [countdown]);
-
-    const validateOTP = () => {
-      if (!verificationCode) {
-        setError('Vui lòng nhập mã xác thực');
-        return false;
-      }
-      if (verificationCode.length !== 6) {
-        setError('Mã xác thực phải có 6 chữ số');
-        return false;
-      }
-      return true;
-    };
-
-    const handleInputChange = (e) => {
-      const value = e.target.value.replace(/[^0-9]/g, '');
-      setVerificationCode(value);
-      setError('');
-    };
-
     const handleVerification = async () => {
       if (!validateOTP()) return;
       

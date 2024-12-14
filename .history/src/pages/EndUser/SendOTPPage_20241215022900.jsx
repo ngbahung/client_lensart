@@ -81,12 +81,6 @@ const ResendCode = ({ onResend, countdown }) => (
       return true;
     };
 
-    const handleInputChange = (e) => {
-      const value = e.target.value.replace(/[^0-9]/g, '');
-      setVerificationCode(value);
-      setError('');
-    };
-
     const handleVerification = async () => {
       if (!validateOTP()) return;
       

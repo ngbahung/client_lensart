@@ -25,13 +25,9 @@ export const login = async (credentials) => {
 export const register = async (userData) => {
   try {
     const response = await api.post('/auth/register', {
-      firstname: userData.firstname,
-      lastname: userData.lastname,
-      username: userData.username,
-      phone: userData.phone,
       email: userData.email,
       password: userData.password,
-      address: userData.address
+      address: `${userData.address}, ${userData.ward}, ${userData.district}, ${userData.city}`
     });
     return response.data;
   } catch (error) {

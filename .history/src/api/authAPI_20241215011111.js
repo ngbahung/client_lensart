@@ -22,20 +22,13 @@ export const login = async (credentials) => {
   }
 };
 
-export const register = async (userData) => {
+export const register = async (credentials) => {
   try {
-    const response = await api.post('/auth/register', {
-      firstname: userData.firstname,
-      lastname: userData.lastname,
-      username: userData.username,
-      phone: userData.phone,
-      email: userData.email,
-      password: userData.password,
-      address: userData.address
-    });
-    return response.data;
+    const response = await api.post('/auth/register', credentials);
+    return response.data.token;
   } catch (error) {
-    throw error.response?.data || error;
+    console.error('Error registering:', error);
+    throw error;
   }
 };
 
@@ -45,16 +38,6 @@ export const verifyOTP = async (otp) => {
     return response.data.token;
   } catch (error) {
     console.error('Error verifying OTP:', error);
-    throw error;
-  }
-};
-
-export const resendOTP = async () => {
-  try {
-    const response = await api.post('/auth/resend-otp');
-    return response.data.data;
-  } catch (error) {
-    console.error('Error resending OTP:', error);
     throw error;
   }
 };

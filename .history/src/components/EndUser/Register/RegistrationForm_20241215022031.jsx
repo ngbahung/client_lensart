@@ -142,10 +142,9 @@ const RegistrationForm = () => {
     if (!formData.password) newErrors.password = 'Vui lòng nhập mật khẩu';
     else if (formData.password.length < 6) newErrors.password = 'Mật khẩu phải có ít nhất 6 ký tự';
     if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = 'Mật khẩu không khớp';
-    if (!formData.city) newErrors.city = 'Vui lòng chọn tỉnh/thành phố';
-    if (!formData.district) newErrors.district = 'Vui lòng chọn quận/huyện';
-    if (!formData.ward) newErrors.ward = 'Vui lòng chọn phường/xã';
-    if (!formData.address) newErrors.address = 'Vui lòng nhập địa chỉ cụ thể';
+    if (!formData.city || !formData.district || !formData.ward || !formData.address) {
+      newErrors.address = 'Vui lòng điền đầy đủ thông tin địa chỉ';
+    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -157,18 +156,11 @@ const RegistrationForm = () => {
 
     setIsSubmitting(true);
     try {
-      const fullAddress = [
-        formData.address,
-        formData.ward && locations.wards.find(w => w.value === formData.ward)?.label,
-        formData.district && locations.districts.find(d => d.value === formData.district)?.label,
-        formData.city && locations.cities.find(c => c.value === formData.city)?.label
-      ].filter(Boolean).join(', ');
-
       await register({
         ...formData,
-        address: fullAddress
+        address: `${formData.address}, ${formData.ward}, ${formData.district}, ${formData.city}`
       });
-
+      
       navigate('/verify-otp', { 
         state: { 
           email: formData.email,

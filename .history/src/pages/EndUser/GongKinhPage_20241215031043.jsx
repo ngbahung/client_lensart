@@ -115,7 +115,6 @@ const GongKinhPage = ({ categoryId = 2, pageTitle = "Gọng Kính" }) => {
                 ? prevFilters[name].filter((val) => val !== value)
                 : [...prevFilters[name], value],
         }));
-        setCurrentPage(1); // Reset to first page when filter changes
     };
 
     // Add new useEffect to handle URL updates
@@ -142,36 +141,17 @@ const GongKinhPage = ({ categoryId = 2, pageTitle = "Gọng Kính" }) => {
 
     const filterProducts = (products) => {
         return products.filter(product => {
-            // Style filter
-            const matchesStyle = filters.style.length === 0 || 
-              filters.style.includes(product.style);
-        
-            // Material filter
-            const matchesMaterial = filters.material.length === 0 || 
-              filters.material.includes(product.material);
-        
-            // Gender filter
-            const matchesGender = filters.gender.length === 0 || 
-              filters.gender.includes(product.gender);
-        
-            // Price range filter
-            const matchesPriceRange = filters.priceRange.length === 0 || 
-              filters.priceRange.some(range => {
+            const matchesStyle = filters.style.length === 0 || filters.style.includes(product.style);
+            const matchesMaterial = filters.material.length === 0 || filters.material.includes(product.material);
+            const matchesGender = filters.gender.length === 0 || filters.gender.includes(product.gender);
+            const matchesBrand = filters.brands.length === 0 || filters.brands.includes(product.brand);
+            const matchesPriceRange = filters.priceRange.length === 0 || filters.priceRange.some(range => {
                 const [min, max] = range.split('-').map(Number);
-                return product.currentPrice >= min && 
-                       (max ? product.currentPrice <= max : true);
-              });
-        
-            // Brand filter
-            const matchesBrand = filters.brands.length === 0 || 
-              filters.brands.includes(product.brand_id);
-        
-            return matchesStyle && 
-                   matchesMaterial && 
-                   matchesGender && 
-                   matchesPriceRange && 
-                   matchesBrand;
-          });
+                return product.currentPrice >= min && product.currentPrice <= max;
+            });
+
+            return matchesStyle && matchesMaterial && matchesGender && matchesPriceRange && matchesBrand;
+        });
     };
 
     const filterAndSortProducts = (products) => {

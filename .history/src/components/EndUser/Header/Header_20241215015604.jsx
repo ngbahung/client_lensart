@@ -1,16 +1,17 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { BiUser, BiBookOpen, BiSearch, BiLogOut, BiCog, BiChevronDown, BiMenu } from "react-icons/bi";
 import { BsCart3 } from "react-icons/bs";
 import { AiOutlineClose } from "react-icons/ai";
 import Logo from '../../Logo';
 import { useAuth } from '../../../contexts/AuthContext';
-import { debounce } from 'lodash';
-import { searchProducts } from '../../../api/productsApi';
-import SearchResults from './SearchResults';
 
 const Header = () => {
     const { user, isAuthenticated, logout } = useAuth();
+
+    const [searchResults, setSearchResults] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const searchRef = useRef(null);
     
     // === QUẢN LÝ STATE ===
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);    // Điều khiển dropdown menu tài khoản
@@ -20,10 +21,6 @@ const Header = () => {
     const [cartItemsCount, setCartItemsCount] = useState(0); // Temporary replacement
     const navigate = useNavigate();
     console.log('User:', user);
-    const [searchResults, setSearchResults] = useState([]);
-    const [isSearching, setIsSearching] = useState(false);
-    const searchRef = useRef(null);
-
     // === CÁC SIDE EFFECTS ===
     useEffect(() => {
         // Xử lý đóng dropdown khi click ra ngoài
@@ -36,45 +33,6 @@ const Header = () => {
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
-
-    // Handle click outside search results
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (searchRef.current && !searchRef.current.contains(event.target)) {
-                setSearchResults([]);
-            }
-        };
-
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
-
-    // Debounced search function
-    const debouncedSearch = useCallback(
-        debounce(async (term) => {
-            if (!term) {
-                setSearchResults([]);
-                return;
-            }
-            try {
-                setIsSearching(true);
-                const results = await searchProducts(term);
-                setSearchResults(results);
-            } catch (error) {
-                console.error('Search error:', error);
-            } finally {
-                setIsSearching(false);
-            }
-        }, 300),
-        []
-    );
-
-    // Handle search input change
-    const handleSearchChange = (e) => {
-        const value = e.target.value;
-        setSearchQuery(value);
-        debouncedSearch(value);
-    };
 
     // === XỬ LÝ EVENTS ===
     const handleLogout = async () => {
@@ -92,7 +50,6 @@ const Header = () => {
         { 
             name: 'Gọng kính', 
             path: '/gong-kinh',
-            categoryId: 2,
             subItems: [
                 { 
                     name: 'Gọng Kim Loại', 
@@ -122,17 +79,16 @@ const Header = () => {
             ]
         },
         { 
-            name: 'Kính râm', 
-            path: '/kinh-ram',
-            categoryId: 3,
+            name: 'Kính mát', 
+            path: '/kinh-mat',
             subItems: [
                 { 
-                    name: 'Kính Râm Nam',
+                    name: 'Kính Mát Nam',
                     filterType: 'gender',
                     filterValue: 'Nam'
                 },
                 { 
-                    name: 'Kính Râm Nữ',
+                    name: 'Kính Mát Nữ',
                     filterType: 'gender',
                     filterValue: 'Nữ'
                 }
@@ -226,24 +182,15 @@ const Header = () => {
 
                         {/* Thanh tìm kiếm - centered */}
                         <div className="flex-1 mx-4 lg:mx-8 flex justify-center md:w-2/4">
-                            <div className="relative w-full max-w-[486px]" ref={searchRef}>
+                            <div className="relative w-full max-w-[486px]">
                                 <input
                                     type="text"
                                     value={searchQuery}
-                                    onChange={handleSearchChange}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
                                     placeholder="Tìm gọng kính, kính mát, tròng kính..."
                                     className="w-full h-11 pl-10 pr-4 py-2.5 bg-[#6fd4d2]/50 rounded-[30px] text-sm md:text-base outline-none focus:ring-2 focus:ring-[#6fd4d2] transition-all"
                                 />
                                 <BiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 w-5 h-5" />
-                                {isSearching && (
-                                    <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
-                                        <div className="animate-spin rounded-full h-4 w-4 border-2 border-teal-500 border-t-transparent"></div>
-                                    </div>
-                                )}
-                                <SearchResults 
-                                    results={searchResults} 
-                                    onClose={() => setSearchResults([])} 
-                                />
                             </div>
                         </div>
 
@@ -297,7 +244,9 @@ const Header = () => {
                                                     {Array.isArray(item.subItems) && item.subItems.map((subItem) => (
                                                         <Link
                                                             key={subItem.name}
-                                                            to={`${item.path}/filter/${subItem.filterType}/${encodeURIComponent(subItem.filterValue)}`}
+                                                            to={subItem.filterType && subItem.filterValue ? 
+                                                                `${item.path}/filter/${subItem.filterType}/${encodeURIComponent(subItem.filterValue)}` :
+                                                                item.path}
                                                             className="block px-4 py-2 text-sm text-white hover:bg-[#5fc2c0] transition-colors"
                                                         >
                                                             {subItem.name}

@@ -55,10 +55,7 @@ const AppRoutes = () => {
         </Route>
         <Route path="kinh-ram">
           <Route index element={<GongKinhPage categoryId={3} pageTitle="Kính Râm" />} />
-          <Route 
-            path="filter/:type/:value" 
-            element={<GongKinhPage categoryId={3} pageTitle="Kính Râm" />} 
-          />
+          <Route path="filter/:type/:value" element={<GongKinhPage categoryId={3} pageTitle="Kính Râm" />} />
           <Route path=":productId" element={<ProductDetailPage />} />
         </Route>
         <Route path="product/:productId" element={<Navigate to={location => `/gong-kinh/${location.pathname.split('/').pop()}`} replace />} />

@@ -6,7 +6,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import Logo from '../../Logo';
 import { useAuth } from '../../../contexts/AuthContext';
 import { debounce } from 'lodash';
-import { searchProducts } from '../../../api/productsApi';
+import 
 import SearchResults from './SearchResults';
 
 const Header = () => {
@@ -92,7 +92,6 @@ const Header = () => {
         { 
             name: 'Gọng kính', 
             path: '/gong-kinh',
-            categoryId: 2,
             subItems: [
                 { 
                     name: 'Gọng Kim Loại', 
@@ -122,17 +121,16 @@ const Header = () => {
             ]
         },
         { 
-            name: 'Kính râm', 
-            path: '/kinh-ram',
-            categoryId: 3,
+            name: 'Kính mát', 
+            path: '/kinh-mat',
             subItems: [
                 { 
-                    name: 'Kính Râm Nam',
+                    name: 'Kính Mát Nam',
                     filterType: 'gender',
                     filterValue: 'Nam'
                 },
                 { 
-                    name: 'Kính Râm Nữ',
+                    name: 'Kính Mát Nữ',
                     filterType: 'gender',
                     filterValue: 'Nữ'
                 }
@@ -297,7 +295,9 @@ const Header = () => {
                                                     {Array.isArray(item.subItems) && item.subItems.map((subItem) => (
                                                         <Link
                                                             key={subItem.name}
-                                                            to={`${item.path}/filter/${subItem.filterType}/${encodeURIComponent(subItem.filterValue)}`}
+                                                            to={subItem.filterType && subItem.filterValue ? 
+                                                                `${item.path}/filter/${subItem.filterType}/${encodeURIComponent(subItem.filterValue)}` :
+                                                                item.path}
                                                             className="block px-4 py-2 text-sm text-white hover:bg-[#5fc2c0] transition-colors"
                                                         >
                                                             {subItem.name}

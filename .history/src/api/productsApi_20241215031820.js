@@ -12,10 +12,6 @@ export const getProducts = async () => {
 
 // Transform API data to match component requirements
 export const transformProduct = (product) => ({
-  ...product,
-  gender: product.gender === 'female' ? 'Nữ' : 
-          product.gender === 'male' ? 'Nam' : 
-          product.gender === 'unisex' ? 'Unisex' : '',
   id: product.id,
   name: product.name,
   description: product.description,
@@ -24,6 +20,7 @@ export const transformProduct = (product) => ({
   image: `https://picsum.photos/400/400?random=${product.id}`, // Placeholder image
   discount: product.offer_price ? 
     `-${Math.round((1 - product.offer_price/product.price) * 100)}%` : null,
+  gender: product.gender,
   category_id: product.category_id,
   material: product.material_id === 1 ? 'Kim loại' : 
            product.material_id === 2 ? 'Nhựa' : 

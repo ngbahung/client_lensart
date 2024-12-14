@@ -144,11 +144,11 @@ const GongKinhPage = ({ categoryId = 2, pageTitle = "Gọng Kính" }) => {
         return products.filter(product => {
             // Style filter
             const matchesStyle = filters.style.length === 0 || 
-              filters.style.includes(product.style);
+              filters.style.some(style => product.style === style);
         
             // Material filter
             const matchesMaterial = filters.material.length === 0 || 
-              filters.material.includes(product.material);
+              filters.material.some(material => product.material === material);
         
             // Gender filter
             const matchesGender = filters.gender.length === 0 || 
@@ -158,19 +158,10 @@ const GongKinhPage = ({ categoryId = 2, pageTitle = "Gọng Kính" }) => {
             const matchesPriceRange = filters.priceRange.length === 0 || 
               filters.priceRange.some(range => {
                 const [min, max] = range.split('-').map(Number);
-                return product.currentPrice >= min && 
-                       (max ? product.currentPrice <= max : true);
+                return product.currentPrice >= min && product.currentPrice <= max;
               });
         
-            // Brand filter
-            const matchesBrand = filters.brands.length === 0 || 
-              filters.brands.includes(product.brand_id);
-        
-            return matchesStyle && 
-                   matchesMaterial && 
-                   matchesGender && 
-                   matchesPriceRange && 
-                   matchesBrand;
+            return matchesStyle && matchesMaterial && matchesGender && matchesPriceRange;
           });
     };
 

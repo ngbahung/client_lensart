@@ -3,9 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { BiAccessibility } from 'react-icons/bi';
 import TextInput from '../../components/EndUser/Register/TextInput';
 import Button from '../../components/EndUser/Button';
-import { useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
-import { verifyOTP, resendOTP } from '../../api/authAPI';
+impo
 
 const VerificationIcon = () => (
   <div className="flex justify-center mb-6">
@@ -47,45 +45,12 @@ const ResendCode = ({ onResend, countdown }) => (
     const location = useLocation();
     const navigate = useNavigate();
     const email = location.state?.email;
-
-    const [verificationCode, setVerificationCode] = useState('');
-    const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
-    const [countdown, setCountdown] = useState(60);
     
     useEffect(() => {
       if (!email) {
         navigate('/register');
       }
     }, [email, navigate]);
-
-    useEffect(() => {
-      let timer;
-      if (countdown > 0) {
-        timer = setInterval(() => {
-          setCountdown(prev => prev - 1);
-        }, 1000);
-      }
-      return () => clearInterval(timer);
-    }, [countdown]);
-
-    const validateOTP = () => {
-      if (!verificationCode) {
-        setError('Vui lòng nhập mã xác thực');
-        return false;
-      }
-      if (verificationCode.length !== 6) {
-        setError('Mã xác thực phải có 6 chữ số');
-        return false;
-      }
-      return true;
-    };
-
-    const handleInputChange = (e) => {
-      const value = e.target.value.replace(/[^0-9]/g, '');
-      setVerificationCode(value);
-      setError('');
-    };
 
     const handleVerification = async () => {
       if (!validateOTP()) return;

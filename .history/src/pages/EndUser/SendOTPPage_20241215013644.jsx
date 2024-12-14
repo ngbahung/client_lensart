@@ -3,9 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { BiAccessibility } from 'react-icons/bi';
 import TextInput from '../../components/EndUser/Register/TextInput';
 import Button from '../../components/EndUser/Button';
-import { useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
-import { verifyOTP, resendOTP } from '../../api/authAPI';
 
 const VerificationIcon = () => (
   <div className="flex justify-center mb-6">
@@ -43,49 +40,29 @@ const ResendCode = ({ onResend, countdown }) => (
   </div>
 );
 
+const VerificationPage = () => {
+  const navigate = useNavigate();
+  const [verificationCode, setVerificationCode] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [countdown, setCountdown] = useState(60);
+
+  const handleInputChange = (e) => {
+    const value = e.target.value.replace(/[^0-9]/g, '').slice(0, 6);
+    setVerificationCode(value);
+    setError('');
+  };
+  
   const VerificationPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const email = location.state?.email;
-
-    const [verificationCode, setVerificationCode] = useState('');
-    const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
-    const [countdown, setCountdown] = useState(60);
     
     useEffect(() => {
       if (!email) {
         navigate('/register');
       }
     }, [email, navigate]);
-
-    useEffect(() => {
-      let timer;
-      if (countdown > 0) {
-        timer = setInterval(() => {
-          setCountdown(prev => prev - 1);
-        }, 1000);
-      }
-      return () => clearInterval(timer);
-    }, [countdown]);
-
-    const validateOTP = () => {
-      if (!verificationCode) {
-        setError('Vui lòng nhập mã xác thực');
-        return false;
-      }
-      if (verificationCode.length !== 6) {
-        setError('Mã xác thực phải có 6 chữ số');
-        return false;
-      }
-      return true;
-    };
-
-    const handleInputChange = (e) => {
-      const value = e.target.value.replace(/[^0-9]/g, '');
-      setVerificationCode(value);
-      setError('');
-    };
 
     const handleVerification = async () => {
       if (!validateOTP()) return;
@@ -112,7 +89,7 @@ const ResendCode = ({ onResend, countdown }) => (
         setError('Không thể gửi lại mã. Vui lòng thử lại sau.');
       }
     };
-
+    
   return (
     <div className="min-h-screen bg-[#eff9f9] flex items-center justify-center p-4">
       <div className="max-w-md w-full bg-white rounded-2xl shadow-sm p-8">

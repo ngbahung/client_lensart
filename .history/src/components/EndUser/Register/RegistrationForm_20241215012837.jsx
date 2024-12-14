@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { register } from '../../../api/authAPI';
-import Input from './TextInput';
+import TextInput from './TextInput';
 import PasswordInput from './PasswordInput';
 import Select from './Select';
 import { fetchCities, fetchDistricts, fetchWards } from '../../../services/locationApi';
@@ -9,10 +9,6 @@ import { fetchCities, fetchDistricts, fetchWards } from '../../../services/locat
 const RegistrationForm = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    firstname: '',
-    lastname: '',
-    username: '',
-    phone: '',
     email: '',
     password: '',
     confirmPassword: '',
@@ -23,10 +19,6 @@ const RegistrationForm = () => {
   });
 
   const [errors, setErrors] = useState({
-    firstname: '',
-    lastname: '',
-    username: '',
-    phone: '',
     email: '',
     password: '',
     confirmPassword: '',
@@ -132,20 +124,29 @@ const RegistrationForm = () => {
   const validateForm = () => {
     const newErrors = {};
     
-    if (!formData.firstname.trim()) newErrors.firstname = 'Vui lòng nhập họ';
-    if (!formData.lastname.trim()) newErrors.lastname = 'Vui lòng nhập tên';
-    if (!formData.username.trim()) newErrors.username = 'Vui lòng nhập tên đăng nhập';
-    if (!formData.phone.trim()) newErrors.phone = 'Vui lòng nhập số điện thoại';
-    else if (!/^[0-9]{10}$/.test(formData.phone)) newErrors.phone = 'Số điện thoại không hợp lệ';
-    if (!formData.email) newErrors.email = 'Vui lòng nhập email';
-    else if (!isValidEmail(formData.email)) newErrors.email = 'Email không hợp lệ. Vui lòng kiểm tra lại định dạng email';
-    if (!formData.password) newErrors.password = 'Vui lòng nhập mật khẩu';
-    else if (formData.password.length < 6) newErrors.password = 'Mật khẩu phải có ít nhất 6 ký tự';
-    if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = 'Mật khẩu không khớp';
-    if (!formData.city) newErrors.city = 'Vui lòng chọn tỉnh/thành phố';
-    if (!formData.district) newErrors.district = 'Vui lòng chọn quận/huyện';
-    if (!formData.ward) newErrors.ward = 'Vui lòng chọn phường/xã';
-    if (!formData.address) newErrors.address = 'Vui lòng nhập địa chỉ cụ thể';
+    // Enhanced email validation
+    if (!formData.email) {
+      newErrors.email = 'Email là bắt buộc';
+    } else if (!isValidEmail(formData.email)) {
+      newErrors.email = 'Email không hợp lệ. Vui lòng kiểm tra lại định dạng email';
+    }
+
+    // Password validation
+    if (!formData.password) {
+      newErrors.password = 'Mật khẩu là bắt buộc';
+    } else if (formData.password.length < 6) {
+      newErrors.password = 'Mật khẩu phải có ít nhất 6 ký tự';
+    }
+
+    // Confirm password validation
+    if (formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = 'Mật khẩu xác nhận không khớp';
+    }
+
+    // Location validation
+    if (!formData.city || !formData.district || !formData.ward || !formData.address) {
+      newErrors.address = 'Vui lòng điền đầy đủ thông tin địa chỉ';
+    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -157,29 +158,15 @@ const RegistrationForm = () => {
 
     setIsSubmitting(true);
     try {
-      const fullAddress = [
-        formData.address,
-        formData.ward && locations.wards.find(w => w.value === formData.ward)?.label,
-        formData.district && locations.districts.find(d => d.value === formData.district)?.label,
-        formData.city && locations.cities.find(c => c.value === formData.city)?.label
-      ].filter(Boolean).join(', ');
-
-      await register({
-        ...formData,
-        address: fullAddress
-      });
-
-      navigate('/verify-otp', { 
-        state: { 
-          email: formData.email,
-          message: 'Vui lòng kiểm tra email của bạn để lấy mã xác thực'
-        }
-      });
-    } catch (error) {
-      setErrors({
-        ...errors,
-        submitError: error.message || 'Đăng ký thất bại. Vui lòng thử lại.'
-      });
+      // Add your API call here
+      console.log('Form submitted:', formData);
+      // Navigate to OTP page after successful registration
+      navigate('/verify-otp');
+    } catch (err) {
+      setErrors(prev => ({
+        ...prev,
+        submitError: 'Đăng ký thất bại. Vui lòng thử lại.'
+      }));
     } finally {
       setIsSubmitting(false);
     }
@@ -217,36 +204,6 @@ return (
         <h2 className="text-2xl font-semibold mb-6">Đăng ký tài khoản</h2>
         
         <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-                <Input
-                    label="Họ"
-                    value={formData.firstname}
-                    onChange={(e) => handleChange('firstname')(e)}
-                    error={errors.firstname}
-                />
-                <Input
-                    label="Tên"
-                    value={formData.lastname}
-                    onChange={(e) => handleChange('lastname')(e)}
-                    error={errors.lastname}
-                />
-            </div>
-
-            <Input
-                label="Tên đăng nhập"
-                value={formData.username}
-                onChange={(e) => handleChange('username')(e)}
-                error={errors.username}
-            />
-
-            <Input
-                label="Số điện thoại"
-                type="tel"
-                value={formData.phone}
-                onChange={(e) => handleChange('phone')(e)}
-                error={errors.phone}
-            />
-
             <Input
                 type="email"
                 placeholder="Nhập email"

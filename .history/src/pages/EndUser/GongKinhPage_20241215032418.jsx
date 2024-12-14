@@ -142,35 +142,15 @@ const GongKinhPage = ({ categoryId = 2, pageTitle = "Gọng Kính" }) => {
 
     const filterProducts = (products) => {
         return products.filter(product => {
-            // Style filter
-            const matchesStyle = filters.style.length === 0 || 
-              filters.style.includes(product.style);
-        
-            // Material filter
-            const matchesMaterial = filters.material.length === 0 || 
-              filters.material.includes(product.material);
-        
             // Gender filter
             const matchesGender = filters.gender.length === 0 || 
-              filters.gender.includes(product.gender);
+              filters.gender.some(gender => 
+                product.gender === gender || 
+                GENDER_MAPPING[product.gender] === gender
+              );
         
-            // Price range filter
-            const matchesPriceRange = filters.priceRange.length === 0 || 
-              filters.priceRange.some(range => {
-                const [min, max] = range.split('-').map(Number);
-                return product.currentPrice >= min && 
-                       (max ? product.currentPrice <= max : true);
-              });
-        
-            // Brand filter
-            const matchesBrand = filters.brands.length === 0 || 
-              filters.brands.includes(product.brand_id);
-        
-            return matchesStyle && 
-                   matchesMaterial && 
-                   matchesGender && 
-                   matchesPriceRange && 
-                   matchesBrand;
+            // ...rest of filters
+            return matchesStyle && matchesMaterial && matchesGender && matchesPriceRange;
           });
     };
 
