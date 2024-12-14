@@ -106,9 +106,13 @@ const CategoryPage = () => {
     setCurrentPage(page);
   };
 
-  const handleStatusChange = async (categoryId, newStatus) => {
+  const handleStatusChange = async (categoryId) => {
     try {
-      const response = await axios.put(`http://localhost:8000/api/categories/${categoryId}/status`, {
+      // Find current category and its status
+      const currentCategory = categories.find(cat => cat.id === categoryId);
+      const newStatus = !currentCategory.status;
+
+      const response = await axios.put(`http://localhost:8000/api/categories/switch-status/${categoryId}`, {
         status: newStatus
       });
       
@@ -122,7 +126,6 @@ const CategoryPage = () => {
     } catch (error) {
       alert("Failed to update category status");
       console.error("Failed to update category status:", error);
-      // Optionally add error handling here
     }
   };
 

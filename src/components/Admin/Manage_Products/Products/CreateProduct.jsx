@@ -1,37 +1,34 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { FaAngleDown } from "react-icons/fa";
 import axios from "axios";
-import PropTypes from "prop-types";
 
-const EditShape = ({ shape, onClose, reloadShapes }) => {
+const CreateProduct = ({ onClose, refreshBrands }) => {
   const [name, setName] = useState("");
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (shape) {
-      setName(shape.name);
-      setStatus(shape.status ? "active" : "inactive");
-    }
-  }, [shape]);
-
   const handleSave = async () => {
-    setLoading(true);
+    if (!name.trim() || !status) {
+      setError("Please fill in all fields.");
+      return;
+    }
+    
     setError("");
-
+    setLoading(true);
+    
     try {
-      const response = await axios.put(`http://localhost:8000/api/shapes/${shape.id}`, {
-        name: name,
-        status: status === "active"
+      const response = await axios.post('http://localhost:8000/api/brands', {
+        name: name.trim(),
+        status
       });
-
-      if (response.status === 200) {
-        await reloadShapes(); // Add this line
-        onClose();
-      }
-    } catch (error) {
-      setError(error.response?.data?.message || "Failed to update shape");
+      
+      console.log("Brand saved:", response.data);
+      await refreshBrands(); // Add this line
+      alert("Brand saved successfully!");
+      onClose();
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to save brand");
     } finally {
       setLoading(false);
     }
@@ -40,7 +37,7 @@ const EditShape = ({ shape, onClose, reloadShapes }) => {
   return (
     <div className="w-full mx-auto bg-white shadow-md rounded-lg p-6">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-xl font-semibold">Edit Shape</h1>
+        <h1 className="text-xl font-semibold">Create Product</h1>
         <button 
           onClick={onClose}
           className="text-gray-600 hover:text-[#55D5D2]"
@@ -49,20 +46,6 @@ const EditShape = ({ shape, onClose, reloadShapes }) => {
         </button>
       </div>
       
-      <div className="mb-4">
-        <label className="block text-gray-700 font-medium mb-2" htmlFor="id">
-          ID
-        </label>
-        <input
-          type="text"
-          id="id"
-          className="w-1/2 px-4 py-2 border rounded-lg bg-gray-100 border-gray-300"
-          value={shape.id}
-          disabled
-          readOnly
-        />
-      </div>
-
       <div className="mb-4">
         <label className="block text-gray-700 font-medium mb-2" htmlFor="name">
           Name
@@ -73,7 +56,7 @@ const EditShape = ({ shape, onClose, reloadShapes }) => {
           className="w-1/2 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#55D5D2] bg-[#EFF9F9] border-[#55D5D2]"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="Enter shape name"
+          placeholder="Enter product name"
         />
       </div>
 
@@ -115,14 +98,4 @@ const EditShape = ({ shape, onClose, reloadShapes }) => {
   );
 };
 
-EditShape.propTypes = {
-  shape: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    status: PropTypes.bool.isRequired,
-  }).isRequired,
-  onClose: PropTypes.func.isRequired,
-  reloadShapes: PropTypes.func.isRequired,
-};
-
-export default EditShape;
+export default CreateProduct;

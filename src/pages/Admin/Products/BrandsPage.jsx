@@ -15,27 +15,39 @@ const BrandsPage = () => {
   const mockData = [
     { id: 1, name: "Ray-Ban", status: true },
     { id: 2, name: "Oakley", status: true },
-    { id: 3, name: "Gucci", status: false },
-    { id: 4, name: "Prada", status: true },
-    { id: 5, name: "Versace", status: false },
-    { id: 6, name: "Tom Ford", status: true },
-    { id: 7, name: "Burberry", status: false },
+    { id: 3, name: "Tom Ford", status: false },
+    { id: 4, name: "Gucci", status: true },
+    { id: 5, name: "Prada", status: true },
+    { id: 6, name: "Versace", status: false },
+    { id: 7, name: "Burberry", status: true },
     { id: 8, name: "Chanel", status: true },
-    { id: 9, name: "Nike Vision", status: true },
-    { id: 10, name: "Dior", status: false },
-    { id: 11, name: "Carrera", status: true },
-    { id: 12, name: "Fendi", status: false },
-    { id: 13, name: "Michael Kors", status: true },
-    { id: 14, name: "Hugo Boss", status: true },
-    { id: 15, name: "Persol", status: false },
-    { id: 16, name: "Emporio Armani", status: true },
-    { id: 17, name: "Vogue Eyewear", status: false },
-    { id: 18, name: "Maui Jim", status: true },
-    { id: 19, name: "Ralph Lauren", status: false },
-    { id: 20, name: "Calvin Klein", status: true }
+    { id: 9, name: "Nike Vision", status: false },
+    { id: 10, name: "Dior", status: true }
   ];
 
-  const fetchBrands = async () => {
+  useEffect(() => {
+    const fetchBrands = async () => {
+      try {
+        const response = await axios.get('http://localhost:8000/api/brands');
+        if (response.data) {
+          const allBrands = response.data.brands || mockData;
+          setBrands(allBrands);
+          setTotalPages(Math.ceil(allBrands.length / ITEMS_PER_PAGE));
+          setError(null);
+        }
+      } catch (error) {
+        console.error("Failed to fetch brands:", error);
+        setBrands(mockData);
+        setTotalPages(Math.ceil(mockData.length / ITEMS_PER_PAGE));
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchBrands();
+  }, []);
+
+  const refreshBrands = async () => {
     setIsLoading(true);
     try {
       const response = await axios.get('http://localhost:8000/api/brands');
@@ -54,16 +66,11 @@ const BrandsPage = () => {
     }
   };
 
-  useEffect(() => {
-    fetchBrands();
-  }, []);
-
   const filteredBrands = brands.filter(brand => 
     brand.id.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
     brand.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Tính toán items cho trang hiện tại từ danh sách đã được lọc
   const getCurrentPageItems = () => {
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
@@ -76,12 +83,17 @@ const BrandsPage = () => {
 
   const handleStatusChange = async (brandId) => {
     try {
-      const response = await axios.post(`http://localhost:8000/api/brands/switch-status/${brandId}`);
+      const currentBrand = brands.find(brand => brand.id === brandId);
+      const newStatus = !currentBrand.status;
+      
+      const response = await axios.put(`http://localhost:8000/api/brands/switch-status/${brandId}`, {
+        status: newStatus
+      });
       
       if (response.status === 200) {
         setBrands(prevBrands => 
           prevBrands.map(brand => 
-            brand.id === brandId ? {...brand, status: !brand.status} : brand
+            brand.id === brandId ? {...brand, status: newStatus} : brand
           )
         );
       }
@@ -113,7 +125,7 @@ const BrandsPage = () => {
             onStatusChange={handleStatusChange}
             onSearch={handleSearch}
             searchTerm={searchTerm}
-            refreshBrands={fetchBrands}  // Add this line
+            refreshBrands={refreshBrands}
           />
         </div>
       </div>

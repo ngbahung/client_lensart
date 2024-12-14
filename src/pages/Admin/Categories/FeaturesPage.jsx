@@ -66,9 +66,12 @@ const FeaturesPage = () => {
     setCurrentPage(page);
   };
 
-  const handleStatusChange = async (featureId, newStatus) => {
+  const handleStatusChange = async (featureId) => {
     try {
-      const response = await axios.put(`http://localhost:8000/api/features/${featureId}/status`, {
+      const feature = features.find(f => f.id === featureId);
+      const newStatus = !feature.status;
+      
+      const response = await axios.put(`http://localhost:8000/api/features/switch-status/${featureId}`, {
         status: newStatus
       });
       
@@ -82,7 +85,6 @@ const FeaturesPage = () => {
     } catch (error) {
       alert("Failed to update feature status");
       console.error("Failed to update feature status:", error);
-      // Optionally add error handling here
     }
   };
 

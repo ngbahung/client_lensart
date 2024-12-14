@@ -77,7 +77,7 @@ const MaterialsPage = () => {
     material.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Tính toán items cho trang hiện tại từ danh sách đã được l���c
+  // Tính toán items cho trang hiện tại từ danh sách đã được lọc
   const getCurrentPageItems = () => {
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
@@ -88,9 +88,13 @@ const MaterialsPage = () => {
     setCurrentPage(page);
   };
 
-  const handleStatusChange = async (materialId, newStatus) => {
+  const handleStatusChange = async (materialId) => {
     try {
-      const response = await axios.put(`http://localhost:8000/api/materials/${materialId}/status`, {
+      // Find current material and get its current status
+      const currentMaterial = materials.find(mat => mat.id === materialId);
+      const newStatus = !currentMaterial.status;
+
+      const response = await axios.put(`http://localhost:8000/api/materials/switch-status/${materialId}`, {
         status: newStatus
       });
       
@@ -104,7 +108,6 @@ const MaterialsPage = () => {
     } catch (error) {
       alert("Failed to update material status");
       console.error("Failed to update material status:", error);
-      // Optionally add error handling here
     }
   };
 

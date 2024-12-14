@@ -40,7 +40,7 @@ const EditBrand = ({ brand, onClose, refreshBrands }) => {  // Add refreshBrands
   return (
     <div className="w-full mx-auto bg-white shadow-md rounded-lg p-6">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-xl font-semibold">Edit Category</h1>
+        <h1 className="text-xl font-semibold">Edit Brand</h1>
         <button 
           onClick={onClose}
           className="text-gray-600 hover:text-[#55D5D2]"
