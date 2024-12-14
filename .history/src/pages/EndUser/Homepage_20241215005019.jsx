@@ -6,7 +6,7 @@ import PromotionalBanner from '../../components/EndUser/PromotionalBanner/Promot
 import LogoCloud from '../../components/EndUser/LogoCloud/LogoCloud';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { getBestSellingProducts, getNewestProducts, transformProduct } from '../../api/productsApi';
+import { getBestSellingProducts, getNewestProducts, getProductByCategoryId, getProducts, transformProduct } from '../../api/productsApi';
 
 const SliderSection = ({ title, children }) => (
     <div className="container mx-auto px-4 md:px-8">
