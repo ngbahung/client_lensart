@@ -1,7 +1,6 @@
-import React, { useState } from "react";
-import { BiEdit } from "react-icons/bi";
-import { FaCog } from "react-icons/fa";
-import { FaAngleDown } from "react-icons/fa";
+import React, { useState, useRef, useEffect } from "react";
+import { BiEdit, BiFileBlank } from "react-icons/bi";
+import { FaCog, FaAngleDown, FaRegHeart } from "react-icons/fa";
 import PropTypes from "prop-types";
 import ConfirmChangeStatusModal from "./ConfirmChangeStatusModal";
 
@@ -35,6 +34,19 @@ const ToggleSwitch = ({ id, status, onToggle, disabled }) => {
 const Row = ({ product, onStatusChange, onEdit }) => {
   const [showStatusModal, setShowStatusModal] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const handleStatusChange = () => {
     setShowStatusModal(true);
@@ -58,6 +70,10 @@ const Row = ({ product, onStatusChange, onEdit }) => {
 
   const handleEdit = () => {
     onEdit(product);
+  };
+
+  const handleSettingsClick = () => {
+    setShowDropdown(!showDropdown);
   };
 
   const formatPrice = (price) => {
@@ -97,12 +113,45 @@ const Row = ({ product, onStatusChange, onEdit }) => {
             >
               <BiEdit size={18} className="text-white" />
             </button>
-            <button
-              className="p-2 rounded-md bg-[rgba(236,144,92,1)] hover:opacity-80 flex items-center gap-1"
-            >
-              <FaCog size={16} className="text-white" />
-              <FaAngleDown size={8} className="text-white" />
-            </button>
+            <div className="relative" ref={dropdownRef}>
+              <button
+                className="p-2 rounded-md bg-[rgba(236,144,92,1)] hover:opacity-80 flex items-center gap-1"
+                onClick={handleSettingsClick}
+              >
+                <FaCog size={16} className="text-white" />
+                <FaAngleDown size={8} className="text-white" />
+              </button>
+              {showDropdown && (
+                <div className="absolute right-0 mt-2 w-48 bg-[rgba(236,170,131,1)] rounded-md shadow-lg z-10 border border-gray-200">
+                  <ul className="py-1">
+                    <li>
+                      <button
+                        className="w-full text-left px-4 py-2 text-white hover:bg-[rgba(236,144,92,1)] flex items-center gap-2"
+                        onClick={() => {
+                          // Add handler for Image Gallery
+                          setShowDropdown(false);
+                        }}
+                      >
+                        <FaRegHeart size={16} />
+                        Image Gallery
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        className="w-full text-left px-4 py-2 text-white hover:bg-[rgba(236,144,92,1)] flex items-center gap-2"
+                        onClick={() => {
+                          // Add handler for Color Variant
+                          setShowDropdown(false);
+                        }}
+                      >
+                        <BiFileBlank size={16} />
+                        Color Variant
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              )}
+            </div>
           </div>
         </td>
       </tr>

@@ -32,7 +32,7 @@ const ShapePage = () => {
     try {
       const response = await axios.get('http://localhost:8000/api/shapes');
       if (response.data) {
-        const allShapes = response.data.shapes || mockData;
+        const allShapes = response.data.data || mockData;
         setShapes(allShapes);
         setTotalPages(Math.ceil(allShapes.length / ITEMS_PER_PAGE));
         setError(null);
@@ -51,7 +51,7 @@ const ShapePage = () => {
       try {
         const response = await axios.get('http://localhost:8000/api/shapes');
         if (response.data) {
-          const allShapes = response.data.shapes || mockData;
+          const allShapes = response.data.data || mockData;
           setShapes(allShapes);
           // Tính tổng số trang dựa trên số lượng items
           setTotalPages(Math.ceil(allShapes.length / ITEMS_PER_PAGE));
@@ -89,12 +89,14 @@ const ShapePage = () => {
 
   const handleStatusChange = async (shapeId) => {
     try {
-      // Tìm shape hiện tại và lấy status ngược lại
       const currentShape = shapes.find(shape => shape.id === shapeId);
       const newStatus = !currentShape.status;
+      
+      // Convert to text only for API request
+      const statusForApi = newStatus ? "active" : "inactive";
   
       const response = await axios.put(`http://localhost:8000/api/shapes/switch-status/${shapeId}`, {
-        status: newStatus
+        status: statusForApi
       });
       
       if (response.status === 200) {

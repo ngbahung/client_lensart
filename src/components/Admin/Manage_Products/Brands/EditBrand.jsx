@@ -21,9 +21,9 @@ const EditBrand = ({ brand, onClose, refreshBrands }) => {  // Add refreshBrands
     setError("");
 
     try {
-      const response = await axios.put(`http://localhost:8000/api/brands/${brand.id}`, {
+      const response = await axios.post(`http://localhost:8000/api/brands/update/${brand.id}`, {
         name: name,
-        status: status === "active"
+        status: status  // Send directly as 'active' or 'inactive'
       });
 
       if (response.status === 200) {

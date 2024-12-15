@@ -21,9 +21,9 @@ const EditMaterial = ({ material, onClose, refreshMaterials }) => {
     setError("");
 
     try {
-      const response = await axios.put(`http://localhost:8000/api/materials/${material.id}`, {
+      const response = await axios.post(`http://localhost:8000/api/materials/update/${material.id}`, {
         name: name,
-        status: status === "active"
+        status: status // status is already 'active' or 'inactive' from select
       });
 
       if (response.status === 200) {

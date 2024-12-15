@@ -18,9 +18,9 @@ const CreateBrand = ({ onClose, refreshBrands }) => {
     setLoading(true);
     
     try {
-      const response = await axios.post('http://localhost:8000/api/brands', {
+      const response = await axios.post('http://localhost:8000/api/brands/create', {
         name: name.trim(),
-        status
+        status: status
       });
       
       console.log("Brand saved:", response.data);

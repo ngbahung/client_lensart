@@ -84,46 +84,42 @@ const EditProduct = ({ product, onClose, refreshProducts }) => {
   }, [product]);
 
   const handleSave = async () => {
-    setLoading(true);
+    if (!isFormValid()) {
+      setError("Please fill in required fields: Name, Category, Brand, and Price.");
+      return;
+    }
+    
     setError("");
-
-    // Validate prices
-    const numericPrice = parseInt(price, 10);
-    const numericOfferPrice = parseInt(offerPrice, 10);
-
-    if (isNaN(numericPrice) || numericPrice < 0) {
-      setError("Please enter a valid price");
-      setLoading(false);
-      return;
-    }
-
-    if (offerPrice && (isNaN(numericOfferPrice) || numericOfferPrice < 0)) {
-      setError("Please enter a valid offer price");
-      setLoading(false);
-      return;
-    }
-
+    setLoading(true);
+    
     try {
-      const response = await axios.put(`http://localhost:8000/api/products/${product.id}`, {
-        name,
-        status: status === "active",
-        category,
-        material,
-        shape,
-        brand,
-        gender,
-        features: features.join(','), // Join selected features with comma
-        description,
-        price: numericPrice,
-        offer_price: offerPrice ? numericOfferPrice : null,
-      });
+      const productData = {
+        name: name.trim(),
+        status: status,  // Đã đúng format, status là string 'active'/'inactive'
+        description: description.trim() || null,
+        brand_id: parseInt(brand),
+        category_id: parseInt(category),
+        material_id: material ? parseInt(material) : null,
+        shape_id: shape ? parseInt(shape) : null,
+        gender: gender || null,
+        price: parseInt(price),
+        offer_price: offerPrice ? parseInt(offerPrice) : null,
+      };
 
-      if (response.status === 200) {
-        await refreshProducts();
-        onClose();
+      // Only add features if array is not empty, and ensure all values are integers
+      if (features.length > 0) {
+        productData.features = features.map(Number);  // Convert all values to integers
       }
-    } catch (error) {
-      setError(error.response?.data?.message || "Failed to update product");
+      
+      const response = await axios.post(`http://localhost:8000/api/products/update/${product.id}`, productData);
+      
+      console.log("Product updated:", response.data);
+      await refreshProducts();
+      alert("Product updated successfully!");
+      onClose();
+    } catch (err) {
+      console.error("Error updating product:", err);
+      setError(err.response?.data?.message || "Failed to update product");
     } finally {
       setLoading(false);
     }
@@ -155,8 +151,8 @@ const EditProduct = ({ product, onClose, refreshProducts }) => {
       const response = await axios.get('http://localhost:8000/api/features');
       console.log('Features API Response:', response.data);
 
-      if (response.data && Array.isArray(response.data.features)) {
-        setFeaturesList(response.data.features);
+      if (response.data && Array.isArray(response.data.data)) {
+        setFeaturesList(response.data.data);
       } else if (Array.isArray(response.data)) {
         setFeaturesList(response.data);
       } else {
@@ -232,9 +228,9 @@ const EditProduct = ({ product, onClose, refreshProducts }) => {
       const response = await axios.get('http://localhost:8000/api/categories');
       console.log('API Response:', response.data); // Debug log
 
-      if (response.data && Array.isArray(response.data.categories)) {
+      if (response.data && Array.isArray(response.data.data)) {
         // Giả sử API trả về { categories: [ { id, name }, ... ] }
-        setCategories(response.data.categories);
+        setCategories(response.data.data);
       } else if (Array.isArray(response.data)) {
         // Nếu API trả về trực tiếp array
         setCategories(response.data);
@@ -263,8 +259,8 @@ const EditProduct = ({ product, onClose, refreshProducts }) => {
       const response = await axios.get('http://localhost:8000/api/brands');
       console.log('Brands API Response:', response.data);
 
-      if (response.data && Array.isArray(response.data.brands)) {
-        setBrands(response.data.brands);
+      if (response.data && Array.isArray(response.data.data)) {
+        setBrands(response.data.data);
       } else if (Array.isArray(response.data)) {
         setBrands(response.data);
       } else {
@@ -294,8 +290,8 @@ const EditProduct = ({ product, onClose, refreshProducts }) => {
       const response = await axios.get('http://localhost:8000/api/materials');
       console.log('Materials API Response:', response.data);
 
-      if (response.data && Array.isArray(response.data.materials)) {
-        setMaterials(response.data.materials);
+      if (response.data && Array.isArray(response.data.data)) {
+        setMaterials(response.data.data);
       } else if (Array.isArray(response.data)) {
         setMaterials(response.data);
       } else {
@@ -324,8 +320,8 @@ const EditProduct = ({ product, onClose, refreshProducts }) => {
       const response = await axios.get('http://localhost:8000/api/shapes');
       console.log('Shapes API Response:', response.data);
 
-      if (response.data && Array.isArray(response.data.shapes)) {
-        setShapes(response.data.shapes);
+      if (response.data && Array.isArray(response.data.data)) {
+        setShapes(response.data.data);
       } else if (Array.isArray(response.data)) {
         setShapes(response.data);
       } else {
@@ -354,9 +350,9 @@ const EditProduct = ({ product, onClose, refreshProducts }) => {
       const response = await axios.get(`http://localhost:8000/api/product-features/getByProductId/${productId}`);
       console.log('Product Features Response:', response.data);
 
-      if (response.data && response.data.productFeatures) {
+      if (response.data && response.data.data) {
         // Lấy mảng các feature_id từ productFeatures
-        const featureIds = response.data.productFeatures.map(pf => parseInt(pf.feature_id));
+        const featureIds = response.data.data.map(pf => parseInt(pf.feature_id));
         console.log('Extracted feature IDs:', featureIds); // Debug log
         setFeatures(featureIds);
       }
@@ -560,7 +556,7 @@ const EditProduct = ({ product, onClose, refreshProducts }) => {
         />
       </div>
 
-      <div className="mb-4 col-span-3 mt-10">
+      <div className="mb-10 col-span-3 mt-10">
         <label className="block text-gray-700 font-medium mb-2" htmlFor="description">
           Description
         </label>

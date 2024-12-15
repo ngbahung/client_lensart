@@ -21,9 +21,9 @@ const EditCategory = ({ category, onClose, refreshCategories }) => {
     setError("");
 
     try {
-      const response = await axios.put(`http://localhost:8000/api/categories/${category.id}`, {
+      const response = await axios.post(`http://localhost:8000/api/categories/update/${category.id}`, {
         name: name,
-        status: status === "active"
+        status: status // status is already 'active' or 'inactive' from select
       });
 
       if (response.status === 200) {

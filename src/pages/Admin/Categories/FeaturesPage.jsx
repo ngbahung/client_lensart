@@ -31,8 +31,8 @@ const FeaturesPage = () => {
     setIsLoading(true);
     try {
       const response = await axios.get('http://localhost:8000/api/features');
-      if (response.data && response.data.features) {
-        const allFeatures = response.data.features;
+      if (response.data && response.data.data) {
+        const allFeatures = response.data.data;
         setFeatures(allFeatures);
         setTotalPages(Math.ceil(allFeatures.length / ITEMS_PER_PAGE));
         setError(null);
@@ -71,8 +71,11 @@ const FeaturesPage = () => {
       const feature = features.find(f => f.id === featureId);
       const newStatus = !feature.status;
       
+      // Convert to text only for API request
+      const statusForApi = newStatus ? "active" : "inactive";
+      
       const response = await axios.put(`http://localhost:8000/api/features/switch-status/${featureId}`, {
-        status: newStatus
+        status: statusForApi
       });
       
       if (response.status === 200) {

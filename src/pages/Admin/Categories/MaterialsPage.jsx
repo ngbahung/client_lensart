@@ -35,7 +35,7 @@ const MaterialsPage = () => {
     try {
       const response = await axios.get('http://localhost:8000/api/materials');
       if (response.data) {
-        const allMaterials = response.data.materials || mockData;
+        const allMaterials = response.data.data || mockData;
         setMaterials(allMaterials);
         setTotalPages(Math.ceil(allMaterials.length / ITEMS_PER_PAGE));
         setError(null);
@@ -54,7 +54,7 @@ const MaterialsPage = () => {
       try {
         const response = await axios.get('http://localhost:8000/api/materials');
         if (response.data) {
-          const allMaterials = response.data.materials || mockData;
+          const allMaterials = response.data.data || mockData;
           setMaterials(allMaterials);
           // Tính tổng số trang dựa trên số lượng items
           setTotalPages(Math.ceil(allMaterials.length / ITEMS_PER_PAGE));
@@ -93,9 +93,9 @@ const MaterialsPage = () => {
       // Find current material and get its current status
       const currentMaterial = materials.find(mat => mat.id === materialId);
       const newStatus = !currentMaterial.status;
-
+      
       const response = await axios.put(`http://localhost:8000/api/materials/switch-status/${materialId}`, {
-        status: newStatus
+        status: newStatus ? 'active' : 'inactive'  // Convert boolean to string format
       });
       
       if (response.status === 200) {

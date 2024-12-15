@@ -18,9 +18,9 @@ const CreateCategory = ({ onClose, refreshCategories }) => {
     setLoading(true);
     
     try {
-      const response = await axios.post('http://your-api-url/categories', {
+      const response = await axios.post('http://localhost:8000/api/categories/create', {
         name: name.trim(),
-        status
+        status: status // status is already 'active' or 'inactive' from select
       });
       
       console.log("Category saved:", response.data);

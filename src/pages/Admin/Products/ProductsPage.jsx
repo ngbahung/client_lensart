@@ -30,7 +30,7 @@ const ProductsPage = () => {
       try {
         const response = await axios.get('http://localhost:8000/api/products');
         if (response.data) {
-          const allProducts = response.data.products || mockData;
+          const allProducts = response.data.data || mockData;
           setProducts(allProducts);
           setTotalPages(Math.ceil(allProducts.length / ITEMS_PER_PAGE));
           setError(null);
@@ -52,7 +52,7 @@ const ProductsPage = () => {
     try {
       const response = await axios.get('http://localhost:8000/api/products');
       if (response.data) {
-        const allProducts = response.data.products || mockData;
+        const allProducts = response.data.data || mockData;
         setProducts(allProducts);
         setTotalPages(Math.ceil(allProducts.length / ITEMS_PER_PAGE));
         setError(null);
@@ -84,10 +84,11 @@ const ProductsPage = () => {
   const handleStatusChange = async (productId) => {
     try {
       const currentProduct = products.find(product => product.id === productId);
-      const newStatus = !currentProduct.status;
+      // Sửa lại format gửi status
+      const newStatus = currentProduct.status ? 'inactive' : 'active';
       
-      const response = await axios.put(`http://localhost:8000/api/products/switch-status/${productId}`, {
-        status: newStatus
+      const response = await axios.post(`http://localhost:8000/api/products/switch-status/${productId}`, {
+        status: newStatus  // Gửi trực tiếp string 'active'/'inactive'
       });
       
       if (response.status === 200) {

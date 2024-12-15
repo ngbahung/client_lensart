@@ -21,9 +21,9 @@ const EditShape = ({ shape, onClose, reloadShapes }) => {
     setError("");
 
     try {
-      const response = await axios.put(`http://localhost:8000/api/shapes/${shape.id}`, {
+      const response = await axios.post(`http://localhost:8000/api/shapes/update/${shape.id}`, {
         name: name,
-        status: status === "active"
+        status: status === 'active' ? 'active' : 'inactive'
       });
 
       if (response.status === 200) {

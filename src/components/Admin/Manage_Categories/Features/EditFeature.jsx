@@ -21,9 +21,9 @@ const EditFeature = ({ feature, onClose, onRefresh }) => {  // Add onRefresh pro
     setError("");
 
     try {
-      const response = await axios.put(`http://localhost:8000/api/features/${feature.id}`, {
+      const response = await axios.post(`http://localhost:8000/api/features/update/${feature.id}`, {
         name: name,
-        status: status === "active"
+        status: status === 'active' ? 'active' : 'inactive'
       });
 
       if (response.status === 200) {

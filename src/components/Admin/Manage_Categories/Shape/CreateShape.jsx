@@ -18,9 +18,9 @@ const CreateShape = ({ onClose, reloadShapes }) => {
     setLoading(true);
     
     try {
-      const response = await axios.post('http://localhost:8000/api/shapes', {
+      const response = await axios.post('http://localhost:8000/api/shapes/create', {
         name: name.trim(),
-        status
+        status: status === 'active' ? 'active' : 'inactive'
       });
       
       console.log("Shape saved:", response.data);

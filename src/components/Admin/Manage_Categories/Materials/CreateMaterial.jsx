@@ -18,9 +18,9 @@ const CreateMaterial = ({ onClose, refreshMaterials }) => {
     setLoading(true);
     
     try {
-      const response = await axios.post('http://localhost:8000/api/materials', {
+      const response = await axios.post('http://localhost:8000/api/materials/create', {
         name: name.trim(),
-        status
+        status: status // Now status will be 'active' or 'inactive' string value
       });
       
       console.log("Material saved:", response.data);

@@ -52,7 +52,7 @@ const CategoryPage = () => {
       try {
         const response = await axios.get('http://localhost:8000/api/categories');
         if (response.data) {
-          const allCategories = response.data.categories || mockData;
+          const allCategories = response.data.data || mockData;
           setCategories(allCategories);
           // Tính tổng số trang dựa trên số lượng items
           setTotalPages(Math.ceil(allCategories.length / ITEMS_PER_PAGE));
@@ -75,7 +75,7 @@ const CategoryPage = () => {
     try {
       const response = await axios.get('http://localhost:8000/api/categories');
       if (response.data) {
-        const allCategories = response.data.categories || mockData;
+        const allCategories = response.data.data || mockData;
         setCategories(allCategories);
         setTotalPages(Math.ceil(allCategories.length / ITEMS_PER_PAGE));
         setError(null);
@@ -108,12 +108,11 @@ const CategoryPage = () => {
 
   const handleStatusChange = async (categoryId) => {
     try {
-      // Find current category and its status
       const currentCategory = categories.find(cat => cat.id === categoryId);
       const newStatus = !currentCategory.status;
 
       const response = await axios.put(`http://localhost:8000/api/categories/switch-status/${categoryId}`, {
-        status: newStatus
+        status: newStatus ? 'active' : 'inactive'  // Convert boolean to string format
       });
       
       if (response.status === 200) {

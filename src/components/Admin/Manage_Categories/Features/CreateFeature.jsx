@@ -18,9 +18,9 @@ const CreateFeature = ({ onClose, onRefresh }) => {  // Add onRefresh prop
     setLoading(true);
     
     try {
-      const response = await axios.post('http://localhost:8000/api/features', {
+      const response = await axios.post('http://localhost:8000/api/features/create', {
         name: name.trim(),
-        status
+        status: status === 'active' ? 'active' : 'inactive'
       });
       
       console.log("Feature saved:", response.data);
