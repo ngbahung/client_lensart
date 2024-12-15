@@ -5,7 +5,6 @@ import { fetchCities, fetchDistricts, fetchWards } from '../../../services/locat
 import { getUserData } from '../../../api/userAPI';
 import { parseAddress } from '../../../utils/addressParser';
 import { toast } from 'react-toastify';
-import { updateAddress } from '../../../api/userAPI';
 
 function AddressForm() {
   const [address, setAddress] = useState({

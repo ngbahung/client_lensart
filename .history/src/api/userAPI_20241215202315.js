@@ -30,7 +30,7 @@ export const updatePassword = async (id, data) => {
 // cập nhật thông tin địa chỉ của người dùng
 export const updateAddress = async (id, address) => {
   try {
-    const response = await api.post(`/users/updateAddress/${id}`, { address});
+    const response = await api.post(`/users/updateAddress/${id}`, { address-> });
     return response.data;
   } catch (error) {
     console.error('Lỗi khi cập nhật địa chỉ:', error);

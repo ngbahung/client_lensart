@@ -1,7 +1,6 @@
 import { get } from "lodash";
 import api from "../utils/api";
 
-// lấy thông tin người dùng
 export const getUserData = async () => {
   try {
     const response = await api.get('/users/profile');
@@ -28,24 +27,13 @@ export const updatePassword = async (id, data) => {
 };
 
 // cập nhật thông tin địa chỉ của người dùng
-export const updateAddress = async (id, address) => {
+export const updateAddress = async (id, data) => {
   try {
-    const response = await api.post(`/users/updateAddress/${id}`, { address});
+    const response = await api.post(`/users/updateAddress/${id}`, data);
+    console.log('Dữ liệu cập nhật địa chỉ:', response.data);
     return response.data;
   } catch (error) {
-    console.error('Lỗi khi cập nhật địa chỉ:', error);
-    throw error;
+    console.error('Lỗi khi gọi API:', error);
   }
-};
-
-// cập nhật thông tin người dùng
-export const updateProfile = async (id, data) => {
-  try {
-    const response = await api.post(`/users/update/${id}`, data);
-    return response.data;
-  } catch (error) {
-    console.error('Lỗi khi cập nhật thông tin:', error);
-    throw error;
-  }
-};
+}
 

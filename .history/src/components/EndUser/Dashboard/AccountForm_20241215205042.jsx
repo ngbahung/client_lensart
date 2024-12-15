@@ -3,7 +3,7 @@ import Button from "../Button";
 import TextInput from "../Register/TextInput";
 import { FiSave, FiX, FiUser } from 'react-icons/fi';
 import { toast } from 'react-toastify';
-import { updateProfile } from '../../../api/userAPI';
+
 
 function AccountForm({ userData }) {
   const [formData, setFormData] = useState({
