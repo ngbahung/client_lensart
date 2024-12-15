@@ -45,21 +45,17 @@ export const register = async (userData) => {
 
 export const verifyOTP = async (otp) => {
   try {
-    const userId = parseInt(localStorage.getItem('tempUserId'));
-    if (!userId || isNaN(userId)) {
-      throw new Error('Invalid user ID');
-    }
-
-    const otpNumber = parseInt(otp);
-    if (isNaN(otpNumber)) {
-      throw new Error('Invalid OTP format');
+    const userId = localStorage.getItem('tempUserId');
+    if (!userId) {
+      throw new Error('User ID not found');
     }
 
     const response = await api.post('/auth/verify-otp', { 
       user_id: userId,
-      otp: otpNumber
+      otp: otp 
     });
 
+    // Clear temporary userId after successful verification
     localStorage.removeItem('tempUserId');
     return response.data.token;
   } catch (error) {
@@ -70,15 +66,15 @@ export const verifyOTP = async (otp) => {
 
 export const resendOTP = async () => {
   try {
-    const userId = parseInt(localStorage.getItem('tempUserId'));
+    const userId = localStorage.getItem('tempUserId');
     const email = localStorage.getItem('tempEmail');
     
-    if (!userId || isNaN(userId) || !email) {
-      throw new Error('Invalid user information');
+    if (!userId || !email) {
+      throw new Error('User information not found');
     }
 
     const response = await api.post('/auth/resend-otp', {
-      userId: userId,
+      user_id: userId,
       email: email
     });
 

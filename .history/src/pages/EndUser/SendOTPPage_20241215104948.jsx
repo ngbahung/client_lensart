@@ -27,6 +27,7 @@ const VerificationTitle = () => (
   </div>
 );
 
+
 const VerificationPage = () => {
   const location = useLocation();
   const navigate = useNavigate();

@@ -181,7 +181,7 @@ const RegistrationForm = () => {
       toast.error(error.response?.data?.message || 'Đăng ký thất bại');
       setErrors({
         ...errors,
-        submitError: error.message || 'Đăng ký thất bại. Vui lòng thử lại.'
+        submitError: error.error || 'Đăng ký thất bại. Vui lòng thử lại.'
       });
     } finally {
       setIsSubmitting(false);

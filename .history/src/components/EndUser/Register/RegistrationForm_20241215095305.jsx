@@ -216,28 +216,26 @@ const RegistrationForm = () => {
   };
 
 return (
-    <div className="max-w-3xl w-full mx-auto p-8">
-      <h2 className="text-3xl font-semibold mb-8 text-center text-gray-800">
-        Đăng ký tài khoản
-      </h2>
-      
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="grid grid-cols-2 gap-6">
-          <Input
-            label="Họ"
-            value={formData.firstname}
-            onChange={(e) => handleChange('firstname')(e)}
-            error={errors.firstname}
-          />
-          <Input
-            label="Tên"
-            value={formData.lastname}
-            onChange={(e) => handleChange('lastname')(e)}
-            error={errors.lastname}
-          />
-        </div>
+    <div className="max-w-md w-full mx-auto p-6 text-center">
+        <h2 className="text-2xl font-semibold mb-6">Đăng ký tài khoản</h2>
+        
+        <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+                <Input
+                    label="Họ"
+                    value={formData.firstname}
+                    onChange={(e) => handleChange('firstname')(e)}
+                    error={errors.firstname}
+                />
+                <Input
+                    label="Tên"
+                    value={formData.lastname}
+                    onChange={(e) => handleChange('lastname')(e)}
+                    error={errors.lastname}
+                />
+            </div>
 
-        <Input
+            <Input
                 label="Số điện thoại"
                 type="tel"
                 value={formData.phone}
@@ -316,9 +314,9 @@ return (
             >
                 {isSubmitting ? 'Đang xử lý...' : 'Đăng ký'}
             </button>
-      </form>
+        </form>
     </div>
-  );
+);
 };
 
 export default RegistrationForm;

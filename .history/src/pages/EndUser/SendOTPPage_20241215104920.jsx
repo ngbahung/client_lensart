@@ -27,6 +27,23 @@ const VerificationTitle = () => (
   </div>
 );
 
+const ResendCode = ({ onResend, countdown }) => (
+  <div className="text-center mt-4">
+    {countdown > 0 ? (
+      <p className="text-gray-500 text-sm">
+        Gửi lại mã sau {countdown} giây
+      </p>
+    ) : (
+      <button
+        onClick={onResend}
+        className="text-teal-400 hover:text-teal-500 text-sm"
+      >
+        Gửi lại mã
+      </button>
+    )}
+  </div>
+);
+
 const VerificationPage = () => {
   const location = useLocation();
   const navigate = useNavigate();

@@ -32,11 +32,6 @@ export const register = async (userData) => {
       password: userData.password,
       address: userData.address
     });
-    
-    // Store both userId and email for OTP verification
-    localStorage.setItem('tempUserId', response.data.userId);
-    localStorage.setItem('tempEmail', userData.email);
-    
     return response.data;
   } catch (error) {
     throw error.response?.data || error;
@@ -45,22 +40,7 @@ export const register = async (userData) => {
 
 export const verifyOTP = async (otp) => {
   try {
-    const userId = parseInt(localStorage.getItem('tempUserId'));
-    if (!userId || isNaN(userId)) {
-      throw new Error('Invalid user ID');
-    }
-
-    const otpNumber = parseInt(otp);
-    if (isNaN(otpNumber)) {
-      throw new Error('Invalid OTP format');
-    }
-
-    const response = await api.post('/auth/verify-otp', { 
-      user_id: userId,
-      otp: otpNumber
-    });
-
-    localStorage.removeItem('tempUserId');
+    const response = await api.post('/auth/verify-otp', { otp });
     return response.data.token;
   } catch (error) {
     console.error('Error verifying OTP:', error);
@@ -70,19 +50,8 @@ export const verifyOTP = async (otp) => {
 
 export const resendOTP = async () => {
   try {
-    const userId = parseInt(localStorage.getItem('tempUserId'));
-    const email = localStorage.getItem('tempEmail');
-    
-    if (!userId || isNaN(userId) || !email) {
-      throw new Error('Invalid user information');
-    }
-
-    const response = await api.post('/auth/resend-otp', {
-      userId: userId,
-      email: email
-    });
-
-    return response.data;
+    const response = await api.post('/auth/resend-otp');
+    return response.data.data;
   } catch (error) {
     console.error('Error resending OTP:', error);
     throw error;
@@ -111,3 +80,8 @@ export const adminLogout = async () => {
     throw error;
   }
 }
+
+
+
+
+

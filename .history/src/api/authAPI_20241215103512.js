@@ -78,7 +78,7 @@ export const resendOTP = async () => {
     }
 
     const response = await api.post('/auth/resend-otp', {
-      userId: userId,
+      user_id: userId,
       email: email
     });
 
