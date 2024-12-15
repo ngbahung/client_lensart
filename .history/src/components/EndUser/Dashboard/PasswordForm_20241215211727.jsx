@@ -8,6 +8,7 @@ import { FiLock, FiCheck, FiX } from 'react-icons/fi';
 
 function PasswordForm() {
   const [passwords, setPasswords] = useState({
+    currentPassword: '',
     newPassword: '',
     confirmPassword: ''
   });
@@ -22,6 +23,10 @@ function PasswordForm() {
   const validateForm = () => {
     const newErrors = {};
     
+    if (!passwords.currentPassword) {
+      newErrors.currentPassword = 'Vui lòng nhập mật khẩu hiện tại';
+    }
+
     if (!passwords.newPassword) {
       newErrors.newPassword = 'Vui lòng nhập mật khẩu mới';
     } else if (passwords.newPassword.length < 6) {
@@ -66,6 +71,7 @@ function PasswordForm() {
         setIsSubmitting(true);
         const userData = await getUserData();
         await updatePassword(userData.id, {
+          current_password: passwords.currentPassword,
           password: passwords.newPassword
         });
 
@@ -77,6 +83,7 @@ function PasswordForm() {
         });
 
         setPasswords({
+          currentPassword: '',
           newPassword: '',
           confirmPassword: ''
         });
@@ -119,6 +126,20 @@ function PasswordForm() {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Mật khẩu hiện tại
+          </label>
+          <PasswordInput
+            placeholder="Nhập mật khẩu hiện tại"
+            value={passwords.currentPassword}
+            onChange={(e) => handleChange('currentPassword')(e)}
+          />
+          {errors.currentPassword && (
+            <p className="mt-1 text-sm text-red-500">{errors.currentPassword}</p>
+          )}
+        </div>
+
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Mật khẩu mới

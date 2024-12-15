@@ -6,7 +6,6 @@ import { getUserData } from '../../../api/userAPI';
 import { parseAddress } from '../../../utils/addressParser';
 import { toast } from 'react-toastify';
 import { updateAddress } from '../../../api/userAPI';
-import Swal from 'sweetalert2';
 
 function AddressForm() {
   const [address, setAddress] = useState({
@@ -133,46 +132,22 @@ function AddressForm() {
       return;
     }
 
-    const result = await Swal.fire({
-      title: 'Xác nhận thay đổi',
-      text: 'Bạn có chắc chắn muốn cập nhật địa chỉ?',
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonColor: '#55d5d2',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Đồng ý',
-      cancelButtonText: 'Hủy',
-      reverseButtons: true
-    });
+    try {
+      setIsSubmitting(true);
 
-    if (result.isConfirmed) {
-      try {
-        setIsSubmitting(true);
-        const cityName = locations.cities.find(city => city.value === address.cityCode)?.label;
-        const districtName = locations.districts.find(district => district.value === address.districtCode)?.label;
-        const wardName = locations.wards.find(ward => ward.value === address.wardCode)?.label;
+      const cityName = locations.cities.find(city => city.value === address.cityCode)?.label;
+      const districtName = locations.districts.find(district => district.value === address.districtCode)?.label;
+      const wardName = locations.wards.find(ward => ward.value === address.wardCode)?.label;
 
-        const formattedAddress = `${address.detail}, ${wardName}, ${districtName}, ${cityName}`;
-        const userData = await getUserData();
-        
-        await updateAddress(userData.id, formattedAddress);
-        
-        await Swal.fire({
-          title: 'Thành công!',
-          text: 'Đã cập nhật địa chỉ mới.',
-          icon: 'success',
-          confirmButtonColor: '#55d5d2'
-        });
-      } catch (error) {
-        await Swal.fire({
-          title: 'Lỗi!',
-          text: 'Không thể cập nhật địa chỉ.',
-          icon: 'error',
-          confirmButtonColor: '#d33'
-        });
-      } finally {
-        setIsSubmitting(false);
-      }
+      const formattedAddress = `${address.detail}, ${wardName}, ${districtName}, ${cityName}`;
+      const userData = await getUserData();
+      
+      await updateAddress(userData.id, formattedAddress);
+      toast.success('Cập nhật địa chỉ thành công');
+    } catch (error) {
+      toast.error('Không thể cập nhật địa chỉ. Vui lòng thử lại sau.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 

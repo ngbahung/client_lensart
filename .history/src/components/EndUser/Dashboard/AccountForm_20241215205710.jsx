@@ -4,7 +4,6 @@ import TextInput from "../Register/TextInput";
 import { FiSave, FiX, FiUser } from 'react-icons/fi';
 import { toast } from 'react-toastify';
 import { updateProfile } from '../../../api/userAPI';
-import Swal from 'sweetalert2';
 
 function AccountForm({ userData }) {
   const [formData, setFormData] = useState({
@@ -45,37 +44,15 @@ function AccountForm({ userData }) {
     e.preventDefault();
     if (!validateForm()) return;
 
-    const result = await Swal.fire({
-      title: 'Xác nhận',
-      text: 'Bạn có chắc chắn muốn cập nhật thông tin?',
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonColor: '#55d5d2',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Đồng ý',
-      cancelButtonText: 'Hủy'
-    });
-
-    if (result.isConfirmed) {
-      try {
-        setIsSubmitting(true);
-        await updateProfile(userData.id, formData);
-        
-        Swal.fire(
-          'Thành công!',
-          'Đã cập nhật thông tin tài khoản.',
-          'success'
-        );
-        setIsDirty(false);
-      } catch (error) {
-        Swal.fire(
-          'Lỗi!',
-          'Không thể cập nhật thông tin.',
-          'error'
-        );
-      } finally {
-        setIsSubmitting(false);
-      }
+    try {
+      setIsSubmitting(true);
+      await updateProfile(userData.id, formData);
+      toast.success('Cập nhật thông tin thành công!');
+      setIsDirty(false);
+    } catch (error) {
+      toast.error('Cập nhật thông tin thất bại');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
