@@ -152,25 +152,16 @@ const RegistrationForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) {
-      return;
-    }
-
-    const fullAddress = [
-      formData.address,
-      formData.ward && locations.wards.find(w => w.value === formData.ward)?.label,
-      formData.district && locations.districts.find(d => d.value === formData.district)?.label,
-      formData.city && locations.cities.find(c => c.value === formData.city)?.label
-    ].filter(Boolean).join(', ');
+    if (!validateForm()) return;
 
     const result = await Swal.fire({
       title: 'Xác nhận thông tin',
       html: `
         <div class="text-left">
-          <p><strong>Họ tên:</strong> ${formData.firstname} ${formData.lastname} </p>
+          <p><strong>Họ tên:</strong> ${formData.lastname} ${formData.firstname}</p>
           <p><strong>Email:</strong> ${formData.email}</p>
           <p><strong>Số điện thoại:</strong> ${formData.phone}</p>
-          <p><strong>Địa chỉ:</strong> ${fullAddress}</p>
+          <p><strong>Địa chỉ:</strong> ${formData.address}, ${formData.ward}, ${formData.district}, ${formData.city}</p>
         </div>
       `,
       icon: 'question',
@@ -182,13 +173,10 @@ const RegistrationForm = () => {
     });
 
     if (result.isConfirmed) {
-      setIsSubmitting(true);
       try {
-        await register({
-          ...formData,
-          address: fullAddress
-        });
-
+        setIsSubmitting(true);
+        const response = await register(formData);
+        
         await Swal.fire({
           title: 'Đăng ký thành công!',
           text: 'Vui lòng kiểm tra email để xác thực tài khoản.',
@@ -196,11 +184,8 @@ const RegistrationForm = () => {
           confirmButtonColor: '#55d5d2'
         });
 
-        navigate('/verify-otp', { 
-          state: { 
-            email: formData.email,
-            message: 'Vui lòng kiểm tra email của bạn để lấy mã xác thực'
-          }
+        navigate('/send-otp', { 
+          state: { email: formData.email } 
         });
       } catch (error) {
         Swal.fire({

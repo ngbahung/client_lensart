@@ -167,7 +167,7 @@ const RegistrationForm = () => {
       title: 'Xác nhận thông tin',
       html: `
         <div class="text-left">
-          <p><strong>Họ tên:</strong> ${formData.firstname} ${formData.lastname} </p>
+          <p><strong>Họ tên:</strong> ${formData.lastname} ${formData.firstname}</p>
           <p><strong>Email:</strong> ${formData.email}</p>
           <p><strong>Số điện thoại:</strong> ${formData.phone}</p>
           <p><strong>Địa chỉ:</strong> ${fullAddress}</p>

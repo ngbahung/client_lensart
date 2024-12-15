@@ -6,7 +6,6 @@ import PasswordInput from './PasswordInput';
 import Select from './Select';
 import { fetchCities, fetchDistricts, fetchWards } from '../../../services/locationApi';
 import { toast } from 'react-toastify';
-import Swal from 'sweetalert2';
 
 const RegistrationForm = () => {
   const navigate = useNavigate();
@@ -153,65 +152,39 @@ const RegistrationForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) {
+      toast.error('Vui lòng kiểm tra lại thông tin đăng ký');
       return;
     }
 
-    const fullAddress = [
-      formData.address,
-      formData.ward && locations.wards.find(w => w.value === formData.ward)?.label,
-      formData.district && locations.districts.find(d => d.value === formData.district)?.label,
-      formData.city && locations.cities.find(c => c.value === formData.city)?.label
-    ].filter(Boolean).join(', ');
+    setIsSubmitting(true);
+    try {
+      const fullAddress = [
+        formData.address,
+        formData.ward && locations.wards.find(w => w.value === formData.ward)?.label,
+        formData.district && locations.districts.find(d => d.value === formData.district)?.label,
+        formData.city && locations.cities.find(c => c.value === formData.city)?.label
+      ].filter(Boolean).join(', ');
 
-    const result = await Swal.fire({
-      title: 'Xác nhận thông tin',
-      html: `
-        <div class="text-left">
-          <p><strong>Họ tên:</strong> ${formData.firstname} ${formData.lastname} </p>
-          <p><strong>Email:</strong> ${formData.email}</p>
-          <p><strong>Số điện thoại:</strong> ${formData.phone}</p>
-          <p><strong>Địa chỉ:</strong> ${fullAddress}</p>
-        </div>
-      `,
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonColor: '#55d5d2',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Xác nhận đăng ký',
-      cancelButtonText: 'Kiểm tra lại'
-    });
+      await register({
+        ...formData,
+        address: fullAddress
+      });
 
-    if (result.isConfirmed) {
-      setIsSubmitting(true);
-      try {
-        await register({
-          ...formData,
-          address: fullAddress
-        });
-
-        await Swal.fire({
-          title: 'Đăng ký thành công!',
-          text: 'Vui lòng kiểm tra email để xác thực tài khoản.',
-          icon: 'success',
-          confirmButtonColor: '#55d5d2'
-        });
-
-        navigate('/verify-otp', { 
-          state: { 
-            email: formData.email,
-            message: 'Vui lòng kiểm tra email của bạn để lấy mã xác thực'
-          }
-        });
-      } catch (error) {
-        Swal.fire({
-          title: 'Lỗi!',
-          text: error.response?.data?.message || 'Đăng ký thất bại',
-          icon: 'error',
-          confirmButtonColor: '#d33'
-        });
-      } finally {
-        setIsSubmitting(false);
-      }
+      toast.success('Đăng ký thành công! Vui lòng xác thực email.');
+      navigate('/verify-otp', { 
+        state: { 
+          email: formData.email,
+          message: 'Vui lòng kiểm tra email của bạn để lấy mã xác thực'
+        }
+      });
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Đăng ký thất bại');
+      setErrors({
+        ...errors,
+        submitError: error.message || 'Đăng ký thất bại. Vui lòng thử lại.'
+      });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
