@@ -48,8 +48,7 @@ const SearchResults = ({ results, onClose }) => {
   if (!results?.length) return null;
 
   return (
-    <div className="fixed md:absolute left-1/2 md:left-0 transform -translate-x-1/2 md:translate-x-0 top-16 md:top-full 
-      w-[calc(100%-3rem)] md:w-[486px] mx-auto md:mx-0 bg-white shadow-lg rounded-lg overflow-hidden z-50 md:mt-2">
+    <div className="absolute top-full left-0 right-0 bg-white shadow-lg rounded-lg overflow-hidden z-50 mt-2 w-screen md:w-auto md:mx-0 -ml-4 md:ml-0">
       <div className="max-h-[60vh] md:max-h-[70vh] overflow-y-auto">
         <div className="divide-y divide-gray-100">
           {results.map(product => (

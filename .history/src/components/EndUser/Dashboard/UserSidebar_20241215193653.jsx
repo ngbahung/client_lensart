@@ -21,7 +21,7 @@ function Sidebar({ activeView, onViewChange, userData, onLogout }) {
   };
 
   return (
-    <div className="w-80 h-full bg-white p-6 rounded-lg shadow-md overflow-y-auto max-h-[calc(100vh-4rem)] md:max-h-none">
+    <div className="w-80 h-full bg-white p-6 rounded-lg shadow-md overflow-y-auto">
       {/* User Info Section - made more compact on mobile */}
       <div className="flex items-center space-x-3 mb-6 p-3 bg-gray-50 rounded-lg">
         <div className="w-10 h-10 md:w-12 md:h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-semibold text-lg">

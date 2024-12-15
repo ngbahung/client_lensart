@@ -49,7 +49,7 @@ const SearchResults = ({ results, onClose }) => {
 
   return (
     <div className="fixed md:absolute left-1/2 md:left-0 transform -translate-x-1/2 md:translate-x-0 top-16 md:top-full 
-      w-[calc(100%-3rem)] md:w-[486px] mx-auto md:mx-0 bg-white shadow-lg rounded-lg overflow-hidden z-50 md:mt-2">
+      w-[calc(100%-2rem)] md:w-[486px] mx-auto md:mx-0 bg-white shadow-lg rounded-lg overflow-hidden z-50 md:mt-2">
       <div className="max-h-[60vh] md:max-h-[70vh] overflow-y-auto">
         <div className="divide-y divide-gray-100">
           {results.map(product => (

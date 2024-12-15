@@ -52,20 +52,20 @@ function UserDashboard() {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* Mobile menu button - adjusted z-index */}
+      {/* Mobile menu button - fixed position */}
       <button
-        className="fixed top-20 right-4 z-30 p-2 rounded-md bg-white shadow-md md:hidden"
+        className="fixed top-4 right-4 z-50 p-2 rounded-md bg-white shadow-md md:hidden"
         onClick={() => setSidebarOpen(!isSidebarOpen)}
       >
         <FiMenu size={24} />
       </button>
 
-      <div className="flex flex-col md:flex-row p-4 md:p-6 lg:p-8 relative pt-16 md:pt-4">
-        {/* Sidebar wrapper with adjusted positioning for header */}
+      <div className="flex flex-col md:flex-row p-4 md:p-6 lg:p-8 relative">
+        {/* Sidebar wrapper with smooth transition */}
         <div 
           className={`
-            fixed top-16 inset-y-0 left-0 z-20 w-80 md:w-auto md:static md:top-auto
-            transform transition-transform duration-300 ease-in-out h-[calc(100vh-4rem)]
+            fixed inset-y-0 left-0 z-40 w-80 md:w-auto md:static
+            transform transition-transform duration-300 ease-in-out
             ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
           `}
         >
@@ -80,17 +80,17 @@ function UserDashboard() {
           />
         </div>
 
-        {/* Backdrop overlay - adjusted z-index */}
+        {/* Backdrop overlay */}
         {isSidebarOpen && (
           <div 
-            className="fixed inset-0 top-16 bg-black bg-opacity-50 z-10 md:hidden"
+            className="fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden"
             onClick={() => setSidebarOpen(false)}
           />
         )}
 
         {/* Main content area */}
         <div className={`
-          flex-1 md:ml-6 transition-all duration-300 mt-4 md:mt-0
+          flex-1 md:ml-6 transition-all duration-300
           ${isSidebarOpen ? 'blur-sm md:blur-none' : ''}
         `}>
           <div className="max-w-4xl mx-auto">
