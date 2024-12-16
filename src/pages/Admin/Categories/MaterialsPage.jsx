@@ -94,9 +94,7 @@ const MaterialsPage = () => {
       const currentMaterial = materials.find(mat => mat.id === materialId);
       const newStatus = !currentMaterial.status;
       
-      const response = await axios.put(`http://localhost:8000/api/materials/switch-status/${materialId}`, {
-        status: newStatus ? 'active' : 'inactive'  // Convert boolean to string format
-      });
+      const response = await axios.post(`http://localhost:8000/api/materials/switch-status/${materialId}`);
       
       if (response.status === 200) {
         setMaterials(prevMaterials => 

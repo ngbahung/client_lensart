@@ -84,17 +84,13 @@ const BrandsPage = () => {
   const handleStatusChange = async (brandId) => {
     try {
       const currentBrand = brands.find(brand => brand.id === brandId);
-      // Sửa lại format gửi status
-      const newStatus = currentBrand.status ? 'inactive' : 'active';
       
-      const response = await axios.post(`http://localhost:8000/api/brands/switch-status/${brandId}`, {
-        status: newStatus  // Gửi trực tiếp string 'active'/'inactive'
-      });
+      const response = await axios.post(`http://localhost:8000/api/brands/switch-status/${brandId}`);
       
       if (response.status === 200) {
         setBrands(prevBrands => 
           prevBrands.map(brand => 
-            brand.id === brandId ? {...brand, status: newStatus} : brand
+            brand.id === brandId ? {...brand, status: !currentBrand.status} : brand
           )
         );
       }

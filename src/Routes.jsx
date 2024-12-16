@@ -22,6 +22,7 @@ import MaterialsPage from './pages/Admin/Categories/MaterialsPage';
 import FeaturesPage from './pages/Admin/Categories/FeaturesPage';
 import BrandsPage from './pages/Admin/Products/BrandsPage';
 import ProductsPage from './pages/Admin/Products/ProductsPage';
+import Product_ReviewsPage from './pages/Admin/Products/Product_ReviewsPage';
 import Navbar from './components/Admin/Navbar_Header/Navbar';
 import Header_Admin from './components/Admin/Navbar_Header/Header';
 const UserLayout = () => (
@@ -81,6 +82,7 @@ const AppRoutes = () => {
         <Route path="features" element={<FeaturesPage />} />
         <Route path="brands" element={<BrandsPage />} />
         <Route path="products" element={<ProductsPage />} />
+        <Route path="product-reviews" element={<Product_ReviewsPage />} />
       </Route>
 
       {/* User Routes */}

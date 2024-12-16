@@ -92,12 +92,7 @@ const ShapePage = () => {
       const currentShape = shapes.find(shape => shape.id === shapeId);
       const newStatus = !currentShape.status;
       
-      // Convert to text only for API request
-      const statusForApi = newStatus ? "active" : "inactive";
-  
-      const response = await axios.put(`http://localhost:8000/api/shapes/switch-status/${shapeId}`, {
-        status: statusForApi
-      });
+      const response = await axios.post(`http://localhost:8000/api/shapes/switch-status/${shapeId}`);
       
       if (response.status === 200) {
         setShapes(prevShapes => 

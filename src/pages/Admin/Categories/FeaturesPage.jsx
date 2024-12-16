@@ -71,12 +71,7 @@ const FeaturesPage = () => {
       const feature = features.find(f => f.id === featureId);
       const newStatus = !feature.status;
       
-      // Convert to text only for API request
-      const statusForApi = newStatus ? "active" : "inactive";
-      
-      const response = await axios.put(`http://localhost:8000/api/features/switch-status/${featureId}`, {
-        status: statusForApi
-      });
+      const response = await axios.post(`http://localhost:8000/api/features/switch-status/${featureId}`);
       
       if (response.status === 200) {
         setFeatures(prevFeatures => 

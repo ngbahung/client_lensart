@@ -83,21 +83,13 @@ const ProductsPage = () => {
 
   const handleStatusChange = async (productId) => {
     try {
-      const currentProduct = products.find(product => product.id === productId);
-      // Sửa lại format gửi status
-      const newStatus = currentProduct.status ? 'inactive' : 'active';
+      await axios.post(`http://localhost:8000/api/products/switch-status/${productId}`);
       
-      const response = await axios.post(`http://localhost:8000/api/products/switch-status/${productId}`, {
-        status: newStatus  // Gửi trực tiếp string 'active'/'inactive'
-      });
-      
-      if (response.status === 200) {
-        setProducts(prevProducts => 
-          prevProducts.map(product => 
-            product.id === productId ? {...product, status: newStatus} : product
-          )
-        );
-      }
+      setProducts(prevProducts => 
+        prevProducts.map(product => 
+          product.id === productId ? {...product, status: !product.status} : product
+        )
+      );
     } catch (error) {
       alert("Failed to update product status");
       console.error("Failed to update product status:", error);

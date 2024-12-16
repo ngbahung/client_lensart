@@ -111,9 +111,7 @@ const CategoryPage = () => {
       const currentCategory = categories.find(cat => cat.id === categoryId);
       const newStatus = !currentCategory.status;
 
-      const response = await axios.put(`http://localhost:8000/api/categories/switch-status/${categoryId}`, {
-        status: newStatus ? 'active' : 'inactive'  // Convert boolean to string format
-      });
+      const response = await axios.post(`http://localhost:8000/api/categories/switch-status/${categoryId}`);
       
       if (response.status === 200) {
         setCategories(prevCategories => 
