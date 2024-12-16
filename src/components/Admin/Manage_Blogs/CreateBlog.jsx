@@ -89,7 +89,6 @@ const CreateBlog = ({ onClose, refreshBlogs }) => {
       });
 
       if (response.status === 200) {
-        await refreshBlogs();
         onClose();
       }
     } catch (error) {

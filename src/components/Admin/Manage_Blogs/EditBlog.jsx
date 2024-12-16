@@ -94,7 +94,7 @@ const EditBlog = ({ blog, onClose, refreshBlogs }) => {
     try {
       const formData = new FormData();
       formData.append('title', title.trim());
-      formData.append('description', content.trim()); // Changed from 'content' to 'description'
+      formData.append('description', content.trim());
       formData.append('status', status);
       if (imageFile) {
         formData.append('image', imageFile);
@@ -112,7 +112,6 @@ const EditBlog = ({ blog, onClose, refreshBlogs }) => {
       );
 
       if (response.status === 200) {
-        await refreshBlogs();
         onClose();
       }
     } catch (error) {

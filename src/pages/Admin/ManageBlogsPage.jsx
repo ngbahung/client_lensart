@@ -139,11 +139,10 @@ const ManageBlogsPage = () => {
   const handleDelete = async (blogId) => {
     if (window.confirm('Are you sure you want to delete this blog?')) {
       try {
-        const response = await axios.post(`http://127.0.0.1:8000/api/blogs/delete/${blogId}`);
+        const response = await axios.post(`http://localhost:8000/api/blogs/delete/${blogId}`);
         if (response.status === 200) {
           setBlogs(prevBlogs => prevBlogs.filter(blog => blog.id !== blogId));
           alert('Blog deleted successfully');
-          refreshBlogs(); // Refresh the list after deletion
         }
       } catch (error) {
         alert(error.response?.data?.message || "Failed to delete blog");
