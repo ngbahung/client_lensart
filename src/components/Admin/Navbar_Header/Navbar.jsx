@@ -16,12 +16,26 @@ const Navbar = () => {
     users: false
   });
 
+  // Add state for active parent menu
+  const [activeParentMenu, setActiveParentMenu] = useState(null);
+
   const toggleMenu = (menu) => {
     setExpandedMenus(prev => ({
       ...prev,
       [menu]: !prev[menu]
     }));
   };
+
+  // Sửa lại hàm isChildActive để xử lý path chính xác hơn
+  const isChildActive = (path) => {
+    const currentPath = window.location.pathname.toLowerCase();
+    // Xử lý đặc biệt cho product-reviews
+    if (path === 'product reviews') {
+      return currentPath.includes('product-reviews');
+    }
+    return currentPath.includes(path.toLowerCase().replace(' ', '-'));
+  };
+
   const [activeLink, setActiveLink] = useState(null); // Lưu trạng thái link đang active
 
   const handleLinkClick = (linkId) => {
@@ -63,10 +77,17 @@ const Navbar = () => {
             <li className="hover:bg-gray-100 rounded-lg">
               <button
                 onClick={() => toggleMenu('categories')}
-                className="w-full flex items-center justify-between px-4 py-3 text-black-700 hover:text-[rgba(85,213,210,1)]"
+                className={`w-full flex items-center justify-between px-4 py-3 ${
+                  isChildActive('/category') || isChildActive('/shape') || 
+                  isChildActive('/materials') || isChildActive('/features')
+                    ? 'text-[rgba(85,213,210,1)]'
+                    : 'text-black-700 hover:text-[rgba(85,213,210,1)]'
+                }`}
               >
                 <div className="flex items-center">
-                  <FaListUl className="w-5 h-5 text-black-500 ml-[30px]" />
+                  <FaListUl className={`w-5 h-5 ml-[30px] ${
+                    isChildActive('/category') ? 'text-[rgba(85,213,210,1)]' : 'text-black-500'
+                  }`} />
                   <span className="ml-3">Manage Categories</span>
                 </div>
                 <span className="ml-auto pr-2">
@@ -79,11 +100,11 @@ const Navbar = () => {
                     <li key={item} className="hover:bg-gray-100 rounded-lg ml-[12px]">
                       <NavLink
                         to={`/admin/${item.toLowerCase()}`}
-                        className={({ isActive }) =>
-                          isActive
-                            ? "block px-4 py-2 text-[rgba(85,213,210,1)]" // Khi active
-                            : "block px-4 py-2 text-black-700 hover:text-[rgba(85,213,210,1)]"
-                        }
+                        className={`block px-4 py-2 ${
+                          isChildActive(item.toLowerCase())
+                            ? 'text-[rgba(85,213,210,1)]'
+                            : 'text-black-700 hover:text-[rgba(85,213,210,1)]'
+                        }`}
                       >
                         {item}
                       </NavLink>
@@ -98,10 +119,17 @@ const Navbar = () => {
             <li className="hover:bg-gray-100 rounded-lg">
               <button
                 onClick={() => toggleMenu('products')}
-                className="w-full flex items-center justify-between px-4 py-3 text-black-700 hover:text-[rgba(85,213,210,1)]"
+                className={`w-full flex items-center justify-between px-4 py-3 ${
+                  isChildActive('/brands') || isChildActive('/products') || 
+                  isChildActive('/product-reviews')
+                    ? 'text-[rgba(85,213,210,1)]'
+                    : 'text-black-700 hover:text-[rgba(85,213,210,1)]'
+                }`}
               >
                 <div className="flex items-center">
-                  <FaBoxArchive className="w-5 h-5 text-black-500 ml-[30px]" />
+                  <FaBoxArchive className={`w-5 h-5 ml-[30px] ${
+                    isChildActive('/brands') ? 'text-[rgba(85,213,210,1)]' : 'text-black-500'
+                  }`} />
                   <span className="ml-3">Manage Products</span>
                 </div>
                 <span className="ml-auto pr-2">
@@ -114,11 +142,11 @@ const Navbar = () => {
                     <li key={item} className="hover:bg-gray-100 rounded-lg ml-[12px]">
                       <NavLink
                         to={`/admin/${item.toLowerCase().replace(' ', '-')}`}
-                        className={({ isActive }) =>
-                          isActive
-                            ? "block px-4 py-2 text-[rgba(85,213,210,1)]" // Khi active
-                            : "block px-4 py-2 text-black-700 hover:text-[rgba(85,213,210,1)]"
-                        }
+                        className={`block px-4 py-2 ${
+                          isChildActive(item)
+                            ? 'text-[rgba(85,213,210,1)]'
+                            : 'text-black-700 hover:text-[rgba(85,213,210,1)]'
+                        }`}
                       >
                         {item}
                       </NavLink>
@@ -132,10 +160,18 @@ const Navbar = () => {
             <li className="hover:bg-gray-100 rounded-lg">
               <button
                 onClick={() => toggleMenu('orders')}
-                className="w-full flex items-center justify-between px-4 py-3 text-black-700 hover:text-[rgba(85,213,210,1)]"
+                className={`w-full flex items-center justify-between px-4 py-3 ${
+                  isChildActive('/all-orders') || isChildActive('/all-pending-orders') || 
+                  isChildActive('/all-processed-orders') || isChildActive('/all-out-for-delivery-orders') ||
+                  isChildActive('/all-delivered-orders') || isChildActive('/all-canceled-orders')
+                    ? 'text-[rgba(85,213,210,1)]'
+                    : 'text-black-700 hover:text-[rgba(85,213,210,1)]'
+                }`}
               >
                 <div className="flex items-center">
-                  <FaCartPlus className="w-5 h-5 text-black-500 ml-[30px]" />
+                  <FaCartPlus className={`w-5 h-5 ml-[30px] ${
+                    isChildActive('/all-orders') ? 'text-[rgba(85,213,210,1)]' : 'text-black-500'
+                  }`} />
                   <span className="ml-3">Orders</span>
                 </div>
                 <span className="ml-auto pr-2">
@@ -148,11 +184,11 @@ const Navbar = () => {
                     <li key={item} className="hover:bg-gray-100 rounded-lg ml-[12px]">
                       <NavLink
                         to={`/admin/${item.toLowerCase().replace(' ', '-')}`}
-                        className={({ isActive }) =>
-                          isActive
-                            ? "block px-4 py-2 text-[rgba(85,213,210,1)]" // Khi active
-                            : "block px-4 py-2 text-black-700 hover:text-[rgba(85,213,210,1)]"
-                        }
+                        className={`block px-4 py-2 ${
+                          isChildActive(item.toLowerCase())
+                            ? 'text-[rgba(85,213,210,1)]'
+                            : 'text-black-700 hover:text-[rgba(85,213,210,1)]'
+                        }`}
                       >
                         {item}
                       </NavLink>
@@ -229,10 +265,17 @@ const Navbar = () => {
             <li className="hover:bg-gray-100 rounded-lg">
               <button
                 onClick={() => toggleMenu('users')}
-                className="w-full flex items-center justify-between px-4 py-3 text-black-700 hover:text-[rgba(85,213,210,1)]"
+                className={`w-full flex items-center justify-between px-4 py-3 ${
+                  isChildActive('/user-list') || isChildActive('/add-user') || 
+                  isChildActive('/user-roles')
+                    ? 'text-[rgba(85,213,210,1)]'
+                    : 'text-black-700 hover:text-[rgba(85,213,210,1)]'
+                }`}
               >
                 <div className="flex items-center">
-                  <FaUsers className="w-5 h-5 text-black-500 ml-[30px]" />
+                  <FaUsers className={`w-5 h-5 ml-[30px] ${
+                    isChildActive('/user-list') ? 'text-[rgba(85,213,210,1)]' : 'text-black-500'
+                  }`} />
                   <span className="ml-3">Users</span>
                 </div>
                 <span className="ml-auto pr-2">
@@ -245,11 +288,11 @@ const Navbar = () => {
                     <li key={item} className="hover:bg-gray-100 rounded-lg ml-[12px]">
                       <NavLink
                         to={`/admin/${item.toLowerCase().replace(' ', '-')}`}
-                        className={({ isActive }) =>
-                          isActive
-                            ? "block px-4 py-2 text-[rgba(85,213,210,1)]" // Khi active
-                            : "block px-4 py-2 text-black-700 hover:text-[rgba(85,213,210,1)]"
-                        }
+                        className={`block px-4 py-2 ${
+                          isChildActive(item.toLowerCase())
+                            ? 'text-[rgba(85,213,210,1)]'
+                            : 'text-black-700 hover:text-[rgba(85,213,210,1)]'
+                        }`}
                       >
                         {item}
                       </NavLink>

@@ -13,21 +13,21 @@ const Product_ReviewsPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const mockData = [
-    { id: 1, productName: "Classic Eyewear", userName: "John Doe", rating: 5, review: "Great product!", status: true },
-    { id: 2, productName: "Sun Glass Pro", userName: "Jane Smith", rating: 4, review: "Nice quality", status: false },
-    { id: 3, productName: "Modern Eyewear", userName: "Alice Johnson", rating: 3, review: "Average", status: true },
-    { id: 4, productName: "Vintage Glasses", userName: "Bob Brown", rating: 2, review: "Not good", status: false },
-    { id: 5, productName: "Sporty Shades", userName: "Charlie Davis", rating: 5, review: "Excellent!", status: true },
-    { id: 6, productName: "Fashion Frames", userName: "Diana Evans", rating: 4, review: "Stylish", status: false },
-    { id: 7, productName: "Reading Glasses", userName: "Evan Foster", rating: 3, review: "Okay", status: true },
-    { id: 8, productName: "Blue Light Blockers", userName: "Fiona Green", rating: 4, review: "Very useful", status: false },
-    { id: 9, productName: "Polarized Sunglasses", userName: "George Harris", rating: 5, review: "Perfect for outdoors", status: true },
-    { id: 10, productName: "Kids Glasses", userName: "Hannah Irving", rating: 4, review: "Good for children", status: false },
-    { id: 11, productName: "Designer Eyewear", userName: "Ian Jackson", rating: 5, review: "High quality", status: true },
-    { id: 12, productName: "Budget Glasses", userName: "Jackie King", rating: 2, review: "Cheap but not durable", status: false },
-    { id: 13, productName: "Luxury Frames", userName: "Karen Lee", rating: 5, review: "Worth the price", status: true },
-    { id: 14, productName: "Eco-friendly Glasses", userName: "Larry Moore", rating: 4, review: "Good for the environment", status: false },
-    { id: 15, productName: "Titanium Glasses", userName: "Mona Nelson", rating: 5, review: "Very strong", status: true }
+    { id: 1, productName: "Classic Eyewear", userName: "John Doe", rating: 5, review: "Great product!", status: "active" },
+    { id: 2, productName: "Sun Glass Pro", userName: "Jane Smith", rating: 4, review: "Nice quality", status: "inactive" },
+    { id: 3, productName: "Modern Eyewear", userName: "Alice Johnson", rating: 3, review: "Average", status: "active" },
+    { id: 4, productName: "Vintage Glasses", userName: "Bob Brown", rating: 2, review: "Not good", status: "inactive" },
+    { id: 5, productName: "Sporty Shades", userName: "Charlie Davis", rating: 5, review: "Excellent!", status: "active" },
+    { id: 6, productName: "Fashion Frames", userName: "Diana Evans", rating: 4, review: "Stylish", status: "inactive" },
+    { id: 7, productName: "Reading Glasses", userName: "Evan Foster", rating: 3, review: "Okay", status: "active" },
+    { id: 8, productName: "Blue Light Blockers", userName: "Fiona Green", rating: 4, review: "Very useful", status: "inactive" },
+    { id: 9, productName: "Polarized Sunglasses", userName: "George Harris", rating: 5, review: "Perfect for outdoors", status: "active" },
+    { id: 10, productName: "Kids Glasses", userName: "Hannah Irving", rating: 4, review: "Good for children", status: "inactive" },
+    { id: 11, productName: "Designer Eyewear", userName: "Ian Jackson", rating: 5, review: "High quality", status: "active" },
+    { id: 12, productName: "Budget Glasses", userName: "Jackie King", rating: 2, review: "Cheap but not durable", status: "inactive" },
+    { id: 13, productName: "Luxury Frames", userName: "Karen Lee", rating: 5, review: "Worth the price", status: "active" },
+    { id: 14, productName: "Eco-friendly Glasses", userName: "Larry Moore", rating: 4, review: "Good for the environment", status: "inactive" },
+    { id: 15, productName: "Titanium Glasses", userName: "Mona Nelson", rating: 5, review: "Very strong", status: "active" }
   ];
 
   const refreshReviews = async () => {
