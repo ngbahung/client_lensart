@@ -27,15 +27,17 @@ const CreateProduct = ({ onClose, refreshBrands }) => {
   const [loadingFeatures, setLoadingFeatures] = useState(false);
   const [selectedFeatures, setSelectedFeatures] = useState([]);
 
-  // Add function to fetch brands
+  // Modified fetch functions
   const fetchBrands = async () => {
     setLoadingBrands(true);
     try {
       const response = await axios.get('http://localhost:8000/api/brands');
       if (response.data && Array.isArray(response.data.data)) {
-        setBrands(response.data.data);
+        const activeBrands = response.data.data.filter(brand => brand.status === 'active');
+        setBrands(activeBrands);
       } else if (Array.isArray(response.data)) {
-        setBrands(response.data);
+        const activeBrands = response.data.filter(brand => brand.status === 'active');
+        setBrands(activeBrands);
       }
     } catch (error) {
       console.error('Error fetching brands:', error);
@@ -50,9 +52,11 @@ const CreateProduct = ({ onClose, refreshBrands }) => {
     try {
       const response = await axios.get('http://localhost:8000/api/categories');
       if (response.data && Array.isArray(response.data.data)) {
-        setCategories(response.data.data);
+        const activeCategories = response.data.data.filter(category => category.status === 'active');
+        setCategories(activeCategories);
       } else if (Array.isArray(response.data)) {
-        setCategories(response.data);
+        const activeCategories = response.data.filter(category => category.status === 'active');
+        setCategories(activeCategories);
       }
     } catch (error) {
       console.error('Error fetching categories:', error);
@@ -67,9 +71,11 @@ const CreateProduct = ({ onClose, refreshBrands }) => {
     try {
       const response = await axios.get('http://localhost:8000/api/shapes');
       if (response.data && Array.isArray(response.data.data)) {
-        setShapes(response.data.data);
+        const activeShapes = response.data.data.filter(shape => shape.status === 'active');
+        setShapes(activeShapes);
       } else if (Array.isArray(response.data)) {
-        setShapes(response.data);
+        const activeShapes = response.data.filter(shape => shape.status === 'active');
+        setShapes(activeShapes);
       }
     } catch (error) {
       console.error('Error fetching shapes:', error);
@@ -84,9 +90,11 @@ const CreateProduct = ({ onClose, refreshBrands }) => {
     try {
       const response = await axios.get('http://localhost:8000/api/materials');
       if (response.data && Array.isArray(response.data.data)) {
-        setMaterials(response.data.data);
+        const activeMaterials = response.data.data.filter(material => material.status === 'active');
+        setMaterials(activeMaterials);
       } else if (Array.isArray(response.data)) {
-        setMaterials(response.data);
+        const activeMaterials = response.data.filter(material => material.status === 'active');
+        setMaterials(activeMaterials);
       }
     } catch (error) {
       console.error('Error fetching materials:', error);
@@ -101,9 +109,11 @@ const CreateProduct = ({ onClose, refreshBrands }) => {
     try {
       const response = await axios.get('http://localhost:8000/api/features');
       if (response.data && Array.isArray(response.data.data)) {
-        setFeaturesList(response.data.data);
+        const activeFeatures = response.data.data.filter(feature => feature.status === 'active');
+        setFeaturesList(activeFeatures);
       } else if (Array.isArray(response.data)) {
-        setFeaturesList(response.data);
+        const activeFeatures = response.data.filter(feature => feature.status === 'active');
+        setFeaturesList(activeFeatures);
       }
     } catch (error) {
       console.error('Error fetching features:', error);

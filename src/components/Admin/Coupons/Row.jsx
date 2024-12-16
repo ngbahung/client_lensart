@@ -30,7 +30,7 @@ const ToggleSwitch = ({ id, status, onToggle, disabled }) => {
   );
 };
 
-const Row = ({ brand, onStatusChange, onEdit }) => {
+const Row = ({ coupon, onStatusChange, onEdit }) => {
   const [showStatusModal, setShowStatusModal] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
 
@@ -41,7 +41,7 @@ const Row = ({ brand, onStatusChange, onEdit }) => {
   const handleConfirmStatusChange = async () => {
     setIsUpdating(true);
     try {
-      await onStatusChange(brand.id, !brand.status);
+      await onStatusChange(coupon.id, !coupon.status);
       setShowStatusModal(false);
     } catch (error) {
       console.error("Error updating status:", error);
@@ -55,18 +55,21 @@ const Row = ({ brand, onStatusChange, onEdit }) => {
   };
 
   const handleEdit = () => {
-    onEdit(brand);
+    onEdit(coupon);
   };
 
   return (
     <>
       <tr className="hover:bg-gray-100 h-[48px]">
-        <td className="py-2 px-4">{brand.id}</td>
-        <td className="py-2 px-4">{brand.name}</td>
+        <td className="py-2 px-4">{coupon.id}</td>
+        <td className="py-2 px-4">{coupon.name}</td>
+        <td className="py-2 px-4">{coupon.code}</td>
+        <td className="py-2 px-4">{coupon.quantity}</td>
+        <td className="py-2 px-4">{coupon.discount_price.toLocaleString()}đ</td>
         <td className="py-2 px-4">
           <ToggleSwitch
-            id={brand.id}
-            status={brand.status === 'active'}
+            id={coupon.id}
+            status={coupon.status === 'active'}
             onToggle={handleStatusChange}
             disabled={isUpdating}
           />
@@ -100,10 +103,13 @@ ToggleSwitch.propTypes = {
 };
 
 Row.propTypes = {
-  brand: PropTypes.shape({
+  coupon: PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    status: PropTypes.bool.isRequired,
+    code: PropTypes.string.isRequired,
+    quantity: PropTypes.number.isRequired,
+    discount_price: PropTypes.number.isRequired,
+    status: PropTypes.string.isRequired,
   }).isRequired,
   onStatusChange: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,

@@ -66,7 +66,7 @@ const Row = ({ shape, onStatusChange, onEdit }) => {
         <td className="py-2 px-4">
           <ToggleSwitch
             id={shape.id}
-            status={shape.status}
+            status={shape.status === 'active'}
             onToggle={handleStatusChange}
             disabled={isUpdating}
           />

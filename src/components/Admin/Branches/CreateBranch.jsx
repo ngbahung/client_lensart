@@ -17,7 +17,9 @@ const CreateBranch = ({ onClose, refreshBranches }) => {
       try {
         const response = await axios.get('http://localhost:8000/api/users/getByRole/2');
         if (response.data && response.data.users) {
-          setManagers(response.data.users);
+          // Filter only active managers
+          const activeManagers = response.data.users.filter(manager => manager.status === 'active');
+          setManagers(activeManagers);
         }
       } catch (error) {
         console.error("Error fetching managers:", error);

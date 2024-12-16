@@ -19,15 +19,24 @@ const EditBranch = ({ branch, onClose, refreshBranches }) => {
     const fetchManagers = async () => {
       try {
         const response = await axios.get('http://localhost:8000/api/users/getByRole/2');
-        if (response.data && response.data.users) {  // Update data access path
-          setManagers(response.data.users);
-          if (branch.manager_id) {
-            setSelectedManagerId(branch.manager_id);
-          }
+        if (response.data && response.data.users) {
+          // Filter only active managers
+          const activeManagers = response.data.users.filter(manager => manager.status === 'active');
+          setManagers(activeManagers);
+          
+          // Check if current branch manager exists in active managers list
+          const managerExists = activeManagers.some(manager => manager.id === branch.manager_id);
+          
+          // If manager exists in active list, set it as selected, otherwise reset to empty
+          setSelectedManagerId(managerExists ? branch.manager_id : '');
+          
+          // Set loading state to false after fetching
+          setIsLoadingManager(false);
         }
       } catch (error) {
         console.error("Error fetching managers:", error);
         setError("Failed to load managers list");
+        setIsLoadingManager(false);
       }
     };
     
@@ -39,8 +48,7 @@ const EditBranch = ({ branch, onClose, refreshBranches }) => {
       setName(branch.name);
       setAddress(branch.address);
       setStatus(branch.status ? "active" : "inactive");
-      setSelectedManagerId(branch.manager_id); // Set initial manager_id when branch data loads
-      setIndex(branch.index || ""); // Set initial index value
+      setIndex(branch.index || "");
     }
   }, [branch]);
 
@@ -136,14 +144,13 @@ const EditBranch = ({ branch, onClose, refreshBranches }) => {
             id="manager"
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#55D5D2] bg-[#EFF9F9] border-[#55D5D2] appearance-none"
             value={selectedManagerId || ""}
-            onChange={(e) => setSelectedManagerId(Number(e.target.value))}
+            onChange={(e) => setSelectedManagerId(Number(e.target.value) || '')}
           >
             <option value="">Select manager</option>
             {managers.map((manager) => (
               <option 
                 key={manager.id} 
                 value={manager.id}
-                selected={manager.id === branch.manager_id} // Add selected attribute
               >
                 {`${manager.firstName} ${manager.lastName}`}
               </option>

@@ -55,7 +55,7 @@ const Table = ({ reviews, isLoading, error, onStatusChange, onSearch, searchTerm
         <tbody>
           {isLoading ? (
             <tr>
-              <td colSpan="6" className="text-center py-4">Loading...</td>
+              <td colSpan="7" className="text-center py-4">Loading...</td>
             </tr>
           ) : (
             reviews.map((review) => (

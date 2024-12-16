@@ -102,7 +102,7 @@ const Row = ({ branch, onStatusChange, onEdit }) => {
         <td className="py-2 px-4">
           <ToggleSwitch
             id={branch.id}
-            status={branch.status}
+            status={branch.status === 'active'}
             onToggle={handleStatusChange}
             disabled={isUpdating}
           />
