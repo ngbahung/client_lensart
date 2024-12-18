@@ -190,15 +190,34 @@ export const CartProvider = ({ children }) => {
         const result = await createCartDetail(product_id, branch_id, color, quantity);
         console.log('API result:', result);
 
-        // Check if we have a successful response
-        if (result.status === "success" && result.data) {
-            // Fetch the updated cart to get complete item details
-            await fetchCart();
-            toast.success('Đã thêm vào giỏ hàng thành công');
-            return true;
-        } else {
-            throw new Error('Invalid response from server');
+        // Ensure we have the minimum required data
+        if (!result?.data?.id || !result?.data?.product_price) {
+            console.error('Missing required data:', result);
+            throw new Error('Missing required cart item data');
         }
+
+        const newItem = {
+            id: result.data.id,
+            product_id: result.data.product_id,
+            branch_id: result.data.branch_id,
+            name: result.data.product_name,
+            price: parseFloat(result.data.product_price),
+            quantity: result.data.quantity,
+            color: result.data.color,
+            image: result.data.image_url,
+            brand: result.data.brands_name,
+            category: result.data.category_name,
+            branch_name: result.data.branches_name,
+            total_price: parseFloat(result.data.product_price) * result.data.quantity,
+            selected: true
+        };
+
+        dispatch({ 
+            type: 'ADD_TO_CART_SUCCESS', 
+            payload: newItem 
+        });
+        toast.success('Đã thêm vào giỏ hàng thành công');
+        return true;
     } catch (error) {
         console.error('Add to cart error details:', {
             error: error,
@@ -233,28 +252,21 @@ export const CartProvider = ({ children }) => {
     } catch (error) {
       console.error('Cart update error:', error);
       dispatch({ type: 'UPDATE_CART_ITEM_ERROR', payload: itemId });
-      toast.error(error.message || 'Có lỗi xảy ra khi cập nhật giỏ hàng');
+      toast.error(error.response?.data?.message || 'Có lỗi xảy ra khi cập nhật giỏ hàng');
     }
   };
 
   const removeCartItem = async (cartDetailId) => {
     try {
-        console.log('Attempting to delete cart item:', cartDetailId);
-        const result = await deleteCartItem(cartDetailId);
-        
-        if (result.success) {
-            dispatch({ type: 'DELETE_CART_ITEM_SUCCESS', payload: cartDetailId });
-            toast.success(result.message || 'Đã xóa sản phẩm khỏi giỏ hàng');
-            return true;
-        } else {
-            throw new Error(result.message);
-        }
+      const result = await deleteCartItem(cartDetailId);
+      if (result.success) {
+        dispatch({ type: 'DELETE_CART_ITEM_SUCCESS', payload: cartDetailId });
+        toast.success('Đã xóa sản phẩm khỏi giỏ hàng');
+      }
     } catch (error) {
-        console.error('Remove cart item error:', error);
-        toast.error(error.message || 'Không thể xóa sản phẩm khỏi giỏ hàng');
-        return false;
+      toast.error('Không thể xóa sản phẩm khỏi giỏ hàng');
     }
-};
+  };
 
   const selectCartItem = (itemId) => {
     dispatch({ type: 'SELECT_CART_ITEM', payload: itemId });

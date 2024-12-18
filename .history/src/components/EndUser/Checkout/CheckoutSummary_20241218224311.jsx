@@ -38,7 +38,7 @@ const CheckoutSummary = () => {
             <div className="text-right">
               <p className="font-bold text-gray-700">x{item.quantity}</p>
               <p className="text-orange-500 font-bold">
-                {formatPrice(item.price)}
+                {item.price.toLocaleString("vi-VN")}đ
               </p>
             </div>
           </div>

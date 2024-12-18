@@ -2,7 +2,6 @@ import React from "react";
 import { FaMinus, FaPlus, FaTrashAlt } from "react-icons/fa";
 import { formatPrice } from "../../../utils/formatPrice";
 import { useCart } from '../../../contexts/CartContext';
-import Swal from 'sweetalert2';
 
 const CartItem = ({ item, onSelect }) => {
   const { updateCartItem, removeCartItem, updatingItems } = useCart();
@@ -23,33 +22,12 @@ const CartItem = ({ item, onSelect }) => {
   const handleDelete = async () => {
     if (isUpdating) return;
     
-    const result = await Swal.fire({
-      title: 'Xác nhận xóa',
-      text: 'Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#55d5d2',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Xóa',
-      cancelButtonText: 'Hủy',
-      background: '#fff',
-      customClass: {
-        confirmButton: 'rounded-lg px-4 py-2',
-        cancelButton: 'rounded-lg px-4 py-2'
-      }
-    });
-
-    if (result.isConfirmed) {
-      const success = await removeCartItem(item.id);
-      if (success) {
-        Swal.fire({
-          title: 'Đã xóa!',
-          text: 'Sản phẩm đã được xóa khỏi giỏ hàng',
-          icon: 'success',
-          confirmButtonColor: '#55d5d2',
-          timer: 1500
-        });
-      }
+    const confirmed = window.confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');
+    if (confirmed) {
+        const success = await removeCartItem(item.id);
+        if (success) {
+            console.log('Item successfully deleted:', item.id);
+        }
     }
   };
 

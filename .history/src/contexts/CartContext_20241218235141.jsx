@@ -185,27 +185,47 @@ export const CartProvider = ({ children }) => {
 
   const addToCart = async (product_id, branch_id, color, quantity) => {
     try {
-        console.log('Adding to cart with params:', { product_id, branch_id, color, quantity });
+        console.log('Adding to cart:', { product_id, branch_id, color, quantity });
         
         const result = await createCartDetail(product_id, branch_id, color, quantity);
-        console.log('API result:', result);
+        console.log('Create cart detail result:', result);
 
-        // Check if we have a successful response
-        if (result.status === "success" && result.data) {
-            // Fetch the updated cart to get complete item details
-            await fetchCart();
+        // Check if we have a valid response with data
+        if (result && result.data) {
+            // Transform the data
+            const newItem = {
+                id: result.data.id,
+                product_id: result.data.product_id || product_id,
+                branch_id: result.data.branch_id || branch_id,
+                name: result.data.product_name,
+                price: parseFloat(result.data.product_price || 0),
+                quantity: result.data.quantity || quantity,
+                color: result.data.color || color,
+                image: result.data.image_url,
+                brand: result.data.brands_name,
+                category: result.data.category_name,
+                branch_name: result.data.branches_name,
+                total_price: parseFloat(result.data.product_price || 0) * (result.data.quantity || quantity),
+                selected: true
+            };
+
+            // Validate transformed data
+            if (!newItem.id || !newItem.price) {
+                throw new Error('Invalid item data received from server');
+            }
+
+            dispatch({ 
+                type: 'ADD_TO_CART_SUCCESS', 
+                payload: newItem 
+            });
             toast.success('Đã thêm vào giỏ hàng thành công');
             return true;
         } else {
-            throw new Error('Invalid response from server');
+            throw new Error('Invalid response format from server');
         }
     } catch (error) {
-        console.error('Add to cart error details:', {
-            error: error,
-            message: error.message,
-            data: error.response?.data
-        });
-        toast.error('Có lỗi xảy ra khi thêm vào giỏ hàng');
+        console.error('Detailed add to cart error:', error);
+        toast.error(error.message || 'Có lỗi xảy ra khi thêm vào giỏ hàng');
         return false;
     }
 };
@@ -233,28 +253,21 @@ export const CartProvider = ({ children }) => {
     } catch (error) {
       console.error('Cart update error:', error);
       dispatch({ type: 'UPDATE_CART_ITEM_ERROR', payload: itemId });
-      toast.error(error.message || 'Có lỗi xảy ra khi cập nhật giỏ hàng');
+      toast.error(error.response?.data?.message || 'Có lỗi xảy ra khi cập nhật giỏ hàng');
     }
   };
 
   const removeCartItem = async (cartDetailId) => {
     try {
-        console.log('Attempting to delete cart item:', cartDetailId);
-        const result = await deleteCartItem(cartDetailId);
-        
-        if (result.success) {
-            dispatch({ type: 'DELETE_CART_ITEM_SUCCESS', payload: cartDetailId });
-            toast.success(result.message || 'Đã xóa sản phẩm khỏi giỏ hàng');
-            return true;
-        } else {
-            throw new Error(result.message);
-        }
+      const result = await deleteCartItem(cartDetailId);
+      if (result.success) {
+        dispatch({ type: 'DELETE_CART_ITEM_SUCCESS', payload: cartDetailId });
+        toast.success('Đã xóa sản phẩm khỏi giỏ hàng');
+      }
     } catch (error) {
-        console.error('Remove cart item error:', error);
-        toast.error(error.message || 'Không thể xóa sản phẩm khỏi giỏ hàng');
-        return false;
+      toast.error('Không thể xóa sản phẩm khỏi giỏ hàng');
     }
-};
+  };
 
   const selectCartItem = (itemId) => {
     dispatch({ type: 'SELECT_CART_ITEM', payload: itemId });

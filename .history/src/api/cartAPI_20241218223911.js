@@ -20,11 +20,9 @@ export const createCartDetail = async (product_id, branch_id, color, quantity) =
             color,
             quantity
         });
-        
-        // Return the raw response data
         return response.data;
     } catch (error) {
-        console.error('Create cart detail error:', error);
+        console.error('Error creating cart detail:', error);
         throw error;
     }
 };
@@ -84,23 +82,10 @@ export const updateCartItemQuantity = async (id, quantity) => {
 // delete cart item
 export const deleteCartItem = async (cartDetailId) => {
     try {
-        const response = await api.post(`/cart_details/delete/${cartDetailId}`);
-        console.log('Delete cart item response:', response.data);
-        
-        return {
-            success: response.data.success ?? true,
-            message: response.data.message || 'Item successfully deleted',
-            data: response.data.data
-        };
+        const response = await api.delete(`/cart_details/delete/${cartDetailId}`);
+        return response.data;
     } catch (error) {
-        console.error('Delete cart item error:', {
-            error: error,
-            response: error.response?.data
-        });
-        throw {
-            success: false,
-            message: error.response?.data?.message || 'Failed to delete item',
-            error: error
-        };
+        console.error('Error deleting cart item:', error);
+        throw error;
     }
 };

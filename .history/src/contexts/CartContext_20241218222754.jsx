@@ -185,30 +185,22 @@ export const CartProvider = ({ children }) => {
 
   const addToCart = async (product_id, branch_id, color, quantity) => {
     try {
-        console.log('Adding to cart with params:', { product_id, branch_id, color, quantity });
-        
-        const result = await createCartDetail(product_id, branch_id, color, quantity);
-        console.log('API result:', result);
-
-        // Check if we have a successful response
-        if (result.status === "success" && result.data) {
-            // Fetch the updated cart to get complete item details
-            await fetchCart();
-            toast.success('Đã thêm vào giỏ hàng thành công');
-            return true;
-        } else {
-            throw new Error('Invalid response from server');
-        }
-    } catch (error) {
-        console.error('Add to cart error details:', {
-            error: error,
-            message: error.message,
-            data: error.response?.data
+      const result = await createCartDetail(product_id, branch_id, color, quantity);
+      if (result.success) {
+        // Direct state update instead of re-fetching the entire cart
+        dispatch({ 
+          type: 'ADD_TO_CART_SUCCESS', 
+          payload: result.data 
         });
-        toast.error('Có lỗi xảy ra khi thêm vào giỏ hàng');
-        return false;
+        toast.success('Đã thêm vào giỏ hàng thành công');
+        // Remove the fetchCart() call here
+      } else {
+        toast.error(result.message || 'Không thể thêm vào giỏ hàng');
+      }
+    } catch (error) {
+      toast.error('Có lỗi xảy ra khi thêm vào giỏ hàng');
     }
-};
+  };
 
   const updateCartItem = async (itemId, quantity) => {
     dispatch({ type: 'UPDATE_CART_ITEM_START', payload: itemId });
@@ -233,28 +225,21 @@ export const CartProvider = ({ children }) => {
     } catch (error) {
       console.error('Cart update error:', error);
       dispatch({ type: 'UPDATE_CART_ITEM_ERROR', payload: itemId });
-      toast.error(error.message || 'Có lỗi xảy ra khi cập nhật giỏ hàng');
+      toast.error(error.response?.data?.message || 'Có lỗi xảy ra khi cập nhật giỏ hàng');
     }
   };
 
   const removeCartItem = async (cartDetailId) => {
     try {
-        console.log('Attempting to delete cart item:', cartDetailId);
-        const result = await deleteCartItem(cartDetailId);
-        
-        if (result.success) {
-            dispatch({ type: 'DELETE_CART_ITEM_SUCCESS', payload: cartDetailId });
-            toast.success(result.message || 'Đã xóa sản phẩm khỏi giỏ hàng');
-            return true;
-        } else {
-            throw new Error(result.message);
-        }
+      const result = await deleteCartItem(cartDetailId);
+      if (result.success) {
+        dispatch({ type: 'DELETE_CART_ITEM_SUCCESS', payload: cartDetailId });
+        toast.success('Đã xóa sản phẩm khỏi giỏ hàng');
+      }
     } catch (error) {
-        console.error('Remove cart item error:', error);
-        toast.error(error.message || 'Không thể xóa sản phẩm khỏi giỏ hàng');
-        return false;
+      toast.error('Không thể xóa sản phẩm khỏi giỏ hàng');
     }
-};
+  };
 
   const selectCartItem = (itemId) => {
     dispatch({ type: 'SELECT_CART_ITEM', payload: itemId });
@@ -271,26 +256,23 @@ export const CartProvider = ({ children }) => {
   const applyCoupon = async (code) => {
     try {
       const result = await getCouponByCode(code);
-      
       if (result.message === "success" && result.data) {
-        const coupon = result.data;
-        
-        // Validate coupon status and quantity
-        if (coupon.status !== "active") {
+        if (result.data.status !== "active") {
           toast.error('Mã giảm giá đã hết hạn hoặc không khả dụng');
           return false;
         }
-        
-        if (coupon.quantity <= 0) {
+        if (result.data.quantity <= 0) {
           toast.error('Mã giảm giá đã hết lượt sử dụng');
           return false;
         }
-
-        dispatch({ type: 'APPLY_COUPON_SUCCESS', payload: coupon });
-        toast.success(`Áp dụng mã giảm giá ${coupon.name} thành công`);
+        
+        dispatch({ 
+          type: 'APPLY_COUPON_SUCCESS', 
+          payload: result.data
+        });
+        toast.success(`Áp dụng mã giảm giá ${result.data.name} thành công`);
         return true;
       }
-      
       toast.error('Mã giảm giá không hợp lệ');
       return false;
     } catch (error) {

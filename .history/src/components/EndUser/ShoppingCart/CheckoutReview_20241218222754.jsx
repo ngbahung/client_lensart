@@ -42,11 +42,11 @@ const CheckoutReview = () => {
           />
           <button
             onClick={handleApplyCoupon}
-            disabled={isApplying || !couponCode.trim()}
+            disabled={isApplying}
             className="w-full sm:w-auto bg-[#ec905c] text-white px-3 md:px-4 py-2 md:py-3 rounded-lg flex items-center justify-center gap-1 text-base disabled:opacity-50"
           >
             <FaTicketAlt size={14} />
-            {isApplying ? 'Đang áp dụng...' : 'Áp dụng'}
+            Áp dụng
           </button>
         </div>
       ) : (
@@ -76,7 +76,7 @@ const CheckoutReview = () => {
         </div>
         {discount > 0 && (
           <div className="flex justify-between py-1 text-green-600">
-            <span>{coupon.name}</span>
+            <span>Giảm giá ({coupon.name}):</span>
             <span>-{formatPrice(coupon.discount_price)}</span>
           </div>
         )}

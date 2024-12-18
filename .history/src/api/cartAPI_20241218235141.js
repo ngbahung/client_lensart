@@ -21,11 +21,32 @@ export const createCartDetail = async (product_id, branch_id, color, quantity) =
             quantity
         });
         
-        // Return the raw response data
-        return response.data;
+        // Detailed logging for debugging
+        console.log('Raw API Response:', response);
+        console.log('Response Data:', response.data);
+        
+        // Validate the response structure
+        if (!response.data) {
+            throw new Error('No data received from server');
+        }
+        
+        return {
+            success: true,  // Set explicit success value
+            data: response.data.data || response.data,
+            message: response.data.message || 'Successfully added to cart'
+        };
     } catch (error) {
-        console.error('Create cart detail error:', error);
-        throw error;
+        console.error('Detailed error in createCartDetail:', {
+            error: error,
+            message: error.message,
+            response: error.response?.data
+        });
+        // Properly structure the error response
+        throw {
+            success: false,
+            message: error.response?.data?.message || error.message,
+            error: error
+        };
     }
 };
 
@@ -84,23 +105,10 @@ export const updateCartItemQuantity = async (id, quantity) => {
 // delete cart item
 export const deleteCartItem = async (cartDetailId) => {
     try {
-        const response = await api.post(`/cart_details/delete/${cartDetailId}`);
-        console.log('Delete cart item response:', response.data);
-        
-        return {
-            success: response.data.success ?? true,
-            message: response.data.message || 'Item successfully deleted',
-            data: response.data.data
-        };
+        const response = await api.delete(`/cart_details/delete/${cartDetailId}`);
+        return response.data;
     } catch (error) {
-        console.error('Delete cart item error:', {
-            error: error,
-            response: error.response?.data
-        });
-        throw {
-            success: false,
-            message: error.response?.data?.message || 'Failed to delete item',
-            error: error
-        };
+        console.error('Error deleting cart item:', error);
+        throw error;
     }
 };

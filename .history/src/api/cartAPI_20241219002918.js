@@ -21,10 +21,41 @@ export const createCartDetail = async (product_id, branch_id, color, quantity) =
             quantity
         });
         
-        // Return the raw response data
-        return response.data;
+        // Log complete response for debugging
+        console.log('Complete API Response:', {
+            status: response.status,
+            data: response.data
+        });
+
+        // Check if response has the required structure
+        if (!response.data || !response.data.data) {
+            console.error('Invalid response structure:', response.data);
+            throw new Error('Invalid response structure from server');
+        }
+
+        // Return properly structured data
+        return {
+            success: true,
+            data: {
+                id: response.data.data.id,
+                product_id: response.data.data.product_id,
+                branch_id: response.data.data.branch_id,
+                product_name: response.data.data.product_name,
+                product_price: response.data.data.product_price,
+                quantity: response.data.data.quantity,
+                color: response.data.data.color,
+                image_url: response.data.data.image_url,
+                brands_name: response.data.data.brands_name,
+                category_name: response.data.data.category_name,
+                branches_name: response.data.data.branches_name
+            },
+            message: response.data.message || 'Successfully added to cart'
+        };
     } catch (error) {
-        console.error('Create cart detail error:', error);
+        console.error('Detailed API error:', {
+            error: error,
+            response: error.response?.data
+        });
         throw error;
     }
 };

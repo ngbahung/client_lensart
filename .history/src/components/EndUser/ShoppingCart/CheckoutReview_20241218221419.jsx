@@ -42,26 +42,22 @@ const CheckoutReview = () => {
           />
           <button
             onClick={handleApplyCoupon}
-            disabled={isApplying || !couponCode.trim()}
+            disabled={isApplying}
             className="w-full sm:w-auto bg-[#ec905c] text-white px-3 md:px-4 py-2 md:py-3 rounded-lg flex items-center justify-center gap-1 text-base disabled:opacity-50"
           >
             <FaTicketAlt size={14} />
-            {isApplying ? 'Đang áp dụng...' : 'Áp dụng'}
+            Áp dụng
           </button>
         </div>
       ) : (
         <div className="flex items-center justify-between p-2 bg-green-50 rounded-lg">
           <div className="flex items-center gap-2">
             <FaTicketAlt className="text-green-500" />
-            <div className="flex flex-col">
-              <span className="text-green-700 font-medium">{coupon.name}</span>
-              <span className="text-sm text-green-600">Giảm {formatPrice(coupon.discount_price)}</span>
-            </div>
+            <span className="text-green-700">{coupon.code}</span>
           </div>
           <button
             onClick={removeCoupon}
             className="text-red-500 hover:text-red-700"
-            title="Xóa mã giảm giá"
           >
             <FaTimes />
           </button>
@@ -76,8 +72,8 @@ const CheckoutReview = () => {
         </div>
         {discount > 0 && (
           <div className="flex justify-between py-1 text-green-600">
-            <span>{coupon.name}</span>
-            <span>-{formatPrice(coupon.discount_price)}</span>
+            <span>Giảm giá:</span>
+            <span>-{formatPrice(discount)}</span>
           </div>
         )}
         <div className="flex justify-between py-1">
