@@ -19,7 +19,7 @@ export const getProducts = async () => {
 // get product by product id
 export const getProductById = async (productId) => {
   try {
-    const response = await api.get(`/products/getById/${productId}`);
+    const response = await api.get(`/active/products/getById/${productId}`);
     return transformProductDetail(response.data.data);
   } catch (error) {
     console.error('Error fetching product details:', error);
@@ -41,7 +41,7 @@ export const getProductByCategoryId = async (id) => {
 // get product images by product id
 export const getProductImagesByProductId = async (id) => {
   try {
-    const response = await api.get(`/product-images/getByProductId/${id}`);
+    const response = await api.get(`/active/product-images/getByProductId/${id}`);
     return response.data.data;
   } catch (error) {
     console.error('Error fetching product images by product id:', error);
@@ -74,7 +74,7 @@ export const getProductImagesById = async (id) => {
 // get product details by branch id
 export const getProductDetailsByBranchId = async (id) => {
   try {
-    const response = await api.get(`/product-details/getByBranchId/${id}`);
+    const response = await api.get(`active/product-details/getByBranchId/${id}`);
     return response.data.data;
   } catch (error) {
     console.error('Error fetching product details by branch id:', error);
@@ -96,7 +96,7 @@ export const getProductDetailsByProductIdAndBranchId = async (productId, branchI
 // get product features by product id
 export const getProductFeaturesByProductId = async (id) => {
   try {
-    const response = await api.get(`/product-features/getByProductId/${id}`);
+    const response = await api.get(`/active/product-features/getByProductId/${id}`);
     return response.data.data;
   } catch (error) {
     console.error('Error fetching product features by product id:', error);
@@ -108,7 +108,7 @@ export const getProductFeaturesByProductId = async (id) => {
 // get product features by id
 export const getProductFeaturesById = async (id) => {
   try {
-    const response = await api.get(`/product-features/getById/${id}`);
+    const response = await api.get(`/active/product-features/getById/${id}`);
     return response.data.data;
   } catch (error) {
     console.error('Error fetching product features by id:', error);
@@ -159,8 +159,8 @@ export const transformProduct = (product) => ({
   id: product.id,
   name: product.name,
   description: product.description,
-  currentPrice: Number(product.offer_price),
-  originalPrice: Number(product.price),
+  currentPrice: Number(product.price),
+  originalPrice: product.offer_price ? Number(product.offer_price) : Number(product.price),
   image: `https://picsum.photos/400/400?random=${product.id}`, // Placeholder image
   discount: product.offer_price ? 
     `-${Math.round((1 - product.offer_price/product.price) * 100)}%` : null,
@@ -179,102 +179,39 @@ export const transformProductDetail = (product) => ({
   id: product.id,
   name: product.name,
   description: product.description,
-  currentPrice: Number(product.offer_price),
-  originalPrice: Number(product.price),
-  category: product.category,
-  brand: product.brand,
-  material: product.material,
-  shape: product.shape,
-  gender: product.gender === 'female' ? 'Nữ' : 
-          product.gender === 'male' ? 'Nam' : 'Unisex',
-  product_details: product.product_details,
-  variants: {
-    colors: [...new Set(product.product_details.map(detail => detail.color))]
-      .map(color => {
-        const totalQuantity = product.product_details
-          .filter(detail => detail.color === color && detail.status === 'active')
-          .reduce((sum, detail) => sum + detail.quantity, 0);
-        
-        return {
-          id: color,
-          name: color,
-          totalQuantity
-        };
-      })
-      .filter(color => color.totalQuantity > 0) // Only show colors with available stock
-  },
+  currentPrice: Number(product.price),
+  originalPrice: product.offer_price ? Number(product.offer_price) : Number(product.price),
+  discount: product.offer_price ? 
+    `-${Math.round((1 - product.offer_price/product.price) * 100)}%` : null,
+  images: [
+    `https://picsum.photos/800/800?random=${product.id}`,
+    `https://picsum.photos/800/800?random=${product.id + 1}`,
+    `https://picsum.photos/800/800?random=${product.id + 2}`,
+    `https://picsum.photos/800/800?random=${product.id + 3}`
+  ],
   specifications: {
-    style: product.shape?.name || '',
-    material: product.material?.name || '',
-    gender: product.gender === 'female' ? 'Nữ' : 
-            product.gender === 'male' ? 'Nam' : 'Unisex',
+    style: product.shape_id === 1 ? 'Phi công' :
+           product.shape_id === 2 ? 'Vuông' :
+           product.shape_id === 3 ? 'Oval' :
+           product.shape_id === 4 ? 'Browline' :
+           product.shape_id === 5 ? 'Đa giác' : '',
+    material: product.material_id === 1 ? 'Kim loại' :
+              product.material_id === 2 ? 'Nhựa' :
+              product.material_id === 3 ? 'Titanium' : '',
+    gender: product.gender === 'female' ? 'Nữ' :
+            product.gender === 'male' ? 'Nam' :
+            product.gender === 'unisex' ? 'Unisex' : '',
     warranty: '12 tháng'
   },
-  branchPrices: product.product_details.reduce((acc, branch) => {
-    const branchPrice = {
-      branchId: branch.branch_id,
-      branchName: branch.branch_name,
-      address: branch.address,
-      location: branch.branch_name === 'Hồ Chí Minh' ? 'hcm' :
-               branch.branch_name === 'Hà Nội' ? 'hanoi' :
-               branch.branch_name === 'Đà Nẵng' ? 'danang' : '',
-      color: branch.color,
-      currentPrice: Math.round(product.offer_price * branch.index), // Changed to use offer_price
-      originalPrice: Math.round(product.price),      // Original price gets the index
-      inStock: branch.quantity > 0,
-      stockQuantity: branch.quantity,
-      priceIndex: branch.index
-    };
-
-    // Only add if we haven't already added this branch
-    if (!acc.find(b => b.branchId === branch.branch_id)) {
-      return [...acc, branchPrice];
-    }
-    return acc;
-  }, []),
-
   variants: {
-    colors: [...new Set(product.product_details.map(detail => detail.color))]
-      .map(color => ({
-        name: color,
-        quantities: product.product_details
-          .filter(detail => detail.color === color && detail.status === 'active')
-          .reduce((acc, detail) => ({
-            ...acc,
-            [detail.branch_id]: {
-              quantity: detail.quantity,
-              priceIndex: detail.index
-            }
-          }), {})
-      }))
+    colors: product.colors || [],
+    selectedColor: null
   },
-  features: product.features || [],
-  images: product.images || [],
-  reviews: Array.isArray(product.reviews) ? product.reviews
-    .filter(review => review.status === 'active')
-    .map(review => ({
-      id: review.id,
-      userName: `${review.firstname} ${review.lastname}`,
-      rating: Number(review.rating),
-      comment: review.review,
-      date: review.created_time || new Date().toISOString(),
-      productId: review.product_id,
-      userId: review.user_id,
-      status: review.status
-    })) : [],
-  averageRating: product.reviews?.length > 0 
-    ? (product.reviews
-        .filter(review => review.status === 'active')
-        .reduce((sum, review) => sum + Number(review.rating), 0) / 
-        product.reviews.filter(review => review.status === 'active').length
-      ).toFixed(1) 
-    : '0.0',
-  totalActiveReviews: product.reviews?.filter(review => review.status === 'active').length || 0,
-  totalInactiveReviews: product.reviews?.filter(review => review.status === 'inactive').length || 0,
-  totalReviews: product.reviews?.length || 0,
-  soldQuantity: 0,
-  remainingQuantity: product.product_details.reduce((sum, detail) => sum + detail.quantity, 0),
-  isWishlisted: false
+  soldQuantity: product.sold_quantity || 0,
+  remainingQuantity: product.stock_quantity || 0,
+  isWishlisted: false,
+  reviews: product.reviews || [],
+  category_id: product.category_id
 });
 
 export const getFullProductDetails = async (productId) => {
@@ -363,8 +300,10 @@ const transformFullProductDetail = (
     inStock: details.some(d => 
       d.branch_id === branch.id && d.stock_quantity > 0
     ),
-    currentPrice: Math.round(product.offer_price * branch.index),  // Changed to use offer_price
-    originalPrice: Math.round(product.price * branch.index),       // Original price gets the index
+    currentPrice: Math.round(product.price * branch.index),
+    originalPrice: product.offer_price ? 
+      Math.round(product.offer_price * branch.index) : 
+      Math.round(product.price * branch.index),
     stockQuantity: details.find(d => d.branch_id === branch.id)?.stock_quantity || 0
   })),
 

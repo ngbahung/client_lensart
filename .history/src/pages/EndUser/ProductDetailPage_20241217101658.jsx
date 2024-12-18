@@ -8,8 +8,10 @@ import BranchInfo from '../../components/EndUser/ProductDetails/BranchInfo';
 import ShippingReturnPolicy from '../../components/EndUser/ProductDetails/ShippingReturnPolicy';
 import ProductSlider from '../../components/EndUser/ProductSlider/ProductSlider';
 import Breadcrumb from '../../components/EndUser/Breadcrumb/Breadcrumb';
-import ImageGallery from '../../components/EndUser/ImageGallery/ImageGallery';
-import CustomerReviews from '../../components/EndUser/CustomerReviews/CustomerReviews';
+import ImageGallery from '../../components/EndUser/ProductDetails/ImageGallery';
+import CustomerReviews from '../../components/EndUser/ProductDetails/CustomerReviews';
+import BranchInfo from '../../components/EndUser/ProductDetails/BranchInfo';
+
 
 // APIs
 import { 
@@ -71,15 +73,13 @@ const ProductDetailPage = () => {
         const fetchProductData = async () => {
             try {
                 setLoading(true);
-                const productData = await getProductById(productId);
-                setProduct(productData);
+                const fullProductData = await getFullProductDetails(productId);
+                setProduct(fullProductData);
                 
-                // Get similar products if we have category_id
-                if (productData.category?.id) {
-                    const similarData = await getProductByCategoryId(productData.category.id);
-                    setSimilarProducts(similarData
+                if (fullProductData.category_id) {
+                    const similarData = await getProductByCategoryId(fullProductData.category_id);
+                    setSimilarProducts(similarData.map(transformProduct)
                         .filter(p => p.id !== parseInt(productId))
-                        .map(transformProduct)
                         .slice(0, 8));
                 }
             } catch (err) {
@@ -179,8 +179,6 @@ const ProductDetailPage = () => {
             <div className="mt-8 border-t pt-8">
                 <CustomerReviews 
                     reviews={product.reviews} 
-                    averageRating={product.averageRating}
-                    totalReviews={product.totalReviews}
                     onSubmitReview={handleSubmitReview}
                 />
             </div>

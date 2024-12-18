@@ -7,34 +7,22 @@ const RatingStars = ({ rating }) => {
     
     for (let i = 1; i <= 5; i++) {
         if (i <= Math.floor(ratingNum)) {
-            stars.push(<FaStar key={i} className="text-xl text-yellow-400" />);
+            // Full star
+            stars.push(<FaStar key={i} className="text-yellow-400" />);
         } else if (i === Math.ceil(ratingNum) && !Number.isInteger(ratingNum)) {
-            stars.push(<FaStarHalfAlt key={i} className="text-xl text-yellow-400" />);
+            // Half star
+            stars.push(<FaStarHalfAlt key={i} className="text-yellow-400" />);
         } else {
-            stars.push(<FaRegStar key={i} className="text-xl text-gray-300" />);
+            // Empty star
+            stars.push(<FaRegStar key={i} className="text-gray-300" />);
         }
     }
     
-    return <div className="flex items-center">{stars}</div>;
+    return <div className="flex">{stars}</div>;
 };
 
-const ReviewStars = ({ rating }) => {
-    const stars = [];
-    const ratingNum = Number(rating);
-    
-    for (let i = 1; i <= 5; i++) {
-        if (i <= ratingNum) {
-            stars.push(<FaStar key={i} className="text-base text-yellow-400" />);
-        } else {
-            stars.push(<FaRegStar key={i} className="text-base text-gray-300" />);
-        }
-    }
-    
-    return <div className="flex items-center">{stars}</div>;
-};
-
-const CustomerReviews = ({ reviews = [], averageRating = '0.0', totalReviews = 0, onSubmitReview }) => {
-    const activeReviews = reviews?.filter(review => review.status === 'active') || [];
+const CustomerReviews = ({ reviews = [], averageRating, activeReviewsReviews = 0, onSubmitReview }) => {
+    const activeReviews = reviews.filter(review => review.status === 'active');
     
     return (
         <div className="space-y-6">
@@ -44,7 +32,7 @@ const CustomerReviews = ({ reviews = [], averageRating = '0.0', totalReviews = 0
             {/* Review Summary */}
             <div className="flex items-center gap-4">
                 <h3 className="text-xl font-semibold">Đánh giá từ khách hàng</h3>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1">
                     <span className="text-lg font-bold">{averageRating}</span>
                     <RatingStars rating={averageRating} />
                     <span className="text-gray-500">
@@ -63,7 +51,7 @@ const CustomerReviews = ({ reviews = [], averageRating = '0.0', totalReviews = 0
                     activeReviews.map((review) => (
                         <div key={review.id} className="border-b pb-4">
                             <div className="flex items-center gap-2 mb-2">
-                                <ReviewStars rating={review.rating} />
+                                <RatingStars rating={review.rating} />
                                 <span className="font-medium">{review.userName}</span>
                                 <span className="text-gray-500 text-sm">
                                     {new Date(review.date).toLocaleDateString('vi-VN')}

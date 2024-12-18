@@ -137,8 +137,8 @@ const ProductDetails = ({ product, selectedBranch, cityNames }) => {  {/* Add ci
     
         const priceIndex = selectedBranch.priceIndex;
         return {
-          current: Math.round(product.currentPrice * priceIndex),    // currentPrice is already the offer_price
-          original: Math.round(product.originalPrice * priceIndex)   // originalPrice is the base price
+          current: Math.round(product.currentPrice * priceIndex),
+          original: Math.round(product.originalPrice * priceIndex)
         };
       };
     

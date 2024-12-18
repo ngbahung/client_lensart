@@ -159,8 +159,8 @@ export const transformProduct = (product) => ({
   id: product.id,
   name: product.name,
   description: product.description,
-  currentPrice: Number(product.offer_price),
-  originalPrice: Number(product.price),
+  currentPrice: Number(product.price),
+  originalPrice: product.offer_price ? Number(product.offer_price),
   image: `https://picsum.photos/400/400?random=${product.id}`, // Placeholder image
   discount: product.offer_price ? 
     `-${Math.round((1 - product.offer_price/product.price) * 100)}%` : null,
@@ -210,44 +210,28 @@ export const transformProductDetail = (product) => ({
             product.gender === 'male' ? 'Nam' : 'Unisex',
     warranty: '12 tháng'
   },
-  branchPrices: product.product_details.reduce((acc, branch) => {
-    const branchPrice = {
-      branchId: branch.branch_id,
-      branchName: branch.branch_name,
-      address: branch.address,
-      location: branch.branch_name === 'Hồ Chí Minh' ? 'hcm' :
-               branch.branch_name === 'Hà Nội' ? 'hanoi' :
-               branch.branch_name === 'Đà Nẵng' ? 'danang' : '',
-      color: branch.color,
-      currentPrice: Math.round(product.offer_price * branch.index), // Changed to use offer_price
-      originalPrice: Math.round(product.price),      // Original price gets the index
-      inStock: branch.quantity > 0,
-      stockQuantity: branch.quantity,
-      priceIndex: branch.index
+  branchPrices: product.product_details.reduce((acc, detail) => {
+    const locationMap = {
+      'Hồ Chí Minh': 'hcm',
+      'Hà Nội': 'hanoi', 
+      'Đà Nẵng': 'danang'
     };
+    
+    const location = locationMap[detail.branch_name];
+    if (!location) return acc;
 
-    // Only add if we haven't already added this branch
-    if (!acc.find(b => b.branchId === branch.branch_id)) {
-      return [...acc, branchPrice];
-    }
-    return acc;
+    return [...acc, {
+      branchId: detail.branch_id,
+      branchName: detail.branch_name,
+      address: detail.address,
+      location: location,
+      color: detail.color,
+      inStock: detail.quantity > 0,
+      currentPrice: product.price,
+      originalPrice: Number(product.offer_price),
+      stockQuantity: detail.quantity
+    }];
   }, []),
-
-  variants: {
-    colors: [...new Set(product.product_details.map(detail => detail.color))]
-      .map(color => ({
-        name: color,
-        quantities: product.product_details
-          .filter(detail => detail.color === color && detail.status === 'active')
-          .reduce((acc, detail) => ({
-            ...acc,
-            [detail.branch_id]: {
-              quantity: detail.quantity,
-              priceIndex: detail.index
-            }
-          }), {})
-      }))
-  },
   features: product.features || [],
   images: product.images || [],
   reviews: Array.isArray(product.reviews) ? product.reviews
@@ -363,8 +347,10 @@ const transformFullProductDetail = (
     inStock: details.some(d => 
       d.branch_id === branch.id && d.stock_quantity > 0
     ),
-    currentPrice: Math.round(product.offer_price * branch.index),  // Changed to use offer_price
-    originalPrice: Math.round(product.price * branch.index),       // Original price gets the index
+    currentPrice: Math.round(product.price * branch.index),
+    originalPrice: product.offer_price ? 
+      Math.round(product.offer_price * branch.index) : 
+      Math.round(product.price * branch.index),
     stockQuantity: details.find(d => d.branch_id === branch.id)?.stock_quantity || 0
   })),
 

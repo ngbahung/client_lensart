@@ -220,7 +220,7 @@ export const transformProductDetail = (product) => ({
                branch.branch_name === 'Đà Nẵng' ? 'danang' : '',
       color: branch.color,
       currentPrice: Math.round(product.offer_price * branch.index), // Changed to use offer_price
-      originalPrice: Math.round(product.price),      // Original price gets the index
+      originalPrice: Math.round(product.price * branch.index),      // Original price gets the index
       inStock: branch.quantity > 0,
       stockQuantity: branch.quantity,
       priceIndex: branch.index

@@ -40,15 +40,24 @@ const ProductDetails = ({ product, selectedBranch, cityNames }) => {  {/* Add ci
 
     // Update available quantity when branch or color changes
     useEffect(() => {
-        if (!selectedColor || !selectedBranch) {
+        if (!selectedColor) {
             setAvailableQuantity(0);
             return;
         }
 
-        const colorVariant = product.variants.colors.find(c => c.name === selectedColor);
-        const branchQuantity = colorVariant?.quantities[selectedBranch.branchId]?.quantity || 0;
-        setAvailableQuantity(branchQuantity);
-    }, [selectedBranch, selectedColor, product.variants.colors]);
+        if (selectedBranch) {
+            // Get quantity for selected color in selected branch
+            const branchQuantity = product.product_details.find(
+                detail => detail.branch_id === selectedBranch.branchId && 
+                         detail.color === selectedColor &&
+                         detail.status === 'active'
+            )?.quantity || 0;
+            setAvailableQuantity(branchQuantity);
+        } else {
+            // Get total quantity for selected color across all branches
+            setAvailableQuantity(colorQuantities[selectedColor]?.total || 0);
+        }
+    }, [selectedBranch, selectedColor, product.product_details, colorQuantities]);
 
     const handleQuantityChange = (type) => {
         setQuantity(prev => {
@@ -127,51 +136,9 @@ const ProductDetails = ({ product, selectedBranch, cityNames }) => {  {/* Add ci
         }
     };
 
-    const calculatePrices = () => {
-        if (!selectedBranch) {
-          return {
-            current: product.currentPrice,
-            original: product.originalPrice
-          };
-        }
-    
-        const priceIndex = selectedBranch.priceIndex;
-        return {
-          current: Math.round(product.currentPrice * priceIndex),    // currentPrice is already the offer_price
-          original: Math.round(product.originalPrice * priceIndex)   // originalPrice is the base price
-        };
-      };
-    
-      const { current: currentPrice, original: originalPrice } = calculatePrices();
-      const discount = ((originalPrice - currentPrice) / originalPrice * 100).toFixed(0) + '%';
-
-    const renderColorOptions = () => {
-        return product.variants.colors.map(color => {
-          const branchQuantity = selectedBranch 
-            ? color.quantities[selectedBranch.branchId]?.quantity || 0
-            : Object.values(color.quantities).reduce((sum, branch) => sum + branch.quantity, 0);
-          
-          const isAvailable = branchQuantity > 0;
-    
-          return (
-            <button
-              key={color.name}
-              onClick={() => handleColorSelect(color.name)}
-              disabled={!isAvailable}
-              className={`px-4 py-2 text-sm rounded-lg border transition-all
-                ${selectedColor === color.name 
-                  ? 'border-teal-500 bg-teal-50 text-teal-700 font-medium' 
-                  : 'border-gray-300 hover:border-teal-500 text-gray-700'}
-                ${!isAvailable ? 'opacity-50 cursor-not-allowed' : ''}`}
-            >
-              {color.name}
-              <span className="block text-xs text-gray-500">
-                {isAvailable ? `Còn ${branchQuantity}` : 'Hết hàng'}
-              </span>
-            </button>
-          );
-        });
-      };
+    const currentPrice = selectedBranch?.currentPrice || product.currentPrice;
+    const originalPrice = selectedBranch?.originalPrice || product.originalPrice;
+    const discount = ((originalPrice - currentPrice) / originalPrice * 100).toFixed(0) + '%';
 
     return (
         <>
@@ -203,7 +170,34 @@ const ProductDetails = ({ product, selectedBranch, cityNames }) => {  {/* Add ci
             <div className="mt-6">
                 <h3 className="text-lg font-semibold mb-3">Màu sắc:</h3>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                    {renderColorOptions()}
+                    {product.variants.colors.map((color) => {
+                        const colorData = colorQuantities[color.name] || { total: 0 };
+                        const branchQuantity = selectedBranch 
+                            ? colorData.byBranch[selectedBranch.branchId] || 0
+                            : colorData.total;
+                        const isAvailable = branchQuantity > 0;
+
+                        return (
+                            <button
+                                key={color.name}
+                                onClick={() => handleColorSelect(color.name)}
+                                disabled={!isAvailable}
+                                className={`px-4 py-2 text-sm rounded-lg border transition-all
+                                    ${selectedColor === color.name 
+                                        ? 'border-teal-500 bg-teal-50 text-teal-700 font-medium' 
+                                        : 'border-gray-300 hover:border-teal-500 text-gray-700'}
+                                    ${!isAvailable ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            >
+                                {color.name}
+                                <span className="block text-xs text-gray-500">
+                                    {isAvailable 
+                                        ? `Còn ${branchQuantity}` 
+                                        : 'Hết hàng'
+                                    }
+                                </span>
+                            </button>
+                        );
+                    })}
                 </div>
             </div>
 

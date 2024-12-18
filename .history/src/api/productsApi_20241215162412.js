@@ -4,6 +4,7 @@ import { getShapes } from './shapesAPI';
 import { getMaterials } from './materialsAPI';
 import { getBrands } from './brandsAPI';
 import { getFeatures } from './featuresAPI';
+
 // get all products
 export const getProducts = async () => {
     try {

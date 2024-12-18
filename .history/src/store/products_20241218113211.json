@@ -1,0 +1,97 @@
+{
+    "message": "success",
+    "data": {
+      "id": 20,
+      "name": "Gọng kính 10",
+      "description": "Et non vitae qui magni labore rerum veritatis vitae non distinctio illum quaerat ex excepturi architecto velit dolorum nostrum sed labore.",
+      "category_id": 2,
+      "brand_id": 1,
+      "material_id": 2,
+      "shape_id": 3,
+      "gender": "female",
+      "price": 137279,
+      "offer_price": "124186.00",
+      "created_time": "2024-12-15 14:42:15",
+      "status": "active",
+      "brand": {
+        "id": 1,
+        "name": "LensArt",
+        "status": "active"
+      },
+      "category": {
+        "id": 2,
+        "name": "Gọng kính",
+        "description": "Gọng kính đa dạng kiểu dáng, chất liệu và màu sắc, giúp định hình và giữ tròng kính chắc chắn.",
+        "status": "active"
+      },
+      "shape": {
+        "id": 3,
+        "name": "Oval",
+        "status": "active"
+      },
+      "material": {
+        "id": 2,
+        "name": "Nhựa",
+        "status": "active"
+      },
+      "product_details": [
+        {
+          "product_id": 20,
+          "branch_id": 1,
+          "color": "Đỏ",
+          "quantity": 0,
+          "status": "active",
+          "branch_name": "Hồ Chí Minh",
+          "address": "123 Nguyễn Trãi, Quận 1, TP. Hồ Chí Minh"
+        },
+        {
+          "product_id": 20,
+          "branch_id": 1,
+          "color": "Xám",
+          "quantity": 13,
+          "status": "active",
+          "branch_name": "Hồ Chí Minh",
+          "address": "123 Nguyễn Trãi, Quận 1, TP. Hồ Chí Minh"
+        },
+        {
+          "product_id": 20,
+          "branch_id": 2,
+          "color": "Đỏ",
+          "quantity": 10,
+          "status": "active",
+          "branch_name": "Đà Nẵng",
+          "address": "456 Trần Phú, Quận Hải Châu, TP. Đà Nẵng"
+        },
+        {
+          "product_id": 20,
+          "branch_id": 2,
+          "color": "Xám",
+          "quantity": 50,
+          "status": "active",
+          "branch_name": "Đà Nẵng",
+          "address": "456 Trần Phú, Quận Hải Châu, TP. Đà Nẵng"
+        },
+        {
+          "product_id": 20,
+          "branch_id": 3,
+          "color": "Đỏ",
+          "quantity": 13,
+          "status": "active",
+          "branch_name": "Hà Nội",
+          "address": "789 Đường Láng, Quận Đống Đa, TP. Hà Nội"
+        },
+        {
+          "product_id": 20,
+          "branch_id": 3,
+          "color": "Xám",
+          "quantity": 10,
+          "status": "active",
+          "branch_name": "Hà Nội",
+          "address": "789 Đường Láng, Quận Đống Đa, TP. Hà Nội"
+        }
+      ],
+      "features": [],
+      "images": [],
+      "reviews": []
+    }
+  }

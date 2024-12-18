@@ -179,8 +179,6 @@ const ProductDetailPage = () => {
             <div className="mt-8 border-t pt-8">
                 <CustomerReviews 
                     reviews={product.reviews} 
-                    averageRating={product.averageRating}
-                    totalReviews={product.totalReviews}
                     onSubmitReview={handleSubmitReview}
                 />
             </div>

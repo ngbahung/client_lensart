@@ -219,8 +219,8 @@ export const transformProductDetail = (product) => ({
                branch.branch_name === 'Hà Nội' ? 'hanoi' :
                branch.branch_name === 'Đà Nẵng' ? 'danang' : '',
       color: branch.color,
-      currentPrice: Math.round(product.offer_price * branch.index), // Changed to use offer_price
-      originalPrice: Math.round(product.price),      // Original price gets the index
+      currentPrice: Math.round(product.price * branch.index),
+      originalPrice: Math.round(product.offer_price * branch.index),
       inStock: branch.quantity > 0,
       stockQuantity: branch.quantity,
       priceIndex: branch.index
@@ -363,8 +363,10 @@ const transformFullProductDetail = (
     inStock: details.some(d => 
       d.branch_id === branch.id && d.stock_quantity > 0
     ),
-    currentPrice: Math.round(product.offer_price * branch.index),  // Changed to use offer_price
-    originalPrice: Math.round(product.price * branch.index),       // Original price gets the index
+    currentPrice: Math.round(product.price * branch.index),
+    originalPrice: product.offer_price ? 
+      Math.round(product.offer_price * branch.index) : 
+      Math.round(product.price * branch.index),
     stockQuantity: details.find(d => d.branch_id === branch.id)?.stock_quantity || 0
   })),
 

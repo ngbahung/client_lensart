@@ -16,7 +16,6 @@ const ProductDetails = ({ product, selectedBranch, cityNames }) => {  {/* Add ci
     const { isAuthenticated } = useAuth();
     const navigate = useNavigate();
     const [colorQuantities, setColorQuantities] = useState({});
-    const [isAddingToCart, setIsAddingToCart] = useState(false);
   
     // Calculate quantities for each color in each branch
     useEffect(() => {
@@ -40,15 +39,24 @@ const ProductDetails = ({ product, selectedBranch, cityNames }) => {  {/* Add ci
 
     // Update available quantity when branch or color changes
     useEffect(() => {
-        if (!selectedColor || !selectedBranch) {
+        if (!selectedColor) {
             setAvailableQuantity(0);
             return;
         }
 
-        const colorVariant = product.variants.colors.find(c => c.name === selectedColor);
-        const branchQuantity = colorVariant?.quantities[selectedBranch.branchId]?.quantity || 0;
-        setAvailableQuantity(branchQuantity);
-    }, [selectedBranch, selectedColor, product.variants.colors]);
+        if (selectedBranch) {
+            // Get quantity for selected color in selected branch
+            const branchQuantity = product.product_details.find(
+                detail => detail.branch_id === selectedBranch.branchId && 
+                         detail.color === selectedColor &&
+                         detail.status === 'active'
+            )?.quantity || 0;
+            setAvailableQuantity(branchQuantity);
+        } else {
+            // Get total quantity for selected color across all branches
+            setAvailableQuantity(colorQuantities[selectedColor]?.total || 0);
+        }
+    }, [selectedBranch, selectedColor, product.product_details, colorQuantities]);
 
     const handleQuantityChange = (type) => {
         setQuantity(prev => {
@@ -92,25 +100,14 @@ const ProductDetails = ({ product, selectedBranch, cityNames }) => {  {/* Add ci
       };
 
     const handleAddToCart = async () => {
-        if (!isAuthenticated) {
-            toast.info('Vui lòng đăng nhập để thêm vào giỏ hàng');
-            navigate('/login');
-            return;
-        }
-
         if (!selectedColor || !selectedBranch) {
             toast.error('Vui lòng chọn màu sắc và chi nhánh');
             return;
         }
 
-        if (quantity < 1 || quantity > availableQuantity) {
-            toast.error('Số lượng không hợp lệ');
-            return;
-        }
-
-        setIsAddingToCart(true);
         try {
-            const cart_id = 1; // TODO: Get from cart context
+            // Assuming we have cart_id from context or somewhere else
+            const cart_id = 1; // This should come from your cart context or user session
             await createCartDetail(
                 cart_id,
                 product.id,
@@ -118,60 +115,15 @@ const ProductDetails = ({ product, selectedBranch, cityNames }) => {  {/* Add ci
                 selectedColor,
                 quantity
             );
-            toast.success('Đã thêm vào giỏ hàng thành công');
+            toast.success('Đã thêm vào giỏ hàng');
         } catch (error) {
-            console.error('Error adding to cart:', error);
             toast.error('Có lỗi xảy ra khi thêm vào giỏ hàng');
-        } finally {
-            setIsAddingToCart(false);
         }
     };
 
-    const calculatePrices = () => {
-        if (!selectedBranch) {
-          return {
-            current: product.currentPrice,
-            original: product.originalPrice
-          };
-        }
-    
-        const priceIndex = selectedBranch.priceIndex;
-        return {
-          current: Math.round(product.currentPrice * priceIndex),    // currentPrice is already the offer_price
-          original: Math.round(product.originalPrice * priceIndex)   // originalPrice is the base price
-        };
-      };
-    
-      const { current: currentPrice, original: originalPrice } = calculatePrices();
-      const discount = ((originalPrice - currentPrice) / originalPrice * 100).toFixed(0) + '%';
-
-    const renderColorOptions = () => {
-        return product.variants.colors.map(color => {
-          const branchQuantity = selectedBranch 
-            ? color.quantities[selectedBranch.branchId]?.quantity || 0
-            : Object.values(color.quantities).reduce((sum, branch) => sum + branch.quantity, 0);
-          
-          const isAvailable = branchQuantity > 0;
-    
-          return (
-            <button
-              key={color.name}
-              onClick={() => handleColorSelect(color.name)}
-              disabled={!isAvailable}
-              className={`px-4 py-2 text-sm rounded-lg border transition-all
-                ${selectedColor === color.name 
-                  ? 'border-teal-500 bg-teal-50 text-teal-700 font-medium' 
-                  : 'border-gray-300 hover:border-teal-500 text-gray-700'}
-                ${!isAvailable ? 'opacity-50 cursor-not-allowed' : ''}`}
-            >
-              {color.name}
-              <span className="block text-xs text-gray-500">
-                {isAvailable ? `Còn ${branchQuantity}` : 'Hết hàng'}
-              </span>
-            </button>
-          );
-        });
-      };
+    const currentPrice = selectedBranch?.currentPrice || product.currentPrice;
+    const originalPrice = selectedBranch?.originalPrice || product.originalPrice;
+    const discount = ((originalPrice - currentPrice) / originalPrice * 100).toFixed(0) + '%';
 
     return (
         <>
@@ -203,7 +155,34 @@ const ProductDetails = ({ product, selectedBranch, cityNames }) => {  {/* Add ci
             <div className="mt-6">
                 <h3 className="text-lg font-semibold mb-3">Màu sắc:</h3>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                    {renderColorOptions()}
+                    {product.variants.colors.map((color) => {
+                        const colorData = colorQuantities[color.name] || { total: 0 };
+                        const branchQuantity = selectedBranch 
+                            ? colorData.byBranch[selectedBranch.branchId] || 0
+                            : colorData.total;
+                        const isAvailable = branchQuantity > 0;
+
+                        return (
+                            <button
+                                key={color.name}
+                                onClick={() => handleColorSelect(color.name)}
+                                disabled={!isAvailable}
+                                className={`px-4 py-2 text-sm rounded-lg border transition-all
+                                    ${selectedColor === color.name 
+                                        ? 'border-teal-500 bg-teal-50 text-teal-700 font-medium' 
+                                        : 'border-gray-300 hover:border-teal-500 text-gray-700'}
+                                    ${!isAvailable ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            >
+                                {color.name}
+                                <span className="block text-xs text-gray-500">
+                                    {isAvailable 
+                                        ? `Còn ${branchQuantity}` 
+                                        : 'Hết hàng'
+                                    }
+                                </span>
+                            </button>
+                        );
+                    })}
                 </div>
             </div>
 
@@ -253,21 +232,11 @@ const ProductDetails = ({ product, selectedBranch, cityNames }) => {  {/* Add ci
 
             <div className="flex space-x-4">
                 <button 
-                    className="w-full bg-teal-500 text-white py-3 rounded-lg hover:bg-teal-600 transition-colors disabled:opacity-50 flex items-center justify-center"
-                    disabled={!selectedColor || availableQuantity === 0 || isAddingToCart}
+                    className="w-full bg-teal-500 text-white py-3 rounded-lg hover:bg-teal-600 transition-colors disabled:opacity-50"
+                    disabled={!selectedColor || availableQuantity === 0}
                     onClick={handleAddToCart}
                 >
-                    {isAddingToCart ? (
-                        <span className="flex items-center">
-                            <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                            </svg>
-                            ĐANG THÊM...
-                        </span>
-                    ) : (
-                        'THÊM VÀO GIỎ HÀNG'
-                    )}
+                    THÊM VÀO GIỎ HÀNG
                 </button>
                 <button 
                     className="w-full bg-[#ecaa83] text-white py-3 rounded-lg hover:bg-[#e39b71] transition-colors disabled:opacity-50"

@@ -1,0 +1,194 @@
+{
+    "message": "success",
+    "data": {
+      "id": 16,
+      "name": "Gọng kính 6",
+      "description": "Voluptatem laudantium enim voluptatem nesciunt ratione quia eum quas fugit doloremque id cupiditate et sit et.",
+      "category_id": 2,
+      "brand_id": 2,
+      "material_id": 3,
+      "shape_id": 3,
+      "gender": "unisex",
+      "price": 119240,
+      "offer_price": 110506,
+      "created_time": "2024-12-18 04:36:45",
+      "status": "active",
+      "brand": {
+        "id": 2,
+        "name": "Bevis",
+        "status": "active"
+      },
+      "category": {
+        "id": 2,
+        "name": "Gọng kính",
+        "description": "Gọng kính đa dạng kiểu dáng, chất liệu và màu sắc, giúp định hình và giữ tròng kính chắc chắn.",
+        "status": "active"
+      },
+      "shape": {
+        "id": 3,
+        "name": "Oval",
+        "status": "active"
+      },
+      "material": {
+        "id": 3,
+        "name": "Titan",
+        "status": "active"
+      },
+      "product_details": [
+        {
+          "product_id": 16,
+          "branch_id": 1,
+          "color": "Hồng",
+          "quantity": 13,
+          "status": "active",
+          "branch_name": "Hồ Chí Minh",
+          "address": "123 Nguyễn Trãi, Quận 1, TP. Hồ Chí Minh",
+          "index": 1
+        },
+        {
+          "product_id": 16,
+          "branch_id": 1,
+          "color": "Xám",
+          "quantity": 50,
+          "status": "active",
+          "branch_name": "Hồ Chí Minh",
+          "address": "123 Nguyễn Trãi, Quận 1, TP. Hồ Chí Minh",
+          "index": 1
+        },
+        {
+          "product_id": 16,
+          "branch_id": 2,
+          "color": "Hồng",
+          "quantity": 10,
+          "status": "active",
+          "branch_name": "Đà Nẵng",
+          "address": "456 Trần Phú, Quận Hải Châu, TP. Đà Nẵng",
+          "index": 0.8
+        },
+        {
+          "product_id": 16,
+          "branch_id": 2,
+          "color": "Xám",
+          "quantity": 3,
+          "status": "active",
+          "branch_name": "Đà Nẵng",
+          "address": "456 Trần Phú, Quận Hải Châu, TP. Đà Nẵng",
+          "index": 0.8
+        },
+        {
+          "product_id": 16,
+          "branch_id": 3,
+          "color": "Hồng",
+          "quantity": 50,
+          "status": "active",
+          "branch_name": "Hà Nội",
+          "address": "789 Đường Láng, Quận Đống Đa, TP. Hà Nội",
+          "index": 0.9
+        },
+        {
+          "product_id": 16,
+          "branch_id": 3,
+          "color": "Xám",
+          "quantity": 50,
+          "status": "active",
+          "branch_name": "Hà Nội",
+          "address": "789 Đường Láng, Quận Đống Đa, TP. Hà Nội",
+          "index": 0.9
+        }
+      ],
+      "features": [],
+      "images": [],
+      "reviews": [
+        {
+          "id": 136,
+          "product_id": 16,
+          "user_id": 1,
+          "rating": "4",
+          "review": "Adipisci maiores ex ipsam. Aut minima ut voluptatibus sed. Omnis culpa doloremque velit perferendis sit magnam neque.",
+          "status": "inactive",
+          "firstname": "Trần",
+          "lastname": "Minh Chính"
+        },
+        {
+          "id": 137,
+          "product_id": 16,
+          "user_id": 2,
+          "rating": "2",
+          "review": "Odit et nesciunt ut ullam assumenda asperiores. Doloremque voluptas qui qui tempore pariatur repellat qui. Iure harum beatae rerum in.",
+          "status": "inactive",
+          "firstname": "Nguyễn",
+          "lastname": "Đức Hùng"
+        },
+        {
+          "id": 138,
+          "product_id": 16,
+          "user_id": 3,
+          "rating": "5",
+          "review": "Nihil qui et aut aut rerum quasi ut. Minima dolorem ut aperiam possimus recusandae a adipisci voluptatibus. Sit ut minima nemo dolorem dolorum earum.",
+          "status": "inactive",
+          "firstname": "Phạm",
+          "lastname": "Văn Thanh"
+        },
+        {
+          "id": 139,
+          "product_id": 16,
+          "user_id": 4,
+          "rating": "2",
+          "review": "Qui odit iste rerum illo. Est ut cum commodi illo rerum nulla tempora. Quia quo atque officiis sit cumque.",
+          "status": "active",
+          "firstname": "Phạm",
+          "lastname": "Văn Thanh"
+        },
+        {
+          "id": 140,
+          "product_id": 16,
+          "user_id": 5,
+          "rating": "1",
+          "review": "Saepe architecto dolorem autem nam. Veritatis tempore pariatur pariatur et similique. Necessitatibus maxime minus et debitis qui illum minima.",
+          "status": "active",
+          "firstname": "Nguyễn",
+          "lastname": "Minh Chính"
+        },
+        {
+          "id": 141,
+          "product_id": 16,
+          "user_id": 6,
+          "rating": "5",
+          "review": "Nostrum quasi iure autem nostrum iste assumenda. Ex sit qui beatae excepturi culpa possimus. Eos provident omnis accusantium quo natus.",
+          "status": "inactive",
+          "firstname": "Phạm",
+          "lastname": "Quang Bảo"
+        },
+        {
+          "id": 142,
+          "product_id": 16,
+          "user_id": 7,
+          "rating": "2",
+          "review": "Ut voluptatibus optio delectus eius quia quia et. Expedita quisquam placeat est saepe. Sit et officia quia explicabo nihil id aspernatur.",
+          "status": "active",
+          "firstname": "Phạm",
+          "lastname": "Minh Chính"
+        },
+        {
+          "id": 143,
+          "product_id": 16,
+          "user_id": 8,
+          "rating": "4",
+          "review": "Qui dolore et molestias expedita voluptatem tempora. Porro reiciendis aliquid provident qui dolore vel. Repudiandae facere autem et beatae sequi optio. Enim accusantium distinctio expedita.",
+          "status": "active",
+          "firstname": "Nguyễn",
+          "lastname": "Minh Chính"
+        },
+        {
+          "id": 144,
+          "product_id": 16,
+          "user_id": 9,
+          "rating": "5",
+          "review": "Consequatur ut quidem exercitationem natus. Facilis ab fugit dolor omnis totam. Exercitationem exercitationem vel inventore fugiat esse.",
+          "status": "active",
+          "firstname": "Nguyễn",
+          "lastname": "Đức Hùng"
+        }
+      ]
+    }
+  }
