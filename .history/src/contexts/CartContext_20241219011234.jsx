@@ -2,7 +2,7 @@ import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import { getCartDetails, createCartDetail, updateCartItemQuantity, deleteCartItem } from '../api/cartAPI';
 import { toast } from 'react-toastify';
 import { useAuth } from './AuthContext';
-import { getCouponByCode } from '../api/couponsAPI';
+import { getCouponByCode } from 
 
 const CartContext = createContext(null);
 
