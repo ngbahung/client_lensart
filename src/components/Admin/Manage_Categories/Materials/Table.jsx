@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from 'prop-types';
 import { FiPlusCircle } from "react-icons/fi";
 import Row from "./Row";
 import CreateMaterial from "./CreateMaterial";
@@ -101,6 +102,21 @@ const Table = ({ materials, isLoading, error, onStatusChange, onSearch, searchTe
       </table>
     </div>
   );
+};
+
+Table.propTypes = {
+  materials: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      status: PropTypes.oneOf(['active', 'inactive']).isRequired,
+    })
+  ).isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  error: PropTypes.string,
+  onStatusChange: PropTypes.func.isRequired,
+  onSearch: PropTypes.func.isRequired,
+  searchTerm: PropTypes.string.isRequired,
 };
 
 export default Table;

@@ -13,16 +13,16 @@ const ProductsPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const mockData = [
-    { id: 1, name: "Sunglasses Model A", description: "Stylish summer sunglasses", price: 99.99, status: true },
-    { id: 2, name: "Reading Glasses B", description: "Comfortable reading glasses", price: 79.99, status: true },
-    { id: 3, name: "Tom Ford", description: "Luxury designer frames", price: 299.99, status: false },
-    { id: 4, name: "Gucci", description: "High-end fashion glasses", price: 199.99, status: true },
-    { id: 5, name: "Prada", description: "Elegant and stylish", price: 249.99, status: true },
-    { id: 6, name: "Versace", description: "Bold and luxurious", price: 279.99, status: false },
-    { id: 7, name: "Burberry", description: "Classic and timeless", price: 189.99, status: true },
-    { id: 8, name: "Chanel", description: "Iconic fashion glasses", price: 299.99, status: true },
-    { id: 9, name: "Nike Vision", description: "Sporty and durable", price: 129.99, status: false },
-    { id: 10, name: "Dior", description: "Chic and sophisticated", price: 259.99, status: true }
+    { id: 1, name: "Sunglasses Model A", description: "Stylish summer sunglasses", price: 99.99, status: 'active' },
+    { id: 2, name: "Reading Glasses B", description: "Comfortable reading glasses", price: 79.99, status: 'active' },
+    { id: 3, name: "Tom Ford", description: "Luxury designer frames", price: 299.99, status: 'inactive' },
+    { id: 4, name: "Gucci", description: "High-end fashion glasses", price: 199.99, status: 'active' },
+    { id: 5, name: "Prada", description: "Elegant and stylish", price: 249.99, status: 'active' },
+    { id: 6, name: "Versace", description: "Bold and luxurious", price: 279.99, status: 'inactive' },
+    { id: 7, name: "Burberry", description: "Classic and timeless", price: 189.99, status: 'active' },
+    { id: 8, name: "Chanel", description: "Iconic fashion glasses", price: 299.99, status: 'active' },
+    { id: 9, name: "Nike Vision", description: "Sporty and durable", price: 129.99, status: 'inactive' },
+    { id: 10, name: "Dior", description: "Chic and sophisticated", price: 259.99, status: 'active' }
   ];
 
   useEffect(() => {
@@ -87,7 +87,10 @@ const ProductsPage = () => {
       
       setProducts(prevProducts => 
         prevProducts.map(product => 
-          product.id === productId ? {...product, status: !product.status} : product
+          product.id === productId ? {
+            ...product, 
+            status: product.status === 'active' ? 'inactive' : 'active'
+          } : product
         )
       );
     } catch (error) {

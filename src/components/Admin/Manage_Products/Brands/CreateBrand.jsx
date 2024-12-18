@@ -1,16 +1,14 @@
 import React, { useState } from "react";
-import { FaAngleDown } from "react-icons/fa";
 import axios from "axios";
 
 const CreateBrand = ({ onClose, refreshBrands }) => {
   const [name, setName] = useState("");
-  const [status, setStatus] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSave = async () => {
-    if (!name.trim() || !status) {
-      setError("Please fill in all fields.");
+    if (!name.trim()) {
+      setError("Please enter brand name.");
       return;
     }
     
@@ -19,12 +17,11 @@ const CreateBrand = ({ onClose, refreshBrands }) => {
     
     try {
       const response = await axios.post('http://localhost:8000/api/brands/create', {
-        name: name.trim(),
-        status: status
+        name: name.trim()
       });
       
       console.log("Brand saved:", response.data);
-      await refreshBrands(); // Add this line
+      await refreshBrands();
       alert("Brand saved successfully!");
       onClose();
     } catch (err) {
@@ -60,36 +57,17 @@ const CreateBrand = ({ onClose, refreshBrands }) => {
         />
       </div>
 
-      <div className="mb-4">
-        <label className="block text-gray-700 font-medium mb-2" htmlFor="status">
-          Status
-        </label>
-        <div className="relative w-1/4">
-          <select
-            id="status"
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#55D5D2] bg-[#EFF9F9] border-[#55D5D2] appearance-none"
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
-          >
-            <option value="">Select status</option>
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
-          </select>
-          <FaAngleDown className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none" />
-        </div>
-      </div>
-
       {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
       <div className="flex">
         <button
           className={`w-1/7 py-2 px-4 rounded-[10px] shadow-md font-semibold ${
-            name.trim() && status && !loading
+            name.trim() && !loading
               ? "bg-teal-400 text-white hover:bg-teal-500"
               : "bg-gray-300 text-gray-500 cursor-not-allowed"
           }`}
           onClick={handleSave}
-          disabled={!name.trim() || !status || loading}
+          disabled={!name.trim() || loading}
         >
           {loading ? "Saving..." : "Save"}
         </button>

@@ -93,7 +93,7 @@ const Product_ReviewsPage = () => {
     try {
       // Find current review and get its current status
       const currentReview = reviews.find(rev => rev.id === reviewId);
-      const newStatus = !currentReview.status;
+      const newStatus = currentReview.status === 'active' ? 'inactive' : 'active';
       
       const response = await axios.post(`http://localhost:8000/api/reviews/switch-status/${reviewId}`);
       

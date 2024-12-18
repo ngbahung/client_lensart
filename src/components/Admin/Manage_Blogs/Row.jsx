@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { BiEdit } from "react-icons/bi";
-import { FaRegTrashAlt } from "react-icons/fa";
 import PropTypes from "prop-types";
 import ConfirmChangeStatusModal from "./ConfirmChangeStatusModal";
 
@@ -10,7 +9,7 @@ const ToggleSwitch = ({ id, status, onToggle, disabled }) => {
       <input
         type="checkbox"
         id={`toggle-${id}`}
-        checked={status}
+        checked={status === 'active'} // Use string comparison
         onChange={() => onToggle(id)}
         className="sr-only"
         disabled={disabled}
@@ -18,12 +17,12 @@ const ToggleSwitch = ({ id, status, onToggle, disabled }) => {
       <label
         htmlFor={`toggle-${id}`}
         className={`w-16 h-8 flex items-center rounded-full cursor-pointer transition-colors ${
-          status ? "bg-[#55d5d2]" : "bg-gray-400"
+          status === 'active' ? "bg-[#55d5d2]" : "bg-gray-400"
         }`}
       >
         <span
           className={`w-6 h-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${
-            status ? "translate-x-9" : "translate-x-1"
+            status === 'active' ? "translate-x-9" : "translate-x-1"
           }`}
         ></span>
       </label>
@@ -31,7 +30,7 @@ const ToggleSwitch = ({ id, status, onToggle, disabled }) => {
   );
 };
 
-const Row = ({ blog, onStatusChange, onEdit, onDelete }) => {
+const Row = ({ blog, onStatusChange, onEdit }) => { // Remove onDelete from props
   const [showStatusModal, setShowStatusModal] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
 
@@ -57,10 +56,6 @@ const Row = ({ blog, onStatusChange, onEdit, onDelete }) => {
 
   const handleEdit = () => {
     onEdit(blog);
-  };
-
-  const handleDelete = () => {
-    onDelete(blog.id);
   };
 
   return (
@@ -89,24 +84,18 @@ const Row = ({ blog, onStatusChange, onEdit, onDelete }) => {
         <td className="py-2 px-4">
           <ToggleSwitch
             id={blog.id}
-            status={blog.status === "active"}
+            status={blog.status} // Pass status directly as string
             onToggle={handleStatusChange}
             disabled={isUpdating}
           />
         </td>
         <td className="h-full">
-          <div className="flex items-center justify-center h-full min-h-[64px] gap-2">
+          <div className="flex items-center justify-center h-full min-h-[64px]">
             <button
               className="p-1.5 rounded-md bg-[rgba(123,212,111,1)] hover:opacity-80"
               onClick={handleEdit}
             >
               <BiEdit size={20} className="text-white" />
-            </button>
-            <button
-              className="p-1.5 rounded-md bg-[rgba(255,0,5,1)] hover:opacity-80"
-              onClick={handleDelete}
-            >
-              <FaRegTrashAlt size={20} className="text-white" />
             </button>
           </div>
         </td>
@@ -125,7 +114,7 @@ const Row = ({ blog, onStatusChange, onEdit, onDelete }) => {
 
 ToggleSwitch.propTypes = {
   id: PropTypes.number.isRequired,
-  status: PropTypes.bool.isRequired,
+  status: PropTypes.oneOf(['active', 'inactive']).isRequired, // Update PropTypes to use string
   onToggle: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
 };
@@ -136,11 +125,10 @@ Row.propTypes = {
     image_url: PropTypes.string,
     title: PropTypes.string.isRequired,
     description: PropTypes.string,
-    status: PropTypes.bool.isRequired,
+    status: PropTypes.oneOf(['active', 'inactive']).isRequired, // Update PropTypes
   }).isRequired,
   onStatusChange: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
 };
 
 export default Row;

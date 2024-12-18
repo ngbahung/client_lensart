@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { FaAngleDown } from "react-icons/fa";
 import axios from "axios";
 
 const CreateCoupon = ({ onClose, refreshCoupons }) => {
@@ -8,7 +7,6 @@ const CreateCoupon = ({ onClose, refreshCoupons }) => {
     code: "",
     quantity: "",
     discount_price: "",
-    status: ""
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -32,10 +30,6 @@ const CreateCoupon = ({ onClose, refreshCoupons }) => {
       errors.push("Discount price must be a positive number");
     }
 
-    if (!formData.status || !['active', 'inactive'].includes(formData.status)) {
-      errors.push("Status must be either active or inactive");
-    }
-
     return errors;
   };
 
@@ -54,7 +48,6 @@ const CreateCoupon = ({ onClose, refreshCoupons }) => {
       code: formData.code.trim().toUpperCase(),
       quantity: parseInt(formData.quantity),
       discount_price: parseFloat(formData.discount_price),
-      status: formData.status
     };
     
     try {
@@ -161,38 +154,19 @@ const CreateCoupon = ({ onClose, refreshCoupons }) => {
             onChange={handleChange}
           />
         </div>
-
-        <div className="mb-4">
-          <label className="block text-gray-700 font-medium mb-2" htmlFor="status">
-            Status
-          </label>
-          <div className="relative">
-            <select
-              name="status"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#55D5D2] bg-[#EFF9F9] border-[#55D5D2] appearance-none"
-              value={formData.status}
-              onChange={handleChange}
-            >
-              <option value="">Select status</option>
-              <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
-            </select>
-            <FaAngleDown className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none" />
-          </div>
-        </div>
       </div>
 
       {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
-      <div className="flex justify-start"> {/* Changed: justify-end -> justify-start */}
+      <div className="flex justify-start">
         <button
           className={`w-1/7 py-2 px-4 rounded-[10px] shadow-md font-semibold ${
-            formData.name && formData.code && formData.quantity && formData.discount_price && formData.status && !loading
+            formData.name && formData.code && formData.quantity && formData.discount_price && !loading
               ? "bg-teal-400 text-white hover:bg-teal-500"
               : "bg-gray-300 text-gray-500 cursor-not-allowed"
           }`}
           onClick={handleSave}
-          disabled={!formData.name || !formData.code || !formData.quantity || !formData.discount_price || !formData.status || loading}
+          disabled={!formData.name || !formData.code || !formData.quantity || !formData.discount_price || loading}
         >
           {loading ? "Saving..." : "Save"}
         </button>

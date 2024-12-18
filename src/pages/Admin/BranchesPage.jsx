@@ -18,14 +18,14 @@ const BranchesPage = () => {
       name: "Chi nhánh 1", 
       address: "123 Nguyễn Huệ, Q1, TP.HCM",
       managerName: "Nguyễn Văn A",
-      status: true 
+      status: 'active'
     },
     { 
       id: 2, 
       name: "Chi nhánh 2", 
       address: "456 Lê Lợi, Q5, TP.HCM",
       managerName: "Trần Thị B",
-      status: false 
+      status: 'inactive'
     },
     { id: 3, name: "Thép không gỉ", status: true },
     { id: 4, name: "Nhựa TR90", status: false },
@@ -42,7 +42,8 @@ const BranchesPage = () => {
     { id: 15, name: "Thép không gỉ 316L", status: true }
   ];
 
-  const refreshBranches = async () => {
+
+  const fetchBranches = async () => {
     setIsLoading(true);
     try {
       const response = await axios.get('http://localhost:8000/api/branches');
@@ -62,25 +63,6 @@ const BranchesPage = () => {
   };
 
   useEffect(() => {
-    const fetchBranches = async () => {
-      try {
-        const response = await axios.get('http://localhost:8000/api/branches');
-        if (response.data) {
-          const allBranches = response.data.data || mockData;
-          setBranches(allBranches);
-          // Tính tổng số trang dựa trên số lượng items
-          setTotalPages(Math.ceil(allBranches.length / ITEMS_PER_PAGE));
-          setError(null);
-        }
-      } catch (error) {
-        console.error("Failed to fetch branches:", error);
-        setBranches(mockData);
-        setTotalPages(Math.ceil(mockData.length / ITEMS_PER_PAGE));
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     fetchBranches();
   }, []);
 
@@ -102,18 +84,23 @@ const BranchesPage = () => {
 
   const handleStatusChange = async (branchId) => {
     try {
+      const branch = branches.find(b => b.id === branchId);
+      if (!branch) return;
+      
+      const newStatus = branch.status === 'active' ? 'inactive' : 'active';
+      
       const response = await axios.post(`http://localhost:8000/api/branches/switch-status/${branchId}`);
       
       if (response.status === 200) {
         setBranches(prevBranches => 
-          prevBranches.map(branch => 
-            branch.id === branchId ? {...branch, status: !branch.status} : branch
+          prevBranches.map(b => 
+            b.id === branchId ? {...b, status: newStatus} : b
           )
         );
       }
     } catch (error) {
-      alert("Failed to update branch status");
       console.error("Failed to update branch status:", error);
+      alert("Failed to update branch status");
     }
   };
 
@@ -139,7 +126,7 @@ const BranchesPage = () => {
             onStatusChange={handleStatusChange}
             onSearch={handleSearch}
             searchTerm={searchTerm}
-            refreshBranches={refreshBranches}
+            onUpdate={fetchBranches} // Add this prop
           />
         </div>
       </div>

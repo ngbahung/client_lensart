@@ -69,7 +69,7 @@ const EditProduct = ({ product, onClose, refreshProducts }) => {
   useEffect(() => {
     if (product) {
       setName(product.name);
-      setStatus(product.status ? "active" : "inactive");
+      setStatus(product.status); // Now directly using 'active' or 'inactive'
       setCategory(product.category_id?.toString() || "");
       setMaterial(product.material_id?.toString() || ""); // Thay đổi cách set material
       setShape(product.shape_id?.toString() || ""); // Thay đổi cách set shape
@@ -95,7 +95,7 @@ const EditProduct = ({ product, onClose, refreshProducts }) => {
     try {
       const productData = {
         name: name.trim(),
-        status: status,  // Đã đúng format, status là string 'active'/'inactive'
+        status: status, // Now correctly passing 'active' or 'inactive'
         description: description.trim() || null,
         brand_id: parseInt(brand),
         category_id: parseInt(category),

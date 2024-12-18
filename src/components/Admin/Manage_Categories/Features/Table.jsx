@@ -113,7 +113,7 @@ Table.propTypes = {
     PropTypes.shape({
       id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
-      status: PropTypes.bool.isRequired,
+      status: PropTypes.oneOf(['active', 'inactive']).isRequired,
     })
   ).isRequired,
   isLoading: PropTypes.bool.isRequired,

@@ -12,7 +12,7 @@ const EditBrand = ({ brand, onClose, refreshBrands }) => {  // Add refreshBrands
   useEffect(() => {
     if (brand) {
       setName(brand.name);
-      setStatus(brand.status ? "active" : "inactive");
+      setStatus(brand.status); // status is already 'active' or 'inactive'
     }
   }, [brand]);
 
@@ -119,7 +119,7 @@ EditBrand.propTypes = {
   brand: PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    status: PropTypes.bool.isRequired,
+    status: PropTypes.oneOf(['active', 'inactive']).isRequired,
   }).isRequired,
   onClose: PropTypes.func.isRequired,
   refreshBrands: PropTypes.func.isRequired, // Add this line

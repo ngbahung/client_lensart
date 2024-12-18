@@ -4,12 +4,13 @@ import PropTypes from "prop-types";
 import ConfirmChangeStatusModal from "./ConfirmChangeStatusModal";
 
 const ToggleSwitch = ({ id, status, onToggle, disabled }) => {
+  const isActive = status === 'active';
   return (
     <div className="relative inline-flex items-center">
       <input
         type="checkbox"
         id={`toggle-${id}`}
-        checked={status}
+        checked={isActive}
         onChange={() => onToggle(id)}
         className="sr-only"
         disabled={disabled}
@@ -17,12 +18,12 @@ const ToggleSwitch = ({ id, status, onToggle, disabled }) => {
       <label
         htmlFor={`toggle-${id}`}
         className={`w-16 h-8 flex items-center rounded-full cursor-pointer transition-colors ${
-          status ? "bg-[#55d5d2]" : "bg-gray-400"
+          isActive ? "bg-[#55d5d2]" : "bg-gray-400"
         }`}
       >
         <span
           className={`w-6 h-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${
-            status ? "translate-x-9" : "translate-x-1"
+            isActive ? "translate-x-9" : "translate-x-1"
           }`}
         ></span>
       </label>
@@ -66,7 +67,7 @@ const Row = ({ brand, onStatusChange, onEdit }) => {
         <td className="py-2 px-4">
           <ToggleSwitch
             id={brand.id}
-            status={brand.status === 'active'}
+            status={brand.status}
             onToggle={handleStatusChange}
             disabled={isUpdating}
           />
@@ -94,7 +95,7 @@ const Row = ({ brand, onStatusChange, onEdit }) => {
 
 ToggleSwitch.propTypes = {
   id: PropTypes.number.isRequired,
-  status: PropTypes.bool.isRequired,
+  status: PropTypes.oneOf(['active', 'inactive']).isRequired,
   onToggle: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
 };
@@ -103,7 +104,7 @@ Row.propTypes = {
   brand: PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    status: PropTypes.bool.isRequired,
+    status: PropTypes.oneOf(['active', 'inactive']).isRequired,
   }).isRequired,
   onStatusChange: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,

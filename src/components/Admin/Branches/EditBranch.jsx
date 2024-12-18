@@ -3,7 +3,7 @@ import { FaAngleDown } from "react-icons/fa";
 import axios from "axios";
 import PropTypes from "prop-types";
 
-const EditBranch = ({ branch, onClose, refreshBranches }) => {
+const EditBranch = ({ branch, onClose }) => { // Bỏ prop refreshBranches
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [managerName, setManagerName] = useState("");
@@ -47,7 +47,7 @@ const EditBranch = ({ branch, onClose, refreshBranches }) => {
     if (branch) {
       setName(branch.name);
       setAddress(branch.address);
-      setStatus(branch.status ? "active" : "inactive");
+      setStatus(branch.status); // Status is now directly used as 'active' or 'inactive'
       setIndex(branch.index || "");
     }
   }, [branch]);
@@ -71,8 +71,7 @@ const EditBranch = ({ branch, onClose, refreshBranches }) => {
       });
 
       if (response.status === 200) {
-        await refreshBranches();
-        onClose();
+        onClose(); // Sẽ trigger onUpdate thông qua Table component
       }
     } catch (error) {
       setError(error.response?.data?.message || "Failed to update branch");
@@ -83,14 +82,17 @@ const EditBranch = ({ branch, onClose, refreshBranches }) => {
 
   return (
     <div className="w-full mx-auto bg-white shadow-md rounded-lg p-6">
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-xl font-semibold">Edit Branch</h1>
-        <button 
-          onClick={onClose}
-          className="text-gray-600 hover:text-[#55D5D2]"
-        >
-          Back to List
-        </button>
+      <div className="mb-6">
+        <div className="flex justify-between items-center mb-2">
+          <h1 className="text-xl font-semibold">Edit Branch</h1>
+          <button 
+            onClick={onClose}
+            className="text-gray-600 hover:text-[#55D5D2]"
+          >
+            Back to List
+          </button>
+        </div>
+        <hr className="border-gray-200" />
       </div>
       
       <div className="mb-4">
@@ -219,12 +221,12 @@ EditBranch.propTypes = {
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     address: PropTypes.string.isRequired,
-    manager_id: PropTypes.number,  // Updated to match API response
-    index: PropTypes.number,  // Add index to PropTypes
-    status: PropTypes.bool.isRequired,
+    manager_id: PropTypes.number,
+    index: PropTypes.number,
+    status: PropTypes.string.isRequired, // Changed to string
   }).isRequired,
   onClose: PropTypes.func.isRequired,
-  refreshBranches: PropTypes.func.isRequired,
+  // Bỏ refreshBranches từ PropTypes
 };
 
 export default EditBranch;

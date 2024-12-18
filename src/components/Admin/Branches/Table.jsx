@@ -11,7 +11,7 @@ const Table = ({
   onStatusChange, 
   onSearch, 
   searchTerm,
-  refreshBranches 
+  onUpdate
 }) => {
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [editingBranch, setEditingBranch] = useState(null);
@@ -37,15 +37,19 @@ const Table = ({
   if (editingBranch) {
     return <EditBranch 
       branch={editingBranch} 
-      onClose={() => setEditingBranch(null)}
-      refreshBranches={refreshBranches}
+      onClose={() => {
+        setEditingBranch(null);
+        onUpdate(); // Replace window.location.reload()
+      }}
     />;
   }
 
   if (showCreateForm) {
     return <CreateBranch 
-      onClose={() => setShowCreateForm(false)}
-      refreshBranches={refreshBranches}
+      onClose={() => {
+        setShowCreateForm(false);
+        onUpdate(); // Replace window.location.reload()
+      }}
     />;
   }
 

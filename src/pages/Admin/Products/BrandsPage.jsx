@@ -13,16 +13,16 @@ const BrandsPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const mockData = [
-    { id: 1, name: "Ray-Ban", status: true },
-    { id: 2, name: "Oakley", status: true },
-    { id: 3, name: "Tom Ford", status: false },
-    { id: 4, name: "Gucci", status: true },
-    { id: 5, name: "Prada", status: true },
-    { id: 6, name: "Versace", status: false },
-    { id: 7, name: "Burberry", status: true },
-    { id: 8, name: "Chanel", status: true },
-    { id: 9, name: "Nike Vision", status: false },
-    { id: 10, name: "Dior", status: true }
+    { id: 1, name: "Ray-Ban", status: "active" },
+    { id: 2, name: "Oakley", status: "active" },
+    { id: 3, name: "Tom Ford", status: "inactive" },
+    { id: 4, name: "Gucci", status: "active" },
+    { id: 5, name: "Prada", status: "active" },
+    { id: 6, name: "Versace", status: "inactive" },
+    { id: 7, name: "Burberry", status: "active" },
+    { id: 8, name: "Chanel", status: "active" },
+    { id: 9, name: "Nike Vision", status: "inactive" },
+    { id: 10, name: "Dior", status: "active" }
   ];
 
   useEffect(() => {
@@ -84,13 +84,14 @@ const BrandsPage = () => {
   const handleStatusChange = async (brandId) => {
     try {
       const currentBrand = brands.find(brand => brand.id === brandId);
+      const newStatus = currentBrand.status === 'active' ? 'inactive' : 'active';
       
       const response = await axios.post(`http://localhost:8000/api/brands/switch-status/${brandId}`);
       
       if (response.status === 200) {
         setBrands(prevBrands => 
           prevBrands.map(brand => 
-            brand.id === brandId ? {...brand, status: !currentBrand.status} : brand
+            brand.id === brandId ? {...brand, status: newStatus} : brand
           )
         );
       }

@@ -4,7 +4,6 @@ import axios from "axios";
 
 const CreateProduct = ({ onClose, refreshBrands }) => {
   const [name, setName] = useState("");
-  const [status, setStatus] = useState("");
   const [category, setCategory] = useState("");
   const [material, setMaterial] = useState("");
   const [shape, setShape] = useState("");
@@ -143,7 +142,6 @@ const CreateProduct = ({ onClose, refreshBrands }) => {
   const isFormValid = () => {
     return (
       name.trim() && 
-      status && 
       category && 
       brand && 
       price
@@ -152,7 +150,7 @@ const CreateProduct = ({ onClose, refreshBrands }) => {
 
   const handleSave = async () => {
     if (!isFormValid()) {
-      setError("Please fill in required fields: Name, Status, Category, Brand, and Price.");
+      setError("Please fill in required fields: Name, Category, Brand, and Price.");
       return;
     }
     
@@ -162,7 +160,6 @@ const CreateProduct = ({ onClose, refreshBrands }) => {
     try {
       const productData = {
         name: name.trim(),
-        status: status,  // Đã đúng format, status là string 'active'/'inactive'
         description: description.trim() || null,
         brand_id: parseInt(brand),
         category_id: parseInt(category),
@@ -232,25 +229,6 @@ const CreateProduct = ({ onClose, refreshBrands }) => {
           onChange={(e) => setName(e.target.value)}
           placeholder="Enter product name"
         />
-      </div>
-
-      <div className="mb-4">
-        <label className="block text-gray-700 font-medium mb-2" htmlFor="status">
-          Status
-        </label>
-        <div className="relative w-1/4">
-          <select
-            id="status"
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#55D5D2] bg-[#EFF9F9] border-[#55D5D2] appearance-none"
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
-          >
-            <option value="">Select status</option>
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
-          </select>
-          <FaAngleDown className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none" />
-        </div>
       </div>
 
       <div className="grid grid-cols-3 gap-4 mb-4 mt-10">

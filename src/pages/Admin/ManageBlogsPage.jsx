@@ -57,7 +57,11 @@ const ManageBlogsPage = () => {
     }
   ];
 
-  const refreshBlogs = async () => {
+  useEffect(() => {
+    fetchBlogs(); // Extract fetchBlogs function for reuse
+  }, []);
+
+  const fetchBlogs = async () => {
     setIsLoading(true);
     try {
       const response = await axios.get('http://localhost:8000/api/blogs');
@@ -75,29 +79,6 @@ const ManageBlogsPage = () => {
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        const response = await axios.get('http://localhost:8000/api/blogs');
-        if (response.data) {
-          const allBlogs = response.data.data || mockData;
-          setBlogs(allBlogs);
-          // Tính tổng số trang dựa trên số lượng items
-          setTotalPages(Math.ceil(allBlogs.length / ITEMS_PER_PAGE));
-          setError(null);
-        }
-      } catch (error) {
-        console.error("Failed to fetch blogs:", error);
-        setBlogs(mockData);
-        setTotalPages(Math.ceil(mockData.length / ITEMS_PER_PAGE));
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchBlogs();
-  }, []);
 
   const filteredBlogs = blogs.filter(blog => 
     blog.id.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -117,9 +98,8 @@ const ManageBlogsPage = () => {
 
   const handleStatusChange = async (blogId) => {
     try {
-      // Find current blog and get its current status
       const currentBlog = blogs.find(blog => blog.id === blogId);
-      const newStatus = !currentBlog.status;
+      const newStatus = currentBlog.status === 'inactive' ? 'active' : 'inactive';
       
       const response = await axios.post(`http://localhost:8000/api/blogs/switch-status/${blogId}`);
       
@@ -162,6 +142,18 @@ const ManageBlogsPage = () => {
     setTotalPages(Math.ceil(filtered.length / ITEMS_PER_PAGE));
   };
 
+  const handleEditBlogSuccess = async () => {
+    try {
+      await fetchBlogs(); // Refresh data
+    } catch (error) {
+      console.error("Failed to refresh blogs:", error);
+    }
+  };
+
+  const handleUpdateSuccess = () => {
+    fetchBlogs(); // Gọi lại API để lấy dữ liệu mới
+  };
+
   return (
     <div className="bg-white p-6 rounded-md flex flex-col min-h-[calc(100vh-120px)]">
       <div className="flex-grow">
@@ -173,8 +165,8 @@ const ManageBlogsPage = () => {
             onStatusChange={handleStatusChange}
             onSearch={handleSearch}
             searchTerm={searchTerm}
-            refreshBlogs={refreshBlogs}
-            onDelete={handleDelete} // Add this prop
+            onDelete={handleDelete}
+            onUpdateSuccess={handleUpdateSuccess} // Đổi tên prop
           />
         </div>
       </div>

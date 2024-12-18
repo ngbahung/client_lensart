@@ -12,7 +12,7 @@ const EditFeature = ({ feature, onClose, onRefresh }) => {  // Add onRefresh pro
   useEffect(() => {
     if (feature) {
       setName(feature.name);
-      setStatus(feature.status ? "active" : "inactive");
+      setStatus(feature.status); // status is already 'active' or 'inactive'
     }
   }, [feature]);
 
@@ -119,10 +119,10 @@ EditFeature.propTypes = {
   feature: PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    status: PropTypes.bool.isRequired,
+    status: PropTypes.oneOf(['active', 'inactive']).isRequired,
   }).isRequired,
   onClose: PropTypes.func.isRequired,
-  onRefresh: PropTypes.func.isRequired, // Add prop type validation
+  onRefresh: PropTypes.func.isRequired,
 };
 
 export default EditFeature;

@@ -2,10 +2,9 @@ import React, { useState, useEffect } from "react";
 import { FaAngleDown } from "react-icons/fa";
 import axios from "axios";
 
-const CreateBranch = ({ onClose, refreshBranches }) => {
+const CreateBranch = ({ onClose }) => {
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
-  const [status, setStatus] = useState("");
   const [managers, setManagers] = useState([]);
   const [selectedManagerId, setSelectedManagerId] = useState("");
   const [index, setIndex] = useState("");
@@ -31,7 +30,7 @@ const CreateBranch = ({ onClose, refreshBranches }) => {
   }, []);
 
   const handleSave = async () => {
-    if (!name.trim() || !address.trim() || !status || !selectedManagerId || !index) {
+    if (!name.trim() || !address.trim() || !selectedManagerId || !index) {
       setError("Please fill in all fields.");
       return;
     }
@@ -44,14 +43,12 @@ const CreateBranch = ({ onClose, refreshBranches }) => {
         name: name.trim(),
         address: address.trim(),
         manager_id: Number(selectedManagerId),
-        index: index ? Number(index) : 1,
-        status: status
+        index: index ? Number(index) : 1
       });
       
-      console.log("Branch saved:", response.data);
-      await refreshBranches();
-      alert("Branch saved successfully!");
-      onClose();
+      if (response.data) {
+        onClose(); // Sẽ trigger onUpdate thông qua Table component
+      }
     } catch (err) {
       setError(err.response?.data?.message || "Failed to save branch");
     } finally {
@@ -61,14 +58,17 @@ const CreateBranch = ({ onClose, refreshBranches }) => {
 
   return (
     <div className="w-full mx-auto bg-white shadow-md rounded-lg p-6">
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-xl font-semibold">Create Branch</h1>
-        <button 
-          onClick={onClose}
-          className="text-gray-600 hover:text-[#55D5D2]"
-        >
-          Back to List
-        </button>
+      <div className="mb-6">
+        <div className="flex justify-between items-center mb-2">
+          <h1 className="text-xl font-semibold">Create Branch</h1>
+          <button 
+            onClick={onClose}
+            className="text-gray-600 hover:text-[#55D5D2]"
+          >
+            Back to List
+          </button>
+        </div>
+        <hr className="border-gray-200" />
       </div>
       
       <div className="mb-4">
@@ -122,25 +122,6 @@ const CreateBranch = ({ onClose, refreshBranches }) => {
       </div>
 
       <div className="mb-4">
-        <label className="block text-gray-700 font-medium mb-2" htmlFor="status">
-          Status <span className="text-red-500">*</span>
-        </label>
-        <div className="relative w-1/4">
-          <select
-            id="status"
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#55D5D2] bg-[#EFF9F9] border-[#55D5D2] appearance-none"
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
-          >
-            <option value="">Select status</option>
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
-          </select>
-          <FaAngleDown className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none" />
-        </div>
-      </div>
-
-      <div className="mb-4">
         <label className="block text-gray-700 font-medium mb-2" htmlFor="index">
           Index <span className="text-red-500">*</span>
         </label>
@@ -161,12 +142,12 @@ const CreateBranch = ({ onClose, refreshBranches }) => {
       <div className="flex">
         <button
           className={`w-1/7 py-2 px-4 rounded-[10px] shadow-md font-semibold ${
-            name.trim() && address.trim() && status && selectedManagerId && index && !loading
+            name.trim() && address.trim() && selectedManagerId && index && !loading
               ? "bg-teal-400 text-white hover:bg-teal-500"
               : "bg-gray-300 text-gray-500 cursor-not-allowed"
           }`}
           onClick={handleSave}
-          disabled={!name.trim() || !address.trim() || !status || !selectedManagerId || !index || loading}
+          disabled={!name.trim() || !address.trim() || !selectedManagerId || !index || loading}
         >
           {loading ? "Saving..." : "Save"}
         </button>

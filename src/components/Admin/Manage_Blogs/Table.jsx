@@ -4,7 +4,7 @@ import Row from "./Row";
 import CreateBlog from "./CreateBlog";
 import EditBlog from './EditBlog';
 
-const Table = ({ blogs, isLoading, error, onStatusChange, onSearch, searchTerm, refreshBlogs, onDelete }) => { // Add onDelete prop
+const Table = ({ blogs, isLoading, error, onStatusChange, onSearch, searchTerm, onDelete, onUpdateSuccess }) => { // Remove refreshBlogs
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [editingBlog, setEditingBlog] = useState(null);
 
@@ -27,17 +27,36 @@ const Table = ({ blogs, isLoading, error, onStatusChange, onSearch, searchTerm, 
     setEditingBlog(blog);
   };
 
+  const handleEditSuccess = async () => {
+    try {
+      if (typeof onEditSuccess === 'function') {
+        await onEditSuccess();
+      }
+      setEditingBlog(null); // Reset form editing state
+    } catch (error) {
+      console.error("Error refreshing data:", error);
+    }
+  };
+
   if (editingBlog) {
-    console.log("Rendering EditBlog with:", editingBlog); // Add this debug line
     return <EditBlog
       blog={editingBlog}
       onClose={() => setEditingBlog(null)}
-      refreshBlogs={refreshBlogs}  // Add this prop
+      onEditSuccess={() => {
+        setEditingBlog(null);
+        onUpdateSuccess();
+      }}
     />;
   }
 
   if (showCreateForm) {
-    return <CreateBlog onClose={() => setShowCreateForm(false)} />;
+    return <CreateBlog 
+      onClose={() => setShowCreateForm(false)}
+      onCreateSuccess={() => {
+        setShowCreateForm(false);
+        onUpdateSuccess();
+      }}
+    />;
   }
 
   return (

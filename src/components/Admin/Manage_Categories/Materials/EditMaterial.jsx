@@ -12,7 +12,7 @@ const EditMaterial = ({ material, onClose, refreshMaterials }) => {
   useEffect(() => {
     if (material) {
       setName(material.name);
-      setStatus(material.status ? "active" : "inactive");
+      setStatus(material.status); // status is already 'active' or 'inactive'
     }
   }, [material]);
 
@@ -119,10 +119,10 @@ EditMaterial.propTypes = {
   material: PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    status: PropTypes.bool.isRequired,
+    status: PropTypes.string.isRequired,
   }).isRequired,
   onClose: PropTypes.func.isRequired,
-  refreshMaterials: PropTypes.func.isRequired, // Add prop type for refreshMaterials
+  refreshMaterials: PropTypes.func.isRequired,
 };
 
 export default EditMaterial;
