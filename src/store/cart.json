@@ -1,0 +1,40 @@
+{
+    "data": [
+        {
+            "id": 2,
+            "product_name": "Tr\u00f2ng k\u00ednh 5",
+            "product_price": 119630,
+            "brands_name": "Chemi",
+            "category_name": "Tr\u00f2ng k\u00ednh",
+            "color": "\u0110\u1ecf",
+            "quantity": 2,
+            "image_url": null,
+            "branches_name": "H\u00e0 N\u1ed9i",
+            "total_price": 215334
+        },
+        {
+            "id": 1,
+            "product_name": "K\u00ednh r\u00e2m 8",
+            "product_price": 131483,
+            "brands_name": "Bevis",
+            "category_name": "K\u00ednh r\u00e2m",
+            "color": "H\u1ed3ng",
+            "quantity": 4,
+            "image_url": null,
+            "branches_name": "H\u1ed3 Ch\u00ed Minh",
+            "total_price": 525932
+        },
+        {
+            "id": 3,
+            "product_name": "K\u00ednh r\u00e2m 16",
+            "product_price": 136847,
+            "brands_name": "Chemi",
+            "category_name": "K\u00ednh r\u00e2m",
+            "color": "\u0110en",
+            "quantity": 9,
+            "image_url": null,
+            "branches_name": "\u0110\u00e0 N\u1eb5ng",
+            "total_price": 985298.4
+        }
+    ]
+}
