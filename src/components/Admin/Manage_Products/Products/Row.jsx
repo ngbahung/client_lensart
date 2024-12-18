@@ -185,7 +185,7 @@ Row.propTypes = {
     name: PropTypes.string.isRequired,
     description: PropTypes.string,
     price: PropTypes.number,
-    status: PropTypes.bool.isRequired,
+    status: PropTypes.string.isRequired, // Thay đổi từ bool sang string
   }).isRequired,
   onStatusChange: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
