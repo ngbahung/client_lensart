@@ -13,34 +13,32 @@ const CheckoutSummary = () => {
   const finalAmount = subtotal - (discount || 0) + shippingFee;
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md w-full sticky top-4">
-      <h2 className="text-xl font-bold mb-6 text-gray-800">Chi tiết đơn hàng</h2>
+    <div className="bg-white p-6 rounded-lg shadow-md w-full">
+      <h2 className="text-lg font-bold mb-4">Đơn hàng của bạn</h2>
 
-      <div className="max-h-[400px] overflow-y-auto mb-6 pr-2">
-        {selectedItems.map((item) => (
-          <div key={item.id} className="flex items-start space-x-4 py-4 border-b">
-            <div className="relative">
-              <img
-                src={item.image}
-                alt={item.name}
-                className="w-20 h-20 object-cover rounded-lg"
-              />
-              <span className="absolute -top-2 -right-2 bg-gray-500 text-white w-6 h-6 rounded-full flex items-center justify-center text-sm">
-                {item.quantity}
-              </span>
-            </div>
-            <div className="flex-1">
-              <h3 className="font-medium text-gray-800">{item.name}</h3>
+      {selectedItems.map((item) => (
+        <div key={item.id} className="flex items-center justify-between border-b py-4">
+          <div className="flex items-center space-x-4">
+            <img
+              src={item.image}
+              alt={item.name}
+              className="w-16 h-16 object-cover rounded"
+            />
+            <div>
+              <p className="font-bold text-gray-700">{item.name}</p>
               {item.color && (
-                <p className="text-sm text-gray-500">Màu: {item.color}</p>
+                <p className="text-gray-500">Màu: {item.color}</p>
               )}
-              <p className="text-orange-500 font-medium mt-1">
-                {formatPrice(item.price * item.quantity)}
-              </p>
             </div>
           </div>
-        ))}
-      </div>
+          <div className="text-right">
+            <p className="font-bold text-gray-700">x{item.quantity}</p>
+            <p className="text-orange-500 font-bold">
+              {formatPrice(item.price * item.quantity)}
+            </p>
+          </div>
+        </div>
+      ))}
 
       <div className="mt-6 border-t pt-4 space-y-4">
         <div className="flex justify-between text-gray-700">
@@ -74,11 +72,10 @@ const CheckoutSummary = () => {
       </div>
 
       <button
-        type="submit"
-        form="checkout-form"
-        className="mt-6 w-full bg-orange-500 hover:bg-orange-600 text-white py-4 rounded-lg font-medium transition-all text-lg shadow-lg hover:shadow-xl disabled:bg-gray-400 disabled:cursor-not-allowed"
+        onClick={() => console.log("Order placed successfully!")}
+        className="mt-6 w-full bg-orange-500 text-white py-3 rounded-lg hover:bg-orange-600 transition-all"
       >
-        Đặt hàng ngay
+        Đặt hàng
       </button>
     </div>
   );
