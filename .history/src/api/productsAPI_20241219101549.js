@@ -163,7 +163,7 @@ export const transformProduct = (product) => ({
   currentPrice: product.offer_price ? Number(product.offer_price) : Number(product.price),
   originalPrice: Number(product.price),
   image: product.images && product.images[0]?.image_url, // Add null check for images array
-  discount: product.offer_price && product.offer_price < product.price ? 
+  discount: product.offer_price ? 
     `-${Math.round((1 - product.offer_price/product.price) * 100)}%` : null,
   category_id: product.category_id,
   material: product.material_id === 1 ? 'Kim loại' : 
