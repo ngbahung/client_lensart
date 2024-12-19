@@ -8,9 +8,9 @@
 
 ## GIỚI THIỆU ĐỒ ÁN
 
--    **Đề tài:** Mắt kính thời trang - LENSART EYEWEAR - Frontend
--    **Repository BACKEND:** [Phát triển ứng dụng web - IS207.O13 - Backend](https://github.com/duonguwu/backend_web_hk4)
--    **Repository FRONTEND:** [Phát triển ứng dụng web - IS207.O13 - Frontend](https://github.com/duonguwu/frontend_web_hk4)
+-    **Đề tài:** Website Mắt kính thời trang - LENSART EYEWEAR - Frontend
+-    **Repository BACKEND:** https://github.com/hungtd412/lensart_eyewear_backend
+-    **Repository FRONTEND:** https://github.com/ngbahung/client_lensart
 
 ## CÔNG NGHỆ SỬ DỤNG
 
