@@ -7,7 +7,7 @@ import ProductGrid from "../../components/EndUser/ProductGrid/ProductGrid";
 import PromotionalBanner from "../../components/EndUser/PromotionalBanner/PromotionalBanner";
 import Breadcrumb from "../../components/EndUser/Breadcrumb/Breadcrumb";
 import ProductSlider from "../../components/EndUser/ProductSlider/ProductSlider";
-import { getProductByCategoryId, transformProduct } from '../../api/productsAPI';
+import { getProductByCategoryId, getProducts, transformProduct } from '../../api/productsAPI';
 import { setDocumentTitle } from "../../utils/pageTitle";
 
 const GongKinhPage = ({ categoryId = 1, pageTitle = "Gọng Kính" }) => {

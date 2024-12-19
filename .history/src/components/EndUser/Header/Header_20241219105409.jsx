@@ -85,19 +85,13 @@ const Header = () => {
     const handleSearchChange = (e) => {
         const value = e.target.value;
         setSearchQuery(value);
-        if (!value.trim()) {
-            setSearchResults([]);
-            setIsSearching(false);
-        } else {
-            debouncedSearch(value);
-        }
+        debouncedSearch(value);
     };
 
     // Clear search when clicking outside
     const handleSearchClose = () => {
         setSearchQuery('');
         setSearchResults([]);
-        setIsSearching(false);
     };
 
     // === XỬ LÝ EVENTS ===

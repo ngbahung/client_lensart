@@ -45,7 +45,7 @@ const SearchResultItem = ({ product, onClose }) => {
 };
 
 const SearchResults = ({ results, onClose, isSearching, containerRef }) => {
-  if (!results?.length && !isSearching) return null;
+  if (!results && !isSearching) return null;
 
   return (
     <div 
