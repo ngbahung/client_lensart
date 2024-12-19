@@ -5,7 +5,6 @@ import { transformProduct } from '../../../api/productsAPI';
 
 const SearchResultItem = ({ product, onClose }) => {
   const transformedProduct = transformProduct(product);
-  console.log(transformedProduct.image);
   
   return (
     <Link
@@ -14,11 +13,21 @@ const SearchResultItem = ({ product, onClose }) => {
       className="flex items-center p-4 hover:bg-gray-50 border-b border-gray-100 transition-colors"
     >
       <div className="relative">
-        <img 
-          src={transformedProduct.image}
-          alt={transformedProduct.name}
-          className="w-16 h-16 object-cover rounded-lg"
-        />
+        {transformedProduct.image ? (
+          <img 
+            src={transformedProduct.image}
+            alt={transformedProduct.name}
+            className="w-16 h-16 object-cover rounded-lg"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = '/placeholder-image.jpg'; // Add a placeholder image
+            }}
+          />
+        ) : (
+          <div className="w-16 h-16 bg-gray-200 rounded-lg flex items-center justify-center">
+            <span className="text-gray-400 text-xs">No image</span>
+          </div>
+        )}
         {transformedProduct.discount && (
           <span className="absolute -top-2 -right-2 bg-green-500 text-white text-xs font-medium px-2 py-1 rounded-full">
             {transformedProduct.discount}

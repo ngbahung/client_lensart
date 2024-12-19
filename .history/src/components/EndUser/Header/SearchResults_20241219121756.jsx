@@ -5,7 +5,6 @@ import { transformProduct } from '../../../api/productsAPI';
 
 const SearchResultItem = ({ product, onClose }) => {
   const transformedProduct = transformProduct(product);
-  console.log(transformedProduct.image);
   
   return (
     <Link
@@ -15,9 +14,13 @@ const SearchResultItem = ({ product, onClose }) => {
     >
       <div className="relative">
         <img 
-          src={transformedProduct.image}
+          src={transformedProduct.image || '/placeholder-image.jpg'} // Add fallback image
           alt={transformedProduct.name}
           className="w-16 h-16 object-cover rounded-lg"
+          onError={(e) => {
+            e.target.onerror = null; // Prevent infinite loop
+            e.target.src = '/placeholder-image.jpg'; // Fallback image on error
+          }}
         />
         {transformedProduct.discount && (
           <span className="absolute -top-2 -right-2 bg-green-500 text-white text-xs font-medium px-2 py-1 rounded-full">

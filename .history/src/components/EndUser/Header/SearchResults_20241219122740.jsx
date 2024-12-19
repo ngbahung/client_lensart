@@ -5,7 +5,7 @@ import { transformProduct } from '../../../api/productsAPI';
 
 const SearchResultItem = ({ product, onClose }) => {
   const transformedProduct = transformProduct(product);
-  console.log(transformedProduct.image);
+  console.log(transformedProduct);
   
   return (
     <Link

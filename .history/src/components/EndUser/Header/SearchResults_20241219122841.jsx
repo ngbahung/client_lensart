@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { formatPrice } from '../../../utils/formatPrice';
 import { transformProduct } from '../../../api/productsAPI';
 
+
 const SearchResultItem = ({ product, onClose }) => {
   const transformedProduct = transformProduct(product);
   console.log(transformedProduct.image);

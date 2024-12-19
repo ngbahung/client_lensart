@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { formatPrice } from '../../../utils/formatPrice';
 import { transformProduct } from '../../../api/productsAPI';
+im
 
 const SearchResultItem = ({ product, onClose }) => {
   const transformedProduct = transformProduct(product);
