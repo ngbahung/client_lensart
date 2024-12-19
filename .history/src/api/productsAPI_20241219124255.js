@@ -163,8 +163,7 @@ export const transformProduct = (product) => ({
   description: product.description,
   currentPrice: product.offer_price ? Number(product.offer_price) : Number(product.price),
   originalPrice: product.offer_price && product.offer_price < product.price ? Number(product.price) : null,
-  // Handle both image structures (search results and product listing)
-  image: product.image_url || (product.images && product.images[0]?.image_url) || '',
+  image: product.image_url, // Add null check for images array
   discount: product.offer_price && product.offer_price < product.price ? 
     `-${Math.round((1 - product.offer_price/product.price) * 100)}%` : null,
   category_id: product.category_id,
