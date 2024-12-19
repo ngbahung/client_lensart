@@ -28,7 +28,7 @@ export const createWishlist = async (productId) => {
 
 export const deleteWishlist = async (wishlistDetailId) => {
     try {
-        const response = await api.delete(`/wishlist/${wishlistDetailId}`);
+        const response = await api.delete(`/wishlists/${wishlistDetailId}`);
         return {
             success: response.data.success,
             message: response.data.message

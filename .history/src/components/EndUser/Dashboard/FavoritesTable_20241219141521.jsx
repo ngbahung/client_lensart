@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { formatPrice } from '../../../utils/formatPrice';
-import { getWishlists, deleteWishlist, clearWishlist, moveProductToCart } from '../../../api/wishlistAPI';
+import { getWishlists, deleteWishlist, clearWishlist } from '../../../api/wishlistAPI';
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 
@@ -105,80 +105,6 @@ function FavoritesTable() {
     }
   };
 
-  const handleMoveToCart = async (wishlistDetailId) => {
-    try {
-      const response = await moveProductToCart(wishlistDetailId);
-      if (response.success) {
-        setFavorites(favorites.filter(item => item.wishlist_detail_id !== wishlistDetailId));
-        Swal.fire({
-          title: 'Thành công!',
-          text: response.message || 'Đã thêm sản phẩm vào giỏ hàng',
-          icon: 'success',
-          timer: 1500,
-          showConfirmButton: false,
-          position: 'top-end',
-          toast: true
-        });
-      }
-    } catch (error) {
-      Swal.fire({
-        title: 'Lỗi!',
-        text: error.message || 'Không thể thêm vào giỏ hàng',
-        icon: 'error',
-        timer: 1500,
-        position: 'top-end',
-        toast: true
-      });
-    }
-  };
-
-  const handleMoveAllToCart = async () => {
-    try {
-      const result = await Swal.fire({
-        title: 'Thêm tất cả vào giỏ hàng?',
-        text: 'Bạn có muốn thêm tất cả sản phẩm vào giỏ hàng?',
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Thêm tất cả',
-        cancelButtonText: 'Hủy'
-      });
-
-      if (result.isConfirmed) {
-        // Use Promise.all to move all items to cart concurrently
-        const movePromises = favorites.map(item => 
-          moveProductToCart(item.wishlist_detail_id)
-        );
-
-        const results = await Promise.all(movePromises);
-        const allSuccessful = results.every(result => result.success);
-
-        if (allSuccessful) {
-          setFavorites([]);
-          Swal.fire({
-            title: 'Thành công!',
-            text: 'Đã thêm tất cả sản phẩm vào giỏ hàng',
-            icon: 'success',
-            timer: 1500,
-            showConfirmButton: false,
-            position: 'top-end',
-            toast: true
-          });
-        }
-      }
-    } catch (error) {
-      Swal.fire({
-        title: 'Lỗi!',
-        text: 'Không thể thêm sản phẩm vào giỏ hàng',
-        icon: 'error',
-        timer: 1500,
-        position: 'top-end',
-        toast: true
-      });
-    }
-  };
-
   const handleProductClick = (productId) => {
     navigate(`/gong-kinh/${productId}`);
   };
@@ -209,20 +135,12 @@ function FavoritesTable() {
             </p>
           </div>
         </div>
-        <div className="flex flex-col space-y-2">
-          <button
-            onClick={() => handleRemoveFavorite(product.wishlist_detail_id)}
-            className="text-red-600 p-2 hover:bg-red-50 rounded-full transition-colors"
-          >
-            Xóa
-          </button>
-          <button
-            onClick={() => handleMoveToCart(product.wishlist_detail_id)}
-            className="text-blue-600 p-2 hover:bg-blue-50 rounded-full transition-colors"
-          >
-            Thêm vào giỏ
-          </button>
-        </div>
+        <button
+          onClick={() => handleRemoveFavorite(product.wishlist_detail_id)}
+          className="text-red-600 p-2 hover:bg-red-50 rounded-full transition-colors"
+        >
+          Xóa
+        </button>
       </div>
     </div>
   );
@@ -261,20 +179,12 @@ function FavoritesTable() {
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-semibold">Sản phẩm yêu thích</h2>
         {favorites.length > 0 && (
-          <div className="flex space-x-2">
-            <button
-              onClick={handleMoveAllToCart}
-              className="text-blue-600 hover:text-blue-900 font-medium hover:bg-blue-50 px-4 py-2 rounded-md transition-colors"
-            >
-              Thêm tất cả vào giỏ
-            </button>
-            <button
-              onClick={handleClearWishlists}
-              className="text-red-600 hover:text-red-900 font-medium hover:bg-red-50 px-4 py-2 rounded-md transition-colors"
-            >
-              Xóa tất cả
-            </button>
-          </div>
+          <button
+            onClick={handleClearWishlists}
+            className="text-red-600 hover:text-red-900 font-medium hover:bg-red-50 px-4 py-2 rounded-md transition-colors"
+          >
+            Xóa tất cả
+          </button>
         )}
       </div>
       
@@ -337,20 +247,12 @@ function FavoritesTable() {
                   <span className="text-sm text-gray-500">{product.category}</span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm">
-                  <div className="flex space-x-2">
-                    <button
-                      onClick={() => handleRemoveFavorite(product.wishlist_detail_id)}
-                      className="text-red-600 hover:text-red-900 font-medium hover:bg-red-50 px-3 py-1 rounded-md transition-colors"
-                    >
-                      Xóa
-                    </button>
-                    <button
-                      onClick={() => handleMoveToCart(product.wishlist_detail_id)}
-                      className="text-blue-600 hover:text-blue-900 font-medium hover:bg-blue-50 px-3 py-1 rounded-md transition-colors"
-                    >
-                      Thêm vào giỏ
-                    </button>
-                  </div>
+                  <button
+                    onClick={() => handleRemoveFavorite(product.wishlist_detail_id)}
+                    className="text-red-600 hover:text-red-900 font-medium hover:bg-red-50 px-3 py-1 rounded-md transition-colors"
+                  >
+                    Xóa
+                  </button>
                 </td>
               </tr>
             ))}

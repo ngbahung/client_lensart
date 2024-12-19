@@ -132,53 +132,6 @@ function FavoritesTable() {
     }
   };
 
-  const handleMoveAllToCart = async () => {
-    try {
-      const result = await Swal.fire({
-        title: 'Thêm tất cả vào giỏ hàng?',
-        text: 'Bạn có muốn thêm tất cả sản phẩm vào giỏ hàng?',
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Thêm tất cả',
-        cancelButtonText: 'Hủy'
-      });
-
-      if (result.isConfirmed) {
-        // Use Promise.all to move all items to cart concurrently
-        const movePromises = favorites.map(item => 
-          moveProductToCart(item.wishlist_detail_id)
-        );
-
-        const results = await Promise.all(movePromises);
-        const allSuccessful = results.every(result => result.success);
-
-        if (allSuccessful) {
-          setFavorites([]);
-          Swal.fire({
-            title: 'Thành công!',
-            text: 'Đã thêm tất cả sản phẩm vào giỏ hàng',
-            icon: 'success',
-            timer: 1500,
-            showConfirmButton: false,
-            position: 'top-end',
-            toast: true
-          });
-        }
-      }
-    } catch (error) {
-      Swal.fire({
-        title: 'Lỗi!',
-        text: 'Không thể thêm sản phẩm vào giỏ hàng',
-        icon: 'error',
-        timer: 1500,
-        position: 'top-end',
-        toast: true
-      });
-    }
-  };
-
   const handleProductClick = (productId) => {
     navigate(`/gong-kinh/${productId}`);
   };
@@ -261,20 +214,12 @@ function FavoritesTable() {
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-semibold">Sản phẩm yêu thích</h2>
         {favorites.length > 0 && (
-          <div className="flex space-x-2">
-            <button
-              onClick={handleMoveAllToCart}
-              className="text-blue-600 hover:text-blue-900 font-medium hover:bg-blue-50 px-4 py-2 rounded-md transition-colors"
-            >
-              Thêm tất cả vào giỏ
-            </button>
-            <button
-              onClick={handleClearWishlists}
-              className="text-red-600 hover:text-red-900 font-medium hover:bg-red-50 px-4 py-2 rounded-md transition-colors"
-            >
-              Xóa tất cả
-            </button>
-          </div>
+          <button
+            onClick={handleClearWishlists}
+            className="text-red-600 hover:text-red-900 font-medium hover:bg-red-50 px-4 py-2 rounded-md transition-colors"
+          >
+            Xóa tất cả
+          </button>
         )}
       </div>
       
