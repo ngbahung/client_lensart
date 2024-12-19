@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const CreateBrand = ({ onClose, refreshBrands }) => {
+const CreateBrand = ({ onClose, onUpdate }) => {
   const [name, setName] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -21,8 +21,7 @@ const CreateBrand = ({ onClose, refreshBrands }) => {
       });
       
       console.log("Brand saved:", response.data);
-      await refreshBrands();
-      alert("Brand saved successfully!");
+      await onUpdate();
       onClose();
     } catch (err) {
       setError(err.response?.data?.message || "Failed to save brand");

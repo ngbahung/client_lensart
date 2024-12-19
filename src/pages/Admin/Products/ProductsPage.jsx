@@ -25,37 +25,14 @@ const ProductsPage = () => {
     { id: 10, name: "Dior", description: "Chic and sophisticated", price: 259.99, status: 'active' }
   ];
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await axios.get('http://localhost:8000/api/products');
-        if (response.data) {
-          const allProducts = response.data.data || mockData;
-          setProducts(allProducts);
-          setTotalPages(Math.ceil(allProducts.length / ITEMS_PER_PAGE));
-          setError(null);
-        }
-      } catch (error) {
-        console.error("Failed to fetch products:", error);
-        setProducts(mockData);
-        setTotalPages(Math.ceil(mockData.length / ITEMS_PER_PAGE));
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchProducts();
-  }, []);
-
-  const refreshProducts = async () => {
+  const fetchProducts = async () => {
     setIsLoading(true);
     try {
       const response = await axios.get('http://localhost:8000/api/products');
-      if (response.data) {
-        const allProducts = response.data.data || mockData;
-        setProducts(allProducts);
-        setTotalPages(Math.ceil(allProducts.length / ITEMS_PER_PAGE));
-        setError(null);
+      console.log("Fetching products:", response.data); // Debug log
+      if (response.data && response.data.data) {
+        setProducts(response.data.data);
+        setTotalPages(Math.ceil(response.data.data.length / ITEMS_PER_PAGE));
       }
     } catch (error) {
       console.error("Failed to fetch products:", error);
@@ -65,6 +42,15 @@ const ProductsPage = () => {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  // Thêm useEffect để lắng nghe thay đổi
+  useEffect(() => {
+    console.log("ProductsPage re-rendering"); // Debug log
+  });
 
   const filteredProducts = products.filter(product => 
     product.id.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -121,7 +107,7 @@ const ProductsPage = () => {
             onStatusChange={handleStatusChange}
             onSearch={handleSearch}
             searchTerm={searchTerm}
-            refreshProducts={refreshProducts}
+            onUpdate={fetchProducts} // Thêm prop này
           />
         </div>
       </div>

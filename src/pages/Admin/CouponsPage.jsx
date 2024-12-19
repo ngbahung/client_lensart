@@ -92,6 +92,8 @@ const CouponsPage = () => {
     try {
       const currentCoupon = coupons.find(coup => coup.id === couponId);
       const newStatus = currentCoupon.status === 'active' ? 'inactive' : 'active';
+
+      console.log(couponId)
       
       const response = await axios.post(`http://localhost:8000/api/coupons/switch-status/${couponId}`);
       

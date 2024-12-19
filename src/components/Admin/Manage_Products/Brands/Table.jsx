@@ -4,7 +4,7 @@ import Row from "./Row";
 import CreateBrand from "./CreateBrand";
 import EditBrand from './EditBrand';
 
-const Table = ({ brands, isLoading, error, onStatusChange, onSearch, searchTerm }) => {
+const Table = ({ brands, isLoading, error, onStatusChange, onSearch, searchTerm, onUpdate }) => {
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [editingBrand, setEditingBrand] = useState(null);
 
@@ -30,11 +30,15 @@ const Table = ({ brands, isLoading, error, onStatusChange, onSearch, searchTerm 
     return <EditBrand 
       brand={editingBrand}  // Changed from category to brand
       onClose={() => setEditingBrand(null)} 
+      onUpdate={onUpdate}
     />;
   }
 
   if (showCreateForm) {
-    return <CreateBrand onClose={() => setShowCreateForm(false)} />;
+    return <CreateBrand 
+      onClose={() => setShowCreateForm(false)} 
+      onUpdate={onUpdate}
+    />;
   }
 
   return (

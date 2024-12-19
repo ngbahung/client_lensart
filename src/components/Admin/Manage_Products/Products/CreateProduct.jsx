@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"; // Add useEffect
 import { FaAngleDown } from "react-icons/fa";
 import axios from "axios";
 
-const CreateProduct = ({ onClose, refreshBrands }) => {
+const CreateProduct = ({ onClose, onUpdate }) => {
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const [material, setMaterial] = useState("");
@@ -160,30 +160,35 @@ const CreateProduct = ({ onClose, refreshBrands }) => {
     try {
       const productData = {
         name: name.trim(),
-        description: description.trim() || null,
-        brand_id: Number(brand),
-        category_id: Number(category),
-        material_id: material ? Number(material) : null,
-        shape_id: shape ? Number(shape) : null,
+        brand_id: brand,
+        category_id: category,
+        material_id: material || null,
+        shape_id: shape || null,
         gender: gender || null,
-        price: Number(price),
-        offer_price: offerPrice ? Number(offerPrice) : null,
+        price: price,
+        offer_price: offerPrice || null,
+        description: description.trim() || null,
+        features: selectedFeatures.length > 0 ? selectedFeatures : null,
       };
 
-      // Only add features if array is not empty, and ensure all values are integers
-      if (selectedFeatures.length > 0) {
-        productData.features = selectedFeatures.map(Number); // Convert all values to integers
-      }
-
-      const response = await axios.post('http://localhost:8000/api/products/create', 
-        productData
-      );
+      const response = await axios.post('http://localhost:8000/api/products/create', productData);
       
-      await refreshBrands();
-      alert("Product saved successfully!");
-      onClose();
+      if (response.status === 200) {
+        const success = await onUpdate();
+        if (success) {
+          alert("Product saved successfully!");
+          onClose();
+        } else {
+          throw new Error("Failed to refresh product list");
+        }
+      } else {
+        throw new Error(response.data.message || 'Failed to save product');
+      }
     } catch (err) {
-      setError(err.response?.data?.message || "Failed to save product");
+      const errorMessages = err.response?.data?.error 
+        ? Object.values(err.response.data.error).flat().join(', ')
+        : err.message || "Failed to save product";
+      setError(errorMessages);
     } finally {
       setLoading(false);
     }

@@ -3,11 +3,13 @@ import { FaAngleDown } from "react-icons/fa";
 import axios from "axios";
 
 const CreateBranch = ({ onClose }) => {
-  const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
+  const [formData, setFormData] = useState({
+    branch_name: "",
+    address: "",
+    manager_id: "",
+    index: ""
+  });
   const [managers, setManagers] = useState([]);
-  const [selectedManagerId, setSelectedManagerId] = useState("");
-  const [index, setIndex] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -15,9 +17,9 @@ const CreateBranch = ({ onClose }) => {
     const fetchManagers = async () => {
       try {
         const response = await axios.get('http://localhost:8000/api/users/getByRole/2');
-        if (response.data && response.data.users) {
+        if (response.data && response.data.data) {
           // Filter only active managers
-          const activeManagers = response.data.users.filter(manager => manager.status === 'active');
+          const activeManagers = response.data.data.filter(manager => manager.status === 'active');
           setManagers(activeManagers);
         }
       } catch (error) {
@@ -30,24 +32,25 @@ const CreateBranch = ({ onClose }) => {
   }, []);
 
   const handleSave = async () => {
-    if (!name.trim() || !address.trim() || !selectedManagerId || !index) {
+    if (!formData.branch_name.trim() || !formData.address.trim() || 
+        !formData.manager_id || !formData.index) {
       setError("Please fill in all fields.");
       return;
     }
     
     setError("");
     setLoading(true);
-    
+
     try {
       const response = await axios.post('http://localhost:8000/api/branches/create', {
-        name: name.trim(),
-        address: address.trim(),
-        manager_id: Number(selectedManagerId),
-        index: index ? Number(index) : 1
+        name: formData.branch_name.trim(),
+        address: formData.address.trim(),
+        manager_id: Number(formData.manager_id),
+        index: Number(formData.index)
       });
       
       if (response.data) {
-        onClose(); // Sẽ trigger onUpdate thông qua Table component
+        onClose();
       }
     } catch (err) {
       setError(err.response?.data?.message || "Failed to save branch");
@@ -79,8 +82,8 @@ const CreateBranch = ({ onClose }) => {
           type="text"
           id="name"
           className="w-1/2 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#55D5D2] bg-[#EFF9F9] border-[#55D5D2]"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          value={formData.branch_name}
+          onChange={(e) => setFormData({ ...formData, branch_name: e.target.value })}
           placeholder="Enter branch name"
         />
       </div>
@@ -93,8 +96,8 @@ const CreateBranch = ({ onClose }) => {
           type="text"
           id="address"
           className="w-1/2 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#55D5D2] bg-[#EFF9F9] border-[#55D5D2]"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
+          value={formData.address}
+          onChange={(e) => setFormData({ ...formData, address: e.target.value })}
           placeholder="Enter branch address"
         />
       </div>
@@ -107,13 +110,13 @@ const CreateBranch = ({ onClose }) => {
           <select
             id="manager"
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#55D5D2] bg-[#EFF9F9] border-[#55D5D2] appearance-none"
-            value={selectedManagerId}
-            onChange={(e) => setSelectedManagerId(e.target.value)}
+            value={formData.manager_id}
+            onChange={(e) => setFormData({ ...formData, manager_id: e.target.value })}
           >
             <option value="">Select manager</option>
             {managers.map((manager) => (
               <option key={manager.id} value={manager.id}>
-                {`${manager.firstName} ${manager.lastName}`}
+                {`${manager.firstname} ${manager.lastname}`}
               </option>
             ))}
           </select>
@@ -129,8 +132,8 @@ const CreateBranch = ({ onClose }) => {
           type="number"
           id="index"
           className="w-1/4 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#55D5D2] bg-[#EFF9F9] border-[#55D5D2]"
-          value={index}
-          onChange={(e) => setIndex(e.target.value)}
+          value={formData.index}
+          onChange={(e) => setFormData({ ...formData, index: e.target.value })}
           placeholder="Enter index"
           min="1"
           required
@@ -142,12 +145,12 @@ const CreateBranch = ({ onClose }) => {
       <div className="flex">
         <button
           className={`w-1/7 py-2 px-4 rounded-[10px] shadow-md font-semibold ${
-            name.trim() && address.trim() && selectedManagerId && index && !loading
+            formData.branch_name.trim() && formData.address.trim() && formData.manager_id && formData.index && !loading
               ? "bg-teal-400 text-white hover:bg-teal-500"
               : "bg-gray-300 text-gray-500 cursor-not-allowed"
           }`}
           onClick={handleSave}
-          disabled={!name.trim() || !address.trim() || !selectedManagerId || !index || loading}
+          disabled={!formData.branch_name.trim() || !formData.address.trim() || !formData.manager_id || !formData.index || loading}
         >
           {loading ? "Saving..." : "Save"}
         </button>

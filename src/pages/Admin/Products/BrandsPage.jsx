@@ -25,30 +25,7 @@ const BrandsPage = () => {
     { id: 10, name: "Dior", status: "active" }
   ];
 
-  useEffect(() => {
-    const fetchBrands = async () => {
-      try {
-        const response = await axios.get('http://localhost:8000/api/brands');
-        if (response.data) {
-          const allBrands = response.data.data || mockData;
-          setBrands(allBrands);
-          setTotalPages(Math.ceil(allBrands.length / ITEMS_PER_PAGE));
-          setError(null);
-        }
-      } catch (error) {
-        console.error("Failed to fetch brands:", error);
-        setBrands(mockData);
-        setTotalPages(Math.ceil(mockData.length / ITEMS_PER_PAGE));
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchBrands();
-  }, []);
-
-  const refreshBrands = async () => {
-    setIsLoading(true);
+  const fetchBrands = async () => {
     try {
       const response = await axios.get('http://localhost:8000/api/brands');
       if (response.data) {
@@ -65,6 +42,11 @@ const BrandsPage = () => {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchBrands();
+  }, []);
+
 
   const filteredBrands = brands.filter(brand => 
     brand.id.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -123,7 +105,7 @@ const BrandsPage = () => {
             onStatusChange={handleStatusChange}
             onSearch={handleSearch}
             searchTerm={searchTerm}
-            refreshBrands={refreshBrands}
+            onUpdate={fetchBrands}
           />
         </div>
       </div>

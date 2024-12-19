@@ -27,27 +27,30 @@ const FeaturesPage = () => {
     { id: 12, name: "Bifocal Design", status: 'active' }
   ];
 
-  const refreshFeatures = async () => {
+  const fetchFeatures = async () => {
     setIsLoading(true);
     try {
       const response = await axios.get('http://localhost:8000/api/features');
-      if (response.data && response.data.data) {
+      if (response.status === 200 && response.data && response.data.data) {
         const allFeatures = response.data.data;
         setFeatures(allFeatures);
         setTotalPages(Math.ceil(allFeatures.length / ITEMS_PER_PAGE));
         setError(null);
+        return true; // Add return value to indicate success
       }
+      throw new Error("Invalid response format");
     } catch (error) {
       console.error("Failed to fetch features:", error);
       setFeatures(mockData);
       setTotalPages(Math.ceil(mockData.length / ITEMS_PER_PAGE));
+      return false; // Add return value to indicate failure
     } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    refreshFeatures();
+    fetchFeatures();
   }, []);
 
   const filteredFeatures = features.filter(feature => 
@@ -108,7 +111,7 @@ const FeaturesPage = () => {
             onStatusChange={handleStatusChange}
             onSearch={handleSearch}
             searchTerm={searchTerm}
-            onRefresh={refreshFeatures} // Add this prop
+            onUpdate={fetchFeatures} // Add this prop
           />
         </div>
       </div>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const CreateCategory = ({ onClose, refreshCategories }) => {
+const CreateCategory = ({ onClose, onUpdate }) => {
   const [name, setName] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -21,8 +21,7 @@ const CreateCategory = ({ onClose, refreshCategories }) => {
       });
       
       console.log("Category saved:", response.data);
-      alert("Category saved successfully!");
-      await refreshCategories();
+      await onUpdate();
       onClose();
     } catch (err) {
       setError(err.response?.data?.message || "Failed to save category");

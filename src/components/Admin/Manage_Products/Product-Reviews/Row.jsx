@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from 'axios';
+
 import { FaRegTrashAlt } from "react-icons/fa"; // Change import
 import PropTypes from "prop-types";
 import ConfirmChangeStatusModal from "./ConfirmChangeStatusModal";
@@ -35,47 +35,6 @@ const Row = ({ review, onStatusChange, onDelete }) => {
   const [showStatusModal, setShowStatusModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);  // Add this
   const [isUpdating, setIsUpdating] = useState(false);
-  const [userName, setUserName] = useState('Loading...');
-  const [productName, setProductName] = useState('Loading...'); // Add this
-
-  useEffect(() => {
-    const fetchUserName = async () => {
-      try {
-        const response = await axios.get(`http://localhost:8000/api/getById/${review.user_id}`);
-        if (response.data && response.data.data) {
-          const user = response.data.data;
-          setUserName(`${user.firstName} ${user.lastName}`.trim() || 'Anonymous');
-        }
-      } catch (error) {
-        console.error("Error fetching user:", error);
-        setUserName('Anonymous');
-      }
-    };
-
-    const fetchProductName = async () => {
-      try {
-        const response = await axios.get(`http://localhost:8000/api/products/getById/${review.product_id}`);
-        if (response.data && response.data.data) {
-          setProductName(response.data.data.name || 'Unknown Product');
-        }
-      } catch (error) {
-        console.error("Error fetching product:", error);
-        setProductName('Unknown Product');
-      }
-    };
-
-    if (review.user_id) {
-      fetchUserName();
-    } else {
-      setUserName('Anonymous');
-    }
-
-    if (review.product_id) {
-      fetchProductName();
-    } else {
-      setProductName('Unknown Product');
-    }
-  }, [review.user_id, review.product_id]);
 
   const handleStatusChange = () => {
     setShowStatusModal(true);
@@ -118,10 +77,14 @@ const Row = ({ review, onStatusChange, onDelete }) => {
     <>
       <tr className="hover:bg-gray-100 h-[48px]">
         <td className="py-2 px-4">{review.id}</td>
-        <td className="py-2 px-4">{productName}</td>
-        <td className="py-2 px-4">{userName}</td>
+        <td className="py-2 px-4">{review.product_name}</td>
+        <td className="py-2 px-4">{review.user_name}</td>
         <td className="py-2 px-4">{review.rating} ★</td>
-        <td className="py-2 px-4">{review.review}</td>
+        <td className="py-2 px-4">
+          <div className="line-clamp-2 max-h-[48px] overflow-hidden">
+            {review.review}
+          </div>
+        </td>
         <td className="py-2 px-4">
           <ToggleSwitch
             id={review.id}
@@ -159,26 +122,27 @@ const Row = ({ review, onStatusChange, onDelete }) => {
       )}
     </>
   );
-};
+}
 
+// Fix the PropTypes definitions
 ToggleSwitch.propTypes = {
   id: PropTypes.number.isRequired,
   status: PropTypes.oneOf(['active', 'inactive']).isRequired,
   onToggle: PropTypes.func.isRequired,
-  disabled: PropTypes.bool,
-};
+  disabled: PropTypes.bool
+}; // Added missing semicolon
 
 Row.propTypes = {
   review: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    product_id: PropTypes.number.isRequired, // Changed from productName to product_id
-    user_id: PropTypes.number,  // Changed from userId to user_id
-    review: PropTypes.string.isRequired, // Changed from comment to review
+    product_name: PropTypes.string.isRequired,
+    user_name: PropTypes.string.isRequired,
     rating: PropTypes.number.isRequired,
-    status: PropTypes.oneOf(['active', 'inactive']).isRequired,
+    review: PropTypes.string.isRequired,
+    status: PropTypes.oneOf(['active', 'inactive']).isRequired
   }).isRequired,
   onStatusChange: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,  // Replace onEdit with onDelete
-};
+  onDelete: PropTypes.func.isRequired
+}; // Added missing semicolon
 
 export default Row;

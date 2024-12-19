@@ -3,34 +3,40 @@ import { FaAngleDown } from "react-icons/fa";
 import axios from "axios";
 import PropTypes from "prop-types";
 
-const EditBranch = ({ branch, onClose }) => { // Bỏ prop refreshBranches
-  const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
-  const [managerName, setManagerName] = useState("");
-  const [status, setStatus] = useState("");
+const EditBranch = ({ branch, onClose, onSubmit }) => {
+  const [formData, setFormData] = useState({
+    branch_name: "",
+    address: "",
+    manager_id: "",  // Changed from manager_name to manager_id
+    status: "",
+    index: ""
+  });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [isLoadingManager, setIsLoadingManager] = useState(true);
   const [managers, setManagers] = useState([]);
-  const [selectedManagerId, setSelectedManagerId] = useState(null);
-  const [index, setIndex] = useState("");
+  const [isLoadingManager, setIsLoadingManager] = useState(true);
 
   useEffect(() => {
     const fetchManagers = async () => {
       try {
         const response = await axios.get('http://localhost:8000/api/users/getByRole/2');
-        if (response.data && response.data.users) {
-          // Filter only active managers
-          const activeManagers = response.data.users.filter(manager => manager.status === 'active');
+        if (response.data && response.data.data) {
+          console.log(response.data.data);
+          const activeManagers = response.data.data.filter(manager => manager.status === 'active');
           setManagers(activeManagers);
-          
-          // Check if current branch manager exists in active managers list
-          const managerExists = activeManagers.some(manager => manager.id === branch.manager_id);
-          
-          // If manager exists in active list, set it as selected, otherwise reset to empty
-          setSelectedManagerId(managerExists ? branch.manager_id : '');
-          
-          // Set loading state to false after fetching
+
+          // Find and set the current manager based on manager_name
+          const currentManager = activeManagers.find(
+            manager => `${manager.firstname} ${manager.lastname}` === branch.manager_name
+          );
+
+          if (currentManager) {
+            setFormData(prev => ({
+              ...prev,
+              manager_id: currentManager.id // Set manager_id instead of manager_name
+            }));
+          }
+
           setIsLoadingManager(false);
         }
       } catch (error) {
@@ -39,39 +45,43 @@ const EditBranch = ({ branch, onClose }) => { // Bỏ prop refreshBranches
         setIsLoadingManager(false);
       }
     };
-    
-    fetchManagers();
-  }, [branch.manager_id]);
 
-  useEffect(() => {
-    if (branch) {
-      setName(branch.name);
-      setAddress(branch.address);
-      setStatus(branch.status); // Status is now directly used as 'active' or 'inactive'
-      setIndex(branch.index || "");
-    }
+    fetchManagers();
+
+    // Set initial form data
+    setFormData({
+      branch_name: branch.branch_name || "",
+      address: branch.address || "",
+      manager_id: branch.manager_id || "",  // Use manager_id
+      status: branch.status || "",
+      index: branch.index || ""
+    });
   }, [branch]);
 
   const handleSave = async () => {
-    if (!name.trim() || !address.trim() || !status || !selectedManagerId || !index) {
+    if (!formData.branch_name.trim() || !formData.address.trim() ||
+      !formData.status || !formData.manager_id || !formData.index) {
       setError("Please fill in all fields.");
       return;
     }
-    
+
     setLoading(true);
     setError("");
 
+    console.log(formData);
+
     try {
       const response = await axios.post(`http://localhost:8000/api/branches/update/${branch.id}`, {
-        name: name,
-        address: address,
-        manager_id: selectedManagerId,
-        index: Number(index),  // Always send index as number
-        status: status
+        name: formData.branch_name,
+        address: formData.address,
+        manager_id: Number(formData.manager_id), // Ensure manager_id is a number
+        index: Number(formData.index),
+        status: formData.status
       });
 
       if (response.status === 200) {
-        onClose(); // Sẽ trigger onUpdate thông qua Table component
+        onSubmit && onSubmit(branch.id, formData);
+        onClose();
       }
     } catch (error) {
       setError(error.response?.data?.message || "Failed to update branch");
@@ -80,12 +90,20 @@ const EditBranch = ({ branch, onClose }) => { // Bỏ prop refreshBranches
     }
   };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
   return (
     <div className="w-full mx-auto bg-white shadow-md rounded-lg p-6">
       <div className="mb-6">
         <div className="flex justify-between items-center mb-2">
           <h1 className="text-xl font-semibold">Edit Branch</h1>
-          <button 
+          <button
             onClick={onClose}
             className="text-gray-600 hover:text-[#55D5D2]"
           >
@@ -94,7 +112,7 @@ const EditBranch = ({ branch, onClose }) => { // Bỏ prop refreshBranches
         </div>
         <hr className="border-gray-200" />
       </div>
-      
+
       <div className="mb-4">
         <label className="block text-gray-700 font-medium mb-2" htmlFor="id">
           ID
@@ -110,15 +128,16 @@ const EditBranch = ({ branch, onClose }) => { // Bỏ prop refreshBranches
       </div>
 
       <div className="mb-4">
-        <label className="block text-gray-700 font-medium mb-2" htmlFor="name">
-          Name
+        <label className="block text-gray-700 font-medium mb-2" htmlFor="branch_name">
+          Branch Name
         </label>
         <input
           type="text"
-          id="name"
+          id="branch_name"
+          name="branch_name"
           className="w-1/2 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#55D5D2] bg-[#EFF9F9] border-[#55D5D2]"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          value={formData.branch_name}
+          onChange={handleChange}
           placeholder="Enter branch name"
         />
       </div>
@@ -130,31 +149,33 @@ const EditBranch = ({ branch, onClose }) => { // Bỏ prop refreshBranches
         <input
           type="text"
           id="address"
+          name="address"
           className="w-1/2 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#55D5D2] bg-[#EFF9F9] border-[#55D5D2]"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
+          value={formData.address}
+          onChange={handleChange}
           placeholder="Enter branch address"
         />
       </div>
 
       <div className="mb-4">
-        <label className="block text-gray-700 font-medium mb-2" htmlFor="manager">
+        <label className="block text-gray-700 font-medium mb-2" htmlFor="manager_name">
           Manager <span className="text-red-500">*</span>
         </label>
         <div className="relative w-1/2">
           <select
             id="manager"
+            name="manager_id"  // Changed from manager_name to manager_id
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#55D5D2] bg-[#EFF9F9] border-[#55D5D2] appearance-none"
-            value={selectedManagerId || ""}
-            onChange={(e) => setSelectedManagerId(Number(e.target.value) || '')}
+            value={formData.manager_id}
+            onChange={handleChange}
           >
             <option value="">Select manager</option>
             {managers.map((manager) => (
-              <option 
-                key={manager.id} 
+              <option
+                key={manager.id}
                 value={manager.id}
               >
-                {`${manager.firstName} ${manager.lastName}`}
+                {`${manager.firstname} ${manager.lastname}`}
               </option>
             ))}
           </select>
@@ -169,9 +190,10 @@ const EditBranch = ({ branch, onClose }) => { // Bỏ prop refreshBranches
         <div className="relative w-1/4">
           <select
             id="status"
+            name="status"
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#55D5D2] bg-[#EFF9F9] border-[#55D5D2] appearance-none"
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
+            value={formData.status}
+            onChange={handleChange}
           >
             <option value="">Select status</option>
             <option value="active">Active</option>
@@ -188,9 +210,10 @@ const EditBranch = ({ branch, onClose }) => { // Bỏ prop refreshBranches
         <input
           type="number"
           id="index"
+          name="index"
           className="w-1/4 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#55D5D2] bg-[#EFF9F9] border-[#55D5D2]"
-          value={index}
-          onChange={(e) => setIndex(e.target.value)}
+          value={formData.index}
+          onChange={handleChange}
           placeholder="Enter index"
           min="1"
           required
@@ -201,13 +224,10 @@ const EditBranch = ({ branch, onClose }) => { // Bỏ prop refreshBranches
 
       <div className="flex">
         <button
-          className={`w-1/7 py-2 px-4 rounded-[10px] shadow-md font-semibold ${
-            name.trim() && address.trim() && status && selectedManagerId && index && !loading
-              ? "bg-teal-400 text-white hover:bg-teal-500"
-              : "bg-gray-300 text-gray-500 cursor-not-allowed"
-          }`}
+          className={`w-1/7 py-2 px-4 rounded-[10px] shadow-md font-semibold ${!loading ? "bg-teal-400 text-white hover:bg-teal-500" : "bg-gray-300 text-gray-500 cursor-not-allowed"
+            }`}
           onClick={handleSave}
-          disabled={!name.trim() || !address.trim() || !status || !selectedManagerId || !index || loading}
+          disabled={loading}
         >
           {loading ? "Saving..." : "Save"}
         </button>
@@ -219,14 +239,14 @@ const EditBranch = ({ branch, onClose }) => { // Bỏ prop refreshBranches
 EditBranch.propTypes = {
   branch: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
+    branch_name: PropTypes.string.isRequired,
     address: PropTypes.string.isRequired,
-    manager_id: PropTypes.number,
+    manager_name: PropTypes.string,
     index: PropTypes.number,
-    status: PropTypes.string.isRequired, // Changed to string
+    status: PropTypes.string.isRequired,
   }).isRequired,
   onClose: PropTypes.func.isRequired,
-  // Bỏ refreshBranches từ PropTypes
+  onSubmit: PropTypes.func,
 };
 
 export default EditBranch;

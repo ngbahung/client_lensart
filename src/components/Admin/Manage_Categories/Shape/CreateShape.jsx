@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
+import PropTypes from "prop-types";
 
-const CreateShape = ({ onClose, reloadShapes }) => {
+const CreateShape = ({ onClose, onUpdate }) => {
   const [name, setName] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -22,7 +23,7 @@ const CreateShape = ({ onClose, reloadShapes }) => {
       
       console.log("Shape saved:", response.data);
       alert("Shape saved successfully!");
-      await reloadShapes();
+      await onUpdate();
       onClose();
     } catch (err) {
       setError(err.response?.data?.message || "Failed to save shape");
@@ -74,6 +75,11 @@ const CreateShape = ({ onClose, reloadShapes }) => {
       </div>
     </div>
   );
+};
+
+CreateShape.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  onUpdate: PropTypes.func.isRequired,
 };
 
 export default CreateShape;

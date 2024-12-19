@@ -27,7 +27,7 @@ const ShapePage = () => {
     { id: 12, name: "Oversized", status: "active" }
   ];
 
-  const reloadShapes = async () => {
+  const fetchShapes = async () => {
     setIsLoading(true);
     try {
       const response = await axios.get('http://localhost:8000/api/shapes');
@@ -47,29 +47,8 @@ const ShapePage = () => {
   };
   
   useEffect(() => {
-    const fetchShapes = async () => {
-      try {
-        const response = await axios.get('http://localhost:8000/api/shapes');
-        if (response.data) {
-          const allShapes = response.data.data || mockData;
-          setShapes(allShapes);
-          // Tính tổng số trang dựa trên số lượng items
-          setTotalPages(Math.ceil(allShapes.length / ITEMS_PER_PAGE));
-          setError(null);
-        }
-      } catch (error) {
-        console.error("Failed to fetch shapes:", error);
-        setShapes(mockData);
-        setTotalPages(Math.ceil(mockData.length / ITEMS_PER_PAGE));
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     fetchShapes();
   }, []);
-
-  
 
   const filteredShapes = shapes.filter(shape => 
     shape.id.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -129,7 +108,7 @@ const ShapePage = () => {
             onStatusChange={handleStatusChange}
             onSearch={handleSearch}
             searchTerm={searchTerm}
-            reloadShapes={reloadShapes} // Add this prop
+            onUpdate={fetchShapes} // Add this prop
           />
         </div>
       </div>

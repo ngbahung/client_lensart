@@ -4,7 +4,7 @@ import Row from "./Row";
 import CreateProduct from "./CreateProduct";
 import EditProduct from './EditProduct';
 
-const Table = ({ products, isLoading, error, onStatusChange, onSearch, searchTerm }) => {
+const Table = ({ products, isLoading, error, onStatusChange, onSearch, searchTerm, onUpdate }) => {
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
 
@@ -26,15 +26,33 @@ const Table = ({ products, isLoading, error, onStatusChange, onSearch, searchTer
     setEditingProduct(product);
   };
 
+  const handleCloseForm = () => {
+    setShowCreateForm(false);
+    setEditingProduct(null);
+  };
+
+  const handleUpdateAndClose = async () => {
+    try {
+      await onUpdate();
+      handleCloseForm();
+    } catch (error) {
+      console.error("Error updating:", error);
+    }
+  };
+
   if (editingProduct) {
     return <EditProduct 
-      product={editingProduct}  // Changed from category to brand
-      onClose={() => setEditingProduct(null)} 
+      product={editingProduct}
+      onClose={handleCloseForm}
+      onUpdate={handleUpdateAndClose}
     />;
   }
 
   if (showCreateForm) {
-    return <CreateProduct onClose={() => setShowCreateForm(false)} />;
+    return <CreateProduct 
+      onClose={handleCloseForm}
+      onUpdate={handleUpdateAndClose}
+    />;
   }
 
   return (

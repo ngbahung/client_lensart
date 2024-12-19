@@ -9,7 +9,7 @@ const ToggleSwitch = ({ id, status, onToggle, disabled }) => {
       <input
         type="checkbox"
         id={`toggle-${id}`}
-        checked={status === 'active'}
+        checked={status === 'active'} // Use string comparison
         onChange={() => onToggle(id)}
         className="sr-only"
         disabled={disabled}
@@ -30,7 +30,7 @@ const ToggleSwitch = ({ id, status, onToggle, disabled }) => {
   );
 };
 
-const Row = ({ branch, onStatusChange, onEdit }) => {
+const Row = ({ blog, onStatusChange, onEdit }) => { // Remove onDelete from props
   const [showStatusModal, setShowStatusModal] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
 
@@ -41,7 +41,7 @@ const Row = ({ branch, onStatusChange, onEdit }) => {
   const handleConfirmStatusChange = async () => {
     setIsUpdating(true);
     try {
-      await onStatusChange(branch.id);
+      await onStatusChange(blog.id, !blog.status);
       setShowStatusModal(false);
     } catch (error) {
       console.error("Error updating status:", error);
@@ -55,32 +55,49 @@ const Row = ({ branch, onStatusChange, onEdit }) => {
   };
 
   const handleEdit = () => {
-    onEdit(branch);
+    onEdit(blog);
   };
 
   return (
     <>
       <tr className="hover:bg-gray-100 h-[48px]">
-        <td className="py-2 px-4">{branch.id}</td>
-        <td className="py-2 px-4">{branch.branch_name}</td>
-        <td className="py-2 px-4">{branch.address}</td>
-        <td className="py-2 px-4">{branch.manager_name || 'N/A'}</td>
-        <td className="py-2 px-4">{branch.index || '-'}</td>
+        <td className="py-2 px-4">{blog.id}</td>
+        <td className="py-2 px-4">
+          {blog.image_url ? (
+            <img 
+              src={blog.image_url} 
+              alt={blog.title} 
+              className="w-16 h-16 object-cover rounded"
+            />
+          ) : (
+            <div className="w-16 h-16 bg-gray-200 rounded flex items-center justify-center">
+              No image
+            </div>
+          )}
+        </td>
+        <td className="py-2 px-4">{blog.title}</td>
+        <td className="py-2 px-4">
+          <div className="line-clamp-2 text-sm text-gray-600">
+            {blog.description || 'No description'}
+          </div>
+        </td>
         <td className="py-2 px-4">
           <ToggleSwitch
-            id={branch.id}
-            status={branch.status}
+            id={blog.id}
+            status={blog.status} // Pass status directly as string
             onToggle={handleStatusChange}
             disabled={isUpdating}
           />
         </td>
-        <td className="py-2 px-4 grid place-items-center">
-          <button
-            className="p-1.5 rounded-md bg-[rgba(123,212,111,1)] hover:opacity-80"
-            onClick={handleEdit}
-          >
-            <BiEdit size={20} className="text-white" />
-          </button>
+        <td className="h-full">
+          <div className="flex items-center justify-center h-full min-h-[64px]">
+            <button
+              className="p-1.5 rounded-md bg-[rgba(123,212,111,1)] hover:opacity-80"
+              onClick={handleEdit}
+            >
+              <BiEdit size={20} className="text-white" />
+            </button>
+          </div>
         </td>
       </tr>
 
@@ -97,19 +114,18 @@ const Row = ({ branch, onStatusChange, onEdit }) => {
 
 ToggleSwitch.propTypes = {
   id: PropTypes.number.isRequired,
-  status: PropTypes.string.isRequired,
+  status: PropTypes.oneOf(['active', 'inactive']).isRequired, // Update PropTypes to use string
   onToggle: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
 };
 
 Row.propTypes = {
-  branch: PropTypes.shape({
+  blog: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    branch_name: PropTypes.string.isRequired,
-    address: PropTypes.string.isRequired,
-    manager_name: PropTypes.string,
-    index: PropTypes.number,
-    status: PropTypes.string.isRequired,
+    image_url: PropTypes.string,
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string,
+    status: PropTypes.oneOf(['active', 'inactive']).isRequired, // Update PropTypes
   }).isRequired,
   onStatusChange: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,

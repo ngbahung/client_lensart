@@ -5,7 +5,7 @@ import Row from "./Row";
 import CreateShape from "./CreateShape";
 import EditShape from './EditShape';
 
-const Table = ({ shapes, isLoading, error, onStatusChange, onSearch, searchTerm }) => {
+const Table = ({ shapes, isLoading, error, onStatusChange, onSearch, searchTerm, onUpdate }) => {
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [editingShape, setEditingShape] = useState(null);
 
@@ -31,11 +31,15 @@ const Table = ({ shapes, isLoading, error, onStatusChange, onSearch, searchTerm 
     return <EditShape 
       shape={editingShape} 
       onClose={() => setEditingShape(null)} 
+      onUpdate={onUpdate}
     />;
   }
 
   if (showCreateForm) {
-    return <CreateShape onClose={() => setShowCreateForm(false)} />;
+    return <CreateShape 
+      onClose={() => setShowCreateForm(false)} 
+      onUpdate={onUpdate}
+    />;
   }
 
   return (
@@ -121,6 +125,7 @@ Table.propTypes = {
   onStatusChange: PropTypes.func.isRequired,
   onSearch: PropTypes.func.isRequired,
   searchTerm: PropTypes.string.isRequired,
+  onUpdate: PropTypes.func.isRequired,
 };
 
 export default Table;

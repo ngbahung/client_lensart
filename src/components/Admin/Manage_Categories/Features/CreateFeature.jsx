@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const CreateFeature = ({ onClose, onRefresh }) => {
+const CreateFeature = ({ onClose, onUpdate }) => {
   const [name, setName] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -20,10 +20,12 @@ const CreateFeature = ({ onClose, onRefresh }) => {
         name: name.trim()
       });
       
-      console.log("Feature saved:", response.data);
-      alert("Feature saved successfully!");
-      await onRefresh();
-      onClose();
+      if (response.status === 200) {
+        await onUpdate(); // Wait for the update to complete
+        onClose();
+      } else {
+        throw new Error(response.data.message || "Failed to save feature");
+      }
     } catch (err) {
       setError(err.response?.data?.message || "Failed to save feature");
     } finally {

@@ -5,7 +5,7 @@ import Row from "./Row";
 import CreateFeature from "./CreateFeature"; // Fixed import name
 import EditFeature from './EditFeature'; // Fixed import name
 
-const Table = ({ features, isLoading, error, onStatusChange, onSearch, searchTerm }) => {
+const Table = ({ features, isLoading, error, onStatusChange, onSearch, searchTerm, onUpdate }) => {
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [editingFeature, setEditingFeature] = useState(null);
 
@@ -31,11 +31,15 @@ const Table = ({ features, isLoading, error, onStatusChange, onSearch, searchTer
     return <EditFeature 
       feature={editingFeature} // Changed from shape to feature
       onClose={() => setEditingFeature(null)} 
+      onUpdate={onUpdate}
     />;
   }
 
   if (showCreateForm) {
-    return <CreateFeature onClose={() => setShowCreateForm(false)} />; // Fixed component name
+    return <CreateFeature 
+      onClose={() => setShowCreateForm(false)} 
+      onUpdate={onUpdate}
+    />; // Fixed component name
   }
 
   return (
@@ -121,6 +125,7 @@ Table.propTypes = {
   onStatusChange: PropTypes.func.isRequired,
   onSearch: PropTypes.func.isRequired,
   searchTerm: PropTypes.string.isRequired,
+  onUpdate: PropTypes.func.isRequired,
 };
 
 export default Table;

@@ -3,6 +3,7 @@ import { FiPlusCircle } from "react-icons/fi";
 import Row from "./Row";
 import CreateBranch from "./CreateBranch";
 import EditBranch from './EditBranch';
+import PropTypes from 'prop-types'; // Add PropTypes import
 
 const Table = ({ 
   branches, 
@@ -97,7 +98,7 @@ const Table = ({
             <th className="py-2 px-4 text-left w-[10%]">ID</th>
             <th className="py-2 px-4 text-left w-[15%]">Name</th>
             <th className="py-2 px-4 text-left w-[25%]">Address</th>
-            <th className="py-2 px-4 text-left w-[15%]">Manager</th>
+            <th className="py-2 px-4 text-left w-[15%]">Manager Name</th>
             <th className="py-2 px-4 text-left w-[10%]">Index</th>
             <th className="py-2 px-4 text-left w-[10%]">Status</th>
             <th className="py-2 px-4 text-center w-[15%]">Action</th>
@@ -107,6 +108,10 @@ const Table = ({
           {isLoading ? (
             <tr>
               <td colSpan="7" className="text-center py-4">Loading...</td>
+            </tr>
+          ) : branches.length === 0 ? (
+            <tr>
+              <td colSpan="7" className="text-center py-4">No branches found</td>
             </tr>
           ) : (
             branches.map((branch) => (
@@ -122,6 +127,25 @@ const Table = ({
       </table>
     </div>
   );
+};
+
+Table.propTypes = {
+  branches: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      branch_name: PropTypes.string.isRequired,
+      address: PropTypes.string,
+      manager_name: PropTypes.string,
+      index: PropTypes.number,
+      status: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  error: PropTypes.string,
+  onStatusChange: PropTypes.func.isRequired,
+  onSearch: PropTypes.func.isRequired,
+  searchTerm: PropTypes.string.isRequired,
+  onUpdate: PropTypes.func.isRequired,
 };
 
 export default Table;
