@@ -161,23 +161,24 @@ const CreateProduct = ({ onClose, refreshBrands }) => {
       const productData = {
         name: name.trim(),
         description: description.trim() || null,
-        brand_id: parseInt(brand),
-        category_id: parseInt(category),
-        material_id: material ? parseInt(material) : null,
-        shape_id: shape ? parseInt(shape) : null,
+        brand_id: Number(brand),
+        category_id: Number(category),
+        material_id: material ? Number(material) : null,
+        shape_id: shape ? Number(shape) : null,
         gender: gender || null,
-        price: parseInt(price),
-        offer_price: offerPrice ? parseInt(offerPrice) : null,
+        price: Number(price),
+        offer_price: offerPrice ? Number(offerPrice) : null,
       };
 
       // Only add features if array is not empty, and ensure all values are integers
       if (selectedFeatures.length > 0) {
         productData.features = selectedFeatures.map(Number); // Convert all values to integers
       }
+
+      const response = await axios.post('http://localhost:8000/api/products/create', 
+        productData
+      );
       
-      const response = await axios.post('http://localhost:8000/api/products/create', productData);
-      
-      console.log("Product saved:", response.data);
       await refreshBrands();
       alert("Product saved successfully!");
       onClose();
@@ -334,9 +335,9 @@ const CreateProduct = ({ onClose, refreshBrands }) => {
               disabled={isGenderDisabled()}
             >
               <option value="">Select gender</option>
-              <option value="men">male</option>
-              <option value="women">female</option>
-              <option value="unisex">unisex</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="unisex">Unisex</option>
             </select>
             <FaAngleDown className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none" />
           </div>
