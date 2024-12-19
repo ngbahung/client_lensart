@@ -24,7 +24,7 @@ function Sidebar({ activeView, onViewChange, userData, onLogout }) {
     <div className="w-80 h-full bg-white p-6 rounded-lg shadow-md overflow-y-auto max-h-[calc(100vh-4rem)] md:max-h-none">
       {/* User Info Section - made more compact on mobile */}
       <div className="flex items-center space-x-3 mb-6 p-3 bg-gray-50 rounded-lg">
-        <div className="w-10 h-10 md:w-12 md:h-12 bg-[#6fd4d2] rounded-full flex items-center justify-center text-white font-semibold text-lg">
+        <div className="w-10 h-10 md:w-12 md:h-12 bg-[] rounded-full flex items-center justify-center text-white font-semibold text-lg">
           {userData?.firstname?.[0]?.toUpperCase() || 'U'}
         </div>
         <div className="min-w-0">
@@ -43,14 +43,14 @@ function Sidebar({ activeView, onViewChange, userData, onLogout }) {
               onClick={() => onViewChange(item.id)}
               className={`w-full flex items-center space-x-3 px-4 py-4 md:py-3 rounded-lg transition-colors duration-150
                 ${activeView === item.id 
-                  ? 'bg-blue-50 text-[#6fd4d2]' 
+                  ? 'bg-blue-50 text-blue-600' 
                   : 'text-gray-600 hover:bg-gray-50 active:bg-gray-100'
                 }
                 touch-manipulation
               `}
             >
               <item.icon className={`w-5 h-5 flex-shrink-0 ${
-                activeView === item.id ? 'text-[#6fd4d2]' : 'text-gray-400'
+                activeView === item.id ? 'text-blue-600' : 'text-gray-400'
               }`} />
               <span className="truncate">{item.label}</span>
             </button>

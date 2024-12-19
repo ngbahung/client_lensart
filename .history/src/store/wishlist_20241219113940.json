@@ -1,0 +1,17 @@
+{
+    "status": "success",
+    "data": {
+        "wishlist_id": 5,
+        "user_id": 36,
+        "details": [
+            {
+                "wishlist_detail_id": 11,
+                "product_id": 7,
+                "product_name": "Gọng kính MOLSON MJ7272",
+                "product_price": 1100000,
+                "product_image": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734278384/%C4%91en_-_2_h2sonp.jpg",
+                "category": "Gọng kính"
+            }
+        ]
+    }
+}

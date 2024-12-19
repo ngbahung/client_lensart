@@ -50,7 +50,7 @@ function Sidebar({ activeView, onViewChange, userData, onLogout }) {
               `}
             >
               <item.icon className={`w-5 h-5 flex-shrink-0 ${
-                activeView === item.id ? 'text-[#6fd4d2]' : 'text-gray-400'
+                activeView === item.id ? 'text-blue-600' : 'text-gray-400'
               }`} />
               <span className="truncate">{item.label}</span>
             </button>

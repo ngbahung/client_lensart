@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { formatPrice } from '../../../utils/formatPrice';
 import { getWishlists, deleteWishlist } from '../../../api/wishlistAPI';
 import { toast } from 'react-toastify';
 
 function FavoritesTable() {
-  const navigate = useNavigate();
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -43,35 +41,24 @@ function FavoritesTable() {
     }
   };
 
-  const handleProductClick = (productId) => {
-    navigate(`/gong-kinh/${productId}`);
-  };
-
   const MobileProductCard = ({ product }) => (
     <div className="bg-white p-4 rounded-lg shadow mb-4 border">
       <div className="flex items-center space-x-4">
-        <div 
-          className="flex-1 flex items-center space-x-4 cursor-pointer"
-          onClick={() => handleProductClick(product.product_id)}
-        >
-          <img
-            src={product.product_image || 'https://via.placeholder.com/100?text=No+Image'}
-            alt={product.product_name}
-            className="w-20 h-20 object-cover rounded"
-            onError={(e) => {
-              e.target.onerror = null;
-              e.target.src = 'https://via.placeholder.com/100?text=No+Image';
-            }}
-          />
-          <div className="flex-1">
-            <h3 className="font-medium hover:text-blue-600 transition-colors">
-              {product.product_name}
-            </h3>
-            <p className="text-gray-500 text-sm">{product.category}</p>
-            <p className="text-blue-600 font-medium mt-1">
-              {formatPrice(product.product_price)}
-            </p>
-          </div>
+        <img
+          src={product.product_image || 'https://via.placeholder.com/100?text=No+Image'}
+          alt={product.product_name}
+          className="w-20 h-20 object-cover rounded"
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = 'https://via.placeholder.com/100?text=No+Image';
+          }}
+        />
+        <div className="flex-1">
+          <h3 className="font-medium">{product.product_name}</h3>
+          <p className="text-gray-500 text-sm">{product.category}</p>
+          <p className="text-blue-600 font-medium mt-1">
+            {formatPrice(product.product_price)}
+          </p>
         </div>
         <button
           onClick={() => handleRemoveFavorite(product.wishlist_detail_id)}
@@ -146,10 +133,7 @@ function FavoritesTable() {
             {favorites.map((product) => (
               <tr key={product.wishlist_detail_id} className="border-b hover:bg-gray-50">
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <div 
-                    className="flex items-center cursor-pointer"
-                    onClick={() => handleProductClick(product.product_id)}
-                  >
+                  <div className="flex items-center">
                     <div className="flex-shrink-0 h-16 w-16">
                       <img
                         src={product.product_image || 'https://via.placeholder.com/100?text=No+Image'}
@@ -162,7 +146,7 @@ function FavoritesTable() {
                       />
                     </div>
                     <div className="ml-4">
-                      <div className="text-sm font-medium text-gray-900 hover:text-blue-600 transition-colors">
+                      <div className="text-sm font-medium text-gray-900">
                         {product.product_name}
                       </div>
                     </div>

@@ -109,7 +109,7 @@ const ProductDetails = ({ product, selectedBranch, cityNames }) => {  {/* Add ci
                 const response = await createWishlist(product.id);
                 if (response.success) {
                     setIsWishlisted(true);
-                    toast.success(response.data.original.message || 'Đã thêm vào danh sách yêu thích');
+                    toast.success(response.message || 'Đã thêm vào danh sách yêu thích');
                 } else {
                     toast.error(response.data.original.message || 'Không thể thêm vào danh sách yêu thích');
                 }

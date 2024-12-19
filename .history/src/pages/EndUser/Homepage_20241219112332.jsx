@@ -6,8 +6,8 @@ import PromotionalBanner from '../../components/EndUser/PromotionalBanner/Promot
 import LogoCloud from '../../components/EndUser/LogoCloud/LogoCloud';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { getBestSellingProducts, getNewestProducts, transformProduct } from '../../api/productsAPI';
-import { getActiveBlogs } from '../../api/blogsAPI';
+import { getBestSellingProducts, getNewestProducts, transformProduct } from '../../api/productsApi';
+import { getActiveBlogs } from '../../api/blogsApi';
 
 const SliderSection = ({ title, children }) => (
     <div className="container mx-auto px-4 md:px-8">
@@ -38,10 +38,8 @@ const Homepage = () => {
 
                 setBestSellerProducts(bestSellerData.map(product => transformProduct(product)));
                 setNewestProducts(newestData.map(product => transformProduct(product)));
-                console.log('Fetched blogs:', blogsData); // Add this to debug
-                setBlogs(blogsData.blogs || []); // Access the blogs array from the response
+                setBlogs(blogsData);
             } catch (err) {
-                console.error('Error fetching data:', err); // Add error logging
                 setError(err.message);
             } finally {
                 setLoading(false);

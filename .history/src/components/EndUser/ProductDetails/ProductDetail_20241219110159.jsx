@@ -101,22 +101,17 @@ const ProductDetails = ({ product, selectedBranch, cityNames }) => {  {/* Add ci
                 const response = await deleteWishlist(product.id);
                 if (response.success) {
                     setIsWishlisted(false);
-                    toast.success(response.message || 'Đã xóa khỏi danh sách yêu thích');
-                } else {
-                    toast.error(response.message || 'Không thể xóa khỏi danh sách yêu thích');
+                    toast.success('Đã xóa khỏi danh sách yêu thích');
                 }
             } else {
                 const response = await createWishlist(product.id);
                 if (response.success) {
                     setIsWishlisted(true);
-                    toast.success(response.data.original.message || 'Đã thêm vào danh sách yêu thích');
-                } else {
-                    toast.error(response.data.original.message || 'Không thể thêm vào danh sách yêu thích');
+                    toast.success('Đã thêm vào danh sách yêu thích');
                 }
             }
         } catch (error) {
-            const errorMessage = error.data.original.message || 'Có lỗi xảy ra. Vui lòng thử lại sau.';
-            toast.error(errorMessage);
+            toast.error(error.message.data.original || 'Có lỗi xảy ra. Vui lòng thử lại sau.');
             console.error('Wishlist operation error:', error);
         } finally {
             setIsWishlistLoading(false);

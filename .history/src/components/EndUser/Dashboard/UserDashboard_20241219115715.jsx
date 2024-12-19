@@ -51,7 +51,7 @@ function UserDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-[#eff9f9]">
+    <div className="min-h-screen bg-q">
       {/* Mobile menu button - adjusted z-index */}
       <button
         className="fixed top-20 right-4 z-30 p-2 rounded-md bg-white shadow-md md:hidden"

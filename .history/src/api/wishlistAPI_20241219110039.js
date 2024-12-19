@@ -3,8 +3,7 @@ import api from "../utils/api";
 export const getWishlists = async () => {
     try {
         const response = await api.get('/wishlists');
-        // Return the details array from the nested structure
-        return response.data.data.details || [];
+        return response.data.data;
     } catch (error) {
         console.error('Error fetching wishlists:', error);
         throw error;
@@ -26,9 +25,9 @@ export const createWishlist = async (productId) => {
     }
 }
 
-export const deleteWishlist = async (wishlistDetailId) => {
+export const deleteWishlist = async (productId) => {
     try {
-        const response = await api.delete(`/wishlists/detail/${wishlistDetailId}`);
+        const response = await api.delete(`/wishlists/${productId}`);
         return {
             success: response.data.success,
             message: response.data.message
@@ -61,9 +60,10 @@ export const moveProductToCart = async (wishlistDetailId) => {
 export const checkWishlistStatus = async (productId) => {
     try {
         const response = await api.get('/wishlists');
-        // Adjust to new structure
-        const details = response.data?.data?.details || [];
-        return details.some(item => 
+        // Check if we have a valid response with data array
+        const wishlists = response.data?.data || [];
+        // Check if the product exists in user's wishlist
+        return wishlists.some(item => 
             parseInt(item.product_id) === parseInt(productId)
         );
     } catch (error) {

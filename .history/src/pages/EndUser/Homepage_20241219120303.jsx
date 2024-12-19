@@ -38,10 +38,8 @@ const Homepage = () => {
 
                 setBestSellerProducts(bestSellerData.map(product => transformProduct(product)));
                 setNewestProducts(newestData.map(product => transformProduct(product)));
-                console.log('Fetched blogs:', blogsData); // Add this to debug
-                setBlogs(blogsData.blogs || []); // Access the blogs array from the response
+                setBlogs(blogsData);
             } catch (err) {
-                console.error('Error fetching data:', err); // Add error logging
                 setError(err.message);
             } finally {
                 setLoading(false);

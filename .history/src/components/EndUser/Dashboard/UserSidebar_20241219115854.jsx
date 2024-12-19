@@ -43,14 +43,14 @@ function Sidebar({ activeView, onViewChange, userData, onLogout }) {
               onClick={() => onViewChange(item.id)}
               className={`w-full flex items-center space-x-3 px-4 py-4 md:py-3 rounded-lg transition-colors duration-150
                 ${activeView === item.id 
-                  ? 'bg-blue-50 text-[#6fd4d2]' 
+                  ? 'bg-blue-50 text-blue-600' 
                   : 'text-gray-600 hover:bg-gray-50 active:bg-gray-100'
                 }
                 touch-manipulation
               `}
             >
               <item.icon className={`w-5 h-5 flex-shrink-0 ${
-                activeView === item.id ? 'text-[#6fd4d2]' : 'text-gray-400'
+                activeView === item.id ? 'text-blue-600' : 'text-gray-400'
               }`} />
               <span className="truncate">{item.label}</span>
             </button>

@@ -1,0 +1,41 @@
+{
+    "status": "success",
+    "blogs": [
+        {
+            "id": 1,
+            "title": "Bảo Vệ Đôi Mắt: Bí Quyết Chọn Kính Hoàn Hảo",
+            "description": "Tìm hiểu cách chọn kính mắt phù hợp để bảo vệ đôi mắt và nâng tầm phong cách của bạn. Bí quyết bao gồm chọn chất liệu, kiểu dáng và loại tròng kính.",
+            "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734508358/blog3_yqg5vr.png",
+            "image_public_id": "blog3_yqg5vr",
+            "created_time": "2024-12-19 09:05:27",
+            "status": "active"
+        },
+        {
+            "id": 2,
+            "title": "Kính Râm: Hơn Cả Một Phụ Kiện Thời Trang",
+            "description": "Khám phá lý do tại sao kính râm không chỉ giúp bạn phong cách hơn mà còn bảo vệ mắt khỏi tia UV có hại.",
+            "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734508346/blog2_ayn1vs.png",
+            "image_public_id": "blog2_ayn1vs",
+            "created_time": "2024-12-19 09:05:27",
+            "status": "active"
+        },
+        {
+            "id": 3,
+            "title": "Chăm Sóc Tròng Kính: Mẹo Bảo Quản Để Độ Rõ Nét Lâu Dài",
+            "description": "Khám phá các mẹo thực tế để vệ sinh và bảo quản kính mắt hoặc kính áp tròng nhằm đảm bảo hiệu suất và độ bền lâu dài.",
+            "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734508345/blog1_tjzv6m.jpg",
+            "image_public_id": "blog1_tjzv6m",
+            "created_time": "2024-12-19 09:05:27",
+            "status": "active"
+        },
+        {
+            "id": 4,
+            "title": "Chào Đón Năm Mới Với Ưu Đãi Lớn: Giảm Giá Đến 50%!",
+            "description": "Tưng bừng chào đón năm mới với những ưu đãi siêu hấp dẫn! Hãy sử dụng các mã giảm giá dưới đây để tiết kiệm hơn khi mua sắm:\n\n    COUPON30: Giảm 30% cho mọi đơn hàng.\n    COUPON35: Giảm 35% cho mọi đơn hàng.\n    COUPON40: Giảm 40% cho mọi đơn hàng.\n    COUPON50: Giảm 50% cho mọi đơn hàng.\n\n    Nhanh tay lên! Chương trình ưu đãi chỉ diễn ra đến hết ngày 31/12/2024. Mua sắm ngay để khởi đầu năm mới với những món hời tuyệt vời!",
+            "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734517321/new-year-sale_qnlpsc.png",
+            "image_public_id": "new-year-sale_qnlpsc",
+            "created_time": "2024-12-19 09:05:27",
+            "status": "active"
+        }
+    ]
+}
