@@ -64,7 +64,7 @@ const LoginPage = () => {
             </div>
             
             <h1 className="text-2xl font-semibold text-center text-gray-800 mb-8">
-                Đăng nhập dành cho quản trị viên
+                Đăng nhập
             </h1>
             
             <form onSubmit={handleLogin}>

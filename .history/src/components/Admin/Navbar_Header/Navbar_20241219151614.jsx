@@ -48,7 +48,7 @@ const Navbar = () => {
   const handleLogout = async () => {
     try {
       await logout();
-      navigate('/admin'); // Navigate to login page after logout
+      navigate('/admin/login'); // Navigate to login page after logout
     } catch (error) {
       console.error('Logout failed:', error);
     }

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom'; // Import NavLink and useNavigate from react-router-dom
-import { useAdminAuth } from '../../../contexts/AdminAuthContext'; // Import useAdminAuth from AdminAuthContext
+import { NavLink } from 'react-router-dom'; // Import NavLink from react-router-dom
 import Logo from '../../Logo';
 import { FaImage, FaListUl, FaCartPlus, FaBloggerB, FaUsers, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { MdDashboard } from "react-icons/md";
@@ -10,8 +9,6 @@ import { BiSolidCoupon } from "react-icons/bi";
 import { TbLogout2 } from "react-icons/tb";
 
 const Navbar = () => {
-  const { logout } = useAdminAuth(); // Destructure logout from useAdminAuth
-  const navigate = useNavigate(); // Initialize useNavigate
   const [expandedMenus, setExpandedMenus] = useState({
     categories: false,
     products: false,
@@ -44,16 +41,6 @@ const Navbar = () => {
   const handleLinkClick = (linkId) => {
     setActiveLink(linkId); // Cập nhật link đang được nhấn
   };
-
-  const handleLogout = async () => {
-    try {
-      await logout();
-      navigate('/admin'); // Navigate to login page after logout
-    } catch (error) {
-      console.error('Logout failed:', error);
-    }
-  };
-
   return (
     <div className="w-[17%] bg-white h-screen fixed left-0 top-0 shadow-lg flex flex-col">
       {/* Logo Section */}
@@ -335,10 +322,7 @@ const Navbar = () => {
 
       {/* Logout Section */}
       <div className="border-t p-4">
-        <button 
-          onClick={handleLogout}
-          className="w-full flex items-center px-4 py-3 text-black-700 hover:bg-gray-100 rounded-lg hover:text-[rgba(85,213,210,1)]"
-        >
+        <button className="w-full flex items-center px-4 py-3 text-black-700 hover:bg-gray-100 rounded-lg hover:text-[rgba(85,213,210,1)]">
           <TbLogout2 className="w-5 h-5 text-black-500 ml-[30px]" />
           <span className="ml-3">Logout</span>
         </button>
