@@ -17,8 +17,9 @@ const ProductImage = memo(({ src, alt }) => (
     <img
       src={src}
       alt={alt}
-      className="w-full h-full object-cover object-center transition-transform duration-500 ease-out hover:scale-125"
+      className="w-full h-full object-cover object-center transition-transform duration-300 hover:scale-125"
     />
+    <div className="absolute inset-0 opacity-0 transition-opacity duration-300 hover:opacity-20" />
   </div>
 ));
 

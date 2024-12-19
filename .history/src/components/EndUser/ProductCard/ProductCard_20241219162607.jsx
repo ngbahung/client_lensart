@@ -13,12 +13,13 @@ const DiscountBadge = memo(({ discount }) => (
 
 // Component hiển thị hình ảnh sản phẩm với hiệu ứng hover
 const ProductImage = memo(({ src, alt }) => (
-  <div className="relative w-full h-40 rounded-lg overflow-hidden bg-gray-100 mb-4">
+  <div className="relative w-full h-40 rounded-lg overflow-hidden bg-gray-100 mb-4 group">
     <img
       src={src}
       alt={alt}
-      className="w-full h-full object-cover object-center transition-transform duration-500 ease-out hover:scale-125"
+      className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-110"
     />
+    <div className="absolute inset-0 bg-black opacity-0 transition-opacity duration-300 group-hover:opacity-20" />
   </div>
 ));
 
