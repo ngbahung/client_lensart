@@ -62,7 +62,7 @@ const CartItem = ({ item, onSelect }) => {
           onChange={() => onSelect(item.id)}
           className="w-4 h-4"
         />
-        <img src={item.image} alt={item.name} className="w-12 h-12 md:w-16 md:h-16 object-cover" />
+        <img src={item.images} alt={item.name} className="w-12 h-12 md:w-16 md:h-16 object-cover" />
         <div className="flex flex-col">
           <h3 className="text-base md:text-lg font-semibold">{item.name}</h3>
           <p className="text-xs md:text-sm text-gray-500">Thương hiệu: {item.brand}</p>
