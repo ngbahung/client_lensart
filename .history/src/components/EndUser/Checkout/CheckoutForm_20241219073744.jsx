@@ -97,11 +97,13 @@ const CheckoutForm = () => {
       try {
         const userData = await getUserData();
         if (userData) {
-          const addressParts = parseAddress(userData.address);
+          const addressParts = parseAddress(userData.address || '');
+
+          const fullName = userData.firstName + ' ' + userData.lastName;
           
           setFormData(prev => ({
             ...prev,
-            fullName: userData.firstname + ' ' + userData.lastname || '',
+            fullName: userData.fullname || '',
             phone: userData.phone || '',
             email: userData.email || '',
             address: addressParts.detail || '',
@@ -204,8 +206,7 @@ const CheckoutForm = () => {
         value={formData.email}
         onChange={(e) => handleChange("email")(e.target.value)}
         required
-        className="w-full mb-4 bg-gray-50"
-        disabled={true}
+        className="w-full mb-4"
       />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">

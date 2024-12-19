@@ -101,7 +101,7 @@ const CheckoutForm = () => {
           
           setFormData(prev => ({
             ...prev,
-            fullName: userData.firstname + ' ' + userData.lastname || '',
+            fullName: userData.lastname + '' || '',
             phone: userData.phone || '',
             email: userData.email || '',
             address: addressParts.detail || '',

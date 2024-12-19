@@ -32,12 +32,6 @@ const CheckoutForm = () => {
 
   const [isLoadingUser, setIsLoadingUser] = useState(true);
 
-  const [locationMapping, setLocationMapping] = useState({
-    cityMatch: null,
-    districtMatch: null,
-    wardMatch: null
-  });
-
   useEffect(() => {
     const loadCities = async () => {
       setLoading(prev => ({ ...prev, cities: true }));
@@ -101,17 +95,20 @@ const CheckoutForm = () => {
           
           setFormData(prev => ({
             ...prev,
-            fullName: userData.firstname + ' ' + userData.lastname || '',
+            fullName: userData.fullname || '',
             phone: userData.phone || '',
             email: userData.email || '',
             address: addressParts.detail || '',
           }));
 
-          setLocationMapping({
-            cityMatch: addressParts.city,
-            districtMatch: addressParts.district,
-            wardMatch: addressParts.ward
-          });
+          if (addressParts.city) {
+            const cityOption = locations.cities.find(
+              city => city.label.includes(addressParts.city)
+            );
+            if (cityOption) {
+              handleChange("city")(cityOption.value);
+            }
+          }
         }
       } catch (error) {
         console.error("Failed to fetch user data:", error);
@@ -123,39 +120,6 @@ const CheckoutForm = () => {
 
     fetchUserData();
   }, []);
-
-  useEffect(() => {
-    if (locations.cities.length > 0 && locationMapping.cityMatch) {
-      const cityOption = locations.cities.find(
-        city => city.label.toLowerCase().includes(locationMapping.cityMatch.toLowerCase())
-      );
-      if (cityOption) {
-        handleChange("city")(cityOption.value);
-      }
-    }
-  }, [locations.cities, locationMapping.cityMatch]);
-
-  useEffect(() => {
-    if (locations.districts.length > 0 && locationMapping.districtMatch) {
-      const districtOption = locations.districts.find(
-        district => district.label.toLowerCase().includes(locationMapping.districtMatch.toLowerCase())
-      );
-      if (districtOption) {
-        handleChange("district")(districtOption.value);
-      }
-    }
-  }, [locations.districts, locationMapping.districtMatch]);
-
-  useEffect(() => {
-    if (locations.wards.length > 0 && locationMapping.wardMatch) {
-      const wardOption = locations.wards.find(
-        ward => ward.label.toLowerCase().includes(locationMapping.wardMatch.toLowerCase())
-      );
-      if (wardOption) {
-        handleChange("ward")(wardOption.value);
-      }
-    }
-  }, [locations.wards, locationMapping.wardMatch]);
 
   const handleChange = (name) => (value) => {
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -204,8 +168,7 @@ const CheckoutForm = () => {
         value={formData.email}
         onChange={(e) => handleChange("email")(e.target.value)}
         required
-        className="w-full mb-4 bg-gray-50"
-        disabled={true}
+        className="w-full mb-4"
       />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
