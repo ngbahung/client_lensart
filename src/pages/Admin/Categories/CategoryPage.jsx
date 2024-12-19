@@ -13,37 +13,37 @@ const CategoryPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const mockData = [
-    { id: 1, name: "Gọng kính", status: false },
-    { id: 2, name: "Tròng kính", status: true },
-    { id: 3, name: "Gọng mắt", status: true },
-    { id: 4, name: "Tròng mắt", status: false },
-    { id: 5, name: "Kính mắt", status: true },
-    { id: 6, name: "Kính râm", status: false },
-    { id: 7, name: "Kính cận", status: true },
-    { id: 8, name: "Kính lão", status: false },
-    { id: 9, name: "Kính trẻ em", status: true },
-    { id: 10, name: "Kính thời trang", status: false },
-    { id: 11, name: "Kính đọc", status: true },
-    { id: 12, name: "Kính chống nắng", status: false },
-    { id: 13, name: "Kính thể thao", status: true },
-    { id: 14, name: "Kính bơi", status: false },
-    { id: 15, name: "Kính lái xe", status: true },
-    { id: 16, name: "Kính gọng", status: false },
-    { id: 17, name: "Kính tròn", status: true },
-    { id: 18, name: "Kính vuông", status: false },
-    { id: 19, name: "Kính chữ nhật", status: true },
-    { id: 20, name: "Kính đen", status: false },
-    { id: 21, name: "Kính xám", status: true },
-    { id: 22, name: "Kính nâu", status: false },
-    { id: 23, name: "Kính xanh", status: true },
-    { id: 24, name: "Kính hồng", status: false },
-    { id: 25, name: "Kính đỏ", status: true },
-    { id: 26, name: "Kính cam", status: false },
-    { id: 27, name: "Kính vàng", status: true },
-    { id: 28, name: "Kính lục", status: false },
-    { id: 29, name: "Kính tím", status: true },
-    { id: 30, name: "Kính trắng", status: false },
-    { id: 31, name: "Kính học", status: true },
+    { id: 1, name: "Gọng kính", status: "inactive" },
+    { id: 2, name: "Tròng kính", status: "active" },
+    { id: 3, name: "Gọng mắt", status: "active" },
+    { id: 4, name: "Tròng mắt", status: "inactive" },
+    { id: 5, name: "Kính mắt", status: "active" },
+    { id: 6, name: "Kính râm", status: "inactive" },
+    { id: 7, name: "Kính cận", status: "active" },
+    { id: 8, name: "Kính lão", status: "inactive" },
+    { id: 9, name: "Kính trẻ em", status: "active" },
+    { id: 10, name: "Kính thời trang", status: "inactive" },
+    { id: 11, name: "Kính đọc", status: "active" },
+    { id: 12, name: "Kính chống nắng", status: "inactive" },
+    { id: 13, name: "Kính thể thao", status: "active" },
+    { id: 14, name: "Kính bơi", status: "inactive" },
+    { id: 15, name: "Kính lái xe", status: "active" },
+    { id: 16, name: "Kính gọng", status: "inactive" },
+    { id: 17, name: "Kính tròn", status: "active" },
+    { id: 18, name: "Kính vuông", status: "inactive" },
+    { id: 19, name: "Kính chữ nhật", status: "active" },
+    { id: 20, name: "Kính đen", status: "inactive" },
+    { id: 21, name: "Kính xám", status: "active" },
+    { id: 22, name: "Kính nâu", status: "inactive" },
+    { id: 23, name: "Kính xanh", status: "active" },
+    { id: 24, name: "Kính hồng", status: "inactive" },
+    { id: 25, name: "Kính đỏ", status: "active" },
+    { id: 26, name: "Kính cam", status: "inactive" },
+    { id: 27, name: "Kính vàng", status: "active" },
+    { id: 28, name: "Kính lục", status: "inactive" },
+    { id: 29, name: "Kính tím", status: "active" },
+    { id: 30, name: "Kính trắng", status: "inactive" },
+    { id: 31, name: "Kính học", status: "active" },
     // ...existing mockData...
   ];
 
@@ -109,7 +109,7 @@ const CategoryPage = () => {
   const handleStatusChange = async (categoryId) => {
     try {
       const currentCategory = categories.find(cat => cat.id === categoryId);
-      const newStatus = !currentCategory.status;
+      const newStatus = currentCategory.status === 'active' ? 'inactive' : 'active';
 
       const response = await axios.post(`http://localhost:8000/api/categories/switch-status/${categoryId}`);
       

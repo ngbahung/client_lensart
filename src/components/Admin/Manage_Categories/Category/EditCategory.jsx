@@ -12,7 +12,7 @@ const EditCategory = ({ category, onClose, refreshCategories }) => {
   useEffect(() => {
     if (category) {
       setName(category.name);
-      setStatus(category.status ? "active" : "inactive");
+      setStatus(category.status); // status is already 'active' or 'inactive'
     }
   }, [category]);
 
@@ -119,10 +119,10 @@ EditCategory.propTypes = {
   category: PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    status: PropTypes.bool.isRequired,
+    status: PropTypes.oneOf(['active', 'inactive']).isRequired,
   }).isRequired,
   onClose: PropTypes.func.isRequired,
-  refreshCategories: PropTypes.func.isRequired, // Add this prop type
+  refreshCategories: PropTypes.func.isRequired,
 };
 
 export default EditCategory;
