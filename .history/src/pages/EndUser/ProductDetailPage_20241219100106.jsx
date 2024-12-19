@@ -131,7 +131,7 @@ const ProductDetailPage = () => {
                 product_id: parseInt(productId),
                 user_id: user.id,
                 rating: reviewData.rating,
-                review: reviewData.comment,
+                comment: reviewData.comment,
                 status: 'active'
             };
 
@@ -142,7 +142,7 @@ const ProductDetailPage = () => {
                     id: result.data.id,
                     userName: `${user.firstname} ${user.lastname}`,
                     rating: reviewData.rating,
-                    comment: reviewData.comment,
+                    review: reviewData.comment,
                     date: new Date().toISOString(),
                     status: 'active'
                 };

@@ -142,7 +142,7 @@ const ProductDetailPage = () => {
                     id: result.data.id,
                     userName: `${user.firstname} ${user.lastname}`,
                     rating: reviewData.rating,
-                    comment: reviewData.comment,
+                    review: reviewData.comment,
                     date: new Date().toISOString(),
                     status: 'active'
                 };

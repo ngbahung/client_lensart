@@ -121,23 +121,19 @@ const ProductDetailPage = () => {
             return;
         }
 
-        if (!reviewData.rating) {
-            toast.error('Vui lòng chọn số sao đánh giá');
-            return;
-        }
-
         try {
             const review = {
                 product_id: parseInt(productId),
                 user_id: user.id,
                 rating: reviewData.rating,
-                review: reviewData.comment,
+                comment: reviewData.comment,
                 status: 'active'
             };
 
             const result = await createReview(review);
             
             if (result.success) {
+                // Optimistically update the UI
                 const newReview = {
                     id: result.data.id,
                     userName: `${user.firstname} ${user.lastname}`,
@@ -147,32 +143,20 @@ const ProductDetailPage = () => {
                     status: 'active'
                 };
 
-                // Update product state with new review and recalculate average
-                setProduct(prev => {
-                    const newTotalReviews = prev.totalReviews + 1;
-                    const newAverageRating = (
-                        (prev.averageRating * prev.totalReviews) + reviewData.rating
-                    ) / newTotalReviews;
+                setProduct(prev => ({
+                    ...prev,
+                    reviews: [newReview, ...prev.reviews],
+                    averageRating: ((prev.averageRating * prev.totalReviews) + reviewData.rating) / (prev.totalReviews + 1),
+                    totalReviews: prev.totalReviews + 1
+                }));
 
-                    return {
-                        ...prev,
-                        reviews: [newReview, ...prev.reviews],
-                        averageRating: Number(newAverageRating.toFixed(1)),
-                        totalReviews: newTotalReviews
-                    };
-                });
-
-                toast.success('Cảm ơn bạn đã đánh giá sản phẩm!');
+                toast.success('Đánh giá của bạn đã được gửi thành công!');
             } else {
-                throw new Error(result.message || 'Không thể gửi đánh giá');
+                toast.error(result.message || 'Không thể gửi đánh giá');
             }
         } catch (error) {
-            console.error('Review submission error:', error);
-            if (error.response?.status === 401) {
-                toast.error('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.');
-            } else {
-                toast.error(error.message || 'Đã xảy ra lỗi khi gửi đánh giá');
-            }
+            console.error('Error submitting review:', error);
+            toast.error('Đã xảy ra lỗi khi gửi đánh giá');
         }
     };
 
