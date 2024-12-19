@@ -378,6 +378,7 @@ const Header = () => {
             </header>
 
             {/* === MENU MOBILE === */}
+            {/* Hiển thị overlay và menu trượt khi nhấn nút mobile menu */}
             <div className={`fixed inset-0 bg-black bg-opacity-50 z-50 transition-opacity duration-300 md:hidden ${
                 isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
             }`}>
@@ -419,7 +420,7 @@ const Header = () => {
                                 </div>
                             ))}
 
-                            <div className="border-t pt-4 mt-4">
+                            <div className="border-t pt-4 mt-4"></div>
                                 {additionalLinks.map((link) => (
                                     <Link
                                         key={link.path}
