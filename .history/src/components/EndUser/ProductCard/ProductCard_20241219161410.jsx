@@ -13,18 +13,18 @@ const DiscountBadge = memo(({ discount }) => (
 
 // Component hiển thị hình ảnh sản phẩm với hiệu ứng hover
 const ProductImage = memo(({ src, alt }) => (
-  <div className="relative w-full h-40 rounded-lg overflow-hidden bg-gray-100 mb-4"> {/* increased mb-2 to mb-4 */}
+  <div className="relative w-full pb-[100%] rounded-lg overflow-hidden bg-gray-100 mb-4"> {/* Changed height to padding-bottom ratio */}
     <img
       src={src}
       alt={alt}
-      className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-110"
+      className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-110"
     />
   </div>
 ));
 
 // Component hiển thị tên sản phẩm
 const ProductInfo = memo(({ name }) => (
-  <div className="px-1 h-10 mt-3 mb-1"> {/* added mb-3 */}
+  <div className="px-1 h-10 mb-3"> {/* added mb-3 */}
     <h3 className="font-medium text-gray-900 uppercase text-lg tracking-wide line-clamp-2">
       {name}
     </h3>
@@ -76,7 +76,7 @@ const ProductCard = ({
       <ProductInfo name={name} />
     </div>
 
-    <div className="mt-auto pt-1"> {/* Changed from pt-4 to pt-2 */}
+    <div className="mt-auto pt-2"> {/* Changed from pt-4 to pt-2 */}
       <BuyButton 
         onClick={onBuyClick} 
         id={id} 

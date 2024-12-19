@@ -24,28 +24,37 @@ const ProductImage = memo(({ src, alt }) => (
 
 // Component hiển thị tên sản phẩm
 const ProductInfo = memo(({ name }) => (
-  <div className="px-1 h-10 mt-3 mb-1"> {/* added mb-3 */}
+  <div className="px-1 h-10 mb-3"> {/* added mb-3 */}
     <h3 className="font-medium text-gray-900 uppercase text-lg tracking-wide line-clamp-2">
       {name}
     </h3>
   </div>
 ));
 
+// Component hiển thị giá sản phẩm (giá hiện tại và giá gốc nếu có)
+const ProductPrice = memo(({ currentPrice, originalPrice }) => (
+  <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2 mt-4 sm:mt-5 px-1"> {/* increased mt-1 to mt-2 and sm:mt-2 to sm:mt-3 */}
+    <span className="text-base sm:text-lg font-semibold text-teal-500">
+      {formatPrice(currentPrice)}
+    </span>
+    {originalPrice && originalPrice !== currentPrice && (
+      <span className="text-xs sm:text-sm text-gray-400 line-through">
+        {formatPrice(originalPrice)}
+      </span>
+    )}
+  </div>
+));
+
 // Component nút mua hàng với hiệu ứng hover
-const BuyButton = memo(({ onClick, id, currentPrice, originalPrice }) => (
+const BuyButton = memo(({ onClick, id }) => (  // Add id prop
   <button
     onClick={(e) => {
       e.stopPropagation();
-      onClick(id);
+      onClick(id);  // Pass id to click handler
     }}
     className="w-full mt-3 flex items-center justify-between bg-teal-400 text-white px-4 py-2 rounded-full hover:bg-[#ecaa83] transition-colors group"
   >
-    <div className="flex items-center gap-2">
-      <span className="font-semibold">{formatPrice(currentPrice)}</span>
-      {originalPrice && originalPrice !== currentPrice && (
-        <span className="text-sm line-through opacity-75">{formatPrice(originalPrice)}</span>
-      )}
-    </div>
+    <span>Mua ngay</span>
     <BsArrowRight className="group-hover:translate-x-1 transition-transform" />
   </button>
 ));
@@ -74,15 +83,11 @@ const ProductCard = ({
     >
       <ProductImage src={image} alt={name} />
       <ProductInfo name={name} />
+      <ProductPrice currentPrice={currentPrice} originalPrice={originalPrice} />
     </div>
 
-    <div className="mt-auto pt-1"> {/* Changed from pt-4 to pt-2 */}
-      <BuyButton 
-        onClick={onBuyClick} 
-        id={id} 
-        currentPrice={currentPrice}
-        originalPrice={originalPrice}
-      />
+    <div className="mt-auto pt-4">
+      <BuyButton onClick={onBuyClick} id={id} />
     </div>
   </div>
 );
@@ -97,14 +102,6 @@ ProductCard.propTypes = {
   originalPrice: PropTypes.number,
   onBuyClick: PropTypes.func.isRequired,
   onProductClick: PropTypes.func.isRequired
-};
-
-// Update PropTypes
-BuyButton.propTypes = {
-  onClick: PropTypes.func.isRequired,
-  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  currentPrice: PropTypes.number.isRequired,
-  originalPrice: PropTypes.number
 };
 
 // Component hiển thị khung xương khi đang tải dữ liệu

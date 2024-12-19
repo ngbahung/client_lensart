@@ -24,10 +24,24 @@ const ProductImage = memo(({ src, alt }) => (
 
 // Component hiển thị tên sản phẩm
 const ProductInfo = memo(({ name }) => (
-  <div className="px-1 h-10 mt-3 mb-1"> {/* added mb-3 */}
+  <div className="px-1 h-10 mb-3"> {/* added mb-3 */}
     <h3 className="font-medium text-gray-900 uppercase text-lg tracking-wide line-clamp-2">
       {name}
     </h3>
+  </div>
+));
+
+// Component hiển thị giá sản phẩm (giá hiện tại và giá gốc nếu có)
+const ProductPrice = memo(({ currentPrice, originalPrice }) => (
+  <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2 mt-4 sm:mt-5 px-1"> {/* increased mt-1 to mt-2 and sm:mt-2 to sm:mt-3 */}
+    <span className="text-base sm:text-lg font-semibold text-teal-500">
+      {formatPrice(currentPrice)}
+    </span>
+    {originalPrice && originalPrice !== currentPrice && (
+      <span className="text-xs sm:text-sm text-gray-400 line-through">
+        {formatPrice(originalPrice)}
+      </span>
+    )}
   </div>
 ));
 
@@ -74,9 +88,10 @@ const ProductCard = ({
     >
       <ProductImage src={image} alt={name} />
       <ProductInfo name={name} />
+      <ProductPrice currentPrice={currentPrice} originalPrice={originalPrice} />
     </div>
 
-    <div className="mt-auto pt-1"> {/* Changed from pt-4 to pt-2 */}
+    <div className="mt-auto pt-4">
       <BuyButton 
         onClick={onBuyClick} 
         id={id} 

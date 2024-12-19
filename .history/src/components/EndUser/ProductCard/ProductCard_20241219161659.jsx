@@ -24,7 +24,7 @@ const ProductImage = memo(({ src, alt }) => (
 
 // Component hiển thị tên sản phẩm
 const ProductInfo = memo(({ name }) => (
-  <div className="px-1 h-10 mt-3 mb-1"> {/* added mb-3 */}
+  <div className="px-1 h-10 mbmb-1"> {/* added mb-3 */}
     <h3 className="font-medium text-gray-900 uppercase text-lg tracking-wide line-clamp-2">
       {name}
     </h3>
