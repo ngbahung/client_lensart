@@ -8,7 +8,6 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { getBestSellingProducts, getNewestProducts, transformProduct } from '../../api/productsAPI';
 import { getActiveBlogs } from '../../api/blogsAPI';
-import HomePageSkeleton from '../../components/EndUser/Loading/HomePageSkeleton';
 
 const LoadingSpinner = () => (
     <div className="flex justify-center items-center min-h-screen">
@@ -63,7 +62,7 @@ const Homepage = () => {
         fetchData();
     }, []);
 
-    if (loading) return <HomePageSkeleton />;
+    if (loading) return <LoadingSpinner />;
     if (error) return <div>Error: {error}</div>;
 
     const banners = [

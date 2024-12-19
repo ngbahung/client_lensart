@@ -13,7 +13,7 @@ const DiscountBadge = memo(({ discount }) => (
 
 // Component hiển thị hình ảnh sản phẩm với hiệu ứng hover
 const ProductImage = memo(({ src, alt }) => (
-  <div className="relative w-full h-40 rounded-lg overflow-hidden bg-gray-100 mb-2">
+  <div className="relative w-full aspect-square rounded-lg overflow-hidden bg-gray-100 mb-2">
     <img
       src={src}
       alt={alt}
@@ -24,8 +24,8 @@ const ProductImage = memo(({ src, alt }) => (
 
 // Component hiển thị tên sản phẩm
 const ProductInfo = memo(({ name }) => (
-  <div className="px-1 h-10">
-    <h3 className="font-medium text-gray-900 uppercase text-sm tracking-wide line-clamp-2">
+  <div className="px-1 h-8">
+    <h3 className="font-medium text-gray-900 uppercase text-xs tracking-wide line-clamp-2">
       {name}
     </h3>
   </div>
@@ -71,7 +71,7 @@ const ProductCard = ({
   onBuyClick,
   onProductClick
 }) => (
-  <div className="w-full bg-white rounded-xl shadow-md p-3 relative hover:shadow-xl transition-shadow flex flex-col h-[350px]">
+  <div className="w-full bg-white rounded-xl shadow-md p-2 relative hover:shadow-xl transition-shadow flex flex-col h-[350px]">
     {discount && discount !== '-0%' && <DiscountBadge discount={discount} />}
     
     <div 
@@ -106,16 +106,16 @@ ProductCard.propTypes = {
 
 // Component hiển thị khung xương khi đang tải dữ liệu
 export const ProductCardSkeleton = () => (
-  <div className="w-full max-w-xs bg-white rounded-xl shadow-sm p-3 animate-pulse">
-    <div className="w-full aspect-square rounded-lg bg-gray-200 mb-3" />
+  <div className="w-full bg-white rounded-xl shadow-sm p-2 animate-pulse h-[350px]">
+    <div className="w-full aspect-square rounded-lg bg-gray-200 mb-2" />
     <div className="h-4 bg-gray-200 rounded w-3/4 mb-2" />
-    <div className="h-3 bg-gray-200 rounded w-1/2 mb-3" />
-    <div className="h-6 bg-gray-200 rounded w-full" />
+    <div className="h-3 bg-gray-200 rounded w-1/2 mb-2" />
+    <div className="h-6 bg-gray-200 rounded w-full mt-auto" />
   </div>
 );
 
 // Component hiển thị khi có lỗi tải dữ liệu sản phẩm
-export const ProductCardError = ({ message = "Không thể tải s��n phẩm" }) => (
+export const ProductCardError = ({ message = "Không thể tải sản phẩm" }) => (
   <div className="w-full max-w-xs bg-white rounded-xl shadow-sm p-3 text-center text-red-500">
     <p>{message}</p>
   </div>

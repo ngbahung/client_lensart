@@ -4,7 +4,6 @@ import { toast } from 'react-toastify';
 import { createReview } from '../../api/reviewsAPI';
 import { useAuth } from '../../contexts/AuthContext';
 import { checkWishlistStatus } from '../../api/wishlistAPI';
-import ProductDetailSkeleton from '../../components/EndUser/Loading/ProductDetailSkeleton';
 
 // Components
 import ProductDetails from '../../components/EndUser/ProductDetails/ProductDetail';
@@ -183,7 +182,13 @@ const ProductDetailPage = () => {
     };
 
     if (loading) {
-        return <ProductDetailSkeleton />;
+        return (
+            <div className="container mx-auto px-4 py-8">
+                <div className="animate-pulse">
+                    {/* Add skeleton loading UI */}
+                </div>
+            </div>
+        );
     }
 
     if (error) {

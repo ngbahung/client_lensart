@@ -108,7 +108,7 @@ function AccountForm({ userData }) {
 
         <TextInput
           type="text"
-          label="Tên *"
+          label="Họ *"
           name="lastname"
           value={formData.lastname}
           onChange={handleChange}
