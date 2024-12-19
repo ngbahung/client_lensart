@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import TextInput from "../Register/TextInput";
 import Select from "../Register/Select";
-import PaymentOptions from "./PaymentOptions";
 import { fetchCities, fetchDistricts, fetchWards } from "../../../services/locationApi";
 import { getUserData } from "../../../api/userAPI";
 import { parseAddress } from "../../../utils/addressParser";
@@ -17,7 +16,6 @@ const CheckoutForm = () => {
     ward: "",
     address: "",
     notes: "",
-    paymentMethod: "cod" // default payment method
   });
 
   const [locations, setLocations] = useState({
@@ -265,13 +263,6 @@ const CheckoutForm = () => {
           onChange={(e) => handleChange("notes")(e.target.value)}
           placeholder="Ghi chú về đơn hàng, ví dụ: thời gian hay chỉ dẫn địa điểm giao hàng chi tiết hơn."
           className="h-24"
-        />
-      </div>
-
-      <div className="border-t pt-6">
-        <PaymentOptions
-          selected={formData.paymentMethod}
-          onChange={(value) => handleChange("paymentMethod")(value)}
         />
       </div>
     </form>

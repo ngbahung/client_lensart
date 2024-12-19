@@ -63,7 +63,7 @@ const AppRoutes = () => {
           <Route path=":productId" element={<ProductDetailPage />} />
         </Route>
         <Route path="trong-kinh">
-          <Route index element={<GongKinhPage categoryId={3} pageTitle="Tròng Kính" />} />
+          <Route index element={<GongKinhPage categoryId={1} pageTitle="Tròng Kính" />} />
           <Route path=":productId" element={<ProductDetailPage />} />
         </Route>
         <Route path="product/:productId" element={<Navigate to={location => `/gong-kinh/${location.pathname.split('/').pop()}`} replace />} />

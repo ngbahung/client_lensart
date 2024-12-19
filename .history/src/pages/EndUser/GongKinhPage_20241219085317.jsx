@@ -10,7 +10,7 @@ import ProductSlider from "../../components/EndUser/ProductSlider/ProductSlider"
 import { getProductByCategoryId, getProducts, transformProduct } from '../../api/productsApi';
 import { setDocumentTitle } from "../../utils/pageTitle";
 
-const GongKinhPage = ({ categoryId = 1, pageTitle = "Gọng Kính" }) => {
+const GongKinhPage = ({ categoryId = 2, pageTitle = "Gọng Kính" }) => {
     const navigate = useNavigate();
     const location = useLocation();
     const { type, value } = useParams();

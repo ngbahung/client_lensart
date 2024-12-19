@@ -1,0 +1,1903 @@
+{
+    "status": "success",
+    "data": [
+        {
+            "id": 1,
+            "name": "Gọng kính BOLON BT1529",
+            "description": "Viền trên đậm - Nhựa và kim loại",
+            "category_id": 1,
+            "brand_id": 1,
+            "material_id": 1,
+            "shape_id": 1,
+            "gender": "unisex",
+            "price": 500000,
+            "offer_price": null,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 1,
+                    "product_id": 1,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734273140/x%C3%A1m_b%E1%BA%A1c_spprbv.jpg",
+                    "image_public_id": "xám_bạc_rqd1sp"
+                },
+                {
+                    "id": 2,
+                    "product_id": 1,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734273139/%C4%91en_jk1pdd.jpg",
+                    "image_public_id": "đen_jk1pdd"
+                },
+                {
+                    "id": 3,
+                    "product_id": 1,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734273139/%C4%91en_x%C3%A1m_prcgd8.jpg",
+                    "image_public_id": "đen_xám_prcgd8"
+                },
+                {
+                    "id": 4,
+                    "product_id": 1,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734273139/%C4%91en_x%C3%A1m_2_mmnpzf.jpg",
+                    "image_public_id": "đen_xám_2_mmnpzf"
+                },
+                {
+                    "id": 5,
+                    "product_id": 1,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734273139/%C4%91en_v%C3%A0ng_zztpkw.jpg",
+                    "image_public_id": "đen_vàng_zztpkw"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "name": "Gọng kính JILL STUART JL33072",
+            "description": "Đa giác - Titanium",
+            "category_id": 1,
+            "brand_id": 2,
+            "material_id": 2,
+            "shape_id": 2,
+            "gender": "unisex",
+            "price": 550000,
+            "offer_price": 500000,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 6,
+                    "product_id": 2,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734277159/tr%E1%BA%AFng_b%E1%BA%A1c_hek1xt.png",
+                    "image_public_id": "trắng_bạc_hek1xt"
+                },
+                {
+                    "id": 7,
+                    "product_id": 2,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734277159/h%E1%BB%93ng_n%C3%A2u_tr%E1%BA%AFng_qkb4nk.png",
+                    "image_public_id": "hồng_nâu_trắng_qkb4nk"
+                },
+                {
+                    "id": 8,
+                    "product_id": 2,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734277159/jill1_rzybsf.png",
+                    "image_public_id": "jill1_rzybsf"
+                },
+                {
+                    "id": 9,
+                    "product_id": 2,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734277159/jill2_g4t18f.png",
+                    "image_public_id": "jill2_g4t18f"
+                },
+                {
+                    "id": 10,
+                    "product_id": 2,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734277159/h%E1%BB%93ng_xanh_ps8ind.png",
+                    "image_public_id": "hồng_xanh_ps8ind"
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "name": "Gọng kính MERCURY LV87137",
+            "description": "Vuông - Kim loại Titan",
+            "category_id": 1,
+            "brand_id": 3,
+            "material_id": 3,
+            "shape_id": 3,
+            "gender": "unisex",
+            "price": 600000,
+            "offer_price": null,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 11,
+                    "product_id": 3,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734277268/%C4%91en_-_4_nn66yb.jpg",
+                    "image_public_id": "đen_-_4_nn66yb"
+                },
+                {
+                    "id": 12,
+                    "product_id": 3,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734277268/%C4%91en_wlauyb.jpg",
+                    "image_public_id": "đen_wlauyb"
+                },
+                {
+                    "id": 13,
+                    "product_id": 3,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734277269/x%C3%A1m_dzc9qr.jpg",
+                    "image_public_id": "xám_dzc9qr"
+                },
+                {
+                    "id": 14,
+                    "product_id": 3,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734277268/%C4%91en_-_3_q0z2ml.jpg",
+                    "image_public_id": "đen_-_3_q0z2ml"
+                },
+                {
+                    "id": 15,
+                    "product_id": 3,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734277268/%C4%91en_-_2_x4rueabc",
+                    "image_public_id": "đen_-_2_x4rue5"
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "name": "Gọng kính MERCURY LV87297",
+            "description": "Viền trên đậm - Kim loại Titan",
+            "category_id": 1,
+            "brand_id": 4,
+            "material_id": 3,
+            "shape_id": 1,
+            "gender": "unisex",
+            "price": 650000,
+            "offer_price": null,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 16,
+                    "product_id": 4,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734277399/%C4%91en_v%C3%A0ng_hksppf.jpg",
+                    "image_public_id": "đen_vàng_hksppf"
+                },
+                {
+                    "id": 17,
+                    "product_id": 4,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734277397/%C4%91en_n%C3%A2u_-_3_fnr8pn.jpg",
+                    "image_public_id": "đen_nâu_-_3_fnr8pn"
+                },
+                {
+                    "id": 18,
+                    "product_id": 4,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734277397/%C4%91en_n%C3%A2u_j62wto.jpg",
+                    "image_public_id": "đen_nâu_j62wto"
+                },
+                {
+                    "id": 19,
+                    "product_id": 4,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734277397/%C4%91en_n%C3%A2u_-_2_cxwqso.jpg",
+                    "image_public_id": "đen_nâu_-_2_cxwqso"
+                },
+                {
+                    "id": 20,
+                    "product_id": 4,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734277396/%C4%91en_b%E1%BA%A1c_wsurvo.jpg",
+                    "image_public_id": "đen_bạc_wsurvo"
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "name": "Gọng kính MOLSON MJ6119",
+            "description": "Đa giác - Nhựa và kim loại",
+            "category_id": 1,
+            "brand_id": 1,
+            "material_id": 1,
+            "shape_id": 2,
+            "gender": "unisex",
+            "price": 700000,
+            "offer_price": 650000,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 21,
+                    "product_id": 5,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734277740/x%C3%A1m_v%C3%A0ng_jeccdx.png",
+                    "image_public_id": "xám_vàng_jeccdx"
+                },
+                {
+                    "id": 22,
+                    "product_id": 5,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734277739/tr%E1%BA%AFng_v8qajo.png",
+                    "image_public_id": "trắng_v8qajo"
+                },
+                {
+                    "id": 23,
+                    "product_id": 5,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734277739/%C4%91en_ibdsyj.png",
+                    "image_public_id": "đen_ibdsyj"
+                },
+                {
+                    "id": 24,
+                    "product_id": 5,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734277739/%C4%91en_v%C3%A0ng_rtkrow.png",
+                    "image_public_id": "đen_vàng_rtkrow"
+                },
+                {
+                    "id": 25,
+                    "product_id": 5,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734277739/tr%E1%BA%AFng_-_2_zt7xyn.png",
+                    "image_public_id": "trắng_-_2_zt7xyn"
+                }
+            ]
+        },
+        {
+            "id": 6,
+            "name": "Gọng kính MOLSON MJ6156",
+            "description": "Tròn - Titanium",
+            "category_id": 1,
+            "brand_id": 2,
+            "material_id": 2,
+            "shape_id": 3,
+            "gender": "unisex",
+            "price": 750000,
+            "offer_price": null,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 26,
+                    "product_id": 6,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734277946/v%C3%A0ng_x%C3%A1m_hmoagc.jpg",
+                    "image_public_id": "vàng_xám_hmoagc"
+                },
+                {
+                    "id": 27,
+                    "product_id": 6,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734277945/trong_su%E1%BB%91t_er5q4r.jpg",
+                    "image_public_id": "trong_suốt_er5q4r"
+                },
+                {
+                    "id": 28,
+                    "product_id": 6,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734277945/v%C3%A0ng_%C4%91en_gq0aht.jpg",
+                    "image_public_id": "vàng_đen_gq0aht"
+                },
+                {
+                    "id": 29,
+                    "product_id": 6,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734277944/%C4%91%E1%BB%93i_m%E1%BB%93i_oujdfg.jpg",
+                    "image_public_id": "đồi_mồi_oujdfg"
+                },
+                {
+                    "id": 30,
+                    "product_id": 6,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734277944/1_bazxqm.jpg",
+                    "image_public_id": "1_bazxqm"
+                }
+            ]
+        },
+        {
+            "id": 7,
+            "name": "Gọng kính MOLSON MJ7272",
+            "description": "Đa giác - Kim loại Titan",
+            "category_id": 1,
+            "brand_id": 3,
+            "material_id": 3,
+            "shape_id": 2,
+            "gender": "unisex",
+            "price": 1100000,
+            "offer_price": null,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 31,
+                    "product_id": 7,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734278386/xanh_tr%E1%BA%AFng_ywvggk.jpg",
+                    "image_public_id": "xanh_trắng_ywvggk"
+                },
+                {
+                    "id": 32,
+                    "product_id": 7,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734278385/%C4%91en_v%C3%A0ng_f0wnjr.jpg",
+                    "image_public_id": "đen_vàng_f0wnjr"
+                },
+                {
+                    "id": 33,
+                    "product_id": 7,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734278385/%C4%91en_b%E1%BA%A1c_nsgjwp.jpg",
+                    "image_public_id": "đen_bạc_nsgjwp"
+                },
+                {
+                    "id": 34,
+                    "product_id": 7,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734278385/%C4%91en_lbi3vg.jpg",
+                    "image_public_id": "đen_lbi3vg"
+                },
+                {
+                    "id": 35,
+                    "product_id": 7,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734278384/%C4%91en_-_2_h2sonp.jpg",
+                    "image_public_id": "đen_-_2_h2sonp"
+                }
+            ]
+        },
+        {
+            "id": 8,
+            "name": "Gọng kính NEWBALANCE NB09361X",
+            "description": "Chữ nhật - Nhựa và kim loại",
+            "category_id": 1,
+            "brand_id": 4,
+            "material_id": 1,
+            "shape_id": 1,
+            "gender": "unisex",
+            "price": 1200000,
+            "offer_price": 1150000,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 36,
+                    "product_id": 8,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734278573/xanh_d%C6%B0%C6%A1ng_xslj7g.jpg",
+                    "image_public_id": "xanh_dương_xslj7g"
+                },
+                {
+                    "id": 37,
+                    "product_id": 8,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734278571/xanh_d%C6%B0%C6%A1ng_-_2_ioeq3g.jpg",
+                    "image_public_id": "xanh_dương_-_2_ioeq3g"
+                },
+                {
+                    "id": 38,
+                    "product_id": 8,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734278570/tr%E1%BA%AFng_-_2_thzmeg.jpg",
+                    "image_public_id": "trắng_-_2_thzmeg"
+                },
+                {
+                    "id": 39,
+                    "product_id": 8,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734278570/tr%E1%BA%AFng_vz7igh.jpg",
+                    "image_public_id": "trắng_vz7igh"
+                },
+                {
+                    "id": 40,
+                    "product_id": 8,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734278569/%C4%91en_bfiicm.jpg",
+                    "image_public_id": "đen_bfiicm"
+                }
+            ]
+        },
+        {
+            "id": 9,
+            "name": "Gọng kính POVINO PO6843",
+            "description": "Nhựa và kim loại - Vuông",
+            "category_id": 1,
+            "brand_id": 1,
+            "material_id": 2,
+            "shape_id": 3,
+            "gender": "unisex",
+            "price": 1300000,
+            "offer_price": null,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 41,
+                    "product_id": 9,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734278648/%C4%90en-1_atij1x.jpg",
+                    "image_public_id": "Đen-1_atij1x"
+                },
+                {
+                    "id": 42,
+                    "product_id": 9,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734278647/%C4%90en_bnspxj.jpg",
+                    "image_public_id": "Đen_bnspxj"
+                },
+                {
+                    "id": 43,
+                    "product_id": 9,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734278645/%C4%90en_b%E1%BA%A1c-1_jasabk.jpg",
+                    "image_public_id": "Đen_bạc-1_jasabk"
+                },
+                {
+                    "id": 44,
+                    "product_id": 9,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734278644/%C4%90en_b%E1%BA%A1c_ejodch.jpg",
+                    "image_public_id": "Đen_bạc_ejodch"
+                },
+                {
+                    "id": 45,
+                    "product_id": 9,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734278644/B%E1%BA%A1c_iful8l.jpg",
+                    "image_public_id": "Bạc_iful8l"
+                }
+            ]
+        },
+        {
+            "id": 10,
+            "name": "Gọng kính POVINO PO22641",
+            "description": "Tròn - Nhựa và kim loại",
+            "category_id": 1,
+            "brand_id": 2,
+            "material_id": 1,
+            "shape_id": 2,
+            "gender": "unisex",
+            "price": 1400000,
+            "offer_price": null,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 46,
+                    "product_id": 10,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734278809/x%C3%A1m_ze1n4r.jpg",
+                    "image_public_id": "xám_ze1n4r"
+                },
+                {
+                    "id": 47,
+                    "product_id": 10,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734278809/%C4%91en_h%E1%BB%93ng_o8cwwl.jpg",
+                    "image_public_id": "đen_hồng_o8cwwl"
+                },
+                {
+                    "id": 48,
+                    "product_id": 10,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734278807/%C4%91en_b%E1%BA%A1c_owdjwd.jpg",
+                    "image_public_id": "đen_bạc_owdjwd"
+                },
+                {
+                    "id": 49,
+                    "product_id": 10,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734278806/2_asa680.jpg",
+                    "image_public_id": "2_asa680"
+                },
+                {
+                    "id": 50,
+                    "product_id": 10,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734278805/1_c0kzfp.jpg",
+                    "image_public_id": "1_c0kzfp"
+                }
+            ]
+        },
+        {
+            "id": 11,
+            "name": "Gọng kính POVINO ST9380",
+            "description": "Chữ nhật - Kim loại Titan",
+            "category_id": 1,
+            "brand_id": 3,
+            "material_id": 3,
+            "shape_id": 1,
+            "gender": "unisex",
+            "price": 1500000,
+            "offer_price": null,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 51,
+                    "product_id": 11,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734444808/v%C3%A0ng_2_lowuyi.jpg",
+                    "image_public_id": "vàng_2_lowuyi"
+                },
+                {
+                    "id": 52,
+                    "product_id": 11,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734444809/v%C3%A0ng_cqttxx.jpg",
+                    "image_public_id": "vàng_cqttxx"
+                },
+                {
+                    "id": 53,
+                    "product_id": 11,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734278809/x%C3%A1m_ze1n4r.jpg",
+                    "image_public_id": "xám_ze1n4r"
+                },
+                {
+                    "id": 54,
+                    "product_id": 11,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734278809/%C4%91en_h%E1%BB%93ng_o8cwwl.jpg",
+                    "image_public_id": "đen_hồng_o8cwwl"
+                },
+                {
+                    "id": 55,
+                    "product_id": 11,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734278807/%C4%91en_b%E1%BA%A1c_owdjwd.jpg",
+                    "image_public_id": "đen_bạc_owdjwd"
+                }
+            ]
+        },
+        {
+            "id": 12,
+            "name": "Gọng kính RAYBAN RB6346-2904",
+            "description": "Viền trên đậm - Titanium",
+            "category_id": 1,
+            "brand_id": 4,
+            "material_id": 2,
+            "shape_id": 3,
+            "gender": "unisex",
+            "price": 1600000,
+            "offer_price": 1550000,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 56,
+                    "product_id": 12,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734444872/%C4%91en_niirmv.jpg",
+                    "image_public_id": "đen_niirmv"
+                },
+                {
+                    "id": 57,
+                    "product_id": 12,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734444871/1_fybqms.jpg",
+                    "image_public_id": "1_fybqms"
+                },
+                {
+                    "id": 58,
+                    "product_id": 12,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734444871/4_yjv7yj.jpg",
+                    "image_public_id": "4_yjv7yj"
+                },
+                {
+                    "id": 59,
+                    "product_id": 12,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734444871/3_njkjlo.jpg",
+                    "image_public_id": "3_njkjlo"
+                },
+                {
+                    "id": 60,
+                    "product_id": 12,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734444871/2_fmjc5a.jpg",
+                    "image_public_id": "2_fmjc5a"
+                }
+            ]
+        },
+        {
+            "id": 13,
+            "name": "Gọng kính RAYBAN RX8763",
+            "description": "Titanium - Chữ nhật",
+            "category_id": 1,
+            "brand_id": 1,
+            "material_id": 2,
+            "shape_id": 1,
+            "gender": "unisex",
+            "price": 2100000,
+            "offer_price": null,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 61,
+                    "product_id": 13,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734444954/v%C3%A0ng_eaehas.jpg",
+                    "image_public_id": "vàng_eaehas"
+                },
+                {
+                    "id": 62,
+                    "product_id": 13,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734444954/b%E1%BA%A1c_hh3erh.jpg",
+                    "image_public_id": "bạc_hh3erh"
+                },
+                {
+                    "id": 63,
+                    "product_id": 13,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734444954/%C4%91en_b%E1%BA%A1c_nl7j1a.jpg",
+                    "image_public_id": "đen_bạc_nl7j1a"
+                },
+                {
+                    "id": 64,
+                    "product_id": 13,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734444954/%C4%91en_ojogjn.jpg",
+                    "image_public_id": "đen_ojogjn"
+                },
+                {
+                    "id": 65,
+                    "product_id": 13,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734444954/1_ogamwx.jpg",
+                    "image_public_id": "1_ogamwx"
+                }
+            ]
+        },
+        {
+            "id": 14,
+            "name": "Gọng kính SEESON THE CLASSICS JIL",
+            "description": "Vuông - Nhựa acetate",
+            "category_id": 1,
+            "brand_id": 2,
+            "material_id": 1,
+            "shape_id": 3,
+            "gender": "unisex",
+            "price": 2200000,
+            "offer_price": 2100000,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 66,
+                    "product_id": 14,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445054/x%C3%A1m_fourxb.jpg",
+                    "image_public_id": "xám_fourxb"
+                },
+                {
+                    "id": 67,
+                    "product_id": 14,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445053/olive_chhv2m.jpg",
+                    "image_public_id": "olive_chhv2m"
+                },
+                {
+                    "id": 68,
+                    "product_id": 14,
+                    "image_url": "14_ahttps://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445052/havana_xlrzgp.jpgbc",
+                    "image_public_id": "havana_xlrzgp"
+                },
+                {
+                    "id": 69,
+                    "product_id": 14,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445052/2_mftjlc.jpg",
+                    "image_public_id": "2_mftjlc"
+                },
+                {
+                    "id": 70,
+                    "product_id": 14,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445051/1_uwickw.jpg",
+                    "image_public_id": "1_uwickw"
+                }
+            ]
+        },
+        {
+            "id": 15,
+            "name": "Gọng kính MOLSON MJ7272",
+            "description": "Đa giác - Kim loại Titan",
+            "category_id": 1,
+            "brand_id": 3,
+            "material_id": 3,
+            "shape_id": 2,
+            "gender": "unisex",
+            "price": 2300000,
+            "offer_price": null,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 71,
+                    "product_id": 15,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445305/xanh_tr%E1%BA%AFng_vgijii.jpg",
+                    "image_public_id": "xanh_trắng_vgijii"
+                },
+                {
+                    "id": 72,
+                    "product_id": 15,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445304/%C4%91en_uc61ji.jpg",
+                    "image_public_id": "đen_uc61ji"
+                },
+                {
+                    "id": 73,
+                    "product_id": 15,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445303/%C4%91en_v%C3%A0ng_nkvxnh.jpg",
+                    "image_public_id": "đen_vàng_nkvxnh"
+                },
+                {
+                    "id": 74,
+                    "product_id": 15,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445303/%C4%91en_b%E1%BA%A1c_cijkob.jpg",
+                    "image_public_id": "đen_bạc_cijkob"
+                },
+                {
+                    "id": 75,
+                    "product_id": 15,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445302/%C4%91en_-_2_ult5bw.jpg",
+                    "image_public_id": "đen_-_2_ult5bw"
+                }
+            ]
+        },
+        {
+            "id": 16,
+            "name": "Gọng kính POVINO ST9380",
+            "description": "Chữ nhật - Kim loại Titan",
+            "category_id": 1,
+            "brand_id": 4,
+            "material_id": 3,
+            "shape_id": 1,
+            "gender": "unisex",
+            "price": 2400000,
+            "offer_price": null,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 76,
+                    "product_id": 16,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445393/x%C3%A1m-2_kapwkc.jpg",
+                    "image_public_id": "xám-2_kapwkc"
+                },
+                {
+                    "id": 77,
+                    "product_id": 16,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445392/x%C3%A1m_blnlkc.jpg",
+                    "image_public_id": "xám_blnlkc"
+                },
+                {
+                    "id": 78,
+                    "product_id": 16,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445390/v%C3%A0ng_rjolv0.jpg",
+                    "image_public_id": "vàng_rjolv0"
+                },
+                {
+                    "id": 79,
+                    "product_id": 16,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445390/v%C3%A0ng_2_cgw2ng.jpg",
+                    "image_public_id": "vàng_2_cgw2ng"
+                },
+                {
+                    "id": 80,
+                    "product_id": 16,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445389/%C4%91en_nh%C3%A1m_ehw7n3.jpg",
+                    "image_public_id": "đen_nhám_ehw7n3"
+                }
+            ]
+        },
+        {
+            "id": 17,
+            "name": "Gọng kính RAYBAN RX8763",
+            "description": "Titanium - Chữ nhật",
+            "category_id": 1,
+            "brand_id": 1,
+            "material_id": 2,
+            "shape_id": 1,
+            "gender": "unisex",
+            "price": 2500000,
+            "offer_price": 2400000,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 81,
+                    "product_id": 17,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445487/v%C3%A0ng_yw3dmk.jpg",
+                    "image_public_id": "vàng_yw3dmk"
+                },
+                {
+                    "id": 82,
+                    "product_id": 17,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445486/%C4%91en_byxzmx.jpg",
+                    "image_public_id": "đen_byxzmx"
+                },
+                {
+                    "id": 83,
+                    "product_id": 17,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445485/%C4%91en_b%E1%BA%A1c_fprlwa.jpg",
+                    "image_public_id": "đen_bạc_fprlwa"
+                },
+                {
+                    "id": 84,
+                    "product_id": 17,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445484/b%E1%BA%A1c_thor4x.jpg",
+                    "image_public_id": "bạc_thor4x"
+                },
+                {
+                    "id": 85,
+                    "product_id": 17,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445483/1_wuborb.jpg",
+                    "image_public_id": "1_wuborb"
+                }
+            ]
+        },
+        {
+            "id": 18,
+            "name": "Gọng kính SEESON THE CLASSICS JIL",
+            "description": "Vuông - Nhựa acetate",
+            "category_id": 1,
+            "brand_id": 2,
+            "material_id": 1,
+            "shape_id": 3,
+            "gender": "unisex",
+            "price": 2500000,
+            "offer_price": null,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 86,
+                    "product_id": 18,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445541/x%C3%A1m_d4whlf.jpg",
+                    "image_public_id": "xám_d4whlf"
+                },
+                {
+                    "id": 87,
+                    "product_id": 18,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445539/havana_q15vxo.jpg",
+                    "image_public_id": "havana_q15vxo"
+                },
+                {
+                    "id": 88,
+                    "product_id": 18,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445540/olive_ty7qgw.jpg",
+                    "image_public_id": "olive_ty7qgw"
+                },
+                {
+                    "id": 89,
+                    "product_id": 18,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445538/2_xxobdk.jpg",
+                    "image_public_id": "2_xxobdk"
+                },
+                {
+                    "id": 90,
+                    "product_id": 18,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445537/1_ezdyvo.jpg",
+                    "image_public_id": "1_ezdyvo"
+                }
+            ]
+        },
+        {
+            "id": 19,
+            "name": "Kính mát BOLON BL3038",
+            "description": "Nhựa Acetate",
+            "category_id": 2,
+            "brand_id": 1,
+            "material_id": 1,
+            "shape_id": 1,
+            "gender": "unisex",
+            "price": 500000,
+            "offer_price": null,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 91,
+                    "product_id": 19,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445617/Xanh_r%C3%AAu_q90k7v.jpg",
+                    "image_public_id": "Xanh_rêu_q90k7v"
+                },
+                {
+                    "id": 92,
+                    "product_id": 19,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445616/Xanh_d%C6%B0%C6%A1ng_m0pcro.jpg",
+                    "image_public_id": "Xanh_dương_m0pcro"
+                },
+                {
+                    "id": 93,
+                    "product_id": 19,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445615/X%C3%A1m_h2xziv.jpg",
+                    "image_public_id": "Xám_h2xziv"
+                },
+                {
+                    "id": 94,
+                    "product_id": 19,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445614/V%C3%A0ng_yuzwgd.jpg",
+                    "image_public_id": "Vàng_yuzwgd"
+                },
+                {
+                    "id": 95,
+                    "product_id": 19,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445612/N%C3%A2u_jhvu4e.jpg",
+                    "image_public_id": "Nâu_jhvu4e"
+                }
+            ]
+        },
+        {
+            "id": 20,
+            "name": "Kính mát BOLON BL3100",
+            "description": "Nhựa và Kim loại",
+            "category_id": 2,
+            "brand_id": 2,
+            "material_id": 2,
+            "shape_id": 2,
+            "gender": "unisex",
+            "price": 600000,
+            "offer_price": 550000,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 96,
+                    "product_id": 20,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445695/%C4%90%E1%BB%93i_m%E1%BB%93i_bfraxr.jpg",
+                    "image_public_id": "Đồi_mồi_bfraxr"
+                },
+                {
+                    "id": 97,
+                    "product_id": 20,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445693/%C4%90%E1%BB%93i_m%E1%BB%93i_v%C3%A0ng_yqcqpi.jpg",
+                    "image_public_id": "Đồi_mồi_vàng_yqcqpi"
+                },
+                {
+                    "id": 98,
+                    "product_id": 20,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445693/%C4%90en_ysc0wo.jpg",
+                    "image_public_id": "Đen_ysc0wo"
+                },
+                {
+                    "id": 99,
+                    "product_id": 20,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445691/%C4%90en_v%C3%A0ng_uh5yjb.jpg",
+                    "image_public_id": "Đen_vàng_uh5yjb"
+                },
+                {
+                    "id": 100,
+                    "product_id": 20,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445690/%C4%90en_b%C3%B3ng_wxjzph.jpg",
+                    "image_public_id": "Đen_bóng_wxjzph"
+                }
+            ]
+        },
+        {
+            "id": 21,
+            "name": "Kính mát BOLON BL5078",
+            "description": "TR90",
+            "category_id": 2,
+            "brand_id": 3,
+            "material_id": 3,
+            "shape_id": 1,
+            "gender": "unisex",
+            "price": 700000,
+            "offer_price": null,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 101,
+                    "product_id": 21,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445757/Tr%E1%BA%AFng_x%C3%A1m_rjmays.jpg",
+                    "image_public_id": "Trắng_xám_rjmays"
+                },
+                {
+                    "id": 102,
+                    "product_id": 21,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445756/H%E1%BB%93ng_t%C3%ADm_x%C3%A1m_xq0ham.jpg",
+                    "image_public_id": "Hồng_tím_xám_xq0ham"
+                },
+                {
+                    "id": 103,
+                    "product_id": 21,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445754/%C4%90en_t%C3%ADm_kjxwaa.jpg",
+                    "image_public_id": "Đen_xám_o7h2jm"
+                },
+                {
+                    "id": 104,
+                    "product_id": 21,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445753/%C4%90en_t%C3%ADm_h%E1%BB%93ng_fcq7zd.jpg",
+                    "image_public_id": "Đen_tím_kjxwaa"
+                },
+                {
+                    "id": 105,
+                    "product_id": 21,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445753/%C4%90en_t%C3%ADm_h%E1%BB%93ng_fcq7zd.jpg",
+                    "image_public_id": "Đen_tím_hồng_fcq7zd"
+                }
+            ]
+        },
+        {
+            "id": 22,
+            "name": "Kính mát BOLON BL7191",
+            "description": "Hợp kim",
+            "category_id": 2,
+            "brand_id": 4,
+            "material_id": 2,
+            "shape_id": 2,
+            "gender": "unisex",
+            "price": 800000,
+            "offer_price": null,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 106,
+                    "product_id": 22,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734448530/x%C3%A1m_qex702.jpg",
+                    "image_public_id": "xám_qex702"
+                },
+                {
+                    "id": 107,
+                    "product_id": 22,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734448529/gradient_ja7bdn.jpg",
+                    "image_public_id": "gradient_ja7bdn"
+                },
+                {
+                    "id": 108,
+                    "product_id": 22,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734448529/v%C3%A0ng_aqjm9f.jpg",
+                    "image_public_id": "vàng_aqjm9f"
+                }
+            ]
+        },
+        {
+            "id": 23,
+            "name": "Kính mát BOLON BV1025",
+            "description": "Titanium",
+            "category_id": 2,
+            "brand_id": 1,
+            "material_id": 3,
+            "shape_id": 3,
+            "gender": "unisex",
+            "price": 1100000,
+            "offer_price": null,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 109,
+                    "product_id": 23,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734448592/xanh_x%C3%A1m_ctucvt.jpg",
+                    "image_public_id": "xanh_xám_ctucvt"
+                },
+                {
+                    "id": 110,
+                    "product_id": 23,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734448591/xanh_t%C3%ADm_fkgkea.jpg",
+                    "image_public_id": "xanh_tím_fkgkea"
+                },
+                {
+                    "id": 111,
+                    "product_id": 23,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734448589/%C4%91en_x%C3%A1m_ozytem.jpg",
+                    "image_public_id": "đen_xám_ozytem"
+                },
+                {
+                    "id": 112,
+                    "product_id": 23,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734448588/b%E1%BA%A1c_x%C3%A1m_vj5xvg.jpg",
+                    "image_public_id": "bạc_xám_vj5xvg"
+                }
+            ]
+        },
+        {
+            "id": 24,
+            "name": "Kính mát POVINO NN107",
+            "description": "Nhựa Acetate",
+            "category_id": 2,
+            "brand_id": 2,
+            "material_id": 1,
+            "shape_id": 1,
+            "gender": "unisex",
+            "price": 1200000,
+            "offer_price": 1150000,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 113,
+                    "product_id": 24,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734448675/Xanh_ombre_iykzqg.jpg",
+                    "image_public_id": "Xanh_ombre_iykzqg"
+                },
+                {
+                    "id": 114,
+                    "product_id": 24,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734448673/X%C3%A1m_br35cp.jpg",
+                    "image_public_id": "Xám_br35cp"
+                },
+                {
+                    "id": 115,
+                    "product_id": 24,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734448674/Xanh_l%C3%A1_w0jpym.jpg",
+                    "image_public_id": "Xanh_lá_w0jpym"
+                },
+                {
+                    "id": 116,
+                    "product_id": 24,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734448671/Tr%E1%BA%AFng_dpety6.jpg",
+                    "image_public_id": "Trắng_dpety6"
+                },
+                {
+                    "id": 117,
+                    "product_id": 24,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734448670/%C4%90en_guojjd.jpg",
+                    "image_public_id": "Đen_guojjd"
+                }
+            ]
+        },
+        {
+            "id": 25,
+            "name": "Kính mát POVINO SJMM68RX",
+            "description": "Nhựa và Kim loại",
+            "category_id": 2,
+            "brand_id": 3,
+            "material_id": 2,
+            "shape_id": 2,
+            "gender": "unisex",
+            "price": 1300000,
+            "offer_price": null,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 118,
+                    "product_id": 25,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734448746/X%C3%A1m_ous1nv.jpg",
+                    "image_public_id": "Xám_ous1nv"
+                },
+                {
+                    "id": 119,
+                    "product_id": 25,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734448745/R%C3%AAu_jxkrho.jpg",
+                    "image_public_id": "Rêu_jxkrho"
+                },
+                {
+                    "id": 120,
+                    "product_id": 25,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734448743/%C4%90%E1%BB%93i_m%E1%BB%93i_naryll.jpg",
+                    "image_public_id": "Đồi_mồi_naryll"
+                },
+                {
+                    "id": 121,
+                    "product_id": 25,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734448741/%C4%90en_zforoz.jpg",
+                    "image_public_id": "Đen_zforoz"
+                },
+                {
+                    "id": 122,
+                    "product_id": 25,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734448740/%C4%90en_Tr%E1%BA%AFng_trong_vvm741.jpg",
+                    "image_public_id": "Đen_Trắng_trong_vvm741"
+                }
+            ]
+        },
+        {
+            "id": 26,
+            "name": "Kính mát RAYBAN RB3625",
+            "description": "Kim loại",
+            "category_id": 2,
+            "brand_id": 4,
+            "material_id": 3,
+            "shape_id": 3,
+            "gender": "unisex",
+            "price": 1400000,
+            "offer_price": null,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 123,
+                    "product_id": 26,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734448830/V%C3%A0ng_xanh_tr%E1%BB%9Di_qyvks3.jpg",
+                    "image_public_id": "Vàng_xanh_trời_qyvks3"
+                },
+                {
+                    "id": 124,
+                    "product_id": 26,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734448828/V%C3%A0ng_xanh_l%C3%A1_hcsiqq.jpg",
+                    "image_public_id": "Vàng_xanh_lá_hcsiqq"
+                },
+                {
+                    "id": 125,
+                    "product_id": 26,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734448826/V%C3%A0ng_xanh_b%E1%BA%A1c_kjflis.jpg",
+                    "image_public_id": "Vàng_xanh_bạc_kjflis"
+                },
+                {
+                    "id": 126,
+                    "product_id": 26,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734448825/v%C3%A0ng_b%E1%BA%A1c_n%C3%A2u_bttzu2.jpg",
+                    "image_public_id": "vàng_bạc_nâu_bttzu2"
+                },
+                {
+                    "id": 127,
+                    "product_id": 26,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734448823/%C4%90en_x%C3%A1m_wxqpmz.jpg",
+                    "image_public_id": "Đen_xám_wxqpmz"
+                }
+            ]
+        },
+        {
+            "id": 27,
+            "name": "Kính mát BOLON BL3038",
+            "description": "Nhựa Acetate",
+            "category_id": 2,
+            "brand_id": 1,
+            "material_id": 1,
+            "shape_id": 1,
+            "gender": "unisex",
+            "price": 2100000,
+            "offer_price": null,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 128,
+                    "product_id": 27,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734449132/Xanh_d%C6%B0%C6%A1ng_xsgzmb.jpg",
+                    "image_public_id": "Xanh_dương_xsgzmb"
+                },
+                {
+                    "id": 129,
+                    "product_id": 27,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734449131/X%C3%A1m_fc4mnp.jpg",
+                    "image_public_id": "Xám_fc4mnp"
+                },
+                {
+                    "id": 130,
+                    "product_id": 27,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734449129/V%C3%A0ng_exqtln.jpg",
+                    "image_public_id": "Vàng_exqtln"
+                },
+                {
+                    "id": 131,
+                    "product_id": 27,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734449127/N%C3%A2u_dgxxp5.jpg",
+                    "image_public_id": "Nâu_dgxxp5"
+                },
+                {
+                    "id": 132,
+                    "product_id": 27,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734449126/%C4%90en_b%C3%B3ng_ze0saz.jpg",
+                    "image_public_id": "Đen_bóng_ze0saz"
+                }
+            ]
+        },
+        {
+            "id": 28,
+            "name": "Kính mát BOLON BL3100",
+            "description": "Nhựa và Kim loại",
+            "category_id": 2,
+            "brand_id": 2,
+            "material_id": 2,
+            "shape_id": 2,
+            "gender": "unisex",
+            "price": 2200000,
+            "offer_price": 2100000,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 133,
+                    "product_id": 28,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734449267/%C4%90%E1%BB%93i_m%E1%BB%93i_zetqyi.jpg",
+                    "image_public_id": "Đồi_mồi_zetqyi"
+                },
+                {
+                    "id": 134,
+                    "product_id": 28,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734449265/%C4%90%E1%BB%93i_m%E1%BB%93i_v%C3%A0ng_b42cvk.jpg",
+                    "image_public_id": "Đồi_mồi_vàng_b42cvk"
+                },
+                {
+                    "id": 135,
+                    "product_id": 28,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734449263/%C4%90en_gb0yzi.jpg",
+                    "image_public_id": "Đen_gb0yzi"
+                },
+                {
+                    "id": 136,
+                    "product_id": 28,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734449261/%C4%90en_v%C3%A0ng_zycbwi.jpg",
+                    "image_public_id": "Đen_vàng_zycbwi"
+                },
+                {
+                    "id": 137,
+                    "product_id": 28,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734449260/%C4%90en_b%C3%B3ng_nyfw0u.jpg",
+                    "image_public_id": "Đen_bóng_nyfw0u"
+                }
+            ]
+        },
+        {
+            "id": 29,
+            "name": "Kính mát POVINO SJMM68RX",
+            "description": "Nhựa và Kim loại",
+            "category_id": 2,
+            "brand_id": 3,
+            "material_id": 2,
+            "shape_id": 3,
+            "gender": "unisex",
+            "price": 2300000,
+            "offer_price": null,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 138,
+                    "product_id": 29,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734449346/X%C3%A1m_imxdik.jpg",
+                    "image_public_id": "Xám_imxdik"
+                },
+                {
+                    "id": 139,
+                    "product_id": 29,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734449344/R%C3%AAu_yr2qhb.jpg",
+                    "image_public_id": "Rêu_yr2qhb"
+                },
+                {
+                    "id": 140,
+                    "product_id": 29,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734449342/%C4%90%E1%BB%93i_m%E1%BB%93i_f435cj.jpg",
+                    "image_public_id": "Đồi_mồi_f435cj"
+                },
+                {
+                    "id": 141,
+                    "product_id": 29,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734449340/%C4%90en_kmj8en.jpg",
+                    "image_public_id": "Đen_kmj8en"
+                },
+                {
+                    "id": 142,
+                    "product_id": 29,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734449338/%C4%90en_Tr%E1%BA%AFng_trong_weqkz2.jpg",
+                    "image_public_id": "Đen_Trắng_trong_weqkz2"
+                }
+            ]
+        },
+        {
+            "id": 30,
+            "name": "Kính mát RAYBAN RB3625",
+            "description": "Kim loại",
+            "category_id": 2,
+            "brand_id": 4,
+            "material_id": 3,
+            "shape_id": 2,
+            "gender": "unisex",
+            "price": 2400000,
+            "offer_price": null,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 143,
+                    "product_id": 30,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734450154/V%C3%A0ng_xanh_tr%E1%BB%9Di_kzukym.jpg",
+                    "image_public_id": "Vàng_xanh_trời_kzukym"
+                },
+                {
+                    "id": 144,
+                    "product_id": 30,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734450152/V%C3%A0ng_xanh_b%E1%BA%A1c_bzq4c6.jpg",
+                    "image_public_id": "Vàng_xanh_bạc_bzq4c6"
+                },
+                {
+                    "id": 145,
+                    "product_id": 30,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734450149/v%C3%A0ng_b%E1%BA%A1c_n%C3%A2u_r4clei.jpg",
+                    "image_public_id": "vàng_bạc_nâu_r4clei"
+                },
+                {
+                    "id": 146,
+                    "product_id": 30,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734450148/%C4%90en_x%C3%A1m_ewpbed.jpg",
+                    "image_public_id": "Đen_xám_ewpbed"
+                },
+                {
+                    "id": 147,
+                    "product_id": 30,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734450147/B%E1%BA%A1c_xanh_da_tr%E1%BB%9Di_vszyzr.jpg",
+                    "image_public_id": "Bạc_xanh_da_trời_vszyzr"
+                }
+            ]
+        },
+        {
+            "id": 31,
+            "name": "Tròng kính Chemi - Siêu mỏng",
+            "description": "Siêu mỏng - Tròng kính cao cấp",
+            "category_id": 3,
+            "brand_id": 1,
+            "material_id": 1,
+            "shape_id": 1,
+            "gender": "unisex",
+            "price": 500000,
+            "offer_price": null,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 148,
+                    "product_id": 31,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734450346/Tr%C3%B2ng_k%C3%ADnh_si%C3%AAu_m%E1%BB%8Fng_ki%E1%BB%83m_so%C3%A1t_%C3%A1nh_s%C3%A1ng_xanh_Chemi_Perfect_UV_U6_1.74_wbxp46.jpg",
+                    "image_public_id": "Tròng_kính_siêu_mỏng_kiểm_soát_ánh_sáng_xanh_Chemi_Perfect_UV_U6_1.74_wbxp46"
+                },
+                {
+                    "id": 149,
+                    "product_id": 31,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734450344/Tr%C3%B2ng_k%C3%ADnh_Phi_C%E1%BA%A7u_Hai_M%E1%BA%B7t_Chemi_Double_Aspheric_dsyzvl.jpg",
+                    "image_public_id": "Tròng_kính_Phi_Cầu_Hai_Mặt_Chemi_Double_Aspheric_dsyzvl"
+                },
+                {
+                    "id": 150,
+                    "product_id": 31,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734450342/Tr%C3%B2ng_k%C3%ADnh_%C4%90%C6%A1n_tr%C3%B2ng_%C4%91%C3%A1nh_Chemi_Single_Vision_Lens_klp9n0.jpg",
+                    "image_public_id": "Tròng_kính_Đơn_tròng_đánh_Chemi_Single_Vision_Lens_klp9n0"
+                },
+                {
+                    "id": 151,
+                    "product_id": 31,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734450340/Tr%C3%B2ng_k%C3%ADnh_%C4%90%C6%A1n_tr%C3%B2ng_%C4%91%C3%A1nh_Chemi_RX_1.74_ASP_U6_lvz94k.jpg",
+                    "image_public_id": "Tròng_kính_Đơn_tròng_đánh_Chemi_RX_1.74_ASP_U6_lvz94k"
+                },
+                {
+                    "id": 152,
+                    "product_id": 31,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734450338/Tr%C3%B2ng_k%C3%ADnh_Chemi_Perfect_UV_Crystal_U6_Coated_1.67_Ki%E1%BB%83m_so%C3%A1t_%C3%A1nh_s%C3%A1ng_xanh_olg6qk.jpg",
+                    "image_public_id": "Tròng_kính_Chemi_Perfect_UV_Crystal_U6_Coated_1.67_Kiểm_soát_ánh_sáng_xanh_olg6qk"
+                }
+            ]
+        },
+        {
+            "id": 32,
+            "name": "Tròng kính Chemi - Chống UV",
+            "description": "Chống tia UV - Tròng kính chính hãng",
+            "category_id": 3,
+            "brand_id": 1,
+            "material_id": 2,
+            "shape_id": 2,
+            "gender": "unisex",
+            "price": 600000,
+            "offer_price": 550000,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 153,
+                    "product_id": 32,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734450449/Tr%C3%B2ng_k%C3%ADnh_Phi_C%E1%BA%A7u_Hai_M%E1%BA%B7t_Chemi_Double_Aspheric_jqszhf.jpg",
+                    "image_public_id": "Tròng_kính_Phi_Cầu_Hai_Mặt_Chemi_Double_Aspheric_jqszhf"
+                },
+                {
+                    "id": 154,
+                    "product_id": 32,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734450447/Tr%C3%B2ng_k%C3%ADnh_%C4%91%E1%BB%95i_m%C3%A0u_ki%E1%BB%83m_so%C3%A1t_%C3%A1nh_s%C3%A1ng_xanh_Chemi_1.67_ASP_PhotoBlue_isiak6.jpg",
+                    "image_public_id": "Tròng_kính_đổi_màu_kiểm_soát_ánh_sáng_xanh_Chemi_1.67_ASP_PhotoBlue_isiak6"
+                },
+                {
+                    "id": 155,
+                    "product_id": 32,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734450444/Tr%C3%B2ng_k%C3%ADnh_Chemi_Perfect_UV_Crystal_U6_Coated_1.67_Ki%E1%BB%83m_so%C3%A1t_%C3%A1nh_s%C3%A1ng_xanh_yinobx.jpg",
+                    "image_public_id": "Tròng_kính_Chemi_Perfect_UV_Crystal_U6_Coated_1.67_Kiểm_soát_ánh_sáng_xanh_yinobx"
+                },
+                {
+                    "id": 156,
+                    "product_id": 32,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734450442/Tr%C3%B2ng_k%C3%ADnh_Chemi_Perfect_UV_Crystal_U6_Coated_1.60_Ki%E1%BB%83m_so%C3%A1t_%C3%A1nh_s%C3%A1ng_xanh_haaoyp.jpg",
+                    "image_public_id": "Tròng_kính_Chemi_Perfect_UV_Crystal_U6_Coated_1.60_Kiểm_soát_ánh_sáng_xanh_haaoyp"
+                },
+                {
+                    "id": 157,
+                    "product_id": 32,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734450440/Tr%C3%B2ng_K%C3%ADnh_CHEMI_1.56_ASP_BLUE_BLOCK_UV420_SPIN_PHOTOGREY_SHMC_vfbyyx.jpg",
+                    "image_public_id": "Tròng_Kính_CHEMI_1.56_ASP_BLUE_BLOCK_UV420_SPIN_PHOTOGREY_SHMC_vfbyyx"
+                }
+            ]
+        },
+        {
+            "id": 33,
+            "name": "Tròng kính Element - Siêu mỏng",
+            "description": "Siêu mỏng - Bảo vệ mắt tối đa",
+            "category_id": 3,
+            "brand_id": 2,
+            "material_id": 1,
+            "shape_id": 3,
+            "gender": "unisex",
+            "price": 700000,
+            "offer_price": null,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 158,
+                    "product_id": 33,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734450546/Tr%C3%B2ng_k%C3%ADnh_Elements_Blue_UV_Cut_5_rrepv4.jpg",
+                    "image_public_id": "Tròng_kính_Elements_Blue_UV_Cut_5_rrepv4"
+                },
+                {
+                    "id": 159,
+                    "product_id": 33,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734450544/Tr%C3%B2ng_k%C3%ADnh_Elements_Blue_UV_Cut_3_nemosn.jpg",
+                    "image_public_id": "Tròng_kính_Elements_Blue_UV_Cut_3_nemosn"
+                },
+                {
+                    "id": 160,
+                    "product_id": 33,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734450542/Tr%C3%B2ng_k%C3%ADnh_Elements_Blue_UV_Cut_2_s1xme0.jpg",
+                    "image_public_id": "Tròng_kính_Elements_Blue_UV_Cut_2_s1xme0"
+                },
+                {
+                    "id": 161,
+                    "product_id": 33,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734450540/Tr%C3%B2ng_k%C3%ADnh_Elements_Blue_UV_Cut_1_diazz9.jpg",
+                    "image_public_id": "Tròng_kính_Elements_Blue_UV_Cut_1_diazz9"
+                },
+                {
+                    "id": 162,
+                    "product_id": 33,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734450538/Tr%C3%B2ng_k%C3%ADnh_Elements_Blue_UV_Cut_sdwylv.jpg",
+                    "image_public_id": "Tròng_kính_Elements_Blue_UV_Cut_sdwylv"
+                }
+            ]
+        },
+        {
+            "id": 34,
+            "name": "Tròng kính Element - Chống UV",
+            "description": "Chống UV - Đảm bảo an toàn mắt",
+            "category_id": 3,
+            "brand_id": 2,
+            "material_id": 3,
+            "shape_id": 1,
+            "gender": "unisex",
+            "price": 800000,
+            "offer_price": null,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 163,
+                    "product_id": 34,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734450646/Tr%C3%B2ng_k%C3%ADnh_Elements_Blue_UV_Cut_Night_AR_5_gvgdch.jpg",
+                    "image_public_id": "Tròng_kính_Elements_Blue_UV_Cut_Night_AR_5_gvgdch"
+                },
+                {
+                    "id": 164,
+                    "product_id": 34,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734450644/Tr%C3%B2ng_k%C3%ADnh_Elements_Blue_UV_Cut_Night_AR_3_khq6xe.jpg",
+                    "image_public_id": "Tròng_kính_Elements_Blue_UV_Cut_Night_AR_3_khq6xe"
+                },
+                {
+                    "id": 165,
+                    "product_id": 34,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734450641/Tr%C3%B2ng_k%C3%ADnh_Elements_Blue_UV_Cut_Night_AR_2_sqw0gw.jpg",
+                    "image_public_id": "Tròng_kính_Elements_Blue_UV_Cut_Night_AR_2_sqw0gw"
+                },
+                {
+                    "id": 166,
+                    "product_id": 34,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734450639/Tr%C3%B2ng_k%C3%ADnh_Elements_Blue_UV_Cut_Night_AR_1_vhjw1v.jpg",
+                    "image_public_id": "Tròng_kính_Elements_Blue_UV_Cut_Night_AR_1_vhjw1v"
+                },
+                {
+                    "id": 167,
+                    "product_id": 34,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734450637/Tr%C3%B2ng_k%C3%ADnh_Elements_Blue_UV_Cut_6_pnn2n0.jpg",
+                    "image_public_id": "Tròng_kính_Elements_Blue_UV_Cut_6_pnn2n0"
+                }
+            ]
+        },
+        {
+            "id": 35,
+            "name": "Tròng kính ESSILOR - Đổi màu",
+            "description": "Đổi màu - Chống ánh sáng xanh",
+            "category_id": 3,
+            "brand_id": 3,
+            "material_id": 3,
+            "shape_id": 2,
+            "gender": "unisex",
+            "price": 1100000,
+            "offer_price": null,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 168,
+                    "product_id": 35,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734450755/Tr%C3%B2ng_k%C3%ADnh_Essilor_Crizal_Prevencia_ki%E1%BB%83m_so%C3%A1t_%C3%A1nh_s%C3%A1ng_xanh_4_qwxqi4.jpg",
+                    "image_public_id": "Tròng_kính_Essilor_Crizal_Prevencia_kiểm_soát_ánh_sáng_xanh_4_qwxqi4"
+                },
+                {
+                    "id": 169,
+                    "product_id": 35,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734450753/Tr%C3%B2ng_k%C3%ADnh_Essilor_Crizal_Prevencia_ki%E1%BB%83m_so%C3%A1t_%C3%A1nh_s%C3%A1ng_xanh_3_bbamtd.jpg",
+                    "image_public_id": "Tròng_kính_Essilor_Crizal_Prevencia_kiểm_soát_ánh_sáng_xanh_3_bbamtd"
+                },
+                {
+                    "id": 170,
+                    "product_id": 35,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734450751/Tr%C3%B2ng_k%C3%ADnh_Essilor_Crizal_Prevencia_ki%E1%BB%83m_so%C3%A1t_%C3%A1nh_s%C3%A1ng_xanh_2_zm80eq.jpg",
+                    "image_public_id": "Tròng_kính_Essilor_Crizal_Prevencia_kiểm_soát_ánh_sáng_xanh_2_zm80eq"
+                },
+                {
+                    "id": 171,
+                    "product_id": 35,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734450749/Tr%C3%B2ng_k%C3%ADnh_Essilor_Crizal_Prevencia_ki%E1%BB%83m_so%C3%A1t_%C3%A1nh_s%C3%A1ng_xanh_1_latzat.jpg",
+                    "image_public_id": "Tròng_kính_Essilor_Crizal_Prevencia_kiểm_soát_ánh_sáng_xanh_1_latzat"
+                }
+            ]
+        },
+        {
+            "id": 36,
+            "name": "Tròng kính ESSILOR - Siêu mỏng",
+            "description": "Siêu mỏng - Tròng kính nhẹ và bền",
+            "category_id": 3,
+            "brand_id": 3,
+            "material_id": 2,
+            "shape_id": 3,
+            "gender": "unisex",
+            "price": 1200000,
+            "offer_price": 1150000,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 172,
+                    "product_id": 36,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734450829/Tr%C3%B2ng_k%C3%ADnh_Essilor_Eyezen_Max_Az_4_tf3b0d.jpg",
+                    "image_public_id": "Tròng_kính_Essilor_Eyezen_Max_Az_4_tf3b0d"
+                },
+                {
+                    "id": 173,
+                    "product_id": 36,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734450826/Tr%C3%B2ng_k%C3%ADnh_Essilor_Eyezen_Max_Az_3_terjtd.jpg",
+                    "image_public_id": "Tròng_kính_Essilor_Eyezen_Max_Az_3_terjtd"
+                },
+                {
+                    "id": 174,
+                    "product_id": 36,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734450824/Tr%C3%B2ng_k%C3%ADnh_Essilor_Eyezen_Max_Az_2_q7nrjj.jpg",
+                    "image_public_id": "Tròng_kính_Essilor_Eyezen_Max_Az_2_q7nrjj"
+                }
+            ]
+        },
+        {
+            "id": 37,
+            "name": "Tròng kính HOYA - Đổi màu",
+            "description": "Đổi màu - Bảo vệ mắt khỏi ánh sáng xanh",
+            "category_id": 3,
+            "brand_id": 4,
+            "material_id": 3,
+            "shape_id": 1,
+            "gender": "unisex",
+            "price": 1300000,
+            "offer_price": null,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 175,
+                    "product_id": 37,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734450913/Tr%C3%B2ng_k%C3%ADnh_HOYA_Stellify_Blue_Control_1.60_Ki%E1%BB%83m_so%C3%A1t_%C3%A1nh_s%C3%A1ng_xanh_3_ti9vjq.jpg",
+                    "image_public_id": "Tròng_kính_HOYA_Stellify_Blue_Control_1.60_Kiểm_soát_ánh_sáng_xanh_3_ti9vjq"
+                },
+                {
+                    "id": 176,
+                    "product_id": 37,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734450910/Tr%C3%B2ng_k%C3%ADnh_HOYA_Stellify_Blue_Control_1.60_Ki%E1%BB%83m_so%C3%A1t_%C3%A1nh_s%C3%A1ng_xanh_2_zcoquh.jpg",
+                    "image_public_id": "Tròng_kính_HOYA_Stellify_Blue_Control_1.60_Kiểm_soát_ánh_sáng_xanh_2_zcoquh"
+                },
+                {
+                    "id": 177,
+                    "product_id": 37,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734450908/Tr%C3%B2ng_k%C3%ADnh_HOYA_Stellify_Blue_Control_1.60_Ki%E1%BB%83m_so%C3%A1t_%C3%A1nh_s%C3%A1ng_xanh_1_qemh23.jpg",
+                    "image_public_id": "Tròng_kính_HOYA_Stellify_Blue_Control_1.60_Kiểm_soát_ánh_sáng_xanh_1_qemh23"
+                }
+            ]
+        },
+        {
+            "id": 38,
+            "name": "Tròng kính HOYA - Chống UV",
+            "description": "Chống tia UV - Đảm bảo an toàn",
+            "category_id": 3,
+            "brand_id": 4,
+            "material_id": 2,
+            "shape_id": 2,
+            "gender": "unisex",
+            "price": 1400000,
+            "offer_price": null,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 178,
+                    "product_id": 38,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734450971/Tr%C3%B2ng_k%C3%ADnh_HOYA_Nulux_Full_Control_Ki%E1%BB%83m_so%C3%A1t_%C3%A1nh_s%C3%A1ng_xanh_4_vhb6az.jpg",
+                    "image_public_id": "Tròng_kính_HOYA_Nulux_Full_Control_Kiểm_soát_ánh_sáng_xanh_4_vhb6az"
+                },
+                {
+                    "id": 179,
+                    "product_id": 38,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734450968/Tr%C3%B2ng_k%C3%ADnh_HOYA_Nulux_Full_Control_Ki%E1%BB%83m_so%C3%A1t_%C3%A1nh_s%C3%A1ng_xanh_3_rcuvc7.jpg",
+                    "image_public_id": "Tròng_kính_HOYA_Nulux_Full_Control_Kiểm_soát_ánh_sáng_xanh_3_rcuvc7"
+                },
+                {
+                    "id": 180,
+                    "product_id": 38,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734450966/Tr%C3%B2ng_k%C3%ADnh_HOYA_Nulux_Full_Control_Ki%E1%BB%83m_so%C3%A1t_%C3%A1nh_s%C3%A1ng_xanh_2_m24xkf.jpg",
+                    "image_public_id": "Tròng_kính_HOYA_Nulux_Full_Control_Kiểm_soát_ánh_sáng_xanh_2_m24xkf"
+                },
+                {
+                    "id": 181,
+                    "product_id": 38,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734450963/Tr%C3%B2ng_k%C3%ADnh_HOYA_Nulux_Full_Control_Ki%E1%BB%83m_so%C3%A1t_%C3%A1nh_s%C3%A1ng_xanh_1_swsp4g.jpg",
+                    "image_public_id": "Tròng_kính_HOYA_Nulux_Full_Control_Kiểm_soát_ánh_sáng_xanh_1_swsp4g"
+                }
+            ]
+        },
+        {
+            "id": 39,
+            "name": "Tròng kính Kodax - Chống UV",
+            "description": "Chống UV - Độ bền cao",
+            "category_id": 3,
+            "brand_id": 2,
+            "material_id": 3,
+            "shape_id": 3,
+            "gender": "unisex",
+            "price": 2100000,
+            "offer_price": null,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 182,
+                    "product_id": 39,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734451030/Tr%C3%B2ng_k%C3%ADnh_Kodak_UVBlue_Lens_ki%E1%BB%83m_so%C3%A1t_%C3%A1nh_s%C3%A1ng_xanh_3_w7ofxh.jpg",
+                    "image_public_id": "Tròng_kính_Kodak_UVBlue_Lens_kiểm_soát_ánh_sáng_xanh_3_w7ofxh"
+                },
+                {
+                    "id": 183,
+                    "product_id": 39,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734451028/Tr%C3%B2ng_k%C3%ADnh_Kodak_UVBlue_Lens_ki%E1%BB%83m_so%C3%A1t_%C3%A1nh_s%C3%A1ng_xanh_2_voor2g.jpg",
+                    "image_public_id": "Tròng_kính_Kodak_UVBlue_Lens_kiểm_soát_ánh_sáng_xanh_2_voor2g"
+                },
+                {
+                    "id": 184,
+                    "product_id": 39,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734451026/Tr%C3%B2ng_k%C3%ADnh_Kodak_UVBlue_Lens_ki%E1%BB%83m_so%C3%A1t_%C3%A1nh_s%C3%A1ng_xanh_1_m6asyw.jpg",
+                    "image_public_id": "Tròng_kính_Kodak_UVBlue_Lens_kiểm_soát_ánh_sáng_xanh_1_m6asyw"
+                }
+            ]
+        },
+        {
+            "id": 40,
+            "name": "Tròng kính Kodax - Đổi màu",
+            "description": "Đổi màu thông minh, bảo vệ mắt",
+            "category_id": 3,
+            "brand_id": 1,
+            "material_id": 1,
+            "shape_id": 1,
+            "gender": "unisex",
+            "price": 2200000,
+            "offer_price": 2100000,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 185,
+                    "product_id": 40,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734451074/Tr%C3%B2ng_k%C3%ADnh_Kodak_UVBlue_Lens_ki%E1%BB%83m_so%C3%A1t_%C3%A1nh_s%C3%A1ng_xanh_5_jnp7qv.jpg",
+                    "image_public_id": "Tròng_kính_Kodak_UVBlue_Lens_kiểm_soát_ánh_sáng_xanh_5_jnp7qv"
+                },
+                {
+                    "id": 186,
+                    "product_id": 40,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734451071/Tr%C3%B2ng_k%C3%ADnh_Kodak_UVBlue_Lens_ki%E1%BB%83m_so%C3%A1t_%C3%A1nh_s%C3%A1ng_xanh_4_ibvbks.jpg",
+                    "image_public_id": "Tròng_kính_Kodak_UVBlue_Lens_kiểm_soát_ánh_sáng_xanh_4_ibvbks"
+                }
+            ]
+        },
+        {
+            "id": 41,
+            "name": "Tròng kính VisionX - Siêu mỏng",
+            "description": "Siêu mỏng, nhẹ, tiện dụng",
+            "category_id": 3,
+            "brand_id": 3,
+            "material_id": 2,
+            "shape_id": 2,
+            "gender": "unisex",
+            "price": 2300000,
+            "offer_price": null,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 187,
+                    "product_id": 41,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734451126/Tr%C3%B2ng_k%C3%ADnh_%C4%91%E1%BB%95i_m%C3%A0u_VisionX_Singapore_5_jccgjw.jpg",
+                    "image_public_id": "Tròng_kính_đổi_màu_VisionX_Singapore_5_jccgjw"
+                },
+                {
+                    "id": 188,
+                    "product_id": 41,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734451124/Tr%C3%B2ng_k%C3%ADnh_%C4%91%E1%BB%95i_m%C3%A0u_VisionX_Singapore_4_o2pq90.jpg",
+                    "image_public_id": "Tròng_kính_đổi_màu_VisionX_Singapore_4_o2pq90"
+                }
+            ]
+        },
+        {
+            "id": 42,
+            "name": "Tròng kính VisionX - Đổi màu",
+            "description": "Đổi màu linh hoạt, chống chói",
+            "category_id": 3,
+            "brand_id": 2,
+            "material_id": 3,
+            "shape_id": 3,
+            "gender": "unisex",
+            "price": 2400000,
+            "offer_price": null,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 189,
+                    "product_id": 42,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734451121/Tr%C3%B2ng_k%C3%ADnh_%C4%91%E1%BB%95i_m%C3%A0u_VisionX_Singapore_3_jkral4.jpg",
+                    "image_public_id": "Tròng_kính_đổi_màu_VisionX_Singapore_3_jkral4"
+                },
+                {
+                    "id": 190,
+                    "product_id": 42,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734451118/Tr%C3%B2ng_k%C3%ADnh_%C4%91%E1%BB%95i_m%C3%A0u_VisionX_Singapore_2_xu4dla.jpg",
+                    "image_public_id": "Tròng_kính_đổi_màu_VisionX_Singapore_2_xu4dla"
+                },
+                {
+                    "id": 191,
+                    "product_id": 42,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734451116/Tr%C3%B2ng_k%C3%ADnh_%C4%91%E1%BB%95i_m%C3%A0u_VisionX_Singapore_1_kmkonu.jpg",
+                    "image_public_id": "Tròng_kính_đổi_màu_VisionX_Singapore_1_kmkonu"
+                }
+            ]
+        },
+        {
+            "id": 43,
+            "name": "Tròng kính ZEISS - Chống UV",
+            "description": "Công nghệ chống UV tiên tiến",
+            "category_id": 3,
+            "brand_id": 1,
+            "material_id": 1,
+            "shape_id": 2,
+            "gender": "unisex",
+            "price": 2500000,
+            "offer_price": 2400000,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 192,
+                    "product_id": 43,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734451211/Tr%C3%B2ng_k%C3%ADnh_%C4%90%C6%A1n_tr%C3%B2ng_ZEISS_SmartLife_Individual_5_zo8euz.jpg",
+                    "image_public_id": "Tròng_kính_Đơn_tròng_ZEISS_SmartLife_Individual_5_zo8euz"
+                },
+                {
+                    "id": 193,
+                    "product_id": 43,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734451208/Tr%C3%B2ng_k%C3%ADnh_%C4%90%C6%A1n_tr%C3%B2ng_ZEISS_SmartLife_Individual_4_erarqm.jpg",
+                    "image_public_id": "Tròng_kính_Đơn_tròng_ZEISS_SmartLife_Individual_4_erarqm"
+                },
+                {
+                    "id": 194,
+                    "product_id": 43,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734451206/Tr%C3%B2ng_k%C3%ADnh_%C4%90%C6%A1n_tr%C3%B2ng_ZEISS_SmartLife_Individual_3_zzc91z.jpg",
+                    "image_public_id": "Tròng_kính_Đơn_tròng_ZEISS_SmartLife_Individual_3_zzc91z"
+                },
+                {
+                    "id": 195,
+                    "product_id": 43,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734451203/Tr%C3%B2ng_k%C3%ADnh_%C4%90%C6%A1n_tr%C3%B2ng_ZEISS_SmartLife_Individual_1_fimd62.jpg",
+                    "image_public_id": "Tròng_kính_Đơn_tròng_ZEISS_SmartLife_Individual_1_fimd62"
+                }
+            ]
+        },
+        {
+            "id": 44,
+            "name": "Tròng kính ZEISS - Siêu mỏng",
+            "description": "Siêu mỏng, sang trọng và bền bỉ",
+            "category_id": 3,
+            "brand_id": 3,
+            "material_id": 3,
+            "shape_id": 3,
+            "gender": "unisex",
+            "price": 2600000,
+            "offer_price": null,
+            "created_time": "2024-12-19 08:10:10",
+            "status": "active",
+            "images": [
+                {
+                    "id": 196,
+                    "product_id": 44,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734451200/Tr%C3%B2ng_k%C3%ADnh_%C4%91a_tr%C3%B2ng_ZEISS_EnergizeMeTM_4_rwhcys.jpg",
+                    "image_public_id": "Tròng_kính_đa_tròng_ZEISS_EnergizeMeTM_4_rwhcys"
+                },
+                {
+                    "id": 197,
+                    "product_id": 44,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734451198/Tr%C3%B2ng_k%C3%ADnh_%C4%91a_tr%C3%B2ng_ZEISS_EnergizeMeTM_3_n2rqsu.jpg",
+                    "image_public_id": "Tròng_kính_đa_tròng_ZEISS_EnergizeMeTM_3_n2rqsu"
+                },
+                {
+                    "id": 198,
+                    "product_id": 44,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734451195/Tr%C3%B2ng_k%C3%ADnh_%C4%91a_tr%C3%B2ng_ZEISS_EnergizeMeTM_2_m5nee6.jpg",
+                    "image_public_id": "Tròng_kính_đa_tròng_ZEISS_EnergizeMeTM_2_m5nee6"
+                },
+                {
+                    "id": 199,
+                    "product_id": 44,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734451192/Tr%C3%B2ng_k%C3%ADnh_%C4%91a_tr%C3%B2ng_ZEISS_EnergizeMeTM_1_hvhx3m.jpg",
+                    "image_public_id": "Tròng_kính_đa_tròng_ZEISS_EnergizeMeTM_1_hvhx3m"
+                }
+            ]
+        }
+    ]
+}

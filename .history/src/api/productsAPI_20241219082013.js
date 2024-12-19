@@ -9,7 +9,6 @@ import { getFeatures } from './featuresAPI';
 export const getProducts = async () => {
     try {
       const response = await api.get('/active/products');
-      console.log('Products:', response.data.data);
       return response.data.data;
     } catch (error) {
       console.error('Error fetching products:', error);
@@ -162,7 +161,7 @@ export const transformProduct = (product) => ({
   description: product.description,
   currentPrice: Number(product.offer_price),
   originalPrice: Number(product.price),
-  image: product.images && product.images[0]?.image_url, // Add null check for images array
+  image: product.images.image_url, // Placeholder image
   discount: product.offer_price ? 
     `-${Math.round((1 - product.offer_price/product.price) * 100)}%` : null,
   category_id: product.category_id,
@@ -250,7 +249,7 @@ export const transformProductDetail = (product) => ({
       }))
   },
   features: product.features || [],
-  images: product.images?.map(image => image.image_url) || [], // Ensure proper mapping of image URLs
+  images: product.images || [],
   reviews: Array.isArray(product.reviews) ? product.reviews
     .filter(review => review.status === 'active')
     .map(review => ({
@@ -335,7 +334,7 @@ const transformFullProductDetail = (
   brand_id: product.brand_id,
   brand: brands.find(b => b.id === product.brand_id)?.name,
   
-  images: images.map(img => img.image_url), // Map the image URLs correctly
+  images: images.map(img => img.image_url),
 
   specifications: {
     style: shapes.find(s => s.id === product.shape_id)?.name || '',
