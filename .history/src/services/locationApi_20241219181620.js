@@ -38,7 +38,7 @@ export const fetchDistricts = async (cityCode) => {
 
 export const fetchWards = async (districtCode) => {
   try {
-    const { data } = await publicApi.get(`${BASE_URL}/d/${districtCode}?depth=2`);
+    const { data } = await axios.get(`${BASE_URL}/d/${districtCode}?depth=2`);
     return data.wards
       .map(ward => ({
         value: String(ward.code),
