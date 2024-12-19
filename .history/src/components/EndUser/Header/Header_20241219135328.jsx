@@ -451,16 +451,13 @@ const Header = () => {
             {/* Nút giỏ hàng fixed góc phải dưới (chỉ hiển thị trên mobile) */}
             <Link 
                 to="/gio-hang" 
-                className="fixed bottom-6 right-6 bg-[#55d5d2] p-3 rounded-full shadow-lg md:hidden z-50 transition-all duration-300 hover:bg-[#4cc4c1] active:scale-95"
-                style={{
-                    boxShadow: '0 4px 12px rgba(85, 213, 210, 0.4)'
-                }}
+                className="fixed bottom-6 right-6 bg-[#6fd4d2] p-4 rounded-full shadow-lg md:hidden z-50"
             >
                 <div className="relative">
                     <BsCart3 className="h-6 w-6 text-white" />
                     {itemCount > 0 && (
                         <span className="absolute -top-2 -right-2 bg-[#ec905c] text-white text-xs 
-                            rounded-full h-5 w-5 flex items-center justify-center animate-bounce">
+                            rounded-full h-5 w-5 flex items-center justify-center">
                             {itemCount}
                         </span>
                     )}
