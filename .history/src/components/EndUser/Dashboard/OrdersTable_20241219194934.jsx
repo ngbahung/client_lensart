@@ -43,10 +43,6 @@ function OrdersTable() {
       <div className="text-sm text-gray-500 mb-2">
         {formatDate(order.date)}
       </div>
-      <div className="text-sm text-gray-600 mb-2">
-        <div>Phương thức: {order.payment_method}</div>
-        {order.note && <div>Ghi chú: {order.note}</div>}
-      </div>
       <div className="text-right font-medium">
         {formatPrice(order.total_price)}
       </div>
@@ -88,12 +84,6 @@ function OrdersTable() {
                     Ngày tạo
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Phương thức thanh toán
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Ghi chú
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Tổng tiền
                   </th>
                 </tr>
@@ -110,15 +100,7 @@ function OrdersTable() {
                     <td className="px-6 py-4 whitespace-nowrap">
                       {formatDate(order.date)}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {order.payment_method}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-gray-500">
-                      {order.note || '-'}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {formatPrice(order.total_price)}
-                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">{formatPrice(order.total_price)}</td>
                   </tr>
                 ))}
               </tbody>

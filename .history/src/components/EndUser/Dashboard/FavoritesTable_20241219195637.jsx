@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { formatPrice } from '../../../utils/formatPrice';
-import { getWishlists, deleteWishlist, clearWishlist, moveProductToCart, moveAllToCart } from '../../../api/wishlistAPI';
+import { getWishlists, deleteWishlist, clearWishlist, moveProductToCart } from '../../../api/wishlistAPI';
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 
@@ -148,7 +148,7 @@ function FavoritesTable() {
       if (result.isConfirmed) {
         // Use Promise.all to move all items to cart concurrently
         const movePromises = favorites.map(item => 
-          moveAllToCart()
+          move
         );
 
         const results = await Promise.all(movePromises);

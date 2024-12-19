@@ -148,7 +148,7 @@ function FavoritesTable() {
       if (result.isConfirmed) {
         // Use Promise.all to move all items to cart concurrently
         const movePromises = favorites.map(item => 
-          moveAllToCart()
+          moveAllToCart(item.wishlist_detail_id)
         );
 
         const results = await Promise.all(movePromises);

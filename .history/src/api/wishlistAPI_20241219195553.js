@@ -58,15 +58,7 @@ export const moveProductToCart = async (wishlistDetailId) => {
     }
 }
 
-export const moveAllToCart = async () => {
-    try {
-        const response = await api.post('/wishlists/move-all-to-cart');
-        return response.data;
-    } catch (error) {
-        console.error('Error moving all products to cart:', error);
-        throw error;
-    }
-}
+export const move
 
 export const checkWishlistStatus = async (productId) => {
     try {
