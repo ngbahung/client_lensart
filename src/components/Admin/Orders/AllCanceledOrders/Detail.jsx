@@ -4,7 +4,7 @@ import jsPDF from 'jspdf';
 import { FaArrowLeft } from "react-icons/fa";
 import axios from "axios";
 
-const Detail = ({ order, onClose, onUpdate }) => {
+const Detail = ({ order, onClose }) => {
   const printRef = useRef();
   const [orderDetail, setOrderDetail] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -99,41 +99,6 @@ const Detail = ({ order, onClose, onUpdate }) => {
 
     fetchOrderDetails();
   }, [order.id]);
-
-  const handleSave = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const selectedOrderStatus = document.getElementById('order-status').value;
-      const selectedPaymentStatus = document.getElementById('payment-status').value;
-
-      const response = await axios.post(`http://localhost:8000/api/orders/update/${order.id}`, {
-        order_status: selectedOrderStatus,
-        payment_status: selectedPaymentStatus
-      });
-
-      if (response.status === 200) {
-        setError("Changes saved successfully!");
-        // Call onUpdate callback and close form after a short delay
-        setTimeout(() => {
-          onUpdate();
-          onClose();
-        }, 1000);
-      }
-    } catch (err) {
-      setError("Failed to save changes");
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleOrderStatusChange = (e) => {
-    setOrderDetail(prev => ({
-      ...prev,
-      order: { ...prev.order, status: e.target.value }
-    }));
-  };
 
   const handlePaymentStatusChange = (e) => {
     setOrderDetail(prev => ({
@@ -319,55 +284,10 @@ const Detail = ({ order, onClose, onUpdate }) => {
         </div>
       </div>
 
-      {/* Controls section - Hide in PDF */}
       <div className="print-hide mt-8">
-        {/* Status Controls */}
-        <div className="mb-8 flex gap-6">
-          <div>
-            <label htmlFor="order-status" className="block font-medium mb-2">
-              Trạng thái đơn hàng
-            </label>
-            <select
-              id="order-status"
-              value={orderDetail.order.status}
-              onChange={handleOrderStatusChange}
-              disabled={loading || orderDetail.order.status === "Đã hủy"}
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#55D5D2] bg-[#EFF9F9] border-[#55D5D2] disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <option>Đang xử lý</option>
-              <option>Đã xử lý và sẵn sàng giao hàng</option>
-              <option>Đang giao hàng</option>
-              <option>Đã giao</option>
-              <option>Đã hủy</option>
-            </select>
-          </div>
-
-          <div>
-            <label htmlFor="payment-status" className="block font-medium mb-2">
-              Trạng thái thanh toán
-            </label>
-            <select
-              id="payment-status"
-              value={orderDetail.payment.status}
-              onChange={handlePaymentStatusChange}
-              disabled={loading || orderDetail.order.status === "Đã hủy"}
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#55D5D2] bg-[#EFF9F9] border-[#55D5D2] disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <option>Chưa thanh toán</option>
-              <option>Đã thanh toán</option>
-            </select>
-          </div>
-        </div>
 
         {/* Action Buttons */}
         <div className="flex justify-end gap-4">
-          <button
-            onClick={handleSave}
-            disabled={loading || orderDetail.order.status === "Đã hủy"}
-            className="px-6 py-2 bg-[rgba(85,213,210,1)] text-white font-bold rounded-md shadow-md hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {loading ? "Saving..." : "Save"}
-          </button>
           <button
             onClick={handleDownloadPdf}
             className="px-6 py-2 bg-gray-500 text-white font-bold rounded-md shadow-md hover:bg-gray-600"

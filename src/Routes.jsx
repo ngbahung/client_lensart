@@ -24,6 +24,9 @@ import BannersPage from './pages/Admin/BannersPage';
 import AllOrdersPage from './pages/Admin/Orders/AllOrdersPage';
 import AllPendingOrdersPage from './pages/Admin/Orders/AllPendingOrdersPage';
 import AllProcessedOrdersPage from './pages/Admin/Orders/AllProcessedOrdersPage';
+import AllOutForDeliveryOrdersPage from './pages/Admin/Orders/AllOutForDeliveryOrdersPage';
+import AllDeliveredOrdersPage from './pages/Admin/Orders/AllDeliveredOrdersPage';
+import AllCanceledOrdersPage from './pages/Admin/Orders/AllCanceledOrdersPage';
 import CategoryPage from './pages/Admin/Categories/CategoryPage';
 import ShapePage from './pages/Admin/Categories/ShapePage';
 import MaterialsPage from './pages/Admin/Categories/MaterialsPage';
@@ -158,6 +161,21 @@ const AppRoutes = () => {
         <Route path="all-processed-orders" element={
           <ProtectedAdminRoute>
             <AllProcessedOrdersPage />
+          </ProtectedAdminRoute>
+        } />
+        <Route path="all-out-for-delivery-orders" element={
+          <ProtectedAdminRoute>
+            <AllOutForDeliveryOrdersPage />
+          </ProtectedAdminRoute>
+        } />
+        <Route path="all-delivered-orders" element={
+          <ProtectedAdminRoute>
+            <AllDeliveredOrdersPage />
+          </ProtectedAdminRoute>
+        } />
+        <Route path="all-canceled-orders" element={
+          <ProtectedAdminRoute>
+            <AllCanceledOrdersPage />
           </ProtectedAdminRoute>
         } />
       </Route>

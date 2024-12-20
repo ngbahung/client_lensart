@@ -99,9 +99,9 @@ const AllPendingOrdersPage = () => {
 
   const fetchOrders = async () => {
     setIsLoading(true);
+    const status = "Đang xử lý";
     try {
-      const response = await axios.get('http://localhost:8000/api/orders/getByStatus', {
-        status: 'Đang xử lý',
+      const response = await axios.get(`http://localhost:8000/api/orders/getByStatus/${status}`, {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'

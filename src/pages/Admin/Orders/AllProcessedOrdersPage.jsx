@@ -96,11 +96,12 @@ const AllProcessedOrdersPage = () => {
     };
     return statusMap[status] || status;
   };
-
+  
   const fetchOrders = async () => {
     setIsLoading(true);
+    const status = "Đã xử lý và sẵn sàng giao hàng";
     try {
-      const response = await axios.get('http://localhost:8000/api/orders', {
+      const response = await axios.get(`http://localhost:8000/api/orders/getByStatus/${status}`, {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
