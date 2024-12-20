@@ -1,0 +1,71 @@
+@media print {
+    @page {
+      margin: 20mm; /* Tăng lề cho trang in */
+      size: A4;
+    }
+  
+    body {
+      background: white;
+      margin: 0;
+      padding: 0;
+    }
+  
+    .print-wrapper {
+      padding: 2cm !important; /* Đảm bảo padding hợp lý */
+      margin: 0 auto !important;
+      width: 100% !important;
+    }
+  
+    .print-content {
+      margin: 0 auto !important;
+      max-width: 100% !important;
+      padding: 10mm; /* Thêm khoảng cách cho nội dung */
+    }
+  
+    .print-section {
+      width: 100%;
+      margin: 0 auto;
+    }
+  
+    .print-hide {
+      display: none !important;
+    }
+  
+    .invoice-container {
+      padding: 1cm !important; /* Thêm padding */
+      margin: 0 auto !important;
+      width: 90% !important;
+      max-width: 170mm; /* Đảm bảo không vượt quá kích thước giấy A4 */
+      box-shadow: none !important;
+    }
+  
+    /* Ensure table doesn't overflow */
+    table {
+      width: 100% !important;
+      page-break-inside: avoid;
+    }
+  
+    /* Adjust table cell padding for better print layout */
+    td, th {
+      padding: 8px !important;
+    }
+  
+    /* Ensure content doesn't overflow margins */
+    .invoice-header,
+    .invoice-content,
+    .invoice-footer {
+      width: 100%;
+      margin: 0 auto;
+    }
+  
+    /* Add some spacing between sections */
+    .mb-8 {
+      margin-bottom: 2rem !important;
+    }
+  
+    tr {
+      page-break-inside: avoid;
+      page-break-after: auto;
+    }
+  }
+  

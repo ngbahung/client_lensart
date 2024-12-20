@@ -46,7 +46,7 @@ const Table = ({ orders, isLoading, error, onSearch, searchTerm, onUpdateSuccess
         <thead>
           <tr className="border-b border-[rgba(167,174,174,1)]">
             <th colspan="6" className="py-2 px-4 text-left">
-              <h1 className="text-xl font-semibold">All Orders</h1>
+              <h1 className="text-xl font-semibold">All Pending Orders</h1>
             </th>
           </tr>
           <tr>
