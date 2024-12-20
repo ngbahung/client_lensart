@@ -152,35 +152,18 @@ const AppRoutes = () => {
 
       {/* User Routes */}
       <Route path="/" element={<UserLayout />}>
-        {/* Public Routes */}
         <Route index element={<Homepage />} />
         <Route path="login" element={<UserLoginPage />} />
         <Route path="register" element={<SignUpPage />} />
         <Route path="verify-otp" element={<SendOTPPage />} />
-        
-        {/* Protected Routes */}
         <Route path="profile" element={
           <ProtectedRoute>
             <UserAccountPage />
           </ProtectedRoute>
         } />
-        <Route path="gio-hang" element={
-          <ProtectedRoute>
-            <ShoppingCartPage />
-          </ProtectedRoute>
-        } />
-        <Route path="checkout" element={
-          <ProtectedRoute>
-            <CheckOutPage />
-          </ProtectedRoute>
-        } />
-        <Route path="order-success" element={
-          <ProtectedRoute>
-            <OrderSuccessPage />
-          </ProtectedRoute>
-        } />
-
-        {/* Product Browsing Routes */}
+        <Route path="gio-hang" element={<ShoppingCartPage />} />
+        <Route path="checkout" element={<CheckOutPage />} />
+        <Route path="order-success" element={<OrderSuccessPage />} />
         <Route path="gong-kinh">
           <Route index element={<GongKinhPage />} />
           <Route path="filter/:type/:value" element={<GongKinhPage />} />
