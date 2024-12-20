@@ -82,7 +82,7 @@ const BannersPage = () => {
       console.log('Sending images:', selectedImages);
 
       const response = await axios.post(
-        `http://localhost:8000/api/banner/update`,
+        `http://localhost:8000/api/banner/create`,
         formData,
         {
           headers: {

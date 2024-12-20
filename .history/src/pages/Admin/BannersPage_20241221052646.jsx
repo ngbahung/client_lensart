@@ -12,7 +12,7 @@ const BannersPage = () => {
   useEffect(() => {
     const fetchBanners = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/banner', {
+        const response = await axios.get('http://localhost:8000/api/banners', {
           params: { status: 'active' }
         });
         if (response.data && response.data.length > 0) {

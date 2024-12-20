@@ -12,9 +12,7 @@ const BannersPage = () => {
   useEffect(() => {
     const fetchBanners = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/banner', {
-          params: { status: 'active' }
-        });
+        const response = await axios.get('http://localhost:8000/api/banners');
         if (response.data && response.data.length > 0) {
           setPreviewUrls(response.data.map(banner => banner.image_url));
           console.log('Fetched banners:', response.data);
@@ -75,14 +73,11 @@ const BannersPage = () => {
       const formData = new FormData();
       selectedImages.forEach((image, index) => {
         formData.append(`image_${index}`, image);
-        formData.append(`status_${index}`, 'active'); // Add status for each image
       });
-      formData.append('status', 'active'); // Add general status
-
       console.log('Sending images:', selectedImages);
 
       const response = await axios.post(
-        `http://localhost:8000/api/banner/update`,
+        `http://localhost:8000/api/banners/update`,
         formData,
         {
           headers: {
