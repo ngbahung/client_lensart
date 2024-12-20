@@ -7,7 +7,7 @@ import { createWishlist, deleteWishlist } from '../../../api/wishlistAPI';
 import { useAuth } from "../../../contexts/AuthContext";
 import { useCart } from '../../../contexts/CartContext';
 
-const ProductDetails = ({ product, selectedBranch, cityNames, productWishlistId }) => {  {/* Add cityNames to props */}
+const ProductDetails = ({ product, selectedBranch, cityNames }) => {  {/* Add cityNames to props */}
     const [quantity, setQuantity] = useState(1);
     const [selectedColor, setSelectedColor] = useState(null);
     const [availableQuantity, setAvailableQuantity] = useState(0);
@@ -98,22 +98,26 @@ const ProductDetails = ({ product, selectedBranch, cityNames, productWishlistId 
         
         try {
             if (isWishlisted) {
-                // Use productWishlistId instead of product.id for deletion
-                const response = await deleteWishlist(productWishlistId);
+                const response = await deleteWishlist(product.id);
                 if (response.success) {
                     setIsWishlisted(false);
-                    toast.success('Đã xóa khỏi danh sách yêu thích');
+                    toast.success(response.message || 'Đã xóa khỏi danh sách yêu thích');
+                } else {
+                    toast.error(response.message || 'Không thể xóa khỏi danh sách yêu thích');
                 }
             } else {
                 const response = await createWishlist(product.id);
                 if (response.success) {
                     setIsWishlisted(true);
-                    toast.success('Đã thêm vào danh sách yêu thích');
+                    toast.success(response.data.original.message || 'Đã thêm vào danh sách yêu thích');
+                } else {
+                    toast.error(response.data.original.message || 'Không thể thêm vào danh sách yêu thích');
                 }
             }
         } catch (error) {
+            const errorMessage = error.data.original.message || 'Có lỗi xảy ra. Vui lòng thử lại sau.';
+            toast.error(errorMessage);
             console.error('Wishlist operation error:', error);
-            toast.error('Có lỗi xảy ra. Vui lòng thử lại sau.');
         } finally {
             setIsWishlistLoading(false);
             setTimeout(() => setIsHeartAnimating(false), 300);

@@ -56,7 +56,6 @@ const ProductDetailPage = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [isWishlisted, setIsWishlisted] = useState(false);
-    const [productWishlistId, setProductWishlistId] = useState(null);
 
     const calculateBranchPrice = (originalPrice, location) => {
         if (!originalPrice) return 0;
@@ -79,12 +78,8 @@ const ProductDetailPage = () => {
                 
                 // Only check wishlist status if user is authenticated
                 if (isAuthenticated) {
-                    const response = await checkWishlistStatus(productId);
-                    // Assuming response now includes the wishlist detail id
-                    if (response.isWishlisted) {
-                        setIsWishlisted(true);
-                        setProductWishlistId(response.wishlistDetailId);
-                    }
+                    const wishlistStatus = await checkWishlistStatus(productId);
+                    setIsWishlisted(wishlistStatus);
                 }
                 
                 // Get similar products if we have category_id
@@ -220,7 +215,6 @@ const ProductDetailPage = () => {
                         product={{...product, isWishlisted}} 
                         selectedBranch={selectedBranch}
                         cityNames={CITY_NAMES} 
-                        productWishlistId={productWishlistId}
                     />
                     <BranchInfo 
                         branchPrices={filteredBranches}

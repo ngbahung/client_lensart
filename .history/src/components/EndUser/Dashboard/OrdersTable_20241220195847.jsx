@@ -4,7 +4,7 @@ import { formatPrice } from '../../../utils/formatPrice';
 import { fetchOrders, cancelOrder } from '../../../api/ordersAPI';
 import Swal from 'sweetalert2';
 
-function OrdersTable({ onOrderSelect }) {
+function OrdersTable() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -86,12 +86,6 @@ function OrdersTable({ onOrderSelect }) {
     }
   };
 
-  const handleRowClick = (orderId, e) => {
-    // Prevent navigation when clicking the cancel button
-    if (e.target.closest('button')) return;
-    onOrderSelect(orderId);
-  };
-
   const CancelButton = ({ orderId, className }) => (
     <button
       onClick={() => handleCancelOrder(orderId)}
@@ -108,10 +102,7 @@ function OrdersTable({ onOrderSelect }) {
   );
 
   const MobileOrderCard = ({ order }) => (
-    <div 
-      className="bg-white p-4 rounded-lg shadow mb-4 border border-gray-200 hover:border-blue-500 transition-colors duration-200 cursor-pointer"
-      onClick={(e) => handleRowClick(order.id, e)}
-    >
+    <div className="bg-white p-4 rounded-lg shadow mb-4 border border-gray-200 hover:border-blue-500 transition-colors duration-200">
       <div className="flex justify-between items-start mb-3">
         <span className="font-medium">#{order.id}</span>
         <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(order.order_status)}`}>
@@ -191,11 +182,7 @@ function OrdersTable({ onOrderSelect }) {
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {orders.map((order) => (
-                  <tr 
-                    key={order.id}
-                    className="cursor-pointer hover:bg-gray-50"
-                    onClick={(e) => handleRowClick(order.id, e)}
-                  >
+                  <tr key={order.id}>
                     <td className="px-6 py-4 whitespace-nowrap">#{order.id}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(order.order_status)}`}>
