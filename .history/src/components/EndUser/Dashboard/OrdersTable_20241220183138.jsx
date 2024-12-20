@@ -2,13 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { formatDate } from '../../../utils/dateUtils';
 import { formatPrice } from '../../../utils/formatPrice';
 import { fetchOrders, cancelOrder } from '../../../api/ordersAPI';
-import Swal from 'sweetalert2';
 
 function OrdersTable() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [cancellingOrderId, setCancellingOrderId] = useState(null);
+  const [confirmCancel, setConfirmCancel] = useState(null);
 
   useEffect(() => {
     const loadOrders = async () => {
@@ -38,68 +37,15 @@ function OrdersTable() {
 
   const handleCancelOrder = async (orderId) => {
     try {
-      const result = await Swal.fire({
-        title: 'Xác nhận hủy đơn hàng?',
-        text: "Bạn không thể hoàn tác sau khi hủy!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#ef4444',
-        cancelButtonColor: '#6b7280',
-        confirmButtonText: 'Hủy đơn',
-        cancelButtonText: 'Không',
-        showLoaderOnConfirm: true,
-        preConfirm: async () => {
-          setCancellingOrderId(orderId);
-          try {
-            await cancelOrder(orderId);
-            const updatedOrders = await fetchOrders();
-            setOrders(updatedOrders);
-            return true;
-          } catch (error) {
-            Swal.showValidationMessage(
-              'Không thể hủy đơn hàng. Vui lòng thử lại sau.'
-            );
-            return false;
-          } finally {
-            setCancellingOrderId(null);
-          }
-        },
-        allowOutsideClick: () => !Swal.isLoading()
-      });
-
-      if (result.isConfirmed) {
-        await Swal.fire({
-          title: 'Đã hủy đơn hàng!',
-          icon: 'success',
-          timer: 1500,
-          showConfirmButton: false
-        });
-      }
+      await cancelOrder(orderId);
+      // Refresh orders after cancellation
+      const updatedOrders = await fetchOrders();
+      setOrders(updatedOrders);
     } catch (err) {
-      setCancellingOrderId(null);
-      Swal.fire({
-        title: 'Lỗi!',
-        text: 'Không thể hủy đơn hàng. Vui lòng thử lại sau.',
-        icon: 'error',
-        confirmButtonColor: '#ef4444'
-      });
+      setError('Không thể hủy đơn hàng. Vui lòng thử lại sau.');
     }
+    setConfirmCancel(null);
   };
-
-  const CancelButton = ({ orderId, className }) => (
-    <button
-      onClick={() => handleCancelOrder(orderId)}
-      disabled={cancellingOrderId === orderId}
-      className={`${className} disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center min-w-[80px]`}
-    >
-      {cancellingOrderId === orderId ? (
-        <svg className="animate-spin h-5 w-5 mr-2" viewBox="0 0 24 24">
-          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-        </svg>
-      ) : 'Hủy đơn'}
-    </button>
-  );
 
   const MobileOrderCard = ({ order }) => (
     <div className="bg-white p-4 rounded-lg shadow mb-4 border border-gray-200 hover:border-blue-500 transition-colors duration-200">
@@ -113,20 +59,24 @@ function OrdersTable() {
         {formatDate(order.date)}
       </div>
       <div className="text-sm text-gray-600 mb-2">
+        <div>Chi nhánh: {order.branchName}</div>
         <div>Phương thức: {order.payment_method}</div>
         <div>Trạng thái thanh toán: 
           <span className={`ml-2 px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(order.payment_status)}`}>
             {order.payment_status}
           </span>
         </div>
+        {order.note && <div>Ghi chú: {order.note}</div>}
       </div>
       <div className="text-right font-medium flex justify-between items-center mt-3">
         <div>{formatPrice(order.total_price)}</div>
-        {order.order_status === 'Đang xử lý' && (
-          <CancelButton
-            orderId={order.id}
+        {order.order_status === 'Chờ xử lý' && (
+          <button
+            onClick={() => setConfirmCancel(order.id)}
             className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 text-sm"
-          />
+          >
+            Hủy đơn
+          </button>
         )}
       </div>
     </div>
@@ -137,6 +87,29 @@ function OrdersTable() {
 
   return (
     <div className="bg-white p-4 lg:p-6 rounded-lg shadow-md">
+      {/* Confirm Dialog */}
+      {confirmCancel && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-xl">
+            <h3 className="text-lg font-medium mb-4">Xác nhận hủy đơn hàng?</h3>
+            <div className="flex justify-end gap-4">
+              <button
+                className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300"
+                onClick={() => setConfirmCancel(null)}
+              >
+                Không
+              </button>
+              <button
+                className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+                onClick={() => handleCancelOrder(confirmCancel)}
+              >
+                Hủy đơn
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <h2 className="text-xl font-semibold mb-4">Đơn hàng của bạn</h2>
 
       {orders.length === 0 ? (
@@ -161,6 +134,9 @@ function OrdersTable() {
                     Mã đơn hàng
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Chi nhánh
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Trạng thái
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -171,6 +147,9 @@ function OrdersTable() {
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Trạng thái thanh toán
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Ghi chú
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Tổng tiền
@@ -184,6 +163,9 @@ function OrdersTable() {
                 {orders.map((order) => (
                   <tr key={order.id}>
                     <td className="px-6 py-4 whitespace-nowrap">#{order.id}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {order.branchName}
+                    </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(order.order_status)}`}>
                         {order.order_status}
@@ -200,15 +182,20 @@ function OrdersTable() {
                         {order.payment_status}
                       </span>
                     </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-gray-500">
+                      {order.note || '-'}
+                    </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       {formatPrice(order.total_price)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       {order.order_status === 'Đang xử lý' && (
-                        <CancelButton
-                          orderId={order.id}
+                        <button
+                          onClick={() => setConfirmCancel(order.id)}
                           className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600"
-                        />
+                        >
+                          Hủy đơn
+                        </button>
                       )}
                     </td>
                   </tr>

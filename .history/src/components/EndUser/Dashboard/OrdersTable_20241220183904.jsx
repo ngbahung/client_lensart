@@ -113,12 +113,14 @@ function OrdersTable() {
         {formatDate(order.date)}
       </div>
       <div className="text-sm text-gray-600 mb-2">
+        <div>Chi nhánh: {order.branchName}</div>
         <div>Phương thức: {order.payment_method}</div>
         <div>Trạng thái thanh toán: 
           <span className={`ml-2 px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(order.payment_status)}`}>
             {order.payment_status}
           </span>
         </div>
+        {order.note && <div>Ghi chú: {order.note}</div>}
       </div>
       <div className="text-right font-medium flex justify-between items-center mt-3">
         <div>{formatPrice(order.total_price)}</div>
@@ -161,6 +163,9 @@ function OrdersTable() {
                     Mã đơn hàng
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Chi nhánh
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Trạng thái
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -171,6 +176,9 @@ function OrdersTable() {
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Trạng thái thanh toán
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Ghi chú
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Tổng tiền
@@ -184,6 +192,9 @@ function OrdersTable() {
                 {orders.map((order) => (
                   <tr key={order.id}>
                     <td className="px-6 py-4 whitespace-nowrap">#{order.id}</td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {order.branchName}
+                    </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(order.order_status)}`}>
                         {order.order_status}
@@ -200,11 +211,14 @@ function OrdersTable() {
                         {order.payment_status}
                       </span>
                     </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-gray-500">
+                      {order.note || '-'}
+                    </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       {formatPrice(order.total_price)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {order.order_status === 'Đang xử lý' && (
+                      {order.order_status === 'Chờ xử lý' && (
                         <CancelButton
                           orderId={order.id}
                           className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600"

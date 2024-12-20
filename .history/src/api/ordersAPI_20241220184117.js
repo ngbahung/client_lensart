@@ -10,7 +10,6 @@ export const fetchOrders = async () => {
         console.error('Error fetching orders:', error);
         throw error;
     }
-};
 
 export const cancelOrder = async (orderId) => {
     try {

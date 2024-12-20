@@ -204,7 +204,7 @@ function OrdersTable() {
                       {formatPrice(order.total_price)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {order.order_status === 'Đang xử lý' && (
+                      {order.order_status === 'Chờ xử lý' && (
                         <CancelButton
                           orderId={order.id}
                           className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600"
