@@ -101,7 +101,7 @@ const Homepage = () => {
 
     return (
         <div>
-            {/* <BannerSlider banners={banners} /> */}
+            <BannerSlider banners={banners} />
             
             <div className="hidden md:block">
                 <PromotionalBanner 

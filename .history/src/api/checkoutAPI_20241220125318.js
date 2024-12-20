@@ -12,8 +12,8 @@ export const createOrder = async (orderData) => {
 export const createPayOSCheckout = async (orderId) => {
   try {
     const response = await api.post(`/transactions/orders/${orderId}/create`, {
-      returnUrl: "http://localhost:5173/order-success",
-      cancelUrl: "http://localhost:5173/gio-hang"
+      returnUrl: "http://127.0.0.1:8000/",
+      cancelUrl: "http://127.0.0.1:8000/"
     });
     return response.data;
   } catch (error) {

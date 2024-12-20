@@ -12,7 +12,7 @@ export const createOrder = async (orderData) => {
 export const createPayOSCheckout = async (orderId) => {
   try {
     const response = await api.post(`/transactions/orders/${orderId}/create`, {
-      returnUrl: "http://localhost:5173/order-success",
+      returnUrl: "http://localhost:5173/gio-hang",
       cancelUrl: "http://localhost:5173/gio-hang"
     });
     return response.data;

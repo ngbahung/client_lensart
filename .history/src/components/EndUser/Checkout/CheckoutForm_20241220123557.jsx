@@ -224,7 +224,7 @@ const CheckoutForm = () => {
         // COD payment
         toast.success('Đặt hàng thành công!');
         await clearCart();
-        navigate('/order-success');
+        navigate('/don-hang');
       }
     } catch (error) {
       toast.error(error.message || 'Có lỗi xảy ra khi đặt hàng');

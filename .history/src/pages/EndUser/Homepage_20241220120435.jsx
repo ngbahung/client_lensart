@@ -64,7 +64,8 @@ const Homepage = () => {
     }, []);
 
     if (loading) return <HomePageSkeleton />;
-    if (error) return <div>Error: {error}</div>;                     
+    if (error) return <div>Error: {error}</div>;
+                     
 
     const brands = [
         {
@@ -101,7 +102,7 @@ const Homepage = () => {
 
     return (
         <div>
-            {/* <BannerSlider banners={banners} /> */}
+            <BannerSlider banners={banners} />
             
             <div className="hidden md:block">
                 <PromotionalBanner 

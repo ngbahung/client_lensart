@@ -212,7 +212,7 @@ const CheckoutForm = () => {
           
           if (paymentResponse.data.checkoutUrl) {
             // Redirect to PayOS payment page
-            window.location.href = paymentResponse.data.checkoutUrl;
+            window.location.href = paymentResponse.checkoutUrl;
           } else {
             throw new Error('Invalid payment URL');
           }
@@ -224,7 +224,7 @@ const CheckoutForm = () => {
         // COD payment
         toast.success('Đặt hàng thành công!');
         await clearCart();
-        navigate('/order-success');
+        navigate('/don-hang');
       }
     } catch (error) {
       toast.error(error.message || 'Có lỗi xảy ra khi đặt hàng');
