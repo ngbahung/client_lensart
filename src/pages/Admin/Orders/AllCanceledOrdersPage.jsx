@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import Table from '../../../components/Admin/Orders/AllOutForDeliveryOrders/Table';
-import Pagination from "../../../components/Admin/Orders/AllOutForDeliveryOrders/Pagination";
+import Table from '../../../components/Admin/Orders/AllCanceledOrders/Table';
+import Pagination from "../../../components/Admin/Orders/AllCanceledOrders/Pagination";
 
-const AllOutForDeliveryOrdersPage = () => {
+const AllCanceledOrdersPage = () => {
   const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -99,7 +99,7 @@ const AllOutForDeliveryOrdersPage = () => {
 
   const fetchOrders = async () => {
     setIsLoading(true);
-    const status = "Đang giao hàng";
+    const status = "Đã hủy";
     try {
       const response = await axios.get(`http://localhost:8000/api/orders/getByStatus/${status}`, {
         headers: {
@@ -226,4 +226,4 @@ const AllOutForDeliveryOrdersPage = () => {
   );
 };
 
-export default AllOutForDeliveryOrdersPage;
+export default AllCanceledOrdersPage;

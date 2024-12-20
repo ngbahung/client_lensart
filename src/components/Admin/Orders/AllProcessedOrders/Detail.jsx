@@ -45,7 +45,7 @@ const Detail = ({ order, onClose, onUpdate }) => {
             },
             totals: {
               subtotal: data.order_details.reduce((acc, item) =>
-                acc + (parseFloat(item.price) * item.quantity), 0),
+                acc + (parseFloat(item.total_price)), 0),
               shipping: 0, // Add if shipping fee is included in your data
               discount: data.coupon ? parseFloat(data.coupon.discount_price) : 0,
               total: parseFloat(data.total_price)

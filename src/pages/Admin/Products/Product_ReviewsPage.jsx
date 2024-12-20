@@ -9,7 +9,7 @@ const Product_ReviewsPage = () => {
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(5);
-  const ITEMS_PER_PAGE = 9; // Số lượng items mỗi trang
+  const ITEMS_PER_PAGE = 8; // Số lượng items mỗi trang
   const [searchTerm, setSearchTerm] = useState("");
 
   const mockData = [
