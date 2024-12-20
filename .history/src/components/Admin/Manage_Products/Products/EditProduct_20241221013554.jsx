@@ -497,7 +497,7 @@ const EditProduct = ({ product, onClose, onUpdate }) => {
           label="Gender"
           value={gender}
           onChange={setGender}
-          options={["Male", "Female", "Unisex"]}
+          options={["ale", "female", "unisex"]}
           id="gender"
           disabled={shouldFieldBeDisabled('gender')}
         />

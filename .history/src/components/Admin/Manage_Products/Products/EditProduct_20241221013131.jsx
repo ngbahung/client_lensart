@@ -30,8 +30,8 @@ const EditProduct = ({ product, onClose, onUpdate }) => {
   const [productFeatures, setProductFeatures] = useState([]); // Add new state for product features
 
   // Thêm các hàm helper để kiểm tra loại category
-  const isContactLens = (categoryId) => categoryId === "2"; // Tròng Kính
-  const isEyeglassFrame = (categoryId) => categoryId === "1"; // Gọng Kính
+  const isContactLens = (categoryId) => categoryId === "1"; // Tròng Kính
+  const isEyeglassFrame = (categoryId) => categoryId === "2"; // Gọng Kính
   const isSunglasses = (categoryId) => categoryId === "2"; // Kính râm
 
   // Thay thế hàm shouldFieldsBeDisabled cũ
@@ -497,7 +497,7 @@ const EditProduct = ({ product, onClose, onUpdate }) => {
           label="Gender"
           value={gender}
           onChange={setGender}
-          options={["Male", "Female", "Unisex"]}
+          options={["male", "female", "unisex"]}
           id="gender"
           disabled={shouldFieldBeDisabled('gender')}
         />
