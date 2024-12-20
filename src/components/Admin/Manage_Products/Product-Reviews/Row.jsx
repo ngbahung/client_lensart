@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-
+import { FaStar } from "react-icons/fa";
 import { FaRegTrashAlt } from "react-icons/fa"; // Change import
 import PropTypes from "prop-types";
 import ConfirmChangeStatusModal from "./ConfirmChangeStatusModal";
@@ -79,7 +79,12 @@ const Row = ({ review, onStatusChange, onDelete }) => {
         <td className="py-2 px-4">{review.id}</td>
         <td className="py-2 px-4">{review.product_name}</td>
         <td className="py-2 px-4">{review.user_name}</td>
-        <td className="py-2 px-4">{review.rating} ★</td>
+        <td className="py-2 px-4">
+          <div className="flex items-center gap-1">
+            <span>{review.rating}</span>
+            <FaStar className="text-yellow-500" />
+          </div>
+        </td>
         <td className="py-2 px-4">
           <div className="line-clamp-2 max-h-[48px] overflow-hidden">
             {review.review}
@@ -93,13 +98,15 @@ const Row = ({ review, onStatusChange, onDelete }) => {
             disabled={isUpdating}
           />
         </td>
-        <td className="py-2 px-4 grid place-items-center">
-          <button
-            className="p-1.5 rounded-md bg-[rgba(255,0,5,1)] hover:opacity-80"
-            onClick={handleDelete}  // Change to handleDelete
-          >
-            <FaRegTrashAlt size={20} className="text-white" />
-          </button>
+        <td className="align-middle h-full">
+          <div className="flex justify-center">
+            <button
+              className="p-1.5 rounded-md bg-[rgba(255,0,5,1)] hover:opacity-80"
+              onClick={handleDelete}
+            >
+              <FaRegTrashAlt size={20} className="text-white" />
+            </button>
+          </div>
         </td>
       </tr>
 
