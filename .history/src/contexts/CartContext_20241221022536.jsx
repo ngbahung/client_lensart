@@ -217,32 +217,33 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  const addToCart = async (product_id, branch_id, color, quantity, isQuickBuy = false) => {
+  const addToCart = async (product_id, branch_id, color, quantity) => {
     if (!isAuthenticated) {
         toast.info('Cần đăng nhập để thêm vào giỏ hàng');
         return false;
     }
 
     try {
+        console.log('Adding to cart with params:', { product_id, branch_id, color, quantity });
+        
         const result = await createCartDetail(product_id, branch_id, color, quantity);
+        console.log('API result:', result);
 
+        // Check if we have a successful response
         if (result.status === "success" && result.data) {
+            // Fetch the updated cart to get complete item details
             await fetchCart();
-            
-            if (isQuickBuy) {
-                // For quick buy, unselect all items first
-                dispatch({ type: 'SELECT_ALL_ITEMS', payload: false });
-                // Then select only the newly added item
-                dispatch({ type: 'SELECT_CART_ITEM', payload: result.data.id });
-                return true;
-            } else {
-                toast.success('Đã thêm vào giỏ hàng thành công');
-                return true;
-            }
+            toast.success('Đã thêm vào giỏ hàng thành công');
+            return true;
+        } else {
+            throw new Error('Invalid response from server');
         }
-        return false;
     } catch (error) {
-        console.error('Add to cart error:', error);
+        console.error('Add to cart error details:', {
+            error: error,
+            message: error.message,
+            data: error.response?.data
+        });
         toast.error('Có lỗi xảy ra khi thêm vào giỏ hàng');
         return false;
     }

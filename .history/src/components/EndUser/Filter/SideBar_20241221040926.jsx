@@ -4,6 +4,14 @@ import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 // Cấu trúc dữ liệu cho các danh mục bộ lọc
 // Mỗi danh mục có title (tiêu đề) và options (các lựa chọn)
 const FILTER_CATEGORIES = {
+  shapes: {
+    title: "Hình Dạng",
+    options: []
+  },
+  brands: {
+    title: "Thương hiệu",
+    options: []
+  },
   style: {
     title: "Kiểu Gọng",
     options: ["Đa giác", "Vuông", "Chữ nhật", "Browline", "Oval", "Phi công"]
@@ -18,11 +26,7 @@ const FILTER_CATEGORIES = {
   },
   priceRange: {
     title: "Khoảng giá",
-    options: ["0-500000", "500000-1000000", "1000000-2000000", "2000000-5000000"]
-  },
-  brands: {
-    title: "Thương hiệu",
-    options: ["Ray-Ban", "Oakley", "Gucci", "Prada", "Versace"]
+    options: ["0-500000", "500000-1000000", "1000000-2000000", "2000000-999999999"]
   }
 };
 
@@ -51,68 +55,56 @@ const FilterSection = memo(({ title, options, type, onFilterChange, selectedFilt
     if (type === 'priceRange') {
       return formatPrice(option);
     }
-    if (type === 'brands' || type === 'shapes') { // Add shapes to renderOption
+    if (type === 'brands') {
       return option.label;
     }
     return option;
   };
 
   const getValue = (option) => {
-    if (type === 'brands' || type === 'shapes') { // Add shapes to getValue
+    if (type === 'brands') {
       return option.value;
     }
     return option;
   };
 
   return (
-    <div className="border-b border-gray-100 last:border-none py-2">
+    <div className="border-b border-gray-100 last:border-none">
       <div 
-        className={`flex justify-between items-center cursor-pointer py-3 px-4 rounded-lg transition-all duration-200 
-          ${hasActiveFilters ? 'bg-teal-50/50' : 'hover:bg-gray-50'}`}
+        className="flex justify-between items-center cursor-pointer py-3 hover:bg-gray-50 px-2 rounded-lg transition-colors"
         onClick={() => setIsExpanded(!isExpanded)}
       >
-        <h3 className={`font-medium text-base flex items-center gap-2
-          ${hasActiveFilters ? 'text-teal-700' : 'text-gray-700'}`}>
+        <h3 className={`font-medium ${hasActiveFilters ? 'text-teal-600' : 'text-gray-700'}`}>
           {title}
           {hasActiveFilters && (
-            <span className="inline-flex items-center justify-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-teal-100 text-teal-800">
+            <span className="ml-2 text-sm bg-teal-100 text-teal-600 px-2 py-0.5 rounded-full">
               {selectedFilters[type].length}
             </span>
           )}
         </h3>
-        {isExpanded 
-          ? <IoIosArrowUp className={`w-5 h-5 ${hasActiveFilters ? 'text-teal-600' : 'text-gray-400'}`} /> 
-          : <IoIosArrowDown className={`w-5 h-5 ${hasActiveFilters ? 'text-teal-600' : 'text-gray-400'}`} />
-        }
+        {isExpanded ? <IoIosArrowUp className="text-gray-500" /> : <IoIosArrowDown className="text-gray-500" />}
       </div>
       
-      <div className={`transition-all duration-300 ease-in-out overflow-hidden
-        ${isExpanded ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'}`}>
-        <div className="space-y-1 px-4 py-2">
-          {options.map((option, index) => {
-            const value = getValue(option);
-            return (
-              <div key={`${type}-${value || index}`} // Ensure unique and valid key
-                   className={`flex items-center p-2 rounded-md transition-colors
-                     ${selectedFilters[type]?.includes(value) 
-                       ? 'bg-teal-50 hover:bg-teal-100/70' 
-                       : 'hover:bg-gray-50'}`}>
-                <input
-                  type="checkbox"
-                  name={type}
-                  value={value}
-                  checked={selectedFilters[type]?.includes(value) || false}
-                  onChange={() => onFilterChange(type, value)}
-                  className="w-4 h-4 text-teal-600 border-gray-300 rounded 
-                    focus:ring-teal-500 focus:ring-offset-0 transition-colors cursor-pointer"
-                />
-                <label className="ml-3 text-sm text-gray-600 hover:text-gray-900 
-                  cursor-pointer select-none flex-1 font-medium">
-                  {renderOption(option)}
-                </label>
-              </div>
-            );
-          })}
+      <div className={`transition-all duration-300 overflow-hidden ${
+        isExpanded ? 'max-h-96 pb-3' : 'max-h-0'
+      }`}>
+        <div className="space-y-2 px-2">
+          {options.map((option) => (
+            <div key={getValue(option)} 
+                 className="flex items-center hover:bg-gray-50 p-1.5 rounded-md transition-colors">
+              <input
+                type="checkbox"
+                name={type}
+                value={getValue(option)}
+                checked={selectedFilters[type]?.includes(getValue(option)) || false}
+                onChange={() => onFilterChange(type, getValue(option))}
+                className="w-4 h-4 text-teal-500 border-gray-300 rounded focus:ring-teal-400 focus:ring-offset-0"
+              />
+              <label className="ml-2.5 text-sm text-gray-600 hover:text-gray-900 cursor-pointer select-none flex-1">
+                {renderOption(option)}
+              </label>
+            </div>
+          ))}
         </div>
       </div>
     </div>
@@ -126,11 +118,8 @@ const FilterSection = memo(({ title, options, type, onFilterChange, selectedFilt
 // - filterOptions: Cấu hình tùy chọn cho bộ lọc (mặc định: FILTER_CATEGORIES)
 const SideBar = memo(({ onFilterChange, selectedFilters, filterOptions = FILTER_CATEGORIES }) => {
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+    <div className="bg-white rounded-xl shadow-sm border border-gray-100">
       <div className="divide-y divide-gray-100">
-        <div className="p-4 bg-gray-50 border-b border-gray-200">
-          <h2 className="text-lg font-semibold text-gray-800">Bộ lọc tìm kiếm</h2>
-        </div>
         {Object.entries(filterOptions).map(([type, { title, options }]) => (
           <FilterSection
             key={type}

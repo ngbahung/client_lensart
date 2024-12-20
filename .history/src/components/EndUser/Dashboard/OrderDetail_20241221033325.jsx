@@ -166,18 +166,11 @@ function OrderDetail({ orderId, onBack }) {
                 <span>-{formatPrice(orderDetail.coupon.discount_price)}</span>
               </div>
             )}
-            {orderDetail.total_price < 1000000 && (
-              <div className="flex justify-between mb-2">
-                <span>Phí vận chuyển:</span>
-                <span>{formatPrice(50000)}</span>
-              </div>
-            )}
             <div className="flex justify-between font-bold text-lg">
               <span>Tổng cộng:</span>
               <span>
                 {formatPrice(
-                  orderDetail.total_price + 
-                  (orderDetail.total_price < 1000000 ? 50000 : 0)
+                  orderDetail.total_price 
                 )}
               </span>
             </div>

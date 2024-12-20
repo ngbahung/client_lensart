@@ -46,24 +46,7 @@ const ProductDetails = ({ product, selectedBranch, cityNames, productWishlistId 
 
     // Update available quantity when branch or color changes
     useEffect(() => {
-        if (!selectedBranch) {
-            setAvailableQuantity(0);
-            setQuantity(1);
-            return;
-        }
-
-        if (isLensProduct) {
-            // For lens products, get quantity directly from branch
-            const branchQuantity = product.product_details
-                .filter(detail => detail.branch_id === selectedBranch.branchId)
-                .reduce((sum, detail) => sum + detail.quantity, 0);
-            setAvailableQuantity(branchQuantity);
-            setQuantity(prev => Math.min(prev, branchQuantity));
-            return;
-        }
-
-        // Existing color-based logic for other products
-        if (!selectedColor) {
+        if (!selectedColor || !selectedBranch) {
             setAvailableQuantity(0);
             setQuantity(1);
             return;
@@ -79,7 +62,7 @@ const ProductDetails = ({ product, selectedBranch, cityNames, productWishlistId 
             setAvailableQuantity(0);
             setQuantity(1);
         }
-    }, [selectedBranch, selectedColor, product.variants.colors, product.product_details, isLensProduct]);
+    }, [selectedBranch, selectedColor, product.variants.colors]);
 
     // Update initial wishlist state when product changes
     useEffect(() => {
@@ -152,7 +135,6 @@ const ProductDetails = ({ product, selectedBranch, cityNames, productWishlistId 
             return;
         }
 
-        // Only check for color if not a lens product
         if (!isLensProduct && !selectedColor) {
             toast.error('Vui lòng chọn màu sắc');
             return;
@@ -168,50 +150,12 @@ const ProductDetails = ({ product, selectedBranch, cityNames, productWishlistId 
             await addToCart(
                 product.id,
                 selectedBranch.branchId,
-                isLensProduct ? null : selectedColor, // Pass empty string for lens products
+                isLensProduct ? 'default' : selectedColor, // Use 'default' for lens products
                 quantity
             );
         } catch (error) {
             console.error('Error adding to cart:', error);
             toast.error('Có lỗi xảy ra khi thêm vào giỏ hàng');
-        } finally {
-            setIsAddingToCart(false);
-        }
-    };
-
-    const handleQuickBuy = async () => {
-        if (!isAuthenticated) {
-            toast.info('Vui lòng đăng nhập để mua hàng');
-            navigate('/login');
-            return;
-        }
-
-        if (!selectedBranch) {
-            toast.error('Vui lòng chọn chi nhánh');
-            return;
-        }
-
-        if (!isLensProduct && !selectedColor) {
-            toast.error('Vui lòng chọn màu sắc');
-            return;
-        }
-
-        setIsAddingToCart(true);
-        try {
-            const result = await addToCart(
-                product.id,
-                selectedBranch.branchId,
-                isLensProduct ? null : selectedColor,
-                quantity,
-                true // isQuickBuy flag
-            );
-            
-            if (result) {
-                navigate('/checkout?quickBuy=true');
-            }
-        } catch (error) {
-            console.error('Quick buy error:', error);
-            toast.error('Có lỗi xảy ra khi xử lý đơn hàng');
         } finally {
             setIsAddingToCart(false);
         }
@@ -269,7 +213,7 @@ const ProductDetails = ({ product, selectedBranch, cityNames, productWishlistId 
             <button 
                 className="border px-3 py-1 disabled:opacity-50 disabled:cursor-not-allowed"
                 onClick={() => handleQuantityChange("decrement")}
-                disabled={(!isLensProduct && !selectedColor) || !selectedBranch || quantity <= 1}
+                disabled={!selectedColor || !selectedBranch || quantity <= 1}
             >
                 -
             </button>
@@ -277,16 +221,16 @@ const ProductDetails = ({ product, selectedBranch, cityNames, productWishlistId 
             <button 
                 className="border px-3 py-1 disabled:opacity-50 disabled:cursor-not-allowed"
                 onClick={() => handleQuantityChange("increment")}
-                disabled={(!isLensProduct && !selectedColor) || !selectedBranch || quantity >= availableQuantity}
+                disabled={!selectedColor || !selectedBranch || quantity >= availableQuantity}
             >
                 +
             </button>
             <span className="text-sm text-gray-500">
-                {selectedBranch
+                {selectedColor && selectedBranch
                     ? availableQuantity > 0 
                         ? `Còn lại: ${availableQuantity}` 
                         : 'Hết hàng'
-                    : 'Vui lòng chọn chi nhánh'}
+                    : 'Vui lòng chọn màu sắc và chi nhánh'}
             </span>
         </div>
     );
@@ -381,8 +325,7 @@ const ProductDetails = ({ product, selectedBranch, cityNames, productWishlistId 
                 </button>
                 <button 
                     className="w-full bg-[#ecaa83] text-white py-3 rounded-lg hover:bg-[#e39b71] transition-colors disabled:opacity-50"
-                    disabled={(!isLensProduct && !selectedColor) || !selectedBranch || availableQuantity === 0}
-                    onClick={handleQuickBuy}
+                    disabled={!selectedColor || availableQuantity === 0}
                 >
                     MUA NGAY
                 </button>

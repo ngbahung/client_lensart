@@ -270,10 +270,7 @@ const GongKinhPage = ({ categoryId = 1, pageTitle = "Gọng Kính" }) => {
                         value: brand.id.toString(),
                         label: brand.name 
                     })),
-                    shapes: shapes.map(shape => ({ // Ensure correct mapping
-                        value: shape.id.toString(),
-                        label: shape.name
-                    })),
+                    shapes: shapes.map(shape => shape.name),
                     material: materials.map(material => material.name),
                     features: features.map(feature => feature.name)
                 }));
@@ -341,26 +338,22 @@ const GongKinhPage = ({ categoryId = 1, pageTitle = "Gọng Kính" }) => {
                         onFilterChange={handleFilterChange}
                         selectedFilters={filters}
                         filterOptions={{
-                            ...(categoryId !== 3 && { // Conditionally render these filters
-                                brands: {
-                                    title: "Thương hiệu",
-                                    options: filterOptions.brands
-                                },
-                                shapes: {
-                                    title: "Hình dạng",
-                                    options: filterOptions.shapes
-                                },
-                                material: {
-                                    title: "Chất liệu",
-                                    options: filterOptions.material
-                                }
-                            }),
-                            ...(categoryId === 3 && { // Conditionally hide features filter
-                                features: {
-                                    title: "Tính năng",
-                                    options: filterOptions.features
-                                }
-                            }),
+                            brands: {
+                                title: "Thương hiệu",
+                                options: filterOptions.brands
+                            },
+                            shapes: {
+                                title: "Hình dạng",
+                                options: filterOptions.shapes
+                            },
+                            material: {
+                                title: "Chất liệu",
+                                options: filterOptions.material
+                            },
+                            features: {
+                                title: "Tính năng",
+                                options: filterOptions.features
+                            },
                             gender: {
                                 title: "Giới tính",
                                 options: ["Nam", "Nữ", "Unisex"]

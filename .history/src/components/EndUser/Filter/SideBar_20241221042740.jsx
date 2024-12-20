@@ -89,30 +89,27 @@ const FilterSection = memo(({ title, options, type, onFilterChange, selectedFilt
       <div className={`transition-all duration-300 ease-in-out overflow-hidden
         ${isExpanded ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'}`}>
         <div className="space-y-1 px-4 py-2">
-          {options.map((option, index) => {
-            const value = getValue(option);
-            return (
-              <div key={`${type}-${value || index}`} // Ensure unique and valid key
-                   className={`flex items-center p-2 rounded-md transition-colors
-                     ${selectedFilters[type]?.includes(value) 
-                       ? 'bg-teal-50 hover:bg-teal-100/70' 
-                       : 'hover:bg-gray-50'}`}>
-                <input
-                  type="checkbox"
-                  name={type}
-                  value={value}
-                  checked={selectedFilters[type]?.includes(value) || false}
-                  onChange={() => onFilterChange(type, value)}
-                  className="w-4 h-4 text-teal-600 border-gray-300 rounded 
-                    focus:ring-teal-500 focus:ring-offset-0 transition-colors cursor-pointer"
-                />
-                <label className="ml-3 text-sm text-gray-600 hover:text-gray-900 
-                  cursor-pointer select-none flex-1 font-medium">
-                  {renderOption(option)}
-                </label>
-              </div>
-            );
-          })}
+          {options.map((option, index) => (
+            <div key={`${type}-${getValue(option)}`} // Ensure unique key
+                 className={`flex items-center p-2 rounded-md transition-colors
+                   ${selectedFilters[type]?.includes(getValue(option)) 
+                     ? 'bg-teal-50 hover:bg-teal-100/70' 
+                     : 'hover:bg-gray-50'}`}>
+              <input
+                type="checkbox"
+                name={type}
+                value={getValue(option)}
+                checked={selectedFilters[type]?.includes(getValue(option)) || false}
+                onChange={() => onFilterChange(type, getValue(option))}
+                className="w-4 h-4 text-teal-600 border-gray-300 rounded 
+                  focus:ring-teal-500 focus:ring-offset-0 transition-colors cursor-pointer"
+              />
+              <label className="ml-3 text-sm text-gray-600 hover:text-gray-900 
+                cursor-pointer select-none flex-1 font-medium">
+                {renderOption(option)}
+              </label>
+            </div>
+          ))}
         </div>
       </div>
     </div>

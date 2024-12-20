@@ -270,10 +270,7 @@ const GongKinhPage = ({ categoryId = 1, pageTitle = "Gọng Kính" }) => {
                         value: brand.id.toString(),
                         label: brand.name 
                     })),
-                    shapes: shapes.map(shape => ({ // Ensure correct mapping
-                        value: shape.id.toString(),
-                        label: shape.name
-                    })),
+                    shapes: shapes.map(shape => shape.name),
                     material: materials.map(material => material.name),
                     features: features.map(feature => feature.name)
                 }));
@@ -348,7 +345,7 @@ const GongKinhPage = ({ categoryId = 1, pageTitle = "Gọng Kính" }) => {
                                 },
                                 shapes: {
                                     title: "Hình dạng",
-                                    options: filterOptions.shapes
+                                    options: filterOptions.shape
                                 },
                                 material: {
                                     title: "Chất liệu",

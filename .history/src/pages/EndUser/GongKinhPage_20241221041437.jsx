@@ -21,12 +21,12 @@ const GongKinhPage = ({ categoryId = 1, pageTitle = "Gọng Kính" }) => {
     const { type, value } = useParams();
     const [title, setTitle] = useState(pageTitle);
     const [filters, setFilters] = useState({
-        brands: [],
-        shapes: [],
+        style: [],
         material: [],
-        features: [],
         gender: [],
-        priceRange: []
+        priceRange: [],
+        brands: [],
+        shapes: []  // Add shapes to filters
     });
     const [sortBy, setSortBy] = useState('newest'); // Add this line
     const [currentPage, setCurrentPage] = useState(1);
@@ -37,19 +37,19 @@ const GongKinhPage = ({ categoryId = 1, pageTitle = "Gọng Kính" }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [filterOptions, setFilterOptions] = useState({
-        brands: [],
-        shapes: [],
+        style: [],
         material: [],
-        features: [],
         gender: [],
-        priceRange: []
+        priceRange: [],
+        brands: [],
+        shapes: []  // Add shapes to filter options
     });
 
     // Add new state for API data
     const [brandsData, setBrandsData] = useState([]);
     const [materialsData, setMaterialsData] = useState([]);
     const [featuresData, setFeaturesData] = useState([]);
-    const [shapesData, setShapesData] = useState([]); // Add shapes data state
+    const [shapesData, setShapesData] = useState([]);
 
     // Handle page title based on filter params
     useEffect(() => {
@@ -133,9 +133,9 @@ const GongKinhPage = ({ categoryId = 1, pageTitle = "Gọng Kính" }) => {
     const handleFilterChange = (name, value) => {
         setFilters((prevFilters) => ({
             ...prevFilters,
-            [name]: prevFilters[name]?.includes(value)
+            [name]: prevFilters[name].includes(value)
                 ? prevFilters[name].filter((val) => val !== value)
-                : [...(prevFilters[name] || []), value],
+                : [...prevFilters[name], value],
         }));
         setCurrentPage(1); // Reset to first page when filter changes
         toast.info('Đã cập nhật bộ lọc');
@@ -171,27 +171,19 @@ const GongKinhPage = ({ categoryId = 1, pageTitle = "Gọng Kính" }) => {
 
     const filterProducts = (products) => {
         return products.filter(product => {
-            // Brand filter
-            const matchesBrand = filters.brands.length === 0 || 
-              filters.brands.includes(product.brand_id.toString());
-
-            // Shape filter
-            const matchesShape = filters.shapes.length === 0 || 
-                filters.shapes.includes(product.shape);
-
+            // Style filter
+            const matchesStyle = filters.style.length === 0 || 
+              filters.style.includes(product.style);
+        
             // Material filter
             const matchesMaterial = filters.material.length === 0 || 
               filters.material.includes(product.material);
-
-            // Features filter
-            const matchesFeatures = filters.features.length === 0 || 
-              filters.features.includes(product.style);
-
+        
             // Gender filter
             const matchesGender = filters.gender.length === 0 || 
               filters.gender.includes(product.gender);
-
-            // Price range filter
+        
+            // Updated price range filter
             const matchesPriceRange = filters.priceRange.length === 0 || 
               filters.priceRange.some(range => {
                 const [min, max] = range.split('-').map(Number);
@@ -201,13 +193,21 @@ const GongKinhPage = ({ categoryId = 1, pageTitle = "Gọng Kính" }) => {
                 }
                 return product.currentPrice >= min && product.currentPrice <= max;
               });
+        
+            // Brand filter
+            const matchesBrand = filters.brands.length === 0 || 
+              filters.brands.includes(product.brand_id.toString());
 
-            return matchesBrand &&
-                   matchesShape &&
-                   matchesMaterial &&
-                   matchesFeatures &&
-                   matchesGender &&
-                   matchesPriceRange;
+            // Add shapes filter
+            const matchesShape = filters.shapes.length === 0 || 
+                filters.shapes.includes(product.shape_id?.toString());
+        
+            return matchesStyle && 
+                   matchesMaterial && 
+                   matchesGender && 
+                   matchesPriceRange && 
+                   matchesBrand &&
+                   matchesShape;
           });
     };
 
@@ -253,15 +253,13 @@ const GongKinhPage = ({ categoryId = 1, pageTitle = "Gọng Kính" }) => {
                     getBrands(),
                     getFeatures(),
                     getMaterials(),
-                    getShapes() // Fetch shapes data
+                    getShapes()
                 ]);
-
-                console.log('Fetched shapes data:', shapes); // Add this line
 
                 setBrandsData(brands);
                 setFeaturesData(features);
                 setMaterialsData(materials);
-                setShapesData(shapes); // Set shapes data
+                setShapesData(shapes);
 
                 // Update filter options with fetched data
                 setFilterOptions(prev => ({
@@ -270,12 +268,12 @@ const GongKinhPage = ({ categoryId = 1, pageTitle = "Gọng Kính" }) => {
                         value: brand.id.toString(),
                         label: brand.name 
                     })),
-                    shapes: shapes.map(shape => ({ // Ensure correct mapping
-                        value: shape.id.toString(),
-                        label: shape.name
-                    })),
+                    style: features.map(feature => feature.name),
                     material: materials.map(material => material.name),
-                    features: features.map(feature => feature.name)
+                    shapes: shapes.map(shape => ({ 
+                        value: shape.id.toString(),
+                        label: shape.name 
+                    }))
                 }));
             } catch (error) {
                 toast.error('Không thể tải dữ liệu bộ lọc');
@@ -341,33 +339,29 @@ const GongKinhPage = ({ categoryId = 1, pageTitle = "Gọng Kính" }) => {
                         onFilterChange={handleFilterChange}
                         selectedFilters={filters}
                         filterOptions={{
-                            ...(categoryId !== 3 && { // Conditionally render these filters
-                                brands: {
-                                    title: "Thương hiệu",
-                                    options: filterOptions.brands
-                                },
-                                shapes: {
-                                    title: "Hình dạng",
-                                    options: filterOptions.shapes
-                                },
-                                material: {
-                                    title: "Chất liệu",
-                                    options: filterOptions.material
-                                }
-                            }),
-                            ...(categoryId === 3 && { // Conditionally hide features filter
-                                features: {
-                                    title: "Tính năng",
-                                    options: filterOptions.features
-                                }
-                            }),
+                            style: {
+                                title: "Kiểu Gọng",
+                                options: filterOptions.style
+                            },
+                            material: {
+                                title: "Chất liệu",
+                                options: filterOptions.material
+                            },
+                            brands: {
+                                title: "Thương hiệu",
+                                options: filterOptions.brands
+                            },
                             gender: {
                                 title: "Giới tính",
                                 options: ["Nam", "Nữ", "Unisex"]
                             },
                             priceRange: {
                                 title: "Khoảng giá",
-                                options: ["0-500000", "500000-1000000", "1000000-2000000", "2000000-999999999"]
+                                options: ["0-500000", "500000-1000000", "1000000-2000000", "2000000-999999999"] // Add this new option
+                            },
+                            shapes: {
+                                title: "Hình Dạng",
+                                options: filterOptions.shapes
                             }
                         }}
                     />

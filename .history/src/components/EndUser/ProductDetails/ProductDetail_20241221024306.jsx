@@ -168,50 +168,12 @@ const ProductDetails = ({ product, selectedBranch, cityNames, productWishlistId 
             await addToCart(
                 product.id,
                 selectedBranch.branchId,
-                isLensProduct ? null : selectedColor, // Pass empty string for lens products
+                isLensProduct ? null : selectedColor, // Pass null for lens products
                 quantity
             );
         } catch (error) {
             console.error('Error adding to cart:', error);
             toast.error('Có lỗi xảy ra khi thêm vào giỏ hàng');
-        } finally {
-            setIsAddingToCart(false);
-        }
-    };
-
-    const handleQuickBuy = async () => {
-        if (!isAuthenticated) {
-            toast.info('Vui lòng đăng nhập để mua hàng');
-            navigate('/login');
-            return;
-        }
-
-        if (!selectedBranch) {
-            toast.error('Vui lòng chọn chi nhánh');
-            return;
-        }
-
-        if (!isLensProduct && !selectedColor) {
-            toast.error('Vui lòng chọn màu sắc');
-            return;
-        }
-
-        setIsAddingToCart(true);
-        try {
-            const result = await addToCart(
-                product.id,
-                selectedBranch.branchId,
-                isLensProduct ? null : selectedColor,
-                quantity,
-                true // isQuickBuy flag
-            );
-            
-            if (result) {
-                navigate('/checkout?quickBuy=true');
-            }
-        } catch (error) {
-            console.error('Quick buy error:', error);
-            toast.error('Có lỗi xảy ra khi xử lý đơn hàng');
         } finally {
             setIsAddingToCart(false);
         }
@@ -381,8 +343,7 @@ const ProductDetails = ({ product, selectedBranch, cityNames, productWishlistId 
                 </button>
                 <button 
                     className="w-full bg-[#ecaa83] text-white py-3 rounded-lg hover:bg-[#e39b71] transition-colors disabled:opacity-50"
-                    disabled={(!isLensProduct && !selectedColor) || !selectedBranch || availableQuantity === 0}
-                    onClick={handleQuickBuy}
+                    disabled={!selectedColor || availableQuantity === 0}
                 >
                     MUA NGAY
                 </button>

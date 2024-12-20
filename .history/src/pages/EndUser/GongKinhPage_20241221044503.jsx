@@ -270,10 +270,7 @@ const GongKinhPage = ({ categoryId = 1, pageTitle = "Gọng Kính" }) => {
                         value: brand.id.toString(),
                         label: brand.name 
                     })),
-                    shapes: shapes.map(shape => ({ // Ensure correct mapping
-                        value: shape.id.toString(),
-                        label: shape.name
-                    })),
+                    shapes: shapes.map(shape => shape.name),
                     material: materials.map(material => material.name),
                     features: features.map(feature => feature.name)
                 }));
@@ -355,12 +352,10 @@ const GongKinhPage = ({ categoryId = 1, pageTitle = "Gọng Kính" }) => {
                                     options: filterOptions.material
                                 }
                             }),
-                            ...(categoryId === 3 && { // Conditionally hide features filter
-                                features: {
-                                    title: "Tính năng",
-                                    options: filterOptions.features
-                                }
-                            }),
+                            features: {
+                                title: "Tính năng",
+                                options: filterOptions.features
+                            },
                             gender: {
                                 title: "Giới tính",
                                 options: ["Nam", "Nữ", "Unisex"]

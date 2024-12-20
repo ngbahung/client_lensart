@@ -217,30 +217,26 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  const addToCart = async (product_id, branch_id, color, quantity, isQuickBuy = false) => {
+  const addToCart = async (product_id, branch_id, color, quantity) => {
     if (!isAuthenticated) {
         toast.info('Cần đăng nhập để thêm vào giỏ hàng');
         return false;
     }
 
     try {
+        console.log('Adding to cart with params:', { product_id, branch_id, color, quantity });
+        
+        // For lens products, color will be 'default'
         const result = await createCartDetail(product_id, branch_id, color, quantity);
+        console.log('API result:', result);
 
         if (result.status === "success" && result.data) {
             await fetchCart();
-            
-            if (isQuickBuy) {
-                // For quick buy, unselect all items first
-                dispatch({ type: 'SELECT_ALL_ITEMS', payload: false });
-                // Then select only the newly added item
-                dispatch({ type: 'SELECT_CART_ITEM', payload: result.data.id });
-                return true;
-            } else {
-                toast.success('Đã thêm vào giỏ hàng thành công');
-                return true;
-            }
+            toast.success('Đã thêm vào giỏ hàng thành công');
+            return true;
+        } else {
+            throw new Error('Invalid response from server');
         }
-        return false;
     } catch (error) {
         console.error('Add to cart error:', error);
         toast.error('Có lỗi xảy ra khi thêm vào giỏ hàng');

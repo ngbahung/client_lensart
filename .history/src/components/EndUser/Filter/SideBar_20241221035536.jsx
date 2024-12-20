@@ -29,10 +29,7 @@ const FILTER_CATEGORIES = {
 // Hàm định dạng giá từ dạng "min-max" sang dạng "xxxđ - xxxđ"
 // Input: "0-500000" -> Output: "0đ - 500.000đ"
 const formatPrice = (range) => {
-  const [min, max] = range.split('-').map(Number);
-  if (max === 999999999) {
-    return `Trên ${parseInt(min).toLocaleString()}đ`;
-  }
+  const [min, max] = range.split('-');
   return `${parseInt(min).toLocaleString()}đ - ${parseInt(max).toLocaleString()}đ`;
 };
 
@@ -51,69 +48,48 @@ const FilterSection = memo(({ title, options, type, onFilterChange, selectedFilt
     if (type === 'priceRange') {
       return formatPrice(option);
     }
-    if (type === 'brands' || type === 'shapes') { // Add shapes to renderOption
+    if (type === 'brands') {
       return option.label;
     }
     return option;
   };
 
   const getValue = (option) => {
-    if (type === 'brands' || type === 'shapes') { // Add shapes to getValue
+    if (type === 'brands') {
       return option.value;
     }
     return option;
   };
 
   return (
-    <div className="border-b border-gray-100 last:border-none py-2">
+    <div className="mb-4 border-b pb-2 lg:mb-6 lg:border-b-0 lg:pb-0">
       <div 
-        className={`flex justify-between items-center cursor-pointer py-3 px-4 rounded-lg transition-all duration-200 
-          ${hasActiveFilters ? 'bg-teal-50/50' : 'hover:bg-gray-50'}`}
+        className="flex justify-between items-center cursor-pointer"
         onClick={() => setIsExpanded(!isExpanded)}
       >
-        <h3 className={`font-medium text-base flex items-center gap-2
-          ${hasActiveFilters ? 'text-teal-700' : 'text-gray-700'}`}>
+        <h3 className={`font-semibold mb-2 ${hasActiveFilters ? 'text-teal-600' : 'text-gray-700'}`}>
           {title}
-          {hasActiveFilters && (
-            <span className="inline-flex items-center justify-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-teal-100 text-teal-800">
-              {selectedFilters[type].length}
-            </span>
-          )}
+          {hasActiveFilters && <span className="ml-2 text-sm">({selectedFilters[type].length})</span>}
         </h3>
-        {isExpanded 
-          ? <IoIosArrowUp className={`w-5 h-5 ${hasActiveFilters ? 'text-teal-600' : 'text-gray-400'}`} /> 
-          : <IoIosArrowDown className={`w-5 h-5 ${hasActiveFilters ? 'text-teal-600' : 'text-gray-400'}`} />
-        }
+        {isExpanded ? <IoIosArrowUp /> : <IoIosArrowDown />}
       </div>
       
-      <div className={`transition-all duration-300 ease-in-out overflow-hidden
-        ${isExpanded ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'}`}>
-        <div className="space-y-1 px-4 py-2">
-          {options.map((option, index) => {
-            const value = getValue(option);
-            return (
-              <div key={`${type}-${value || index}`} // Ensure unique and valid key
-                   className={`flex items-center p-2 rounded-md transition-colors
-                     ${selectedFilters[type]?.includes(value) 
-                       ? 'bg-teal-50 hover:bg-teal-100/70' 
-                       : 'hover:bg-gray-50'}`}>
-                <input
-                  type="checkbox"
-                  name={type}
-                  value={value}
-                  checked={selectedFilters[type]?.includes(value) || false}
-                  onChange={() => onFilterChange(type, value)}
-                  className="w-4 h-4 text-teal-600 border-gray-300 rounded 
-                    focus:ring-teal-500 focus:ring-offset-0 transition-colors cursor-pointer"
-                />
-                <label className="ml-3 text-sm text-gray-600 hover:text-gray-900 
-                  cursor-pointer select-none flex-1 font-medium">
-                  {renderOption(option)}
-                </label>
-              </div>
-            );
-          })}
-        </div>
+      <div className={`space-y-2 transition-all duration-300 ${isExpanded ? 'max-h-96' : 'max-h-0 overflow-hidden'}`}>
+        {options.map((option) => (
+          <div key={getValue(option)} className="flex items-center">
+            <input
+              type="checkbox"
+              name={type}
+              value={getValue(option)}
+              checked={selectedFilters[type]?.includes(getValue(option)) || false}
+              onChange={() => onFilterChange(type, getValue(option))}
+              className="w-4 h-4 text-teal-300 rounded focus:ring-teal-500"
+            />
+            <label className="ml-2 text-sm lg:text-base text-gray-600 hover:text-gray-800 cursor-pointer">
+              {renderOption(option)}
+            </label>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -126,11 +102,8 @@ const FilterSection = memo(({ title, options, type, onFilterChange, selectedFilt
 // - filterOptions: Cấu hình tùy chọn cho bộ lọc (mặc định: FILTER_CATEGORIES)
 const SideBar = memo(({ onFilterChange, selectedFilters, filterOptions = FILTER_CATEGORIES }) => {
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-      <div className="divide-y divide-gray-100">
-        <div className="p-4 bg-gray-50 border-b border-gray-200">
-          <h2 className="text-lg font-semibold text-gray-800">Bộ lọc tìm kiếm</h2>
-        </div>
+    <div className="bg-white rounded-lg shadow-md p-4">
+      <div className="space-y-4">
         {Object.entries(filterOptions).map(([type, { title, options }]) => (
           <FilterSection
             key={type}
