@@ -199,7 +199,7 @@ const CheckoutForm = () => {
           total_price: item.price * item.quantity
         }))
       };
-      console.log(orderData);
+      cons
 
       // Create order
       const orderResponse = await createOrder(orderData);

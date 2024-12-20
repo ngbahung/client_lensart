@@ -6,9 +6,6 @@ import { fetchCities, fetchDistricts, fetchWards } from "../../../services/locat
 import { getUserData } from "../../../api/userAPI";
 import { parseAddress } from "../../../utils/addressParser";
 import { toast } from 'react-toastify';
-import { useCart } from '../../../contexts/CartContext';
-import { useNavigate } from 'react-router-dom';
-import { createOrder, createPayOSCheckout } from '../../../api/checkoutAPI';
 
 const CheckoutForm = () => {
   const [formData, setFormData] = useState({
@@ -42,9 +39,6 @@ const CheckoutForm = () => {
     districtMatch: null,
     wardMatch: null
   });
-
-  const { items, coupon, clearCart } = useCart();
-  const navigate = useNavigate();
 
   useEffect(() => {
     const loadCities = async () => {
@@ -169,68 +163,9 @@ const CheckoutForm = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
-
-    try {
-      // Get selected items from cart
-      const selectedItems = items.filter(item => item.selected);
-
-      // Get form data
-      const fullAddress = `${formData.address}, ${
-        locations.wards.find(w => w.value === formData.ward)?.label
-      }, ${
-        locations.districts.find(d => d.value === formData.district)?.label
-      }, ${
-        locations.cities.find(c => c.value === formData.city)?.label
-      }`;
-
-      // Prepare order data
-      const orderData = {
-        branch_id: selectedItems[0].branch_id,
-        address: fullAddress,
-        note: formData.notes,
-        coupon_id: coupon?.id || null,
-        order_details: selectedItems.map(item => ({
-          product_id: item.product_id,
-          color: item.color,
-          quantity: item.quantity,
-          total_price: item.price * item.quantity
-        }))
-      };
-      console.log(orderData);
-
-      // Create order
-      const orderResponse = await createOrder(orderData);
-
-      // Handle payment based on selected method
-      if (formData.paymentMethod === 'payos') {
-        try {
-          // Create PayOS checkout session
-          const paymentResponse = await createPayOSCheckout(orderResponse.data.id);
-          
-          if (paymentResponse.checkoutUrl) {
-            // Redirect to PayOS payment page
-            window.location.href = paymentResponse.checkoutUrl;
-          } else {
-            throw new Error('Invalid payment URL');
-          }
-        } catch (paymentError) {
-          toast.error('Không thể tạo liên kết thanh toán');
-          console.error('Payment creation error:', paymentError);
-        }
-      } else {
-        // COD payment
-        toast.success('Đặt hàng thành công!');
-        await clearCart();
-        navigate('/don-hang');
-      }
-    } catch (error) {
-      toast.error(error.message || 'Có lỗi xảy ra khi đặt hàng');
-    } finally {
-      setLoading(false);
-    }
+    console.log("Form submitted:", formData);
   };
 
   if (isLoadingUser) {

@@ -157,6 +157,10 @@ function FavoritesTable() {
         if (allSuccessful) {
           setFavorites([]);
           await fetchFavorites(); // Reload the table
+          toast.success('Đã thêm tất cả sản phẩm vào giỏ hàng', {
+            position: "top-right",
+            autoClose: 2000,
+          });
           Swal.fire({
             title: 'Thành công!',
             text: 'Đã thêm tất cả sản phẩm vào giỏ hàng',

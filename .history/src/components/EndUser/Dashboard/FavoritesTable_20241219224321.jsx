@@ -110,14 +110,11 @@ function FavoritesTable() {
       const response = await moveProductToCart(wishlistDetailId);
       if (response.success) {
         setFavorites(favorites.filter(item => item.wishlist_detail_id !== wishlistDetailId));
-        Swal.fire({
-          title: 'Thành công!',
-          text: 'Đã thêm sản phẩm vào giỏ hàng',
-          icon: 'success',
-          timer: 1500,
-          showConfirmButton: false,
-          position: 'top-end',
-          toast: true
+        toast.success('Đã thêm sản phẩm vào giỏ hàng', {
+          position: "top-right",
+          autoClose: 2000,
+        });
+       t: true
         });
       }
     } catch (error) {
@@ -157,6 +154,10 @@ function FavoritesTable() {
         if (allSuccessful) {
           setFavorites([]);
           await fetchFavorites(); // Reload the table
+          toast.success('Đã thêm tất cả sản phẩm vào giỏ hàng', {
+            position: "top-right",
+            autoClose: 2000,
+          });
           Swal.fire({
             title: 'Thành công!',
             text: 'Đã thêm tất cả sản phẩm vào giỏ hàng',

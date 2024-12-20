@@ -174,24 +174,14 @@ const CheckoutForm = () => {
     setLoading(true);
 
     try {
-      // Get selected items from cart
+      const formData = new FormData(e.target);
       const selectedItems = items.filter(item => item.selected);
-
-      // Get form data
-      const fullAddress = `${formData.address}, ${
-        locations.wards.find(w => w.value === formData.ward)?.label
-      }, ${
-        locations.districts.find(d => d.value === formData.district)?.label
-      }, ${
-        locations.cities.find(c => c.value === formData.city)?.label
-      }`;
-
-      // Prepare order data
+      
       const orderData = {
-        branch_id: selectedItems[0].branch_id,
-        address: fullAddress,
-        note: formData.notes,
-        coupon_id: coupon?.id || null,
+        branch_id: selectedItems[0].branch_id, // Assuming all items are from same branch
+        address: formData.get('address'),
+        note: formData.get('note'),
+        coupon_id: coupon?.id,
         order_details: selectedItems.map(item => ({
           product_id: item.product_id,
           color: item.color,
@@ -199,29 +189,16 @@ const CheckoutForm = () => {
           total_price: item.price * item.quantity
         }))
       };
-      console.log(orderData);
 
-      // Create order
       const orderResponse = await createOrder(orderData);
 
-      // Handle payment based on selected method
-      if (formData.paymentMethod === 'payos') {
-        try {
-          // Create PayOS checkout session
-          const paymentResponse = await createPayOSCheckout(orderResponse.data.id);
-          
-          if (paymentResponse.checkoutUrl) {
-            // Redirect to PayOS payment page
-            window.location.href = paymentResponse.checkoutUrl;
-          } else {
-            throw new Error('Invalid payment URL');
-          }
-        } catch (paymentError) {
-          toast.error('Không thể tạo liên kết thanh toán');
-          console.error('Payment creation error:', paymentError);
-        }
+      if (formData.get('paymentMethod') === 'payos') {
+        const paymentResponse = await createPayOSCheckout(
+          orderResponse.data.id,
+          orderResponse.data.total_amount
+        );
+        window.location.href = paymentResponse.checkoutUrl;
       } else {
-        // COD payment
         toast.success('Đặt hàng thành công!');
         await clearCart();
         navigate('/don-hang');
