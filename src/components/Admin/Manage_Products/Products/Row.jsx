@@ -3,6 +3,7 @@ import { BiEdit, BiFileBlank } from "react-icons/bi";
 import { FaCog, FaAngleDown, FaRegHeart } from "react-icons/fa";
 import PropTypes from "prop-types";
 import ConfirmChangeStatusModal from "./ConfirmChangeStatusModal";
+import ImageGalleryPage from './ImageGallery/ImageGalleryPage';
 
 const ToggleSwitch = ({ id, status, onToggle, disabled }) => {
   const isActive = status === 'active';
@@ -36,6 +37,7 @@ const Row = ({ product, onStatusChange, onEdit }) => {
   const [showStatusModal, setShowStatusModal] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [showImageGallery, setShowImageGallery] = useState(false);
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -129,7 +131,7 @@ const Row = ({ product, onStatusChange, onEdit }) => {
                       <button
                         className="w-full text-left px-4 py-2 text-white hover:bg-[rgba(236,144,92,1)] flex items-center gap-2"
                         onClick={() => {
-                          // Add handler for Image Gallery
+                          setShowImageGallery(true);
                           setShowDropdown(false);
                         }}
                       >
@@ -156,6 +158,26 @@ const Row = ({ product, onStatusChange, onEdit }) => {
           </div>
         </td>
       </tr>
+
+      {/* Update Image Gallery Modal styling */}
+      {showImageGallery && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-[20px] w-[90%] h-[90%] overflow-hidden shadow-xl">
+            <div className="p-4 border-b flex justify-between items-center">
+              <h2 className="text-xl font-semibold text-[rgba(236, 144, 92, 1)]">{product.name}</h2>
+              <button 
+                onClick={() => setShowImageGallery(false)}
+                className="text-gray-500 hover:text-gray-700 text-2xl font-medium"
+              >
+                ×
+              </button>
+            </div>
+            <div className="p-4">
+              <ImageGalleryPage productId={product.id} /> {/* Đảm bảo truyền product.id vào đây */}
+            </div>
+          </div>
+        </div>
+      )}
 
       {showStatusModal && (
         <tr>
