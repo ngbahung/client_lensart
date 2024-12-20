@@ -326,11 +326,12 @@ const CheckoutForm = () => {
       <div className="mb-6">
         <TextInput
           label="Ghi chú"
-          type="textarea"
+          as="textarea"
           value={formData.notes}
           onChange={(e) => handleChange("notes")(e.target.value)}
           placeholder="Ghi chú về đơn hàng, ví dụ: thời gian hay chỉ dẫn địa điểm giao hàng chi tiết hơn."
-          className="h-24"
+          rows={4}
+          className="h-24 resize-none"
         />
       </div>
 

@@ -32,7 +32,7 @@ export const getPaymentInfo = async (transactionId) => {
 
 export const updatePaymentStatus = async (orderId) => {
   try {
-    const response = await api.post(`transactions/update/order/${orderId}`);
+    const response = await api.post(`transactions/update/order/${id}`);
     return response.data;
   } catch (error) {
     throw error.response?.data || error.message;

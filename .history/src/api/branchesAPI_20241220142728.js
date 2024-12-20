@@ -10,15 +10,7 @@ export const getBranches = async () => {
   }
 };
 
-export const getBranchById = async (branchId) => {
-  try {
-    const response = await api.get(`/active/branches/getById/${branchId}`);
-    return transformBranch(response.data.data);
-  } catch (error) {
-    console.error('Error fetching branch:', error);
-    throw error;
-  }
-};
+export
 
 export const getBranchCoefficients = async () => {
   try {

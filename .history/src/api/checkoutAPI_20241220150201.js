@@ -30,11 +30,4 @@ export const getPaymentInfo = async (transactionId) => {
   }
 }
 
-export const updatePaymentStatus = async (orderId) => {
-  try {
-    const response = await api.post(`transactions/update/order/${orderId}`);
-    return response.data;
-  } catch (error) {
-    throw error.response?.data || error.message;
-  }
-}
+export const updatePaymentStatus = async (transactionId, status) => {

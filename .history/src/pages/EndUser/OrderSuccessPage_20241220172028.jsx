@@ -33,7 +33,7 @@ const OrderSuccessPage = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center">
-        <div className="animate-spin rounded-full h-16 w-16 border-4 border-indigo-100 border-t-[#6fd4d2]"></div>
+        <div className="animate-spin rounded-full h-16 w-16 border-4 border-indigo-100 border-t-indigo-500"></div>
         <p className="mt-4 text-gray-600">Đang tải thông tin đơn hàng...</p>
       </div>
     );
@@ -93,7 +93,7 @@ const OrderSuccessPage = () => {
           <div className="mt-8 space-y-4">
             <Link
               to="/"
-              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#6fd4d2] hover:bg-[#6fd4d2] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#6fd4d2]"
+              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#6fd4d2] hover:bg-[#6fd4d2] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               Về trang chủ
             </Link>

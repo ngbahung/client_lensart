@@ -207,13 +207,12 @@ const CheckoutForm = () => {
       // Handle payment based on selected method
       if (formData.paymentMethod === 'payos') {
         try {
+          // Create PayOS checkout session
           const paymentResponse = await createPayOSCheckout(orderResponse.data.id);
           
           if (paymentResponse.data.checkoutUrl) {
-            // Add orderId to the returnUrl
-            const returnUrl = new URL(paymentResponse.data.checkoutUrl);
-            returnUrl.searchParams.append('orderId', orderResponse.data.id);
-            window.location.href = returnUrl.toString();
+            // Redirect to PayOS payment page
+            window.location.href = paymentResponse.data.checkoutUrl;
           } else {
             throw new Error('Invalid payment URL');
           }

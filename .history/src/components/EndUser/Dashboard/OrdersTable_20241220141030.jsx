@@ -42,11 +42,10 @@ function OrdersTable() {
           {order.order_status}
         </span>
       </div>
-      <div className="text-sm text-gray-500 mb-2 font-medium">
+      <div className="text-sm text-gray-500 mb-2">
         {formatDate(order.date)}
       </div>
       <div className="text-sm text-gray-600 mb-2">
-        <div>Chi nhánh: {order.branchName}</div>
         <div>Phương thức: {order.payment_method}</div>
         <div>Trạng thái thanh toán: 
           <span className={`ml-2 px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(order.payment_status)}`}>
@@ -90,9 +89,6 @@ function OrdersTable() {
                     Mã đơn hàng
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Chi nhánh
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Trạng thái
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -117,14 +113,11 @@ function OrdersTable() {
                   <tr key={order.id}>
                     <td className="px-6 py-4 whitespace-nowrap">#{order.id}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {order.branchName}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
                       <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(order.order_status)}`}>
                         {order.order_status}
                       </span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap font-medium">
+                    <td className="px-6 py-4 whitespace-nowrap">
                       {formatDate(order.date)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
