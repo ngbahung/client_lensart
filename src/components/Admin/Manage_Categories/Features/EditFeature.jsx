@@ -3,7 +3,7 @@ import { FaAngleDown } from "react-icons/fa";
 import axios from "axios";
 import PropTypes from "prop-types";
 
-const EditFeature = ({ feature, onClose, onRefresh }) => {  // Add onRefresh prop
+const EditFeature = ({ feature, onClose, onUpdate }) => {  // Add onUpdate prop
   const [name, setName] = useState("");
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");
@@ -12,7 +12,7 @@ const EditFeature = ({ feature, onClose, onRefresh }) => {  // Add onRefresh pro
   useEffect(() => {
     if (feature) {
       setName(feature.name);
-      setStatus(feature.status ? "active" : "inactive");
+      setStatus(feature.status); // status is already 'active' or 'inactive'
     }
   }, [feature]);
 
@@ -27,8 +27,10 @@ const EditFeature = ({ feature, onClose, onRefresh }) => {  // Add onRefresh pro
       });
 
       if (response.status === 200) {
-        await onRefresh(); // Call refresh function after successful update
+        await onUpdate(); // Wait for the update to complete
         onClose();
+      } else {
+        throw new Error(response.data.message || "Failed to update feature");
       }
     } catch (error) {
       setError(error.response?.data?.message || "Failed to update feature");
@@ -119,10 +121,10 @@ EditFeature.propTypes = {
   feature: PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    status: PropTypes.bool.isRequired,
+    status: PropTypes.oneOf(['active', 'inactive']).isRequired,
   }).isRequired,
   onClose: PropTypes.func.isRequired,
-  onRefresh: PropTypes.func.isRequired, // Add prop type validation
+  onUpdate: PropTypes.func.isRequired,
 };
 
 export default EditFeature;

@@ -13,62 +13,46 @@ const MaterialsPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const mockData = [
-    { id: 1, name: "Nhựa Acetate", status: true },
-    { id: 2, name: "Titan", status: false },
-    { id: 3, name: "Thép không gỉ", status: true },
-    { id: 4, name: "Nhựa TR90", status: false },
-    { id: 5, name: "Hợp kim", status: true },
-    { id: 6, name: "Nhôm", status: false },
-    { id: 7, name: "Nhựa Ultem", status: true },
-    { id: 8, name: "Carbon Fiber", status: false },
-    { id: 9, name: "Monel", status: true },
-    { id: 10, name: "Beryllium", status: false },
-    { id: 11, name: "Nhựa PC (Polycarbonate)", status: true },
-    { id: 12, name: "Gỗ tự nhiên", status: false },
-    { id: 13, name: "Nhựa Bio-acetate", status: true },
-    { id: 14, name: "Titanium Beta", status: false },
-    { id: 15, name: "Thép không gỉ 316L", status: true }
+    { id: 1, name: "Nhựa Acetate", status: "active" },
+    { id: 2, name: "Titan", status: "inactive" },
+    { id: 3, name: "Thép không gỉ", status: "active" },
+    { id: 4, name: "Nhựa TR90", status: "inactive" },
+    { id: 5, name: "Hợp kim", status: "active" },
+    { id: 6, name: "Nhôm", status: "inactive" },
+    { id: 7, name: "Nhựa Ultem", status: "active" },
+    { id: 8, name: "Carbon Fiber", status: "inactive" },
+    { id: 9, name: "Monel", status: "active" },
+    { id: 10, name: "Beryllium", status: "inactive" },
+    { id: 11, name: "Nhựa PC (Polycarbonate)", status: "active" },
+    { id: 12, name: "Gỗ tự nhiên", status: "inactive" },
+    { id: 13, name: "Nhựa Bio-acetate", status: "active" },
+    { id: 14, name: "Titanium Beta", status: "inactive" },
+    { id: 15, name: "Thép không gỉ 316L", status: "active" }
   ];
 
-  const refreshMaterials = async () => {
+  const fetchMaterials = async () => {
     setIsLoading(true);
     try {
       const response = await axios.get('http://localhost:8000/api/materials');
-      if (response.data) {
-        const allMaterials = response.data.data || mockData;
+      if (response.status === 200 && response.data && response.data.data) {
+        const allMaterials = response.data.data;
         setMaterials(allMaterials);
         setTotalPages(Math.ceil(allMaterials.length / ITEMS_PER_PAGE));
         setError(null);
+        return true; // Add return value to indicate success
       }
+      throw new Error("Invalid response format");
     } catch (error) {
       console.error("Failed to fetch materials:", error);
       setMaterials(mockData);
       setTotalPages(Math.ceil(mockData.length / ITEMS_PER_PAGE));
+      return false; // Add return value to indicate failure
     } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    const fetchMaterials = async () => {
-      try {
-        const response = await axios.get('http://localhost:8000/api/materials');
-        if (response.data) {
-          const allMaterials = response.data.data || mockData;
-          setMaterials(allMaterials);
-          // Tính tổng số trang dựa trên số lượng items
-          setTotalPages(Math.ceil(allMaterials.length / ITEMS_PER_PAGE));
-          setError(null);
-        }
-      } catch (error) {
-        console.error("Failed to fetch materials:", error);
-        setMaterials(mockData);
-        setTotalPages(Math.ceil(mockData.length / ITEMS_PER_PAGE));
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     fetchMaterials();
   }, []);
 
@@ -90,9 +74,8 @@ const MaterialsPage = () => {
 
   const handleStatusChange = async (materialId) => {
     try {
-      // Find current material and get its current status
       const currentMaterial = materials.find(mat => mat.id === materialId);
-      const newStatus = !currentMaterial.status;
+      const newStatus = currentMaterial.status === 'active' ? 'inactive' : 'active';
       
       const response = await axios.post(`http://localhost:8000/api/materials/switch-status/${materialId}`);
       
@@ -131,7 +114,7 @@ const MaterialsPage = () => {
             onStatusChange={handleStatusChange}
             onSearch={handleSearch}
             searchTerm={searchTerm}
-            refreshMaterials={refreshMaterials}
+            onUpdate={fetchMaterials}
           />
         </div>
       </div>

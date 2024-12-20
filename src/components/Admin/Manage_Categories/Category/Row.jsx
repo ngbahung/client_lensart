@@ -9,7 +9,7 @@ const ToggleSwitch = ({ id, status, onToggle, disabled }) => {
       <input
         type="checkbox"
         id={`toggle-${id}`}
-        checked={status}
+        checked={status === 'active'}
         onChange={() => onToggle(id)}
         className="sr-only"
         disabled={disabled}
@@ -17,12 +17,12 @@ const ToggleSwitch = ({ id, status, onToggle, disabled }) => {
       <label
         htmlFor={`toggle-${id}`}
         className={`w-16 h-8 flex items-center rounded-full cursor-pointer transition-colors ${
-          status ? "bg-[#55d5d2]" : "bg-gray-400"
+          status === 'active' ? "bg-[#55d5d2]" : "bg-gray-400"
         }`}
       >
         <span
           className={`w-6 h-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${
-            status ? "translate-x-9" : "translate-x-1"
+            status === 'active' ? "translate-x-9" : "translate-x-1"
           }`}
         ></span>
       </label>
@@ -66,7 +66,7 @@ const Row = ({ category, onStatusChange, onEdit }) => {
         <td className="py-2 px-4">
           <ToggleSwitch
             id={category.id}
-            status={category.status === 'active'}
+            status={category.status}
             onToggle={handleStatusChange}
             disabled={isUpdating}
           />
@@ -94,7 +94,7 @@ const Row = ({ category, onStatusChange, onEdit }) => {
 
 ToggleSwitch.propTypes = {
   id: PropTypes.number.isRequired,
-  status: PropTypes.bool.isRequired,
+  status: PropTypes.oneOf(['active', 'inactive']).isRequired,
   onToggle: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
 };
@@ -103,7 +103,7 @@ Row.propTypes = {
   category: PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    status: PropTypes.bool.isRequired,
+    status: PropTypes.oneOf(['active', 'inactive']).isRequired,
   }).isRequired,
   onStatusChange: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,

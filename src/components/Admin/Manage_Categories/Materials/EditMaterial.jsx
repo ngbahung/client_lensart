@@ -3,7 +3,7 @@ import { FaAngleDown } from "react-icons/fa";
 import axios from "axios";
 import PropTypes from "prop-types";
 
-const EditMaterial = ({ material, onClose, refreshMaterials }) => {
+const EditMaterial = ({ material, onClose, onUpdate }) => {
   const [name, setName] = useState("");
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");
@@ -12,7 +12,7 @@ const EditMaterial = ({ material, onClose, refreshMaterials }) => {
   useEffect(() => {
     if (material) {
       setName(material.name);
-      setStatus(material.status ? "active" : "inactive");
+      setStatus(material.status); // status is already 'active' or 'inactive'
     }
   }, [material]);
 
@@ -27,11 +27,17 @@ const EditMaterial = ({ material, onClose, refreshMaterials }) => {
       });
 
       if (response.status === 200) {
-        await refreshMaterials(); // Refresh the materials list
-        onClose();
+        const success = await onUpdate();
+        if (success) {
+          onClose();
+        } else {
+          throw new Error("Failed to refresh materials list");
+        }
+      } else {
+        throw new Error(response.data?.message || "Failed to update material");
       }
     } catch (error) {
-      setError(error.response?.data?.message || "Failed to update material");
+      setError(error.response?.data?.message || error.message || "Failed to update material");
     } finally {
       setLoading(false);
     }
@@ -119,10 +125,10 @@ EditMaterial.propTypes = {
   material: PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    status: PropTypes.bool.isRequired,
+    status: PropTypes.string.isRequired,
   }).isRequired,
   onClose: PropTypes.func.isRequired,
-  refreshMaterials: PropTypes.func.isRequired, // Add prop type for refreshMaterials
+  onUpdate: PropTypes.func.isRequired,
 };
 
 export default EditMaterial;

@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react"; // Add useEffect
 import { FaAngleDown } from "react-icons/fa";
 import axios from "axios";
 
-const CreateProduct = ({ onClose, refreshBrands }) => {
+const CreateProduct = ({ onClose, onUpdate }) => {
   const [name, setName] = useState("");
-  const [status, setStatus] = useState("");
   const [category, setCategory] = useState("");
   const [material, setMaterial] = useState("");
   const [shape, setShape] = useState("");
@@ -143,7 +142,6 @@ const CreateProduct = ({ onClose, refreshBrands }) => {
   const isFormValid = () => {
     return (
       name.trim() && 
-      status && 
       category && 
       brand && 
       price
@@ -152,7 +150,7 @@ const CreateProduct = ({ onClose, refreshBrands }) => {
 
   const handleSave = async () => {
     if (!isFormValid()) {
-      setError("Please fill in required fields: Name, Status, Category, Brand, and Price.");
+      setError("Please fill in required fields: Name, Category, Brand, and Price.");
       return;
     }
     
@@ -162,30 +160,35 @@ const CreateProduct = ({ onClose, refreshBrands }) => {
     try {
       const productData = {
         name: name.trim(),
-        status: status,  // Đã đúng format, status là string 'active'/'inactive'
-        description: description.trim() || null,
-        brand_id: parseInt(brand),
-        category_id: parseInt(category),
-        material_id: material ? parseInt(material) : null,
-        shape_id: shape ? parseInt(shape) : null,
+        brand_id: brand,
+        category_id: category,
+        material_id: material || null,
+        shape_id: shape || null,
         gender: gender || null,
-        price: parseInt(price),
-        offer_price: offerPrice ? parseInt(offerPrice) : null,
+        price: price,
+        offer_price: offerPrice || null,
+        description: description.trim() || null,
+        features: selectedFeatures.length > 0 ? selectedFeatures : null,
       };
 
-      // Only add features if array is not empty, and ensure all values are integers
-      if (selectedFeatures.length > 0) {
-        productData.features = selectedFeatures.map(Number); // Convert all values to integers
-      }
-      
       const response = await axios.post('http://localhost:8000/api/products/create', productData);
       
-      console.log("Product saved:", response.data);
-      await refreshBrands();
-      alert("Product saved successfully!");
-      onClose();
+      if (response.status === 200) {
+        const success = await onUpdate();
+        if (success) {
+          alert("Product saved successfully!");
+          onClose();
+        } else {
+          throw new Error("Failed to refresh product list");
+        }
+      } else {
+        throw new Error(response.data.message || 'Failed to save product');
+      }
     } catch (err) {
-      setError(err.response?.data?.message || "Failed to save product");
+      const errorMessages = err.response?.data?.error 
+        ? Object.values(err.response.data.error).flat().join(', ')
+        : err.message || "Failed to save product";
+      setError(errorMessages);
     } finally {
       setLoading(false);
     }
@@ -232,25 +235,6 @@ const CreateProduct = ({ onClose, refreshBrands }) => {
           onChange={(e) => setName(e.target.value)}
           placeholder="Enter product name"
         />
-      </div>
-
-      <div className="mb-4">
-        <label className="block text-gray-700 font-medium mb-2" htmlFor="status">
-          Status
-        </label>
-        <div className="relative w-1/4">
-          <select
-            id="status"
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#55D5D2] bg-[#EFF9F9] border-[#55D5D2] appearance-none"
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
-          >
-            <option value="">Select status</option>
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
-          </select>
-          <FaAngleDown className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none" />
-        </div>
       </div>
 
       <div className="grid grid-cols-3 gap-4 mb-4 mt-10">
@@ -356,9 +340,9 @@ const CreateProduct = ({ onClose, refreshBrands }) => {
               disabled={isGenderDisabled()}
             >
               <option value="">Select gender</option>
-              <option value="men">male</option>
-              <option value="women">female</option>
-              <option value="unisex">unisex</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="unisex">Unisex</option>
             </select>
             <FaAngleDown className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none" />
           </div>

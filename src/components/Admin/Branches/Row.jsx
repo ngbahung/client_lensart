@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { BiEdit } from "react-icons/bi";
 import PropTypes from "prop-types";
-import axios from "axios";
 import ConfirmChangeStatusModal from "./ConfirmChangeStatusModal";
 
 const ToggleSwitch = ({ id, status, onToggle, disabled }) => {
@@ -10,7 +9,7 @@ const ToggleSwitch = ({ id, status, onToggle, disabled }) => {
       <input
         type="checkbox"
         id={`toggle-${id}`}
-        checked={status}
+        checked={status === 'active'}
         onChange={() => onToggle(id)}
         className="sr-only"
         disabled={disabled}
@@ -18,12 +17,12 @@ const ToggleSwitch = ({ id, status, onToggle, disabled }) => {
       <label
         htmlFor={`toggle-${id}`}
         className={`w-16 h-8 flex items-center rounded-full cursor-pointer transition-colors ${
-          status ? "bg-[#55d5d2]" : "bg-gray-400"
+          status === 'active' ? "bg-[#55d5d2]" : "bg-gray-400"
         }`}
       >
         <span
           className={`w-6 h-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${
-            status ? "translate-x-9" : "translate-x-1"
+            status === 'active' ? "translate-x-9" : "translate-x-1"
           }`}
         ></span>
       </label>
@@ -34,32 +33,6 @@ const ToggleSwitch = ({ id, status, onToggle, disabled }) => {
 const Row = ({ branch, onStatusChange, onEdit }) => {
   const [showStatusModal, setShowStatusModal] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
-  const [managerName, setManagerName] = useState("");
-  const [isLoadingManager, setIsLoadingManager] = useState(true);
-
-  useEffect(() => {
-    const fetchManagerName = async () => {
-      try {
-        const response = await axios.get(`http://localhost:8000/api/getById/${branch.manager_id}`);
-        if (response.data) {
-          const manager = response.data;
-          setManagerName(`${manager.firstName} ${manager.lastName}`);
-        }
-      } catch (error) {
-        console.error("Error fetching manager:", error);
-        setManagerName("N/A");
-      } finally {
-        setIsLoadingManager(false);
-      }
-    };
-
-    if (branch.manager_id) {
-      fetchManagerName();
-    } else {
-      setManagerName("No manager assigned");
-      setIsLoadingManager(false);
-    }
-  }, [branch.manager_id]);
 
   const handleStatusChange = () => {
     setShowStatusModal(true);
@@ -89,20 +62,14 @@ const Row = ({ branch, onStatusChange, onEdit }) => {
     <>
       <tr className="hover:bg-gray-100 h-[48px]">
         <td className="py-2 px-4">{branch.id}</td>
-        <td className="py-2 px-4">{branch.name}</td>
+        <td className="py-2 px-4">{branch.branch_name}</td>
         <td className="py-2 px-4">{branch.address}</td>
-        <td className="py-2 px-4">
-          {isLoadingManager ? (
-            <span className="text-gray-400">Loading...</span>
-          ) : (
-            managerName || 'N/A'  // Add fallback value
-          )}
-        </td>
+        <td className="py-2 px-4">{branch.manager_name || 'N/A'}</td>
         <td className="py-2 px-4">{branch.index || '-'}</td>
         <td className="py-2 px-4">
           <ToggleSwitch
             id={branch.id}
-            status={branch.status === 'active'}
+            status={branch.status}
             onToggle={handleStatusChange}
             disabled={isUpdating}
           />
@@ -130,7 +97,7 @@ const Row = ({ branch, onStatusChange, onEdit }) => {
 
 ToggleSwitch.propTypes = {
   id: PropTypes.number.isRequired,
-  status: PropTypes.bool.isRequired,
+  status: PropTypes.string.isRequired,
   onToggle: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
 };
@@ -138,11 +105,11 @@ ToggleSwitch.propTypes = {
 Row.propTypes = {
   branch: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
+    branch_name: PropTypes.string.isRequired,
     address: PropTypes.string.isRequired,
-    manager_id: PropTypes.number,
-    index: PropTypes.number,  // Add index to PropTypes
-    status: PropTypes.bool.isRequired,
+    manager_name: PropTypes.string,
+    index: PropTypes.number,
+    status: PropTypes.string.isRequired,
   }).isRequired,
   onStatusChange: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,

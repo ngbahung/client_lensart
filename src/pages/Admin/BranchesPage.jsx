@@ -15,41 +15,53 @@ const BranchesPage = () => {
   const mockData = [
     { 
       id: 1, 
-      name: "Chi nhánh 1", 
+      branch_name: "Chi nhánh 1", // Changed from name to branch_name
       address: "123 Nguyễn Huệ, Q1, TP.HCM",
-      managerName: "Nguyễn Văn A",
-      status: true 
+      manager_name: "Nguyễn Văn A",
+      index: 1,
+      status: 'active'
     },
     { 
       id: 2, 
-      name: "Chi nhánh 2", 
+      branch_name: "Chi nhánh 2", // Changed from name to branch_name
       address: "456 Lê Lợi, Q5, TP.HCM",
-      managerName: "Trần Thị B",
-      status: false 
+      manager_name: "Trần Thị B",
+      index: 2,
+      status: 'inactive'
     },
-    { id: 3, name: "Thép không gỉ", status: true },
-    { id: 4, name: "Nhựa TR90", status: false },
-    { id: 5, name: "Hợp kim", status: true },
-    { id: 6, name: "Nhôm", status: false },
-    { id: 7, name: "Nhựa Ultem", status: true },
-    { id: 8, name: "Carbon Fiber", status: false },
-    { id: 9, name: "Monel", status: true },
-    { id: 10, name: "Beryllium", status: false },
-    { id: 11, name: "Nhựa PC (Polycarbonate)", status: true },
-    { id: 12, name: "Gỗ tự nhiên", status: false },
-    { id: 13, name: "Nhựa Bio-acetate", status: true },
-    { id: 14, name: "Titanium Beta", status: false },
-    { id: 15, name: "Thép không gỉ 316L", status: true }
+    { id: 3, branch_name: "Thép không gỉ", status: true },
+    { id: 4, branch_name: "Nhựa TR90", status: false },
+    { id: 5, branch_name: "Hợp kim", status: true },
+    { id: 6, branch_name: "Nhôm", status: false },
+    { id: 7, branch_name: "Nhựa Ultem", status: true },
+    { id: 8, branch_name: "Carbon Fiber", status: false },
+    { id: 9, branch_name: "Monel", status: true },
+    { id: 10, branch_name: "Beryllium", status: false },
+    { id: 11, branch_name: "Nhựa PC (Polycarbonate)", status: true },
+    { id: 12, branch_name: "Gỗ tự nhiên", status: false },
+    { id: 13, branch_name: "Nhựa Bio-acetate", status: true },
+    { id: 14, branch_name: "Titanium Beta", status: false },
+    { id: 15, branch_name: "Thép không gỉ 316L", status: true }
   ];
 
-  const refreshBranches = async () => {
+
+  const fetchBranches = async () => {
     setIsLoading(true);
     try {
       const response = await axios.get('http://localhost:8000/api/branches');
       if (response.data) {
         const allBranches = response.data.data || mockData;
-        setBranches(allBranches);
-        setTotalPages(Math.ceil(allBranches.length / ITEMS_PER_PAGE));
+        // Standardize field names
+        const standardizedBranches = allBranches.map(branch => ({
+          id: branch.id,
+          branch_name: branch.branch_name || branch.name,
+          address: branch.address || '',
+          manager_name: branch.manager_name || 'N/A',
+          index: branch.index || 0,
+          status: branch.status
+        }));
+        setBranches(standardizedBranches);
+        setTotalPages(Math.ceil(standardizedBranches.length / ITEMS_PER_PAGE));
         setError(null);
       }
     } catch (error) {
@@ -62,31 +74,12 @@ const BranchesPage = () => {
   };
 
   useEffect(() => {
-    const fetchBranches = async () => {
-      try {
-        const response = await axios.get('http://localhost:8000/api/branches');
-        if (response.data) {
-          const allBranches = response.data.data || mockData;
-          setBranches(allBranches);
-          // Tính tổng số trang dựa trên số lượng items
-          setTotalPages(Math.ceil(allBranches.length / ITEMS_PER_PAGE));
-          setError(null);
-        }
-      } catch (error) {
-        console.error("Failed to fetch branches:", error);
-        setBranches(mockData);
-        setTotalPages(Math.ceil(mockData.length / ITEMS_PER_PAGE));
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     fetchBranches();
   }, []);
 
   const filteredBranches = branches.filter(branch => 
     branch.id.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
-    branch.name.toLowerCase().includes(searchTerm.toLowerCase())
+    branch.branch_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   // Tính toán items cho trang hiện tại từ danh sách đã được lọc
@@ -102,18 +95,23 @@ const BranchesPage = () => {
 
   const handleStatusChange = async (branchId) => {
     try {
+      const branch = branches.find(b => b.id === branchId);
+      if (!branch) return;
+      
+      const newStatus = branch.status === 'active' ? 'inactive' : 'active';
+      
       const response = await axios.post(`http://localhost:8000/api/branches/switch-status/${branchId}`);
       
       if (response.status === 200) {
         setBranches(prevBranches => 
-          prevBranches.map(branch => 
-            branch.id === branchId ? {...branch, status: !branch.status} : branch
+          prevBranches.map(b => 
+            b.id === branchId ? {...b, status: newStatus} : b
           )
         );
       }
     } catch (error) {
-      alert("Failed to update branch status");
       console.error("Failed to update branch status:", error);
+      alert("Failed to update branch status");
     }
   };
 
@@ -123,9 +121,29 @@ const BranchesPage = () => {
     // Cập nhật tổng số trang dựa trên kết quả tìm kiếm
     const filtered = branches.filter(branch => 
       branch.id.toString().toLowerCase().includes(value.toLowerCase()) ||
-      branch.name.toLowerCase().includes(value.toLowerCase())
+      branch.branch_name.toLowerCase().includes(value.toLowerCase())
     );
     setTotalPages(Math.ceil(filtered.length / ITEMS_PER_PAGE));
+  };
+
+  const handleEdit = async (branchId, updatedData) => {
+    try {
+      const response = await axios.put(`http://localhost:8000/api/branches/${branchId}`, updatedData);
+      
+      if (response.status === 200) {
+        // Update local state with edited data
+        setBranches(prevBranches =>
+          prevBranches.map(branch =>
+            branch.id === branchId ? { ...branch, ...updatedData } : branch
+          )
+        );
+        return true; // Return success status
+      }
+    } catch (error) {
+      console.error("Failed to update branch:", error);
+      alert("Failed to update branch");
+      return false;
+    }
   };
 
   return (
@@ -139,7 +157,8 @@ const BranchesPage = () => {
             onStatusChange={handleStatusChange}
             onSearch={handleSearch}
             searchTerm={searchTerm}
-            refreshBranches={refreshBranches}
+            onUpdate={fetchBranches} // Add this prop
+            onEdit={handleEdit} // Add onEdit prop
           />
         </div>
       </div>

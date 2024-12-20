@@ -13,24 +13,24 @@ const CouponsPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const mockData = [
-    { id: 1, name: "SUMMER2023", status: true },
-    { id: 2, name: "FALL2023", status: false },
-    { id: 3, name: "WINTER2023", status: true },
-    { id: 4, name: "SPRING2023", status: false },
-    { id: 5, name: "HOLIDAY2023", status: true },
-    { id: 6, name: "NEWYEAR2023", status: false },
-    { id: 7, name: "BLACKFRIDAY2023", status: true },
-    { id: 8, name: "CYBERMONDAY2023", status: false },
-    { id: 9, name: "CHRISTMAS2023", status: true },
-    { id: 10, name: "EASTER2023", status: false },
-    { id: 11, name: "VALENTINE2023", status: true },
-    { id: 12, name: "HALLOWEEN2023", status: false },
-    { id: 13, name: "BACKTOSCHOOL2023", status: true },
-    { id: 14, name: "LABORDAY2023", status: false },
-    { id: 15, name: "MEMORIALDAY2023", status: true }
+    { id: 1, name: "SUMMER2023", status: "active" },
+    { id: 2, name: "FALL2023", status: "inactive" },
+    { id: 3, name: "WINTER2023", status: "active" },
+    { id: 4, name: "SPRING2023", status: "inactive" },
+    { id: 5, name: "HOLIDAY2023", status: "active" },
+    { id: 6, name: "NEWYEAR2023", status: "inactive" },
+    { id: 7, name: "BLACKFRIDAY2023", status: "active" },
+    { id: 8, name: "CYBERMONDAY2023", status: "inactive" },
+    { id: 9, name: "CHRISTMAS2023", status: "active" },
+    { id: 10, name: "EASTER2023", status: "inactive" },
+    { id: 11, name: "VALENTINE2023", status: "active" },
+    { id: 12, name: "HALLOWEEN2023", status: "inactive" },
+    { id: 13, name: "BACKTOSCHOOL2023", status: "active" },
+    { id: 14, name: "LABORDAY2023", status: "inactive" },
+    { id: 15, name: "MEMORIALDAY2023", status: "active" }
   ];
 
-  const refreshCoupons = async () => {
+  const fetchCoupons = async () => {
     setIsLoading(true);
     try {
       const response = await axios.get('http://localhost:8000/api/coupons');
@@ -50,25 +50,6 @@ const CouponsPage = () => {
   };
 
   useEffect(() => {
-    const fetchCoupons = async () => {
-      try {
-        const response = await axios.get('http://localhost:8000/api/coupons');
-        if (response.data) {
-          const allCoupons = response.data.data || mockData;
-          setCoupons(allCoupons);
-          // Tính tổng số trang dựa trên số lượng items
-          setTotalPages(Math.ceil(allCoupons.length / ITEMS_PER_PAGE));
-          setError(null);
-        }
-      } catch (error) {
-        console.error("Failed to fetch coupons:", error);
-        setCoupons(mockData);
-        setTotalPages(Math.ceil(mockData.length / ITEMS_PER_PAGE));
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     fetchCoupons();
   }, []);
 
@@ -90,9 +71,10 @@ const CouponsPage = () => {
 
   const handleStatusChange = async (couponId) => {
     try {
-      // Find current coupon and get its current status
       const currentCoupon = coupons.find(coup => coup.id === couponId);
-      const newStatus = !currentCoupon.status;
+      const newStatus = currentCoupon.status === 'active' ? 'inactive' : 'active';
+
+      console.log(couponId)
       
       const response = await axios.post(`http://localhost:8000/api/coupons/switch-status/${couponId}`);
       
@@ -131,7 +113,7 @@ const CouponsPage = () => {
             onStatusChange={handleStatusChange}
             onSearch={handleSearch}
             searchTerm={searchTerm}
-            refreshCoupons={refreshCoupons}
+            onUpdate={fetchCoupons}  // Thay refreshCoupons bằng fetchCoupons
           />
         </div>
       </div>

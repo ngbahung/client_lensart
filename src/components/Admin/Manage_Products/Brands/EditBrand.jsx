@@ -3,7 +3,7 @@ import { FaAngleDown } from "react-icons/fa";
 import axios from "axios";
 import PropTypes from "prop-types";
 
-const EditBrand = ({ brand, onClose, refreshBrands }) => {  // Add refreshBrands prop
+const EditBrand = ({ brand, onClose, onUpdate }) => {  // Replace refreshBrands with onUpdate
   const [name, setName] = useState("");
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");
@@ -12,7 +12,7 @@ const EditBrand = ({ brand, onClose, refreshBrands }) => {  // Add refreshBrands
   useEffect(() => {
     if (brand) {
       setName(brand.name);
-      setStatus(brand.status ? "active" : "inactive");
+      setStatus(brand.status); // status is already 'active' or 'inactive'
     }
   }, [brand]);
 
@@ -27,7 +27,7 @@ const EditBrand = ({ brand, onClose, refreshBrands }) => {  // Add refreshBrands
       });
 
       if (response.status === 200) {
-        await refreshBrands(); // Add this line to refresh the list
+        await onUpdate(); // Replace refreshBrands with onUpdate
         onClose();
       }
     } catch (error) {
@@ -119,10 +119,10 @@ EditBrand.propTypes = {
   brand: PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    status: PropTypes.bool.isRequired,
+    status: PropTypes.oneOf(['active', 'inactive']).isRequired,
   }).isRequired,
   onClose: PropTypes.func.isRequired,
-  refreshBrands: PropTypes.func.isRequired, // Add this line
+  onUpdate: PropTypes.func.isRequired, // Replace refreshBrands with onUpdate
 };
 
 export default EditBrand;

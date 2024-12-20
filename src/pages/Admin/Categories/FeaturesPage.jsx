@@ -13,41 +13,44 @@ const FeaturesPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const mockData = [
-    { id: 1, name: "Polarized Lenses", status: true },
-    { id: 2, name: "UV400 Protection", status: true },
-    { id: 3, name: "Anti-Reflective Coating", status: true },
-    { id: 4, name: "Blue Light Blocking", status: false },
-    { id: 5, name: "Photochromic", status: true },
-    { id: 6, name: "Scratch Resistant", status: true },
-    { id: 7, name: "Impact Resistant", status: false },
-    { id: 8, name: "Anti-Fog Coating", status: true },
-    { id: 9, name: "Hydrophobic Coating", status: false },
-    { id: 10, name: "High Index Lenses", status: true },
-    { id: 11, name: "Progressive Lenses", status: false },
-    { id: 12, name: "Bifocal Design", status: true }
+    { id: 1, name: "Polarized Lenses", status: 'active' },
+    { id: 2, name: "UV400 Protection", status: 'active' },
+    { id: 3, name: "Anti-Reflective Coating", status: 'active' },
+    { id: 4, name: "Blue Light Blocking", status: 'inactive' },
+    { id: 5, name: "Photochromic", status: 'active' },
+    { id: 6, name: "Scratch Resistant", status: 'active' },
+    { id: 7, name: "Impact Resistant", status: 'inactive' },
+    { id: 8, name: "Anti-Fog Coating", status: 'active' },
+    { id: 9, name: "Hydrophobic Coating", status: 'inactive' },
+    { id: 10, name: "High Index Lenses", status: 'active' },
+    { id: 11, name: "Progressive Lenses", status: 'inactive' },
+    { id: 12, name: "Bifocal Design", status: 'active' }
   ];
 
-  const refreshFeatures = async () => {
+  const fetchFeatures = async () => {
     setIsLoading(true);
     try {
       const response = await axios.get('http://localhost:8000/api/features');
-      if (response.data && response.data.data) {
+      if (response.status === 200 && response.data && response.data.data) {
         const allFeatures = response.data.data;
         setFeatures(allFeatures);
         setTotalPages(Math.ceil(allFeatures.length / ITEMS_PER_PAGE));
         setError(null);
+        return true; // Add return value to indicate success
       }
+      throw new Error("Invalid response format");
     } catch (error) {
       console.error("Failed to fetch features:", error);
       setFeatures(mockData);
       setTotalPages(Math.ceil(mockData.length / ITEMS_PER_PAGE));
+      return false; // Add return value to indicate failure
     } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    refreshFeatures();
+    fetchFeatures();
   }, []);
 
   const filteredFeatures = features.filter(feature => 
@@ -69,7 +72,7 @@ const FeaturesPage = () => {
   const handleStatusChange = async (featureId) => {
     try {
       const feature = features.find(f => f.id === featureId);
-      const newStatus = !feature.status;
+      const newStatus = feature.status === 'active' ? 'inactive' : 'active';
       
       const response = await axios.post(`http://localhost:8000/api/features/switch-status/${featureId}`);
       
@@ -108,7 +111,7 @@ const FeaturesPage = () => {
             onStatusChange={handleStatusChange}
             onSearch={handleSearch}
             searchTerm={searchTerm}
-            onRefresh={refreshFeatures} // Add this prop
+            onUpdate={fetchFeatures} // Add this prop
           />
         </div>
       </div>

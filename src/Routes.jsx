@@ -20,6 +20,7 @@ import CouponsPage from './pages/Admin/CouponsPage';
 import ManageBlogsPage from './pages/Admin/ManageBlogsPage';
 import BranchesPage from './pages/Admin/BranchesPage';
 import BannersPage from './pages/Admin/BannersPage';
+import AllOrdersPage from './pages/Admin/Orders/AllOrdersPage';
 import CategoryPage from './pages/Admin/Categories/CategoryPage';
 import ShapePage from './pages/Admin/Categories/ShapePage';
 import MaterialsPage from './pages/Admin/Categories/MaterialsPage';
@@ -89,6 +90,7 @@ const AppRoutes = () => {
         <Route path="brands" element={<BrandsPage />} />
         <Route path="products" element={<ProductsPage />} />
         <Route path="product-reviews" element={<Product_ReviewsPage />} />
+        <Route path="all-orders" element={<AllOrdersPage />} />
       </Route>
 
       {/* User Routes */}

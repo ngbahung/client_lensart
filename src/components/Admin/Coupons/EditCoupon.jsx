@@ -3,7 +3,7 @@ import { FaAngleDown } from "react-icons/fa";
 import axios from "axios";
 import PropTypes from "prop-types";
 
-const EditCoupon = ({ coupon, onClose, refreshCoupons }) => {
+const EditCoupon = ({ coupon, onClose, onUpdate }) => {  // Thay refreshCoupons bằng onUpdate
   const [formData, setFormData] = useState({
     name: "",
     code: "",
@@ -88,11 +88,11 @@ const EditCoupon = ({ coupon, onClose, refreshCoupons }) => {
         code: formData.code.trim().toUpperCase(),
         quantity: parseInt(formData.quantity),
         discount_price: parseFloat(formData.discount_price),
-        status: formData.status
+        status: formData.status // Will be either 'active' or 'inactive'
       });
 
       if (response.status === 200) {
-        await refreshCoupons();
+        await onUpdate();  // Gọi onUpdate thay vì refreshCoupons
         onClose();
       }
     } catch (err) {
@@ -184,9 +184,8 @@ const EditCoupon = ({ coupon, onClose, refreshCoupons }) => {
               value={formData.status}
               onChange={handleChange}
             >
-              <option value="">Select status</option>
-              <option value="active">Active</option>
               <option value="inactive">Inactive</option>
+              <option value="active">Active</option>
             </select>
             <FaAngleDown className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none" />
           </div>
@@ -222,7 +221,7 @@ EditCoupon.propTypes = {
     status: PropTypes.string.isRequired,
   }).isRequired,
   onClose: PropTypes.func.isRequired,
-  refreshCoupons: PropTypes.func.isRequired,
+  onUpdate: PropTypes.func.isRequired,
 };
 
 export default EditCoupon;

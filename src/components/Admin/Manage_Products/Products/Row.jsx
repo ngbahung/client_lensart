@@ -5,12 +5,13 @@ import PropTypes from "prop-types";
 import ConfirmChangeStatusModal from "./ConfirmChangeStatusModal";
 
 const ToggleSwitch = ({ id, status, onToggle, disabled }) => {
+  const isActive = status === 'active';
   return (
     <div className="relative inline-flex items-center">
       <input
         type="checkbox"
         id={`toggle-${id}`}
-        checked={status}
+        checked={isActive}
         onChange={() => onToggle(id)}
         className="sr-only"
         disabled={disabled}
@@ -18,12 +19,12 @@ const ToggleSwitch = ({ id, status, onToggle, disabled }) => {
       <label
         htmlFor={`toggle-${id}`}
         className={`w-16 h-8 flex items-center rounded-full cursor-pointer transition-colors ${
-          status ? "bg-[#55d5d2]" : "bg-gray-400"
+          isActive ? "bg-[#55d5d2]" : "bg-gray-400"
         }`}
       >
         <span
           className={`w-6 h-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${
-            status ? "translate-x-9" : "translate-x-1"
+            isActive ? "translate-x-9" : "translate-x-1"
           }`}
         ></span>
       </label>
@@ -100,7 +101,7 @@ const Row = ({ product, onStatusChange, onEdit }) => {
         <td className="py-2 px-4">
           <ToggleSwitch
             id={product.id}
-            status={product.status === 'active'}
+            status={product.status}
             onToggle={handleStatusChange}
             disabled={isUpdating}
           />
@@ -184,7 +185,7 @@ Row.propTypes = {
     name: PropTypes.string.isRequired,
     description: PropTypes.string,
     price: PropTypes.number,
-    status: PropTypes.bool.isRequired,
+    status: PropTypes.string.isRequired, // Thay đổi từ bool sang string
   }).isRequired,
   onStatusChange: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,

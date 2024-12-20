@@ -4,7 +4,7 @@ import Row from "./Row";
 import CreateCategory from "./CreateCategory";
 import EditCategory from './EditCategory';
 
-const Table = ({ categories, isLoading, error, onStatusChange, onSearch, searchTerm }) => {
+const Table = ({ categories, isLoading, error, onStatusChange, onSearch, searchTerm, onUpdate }) => {
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [editingCategory, setEditingCategory] = useState(null);
 
@@ -30,11 +30,15 @@ const Table = ({ categories, isLoading, error, onStatusChange, onSearch, searchT
     return <EditCategory 
       category={editingCategory} 
       onClose={() => setEditingCategory(null)} 
+      onUpdate={onUpdate}
     />;
   }
 
   if (showCreateForm) {
-    return <CreateCategory onClose={() => setShowCreateForm(false)} />;
+    return <CreateCategory 
+      onClose={() => setShowCreateForm(false)} 
+      onUpdate={onUpdate}
+    />;
   }
 
   return (

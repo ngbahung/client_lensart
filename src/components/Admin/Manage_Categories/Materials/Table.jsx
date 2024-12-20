@@ -1,10 +1,11 @@
 import React, { useState } from "react";
+import PropTypes from 'prop-types';
 import { FiPlusCircle } from "react-icons/fi";
 import Row from "./Row";
 import CreateMaterial from "./CreateMaterial";
 import EditMaterial from './EditMaterial';
 
-const Table = ({ materials, isLoading, error, onStatusChange, onSearch, searchTerm }) => {
+const Table = ({ materials, isLoading, error, onStatusChange, onSearch, searchTerm, onUpdate }) => {
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [editingMaterial, setEditingMaterial] = useState(null);
 
@@ -30,11 +31,15 @@ const Table = ({ materials, isLoading, error, onStatusChange, onSearch, searchTe
     return <EditMaterial 
       material={editingMaterial} 
       onClose={() => setEditingMaterial(null)} 
+      onUpdate={onUpdate}  // Add onUpdate prop
     />;
   }
 
   if (showCreateForm) {
-    return <CreateMaterial onClose={() => setShowCreateForm(false)} />;
+    return <CreateMaterial 
+      onClose={() => setShowCreateForm(false)} 
+      onUpdate={onUpdate}  // Add onUpdate prop
+    />;
   }
 
   return (
@@ -101,6 +106,22 @@ const Table = ({ materials, isLoading, error, onStatusChange, onSearch, searchTe
       </table>
     </div>
   );
+};
+
+Table.propTypes = {
+  materials: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      status: PropTypes.oneOf(['active', 'inactive']).isRequired,
+    })
+  ).isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  error: PropTypes.string,
+  onStatusChange: PropTypes.func.isRequired,
+  onSearch: PropTypes.func.isRequired,
+  searchTerm: PropTypes.string.isRequired,
+  onUpdate: PropTypes.func.isRequired, // Add this prop type
 };
 
 export default Table;

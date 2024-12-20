@@ -4,7 +4,7 @@ import Row from "./Row";
 import CreateBrand from "./CreateBrand";
 import EditBrand from './EditBrand';
 
-const Table = ({ brands, isLoading, error, onStatusChange, onSearch, searchTerm }) => {
+const Table = ({ brands, isLoading, error, onStatusChange, onSearch, searchTerm, onUpdate }) => {
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [editingBrand, setEditingBrand] = useState(null);
 
@@ -30,11 +30,15 @@ const Table = ({ brands, isLoading, error, onStatusChange, onSearch, searchTerm 
     return <EditBrand 
       brand={editingBrand}  // Changed from category to brand
       onClose={() => setEditingBrand(null)} 
+      onUpdate={onUpdate}
     />;
   }
 
   if (showCreateForm) {
-    return <CreateBrand onClose={() => setShowCreateForm(false)} />;
+    return <CreateBrand 
+      onClose={() => setShowCreateForm(false)} 
+      onUpdate={onUpdate}
+    />;
   }
 
   return (
@@ -47,13 +51,15 @@ const Table = ({ brands, isLoading, error, onStatusChange, onSearch, searchTerm 
       <table className="min-w-full bg-white mb-4">
         <thead>
           <tr className="border-b border-[rgba(167,174,174,1)]">
-            <th colspan="3" className="py-2 px-4 text-left">
+            <th className="py-2 px-4 text-left">
               <h1 className="text-xl font-semibold">All Brands</h1>
             </th>
-            <th colSpan="1" className="py-2 px-4 text-right place-items-center"> 
+            <th></th>
+            <th></th>
+            <th className="py-2 px-4 text-right">
               <button 
                 onClick={handleShowCreate}
-                className="px-4 py-2 bg-[rgba(85,213,210,1)] text-white rounded-[10px] hover:opacity-90 font-normal flex items-center gap-2 mr-0"
+                className="px-4 py-2 bg-[rgba(85,213,210,1)] text-white rounded-[10px] hover:opacity-90 font-normal flex items-center gap-2 ml-auto"
               >
                 <FiPlusCircle className="w-5 h-5" /> Create New
               </button>

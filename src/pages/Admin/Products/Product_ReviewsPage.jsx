@@ -35,47 +35,36 @@ const Product_ReviewsPage = () => {
     try {
       const response = await axios.get('http://localhost:8000/api/reviews');
       if (response.data) {
-        const allReviews = response.data.data || mockData;
-        setReviews(allReviews);
-        setTotalPages(Math.ceil(allReviews.length / ITEMS_PER_PAGE));
+        const reviewsData = response.data.data || [];
+        // Ensure all required fields are present
+        const formattedReviews = reviewsData.map(review => ({
+          id: review.id,
+          product_name: review.product_name || 'Unknown Product',
+          user_name: review.user_name || 'Unknown User',
+          rating: review.rating || 0,
+          review: review.review || '',
+          status: review.status || 'inactive'
+        }));
+        setReviews(formattedReviews);
+        setTotalPages(Math.ceil(formattedReviews.length / ITEMS_PER_PAGE));
         setError(null);
       }
     } catch (error) {
       console.error("Failed to fetch reviews:", error);
-      setReviews(mockData);
-      setTotalPages(Math.ceil(mockData.length / ITEMS_PER_PAGE));
+      setError("Failed to load reviews");
     } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        const response = await axios.get('http://localhost:8000/api/reviews');
-        if (response.data) {
-          const allReviews = response.data.data || mockData;
-          setReviews(allReviews);
-          // Tính tổng số trang dựa trên số lượng items
-          setTotalPages(Math.ceil(allReviews.length / ITEMS_PER_PAGE));
-          setError(null);
-        }
-      } catch (error) {
-        console.error("Failed to fetch reviews:", error);
-        setReviews(mockData);
-        setTotalPages(Math.ceil(mockData.length / ITEMS_PER_PAGE));
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchReviews();
+    refreshReviews();
   }, []);
 
   const filteredReviews = reviews.filter(review => 
     review.id.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
-    review.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (review.userName || '').toLowerCase().includes(searchTerm.toLowerCase())
+    review.product_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    review.user_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   // Tính toán items cho trang hiện tại từ danh sách đã được lọc
@@ -93,7 +82,7 @@ const Product_ReviewsPage = () => {
     try {
       // Find current review and get its current status
       const currentReview = reviews.find(rev => rev.id === reviewId);
-      const newStatus = !currentReview.status;
+      const newStatus = currentReview.status === 'active' ? 'inactive' : 'active';
       
       const response = await axios.post(`http://localhost:8000/api/reviews/switch-status/${reviewId}`);
       
@@ -116,8 +105,8 @@ const Product_ReviewsPage = () => {
     // Cập nhật tổng số trang dựa trên kết quả tìm kiếm
     const filtered = reviews.filter(review => 
       review.id.toString().toLowerCase().includes(value.toLowerCase()) ||
-      review.productName.toLowerCase().includes(value.toLowerCase()) ||
-      (review.userName || '').toLowerCase().includes(value.toLowerCase())
+      review.product_name.toLowerCase().includes(value.toLowerCase()) ||
+      (review.user_name || '').toLowerCase().includes(value.toLowerCase())
     );
     setTotalPages(Math.ceil(filtered.length / ITEMS_PER_PAGE));
   };

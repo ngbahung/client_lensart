@@ -3,7 +3,7 @@ import { FaAngleDown } from "react-icons/fa";
 import axios from "axios";
 import PropTypes from "prop-types";
 
-const EditProduct = ({ product, onClose, refreshProducts }) => {
+const EditProduct = ({ product, onClose, onUpdate }) => {
   const [name, setName] = useState("");
   const [status, setStatus] = useState("");
   const [category, setCategory] = useState("");
@@ -69,7 +69,7 @@ const EditProduct = ({ product, onClose, refreshProducts }) => {
   useEffect(() => {
     if (product) {
       setName(product.name);
-      setStatus(product.status ? "active" : "inactive");
+      setStatus(product.status); // Now directly using 'active' or 'inactive'
       setCategory(product.category_id?.toString() || "");
       setMaterial(product.material_id?.toString() || ""); // Thay đổi cách set material
       setShape(product.shape_id?.toString() || ""); // Thay đổi cách set shape
@@ -95,31 +95,36 @@ const EditProduct = ({ product, onClose, refreshProducts }) => {
     try {
       const productData = {
         name: name.trim(),
-        status: status,  // Đã đúng format, status là string 'active'/'inactive'
+        status: status, // Now correctly passing 'active' or 'inactive'
         description: description.trim() || null,
-        brand_id: parseInt(brand),
-        category_id: parseInt(category),
-        material_id: material ? parseInt(material) : null,
-        shape_id: shape ? parseInt(shape) : null,
+        brand_id: brand,
+        category_id: category,
+        material_id: material || null,
+        shape_id: shape || null,
         gender: gender || null,
-        price: parseInt(price),
-        offer_price: offerPrice ? parseInt(offerPrice) : null,
+        price: price,
+        offer_price: offerPrice || null,
+        features: features.length > 0 ? features : null,
       };
-
-      // Only add features if array is not empty, and ensure all values are integers
-      if (features.length > 0) {
-        productData.features = features.map(Number);  // Convert all values to integers
-      }
       
       const response = await axios.post(`http://localhost:8000/api/products/update/${product.id}`, productData);
       
-      console.log("Product updated:", response.data);
-      await refreshProducts();
-      alert("Product updated successfully!");
-      onClose();
+      if (response.status === 200) {
+        const success = await onUpdate();
+        if (success) {
+          alert("Product updated successfully!");
+          onClose();
+        } else {
+          throw new Error("Failed to refresh product list");
+        }
+      } else {
+        throw new Error(response.data.message || 'Failed to update product');
+      }
     } catch (err) {
-      console.error("Error updating product:", err);
-      setError(err.response?.data?.message || "Failed to update product");
+      const errorMessages = err.response?.data?.error 
+        ? Object.values(err.response.data.error).flat().join(', ')
+        : err.message || "Failed to update product";
+      setError(errorMessages);
     } finally {
       setLoading(false);
     }

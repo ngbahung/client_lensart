@@ -13,21 +13,21 @@ const ShapePage = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const mockData = [
-    { id: 1, name: "Oval", status: true },
-    { id: 2, name: "Rectangle", status: true },
-    { id: 3, name: "Round", status: true },
-    { id: 4, name: "Square", status: false },
-    { id: 5, name: "Cat Eye", status: false },
-    { id: 6, name: "Aviator", status: true },
-    { id: 7, name: "Wayfarer", status: true },
-    { id: 8, name: "Butterfly", status: false },
-    { id: 9, name: "Geometric", status: true },
-    { id: 10, name: "Browline", status: true },
-    { id: 11, name: "Hexagonal", status: false },
-    { id: 12, name: "Oversized", status: true }
+    { id: 1, name: "Oval", status: "active" },
+    { id: 2, name: "Rectangle", status: "active" },
+    { id: 3, name: "Round", status: "active" },
+    { id: 4, name: "Square", status: "inactive" },
+    { id: 5, name: "Cat Eye", status: "inactive" },
+    { id: 6, name: "Aviator", status: "active" },
+    { id: 7, name: "Wayfarer", status: "active" },
+    { id: 8, name: "Butterfly", status: "inactive" },
+    { id: 9, name: "Geometric", status: "active" },
+    { id: 10, name: "Browline", status: "active" },
+    { id: 11, name: "Hexagonal", status: "inactive" },
+    { id: 12, name: "Oversized", status: "active" }
   ];
 
-  const reloadShapes = async () => {
+  const fetchShapes = async () => {
     setIsLoading(true);
     try {
       const response = await axios.get('http://localhost:8000/api/shapes');
@@ -47,29 +47,8 @@ const ShapePage = () => {
   };
   
   useEffect(() => {
-    const fetchShapes = async () => {
-      try {
-        const response = await axios.get('http://localhost:8000/api/shapes');
-        if (response.data) {
-          const allShapes = response.data.data || mockData;
-          setShapes(allShapes);
-          // Tính tổng số trang dựa trên số lượng items
-          setTotalPages(Math.ceil(allShapes.length / ITEMS_PER_PAGE));
-          setError(null);
-        }
-      } catch (error) {
-        console.error("Failed to fetch shapes:", error);
-        setShapes(mockData);
-        setTotalPages(Math.ceil(mockData.length / ITEMS_PER_PAGE));
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     fetchShapes();
   }, []);
-
-  
 
   const filteredShapes = shapes.filter(shape => 
     shape.id.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -90,7 +69,7 @@ const ShapePage = () => {
   const handleStatusChange = async (shapeId) => {
     try {
       const currentShape = shapes.find(shape => shape.id === shapeId);
-      const newStatus = !currentShape.status;
+      const newStatus = currentShape.status === 'active' ? 'inactive' : 'active';
       
       const response = await axios.post(`http://localhost:8000/api/shapes/switch-status/${shapeId}`);
       
@@ -129,7 +108,7 @@ const ShapePage = () => {
             onStatusChange={handleStatusChange}
             onSearch={handleSearch}
             searchTerm={searchTerm}
-            reloadShapes={reloadShapes} // Add this prop
+            onUpdate={fetchShapes} // Add this prop
           />
         </div>
       </div>

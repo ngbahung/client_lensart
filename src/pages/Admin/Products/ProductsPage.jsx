@@ -13,58 +13,48 @@ const ProductsPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const mockData = [
-    { id: 1, name: "Sunglasses Model A", description: "Stylish summer sunglasses", price: 99.99, status: true },
-    { id: 2, name: "Reading Glasses B", description: "Comfortable reading glasses", price: 79.99, status: true },
-    { id: 3, name: "Tom Ford", description: "Luxury designer frames", price: 299.99, status: false },
-    { id: 4, name: "Gucci", description: "High-end fashion glasses", price: 199.99, status: true },
-    { id: 5, name: "Prada", description: "Elegant and stylish", price: 249.99, status: true },
-    { id: 6, name: "Versace", description: "Bold and luxurious", price: 279.99, status: false },
-    { id: 7, name: "Burberry", description: "Classic and timeless", price: 189.99, status: true },
-    { id: 8, name: "Chanel", description: "Iconic fashion glasses", price: 299.99, status: true },
-    { id: 9, name: "Nike Vision", description: "Sporty and durable", price: 129.99, status: false },
-    { id: 10, name: "Dior", description: "Chic and sophisticated", price: 259.99, status: true }
+    { id: 1, name: "Sunglasses Model A", description: "Stylish summer sunglasses", price: 99.99, status: 'active' },
+    { id: 2, name: "Reading Glasses B", description: "Comfortable reading glasses", price: 79.99, status: 'active' },
+    { id: 3, name: "Tom Ford", description: "Luxury designer frames", price: 299.99, status: 'inactive' },
+    { id: 4, name: "Gucci", description: "High-end fashion glasses", price: 199.99, status: 'active' },
+    { id: 5, name: "Prada", description: "Elegant and stylish", price: 249.99, status: 'active' },
+    { id: 6, name: "Versace", description: "Bold and luxurious", price: 279.99, status: 'inactive' },
+    { id: 7, name: "Burberry", description: "Classic and timeless", price: 189.99, status: 'active' },
+    { id: 8, name: "Chanel", description: "Iconic fashion glasses", price: 299.99, status: 'active' },
+    { id: 9, name: "Nike Vision", description: "Sporty and durable", price: 129.99, status: 'inactive' },
+    { id: 10, name: "Dior", description: "Chic and sophisticated", price: 259.99, status: 'active' }
   ];
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await axios.get('http://localhost:8000/api/products');
-        if (response.data) {
-          const allProducts = response.data.data || mockData;
-          setProducts(allProducts);
-          setTotalPages(Math.ceil(allProducts.length / ITEMS_PER_PAGE));
-          setError(null);
-        }
-      } catch (error) {
-        console.error("Failed to fetch products:", error);
-        setProducts(mockData);
-        setTotalPages(Math.ceil(mockData.length / ITEMS_PER_PAGE));
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchProducts();
-  }, []);
-
-  const refreshProducts = async () => {
+  const fetchProducts = async () => {
     setIsLoading(true);
     try {
       const response = await axios.get('http://localhost:8000/api/products');
-      if (response.data) {
-        const allProducts = response.data.data || mockData;
+      if (response.status === 200 && response.data && response.data.data) {
+        const allProducts = response.data.data;
         setProducts(allProducts);
         setTotalPages(Math.ceil(allProducts.length / ITEMS_PER_PAGE));
         setError(null);
+        return true; // Add return value to indicate success
       }
+      throw new Error("Invalid response format");
     } catch (error) {
       console.error("Failed to fetch products:", error);
       setProducts(mockData);
       setTotalPages(Math.ceil(mockData.length / ITEMS_PER_PAGE));
+      return false; // Add return value to indicate failure
     } finally {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  // Thêm useEffect để lắng nghe thay đổi
+  useEffect(() => {
+    console.log("ProductsPage re-rendering"); // Debug log
+  });
 
   const filteredProducts = products.filter(product => 
     product.id.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -87,7 +77,10 @@ const ProductsPage = () => {
       
       setProducts(prevProducts => 
         prevProducts.map(product => 
-          product.id === productId ? {...product, status: !product.status} : product
+          product.id === productId ? {
+            ...product, 
+            status: product.status === 'active' ? 'inactive' : 'active'
+          } : product
         )
       );
     } catch (error) {
@@ -118,7 +111,7 @@ const ProductsPage = () => {
             onStatusChange={handleStatusChange}
             onSearch={handleSearch}
             searchTerm={searchTerm}
-            refreshProducts={refreshProducts}
+            onUpdate={fetchProducts} // Thêm prop này
           />
         </div>
       </div>

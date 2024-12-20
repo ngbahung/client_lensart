@@ -3,7 +3,7 @@ import { FaAngleDown } from "react-icons/fa";
 import axios from "axios";
 import PropTypes from "prop-types";
 
-const EditShape = ({ shape, onClose, reloadShapes }) => {
+const EditShape = ({ shape, onClose, onUpdate }) => {
   const [name, setName] = useState("");
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");
@@ -12,7 +12,7 @@ const EditShape = ({ shape, onClose, reloadShapes }) => {
   useEffect(() => {
     if (shape) {
       setName(shape.name);
-      setStatus(shape.status ? "active" : "inactive");
+      setStatus(shape.status); // No need for conversion since it's already a string
     }
   }, [shape]);
 
@@ -27,7 +27,7 @@ const EditShape = ({ shape, onClose, reloadShapes }) => {
       });
 
       if (response.status === 200) {
-        await reloadShapes(); // Add this line
+        await onUpdate();
         onClose();
       }
     } catch (error) {
@@ -119,10 +119,10 @@ EditShape.propTypes = {
   shape: PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    status: PropTypes.bool.isRequired,
+    status: PropTypes.string.isRequired, // Changed from bool to string
   }).isRequired,
   onClose: PropTypes.func.isRequired,
-  reloadShapes: PropTypes.func.isRequired,
+  onUpdate: PropTypes.func.isRequired,
 };
 
 export default EditShape;
