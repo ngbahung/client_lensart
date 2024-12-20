@@ -88,9 +88,8 @@ const Table = ({ images, isLoading, error, onDelete, onUpdateSuccess, onUpload, 
   return (
     <div className="bg-white p-6 rounded-md">
       {error && (
-        <div className="text-red-600 mb-4 p-2 bg-red-50 rounded border border-red-200">
-          <p className="font-medium">Error:</p>
-          <p>{error}</p>
+        <div className="text-amber-600 mb-4 p-2 bg-amber-50 rounded">
+          {error}
         </div>
       )}
 

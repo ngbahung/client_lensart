@@ -3,7 +3,6 @@ import axios from 'axios';
 import Table from './Table';
 import Pagination from "./Pagination";
 import PropTypes from 'prop-types';
-import Swal from 'sweetalert2';
 
 const ImageGalleryPage = ({ productId }) => {
   const [images, setImages] = useState([]);
@@ -114,43 +113,17 @@ const ImageGalleryPage = ({ productId }) => {
   };
 
   const handleDelete = async (imageId) => {
-    try {
-      const result = await Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#55d5d2',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: 'Cancel'
-      });
-
-      if (result.isConfirmed) {
-        setIsLoading(true);
-        const response = await axios.post(
-          `http://localhost:8000/api/product-images/delete/${imageId}`
-        );
-
+    if (window.confirm('Are you sure you want to delete this image?')) {
+      try {
+        const response = await axios.post(`http://localhost:8000/api/images/delete/${imageId}`);
         if (response.status === 200) {
           setImages(prevImages => prevImages.filter(image => image.id !== imageId));
-          Swal.fire(
-            'Deleted!',
-            'The image has been deleted.',
-            'success'
-          );
+          alert('Image deleted successfully');
         }
+      } catch (error) {
+        alert(error.response?.data?.message || "Failed to delete image");
+        console.error("Failed to delete image:", error);
       }
-    } catch (error) {
-      const errorMessage = error.response?.data?.message || 'Failed to delete image';
-      Swal.fire(
-        'Error!',
-        errorMessage,
-        'error'
-      );
-      console.error('Error deleting image:', error);
-    } finally {
-      setIsLoading(false);
     }
   };
 

@@ -34,8 +34,8 @@ const Row = ({ image, onDelete }) => {
   const [isDeleting, setIsDeleting] = useState(false);
 
   const handleDelete = async () => {
+    setIsDeleting(true);
     try {
-      setIsDeleting(true);
       await onDelete(image.id);
     } finally {
       setIsDeleting(false);
@@ -63,7 +63,7 @@ const Row = ({ image, onDelete }) => {
           <button
             className={`p-1.5 rounded-md ${
               isDeleting ? 'bg-gray-400' : 'bg-[rgba(255,0,5,1)]'
-            } hover:opacity-80 transition-colors duration-200`}
+            } hover:opacity-80`}
             onClick={handleDelete}
             disabled={isDeleting}
           >

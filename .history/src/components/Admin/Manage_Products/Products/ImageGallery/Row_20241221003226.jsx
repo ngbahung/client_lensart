@@ -31,15 +31,8 @@ const ToggleSwitch = ({ id, status, onToggle, disabled }) => {
 };
 
 const Row = ({ image, onDelete }) => {
-  const [isDeleting, setIsDeleting] = useState(false);
-
-  const handleDelete = async () => {
-    try {
-      setIsDeleting(true);
-      await onDelete(image.id);
-    } finally {
-      setIsDeleting(false);
-    }
+  const handleDelete = () => {
+    onDelete(image.id);
   };
 
   return (
@@ -61,17 +54,10 @@ const Row = ({ image, onDelete }) => {
       <td className="h-full">
         <div className="flex items-center justify-center h-full min-h-[64px]">
           <button
-            className={`p-1.5 rounded-md ${
-              isDeleting ? 'bg-gray-400' : 'bg-[rgba(255,0,5,1)]'
-            } hover:opacity-80 transition-colors duration-200`}
+            className="p-1.5 rounded-md bg-[rgba(255,0,5,1)] hover:opacity-80"
             onClick={handleDelete}
-            disabled={isDeleting}
           >
-            {isDeleting ? (
-              <span className="w-5 h-5 block border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-            ) : (
-              <FiTrash2 size={20} className="text-white" />
-            )}
+            <FiTrash2 size={20} className="text-white" />
           </button>
         </div>
       </td>

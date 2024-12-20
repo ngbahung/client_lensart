@@ -3,7 +3,6 @@ import axios from 'axios';
 import Table from './Table';
 import Pagination from "./Pagination";
 import PropTypes from 'prop-types';
-import Swal from 'sweetalert2';
 
 const ImageGalleryPage = ({ productId }) => {
   const [images, setImages] = useState([]);
@@ -13,6 +12,8 @@ const ImageGalleryPage = ({ productId }) => {
   const [totalPages, setTotalPages] = useState(5);
   const ITEMS_PER_PAGE = 6; // Số lượng items mỗi trang
   const [searchTerm, setSearchTerm] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState(null);
 
   const mockData = [
     {
@@ -114,43 +115,17 @@ const ImageGalleryPage = ({ productId }) => {
   };
 
   const handleDelete = async (imageId) => {
-    try {
-      const result = await Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#55d5d2',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: 'Cancel'
-      });
-
-      if (result.isConfirmed) {
-        setIsLoading(true);
-        const response = await axios.post(
-          `http://localhost:8000/api/product-images/delete/${imageId}`
-        );
-
+    if (window.confirm('Are you sure you want to delete this image?')) {
+      try {
+        const response = await axios.post(`http://localhost:8000/api/images/delete/${imageId}`);
         if (response.status === 200) {
           setImages(prevImages => prevImages.filter(image => image.id !== imageId));
-          Swal.fire(
-            'Deleted!',
-            'The image has been deleted.',
-            'success'
-          );
+          alert('Image deleted successfully');
         }
+      } catch (error) {
+        alert(error.response?.data?.message || "Failed to delete image");
+        console.error("Failed to delete image:", error);
       }
-    } catch (error) {
-      const errorMessage = error.response?.data?.message || 'Failed to delete image';
-      Swal.fire(
-        'Error!',
-        errorMessage,
-        'error'
-      );
-      console.error('Error deleting image:', error);
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -177,10 +152,17 @@ const ImageGalleryPage = ({ productId }) => {
     fetchImages(); // Gọi lại API để lấy dữ liệu mới
   };
 
-  const handleImageUpload = async (file) => {
-    setIsLoading(true);
+  const handleImageUpload = async (event) => {
+    const files = event.target.files;
+    if (!files.length) return;
+
+    setUploading(true);
+    setUploadError(null);
+
     const formData = new FormData();
-    formData.append('image', file);
+    for (let i = 0; i < files.length; i++) {
+      formData.append('images[]', files[i]);
+    }
     formData.append('product_id', productId);
 
     try {
@@ -191,29 +173,53 @@ const ImageGalleryPage = ({ productId }) => {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
+          onUploadProgress: (progressEvent) => {
+            const percentCompleted = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total
+            );
+            console.log(`Upload Progress: ${percentCompleted}%`);
+          },
         }
       );
 
-      if (response.data && response.status === 200) {
+      if (response.data.success) {
         await fetchImages(); // Refresh the images list
+        alert('Images uploaded successfully');
+      } else {
+        throw new Error(response.data.message || 'Upload failed');
       }
     } catch (error) {
-      setError(error.response?.data?.message || 'Failed to upload image');
-      console.error('Error uploading image:', error);
+      setUploadError(
+        error.response?.data?.message || 'Failed to upload images. Please try again.'
+      );
+      console.error('Upload error:', error);
     } finally {
-      setIsLoading(false);
+      setUploading(false);
+      // Reset the file input
+      event.target.value = '';
     }
   };
 
   return (
     <div className="container mx-auto px-4">
+      <div className="mb-4">
+        <input
+          type="file"
+          multiple
+          accept="image/*"
+          onChange={handleImageUpload}
+          disabled={uploading}
+          className="mb-2"
+        />
+        {uploading && <p className="text-blue-500">Uploading...</p>}
+        {uploadError && <p className="text-red-500">{uploadError}</p>}
+      </div>
       <Table
         images={images}
         isLoading={isLoading}
         error={error}
         onDelete={handleDelete}
         onUpdateSuccess={handleUpdateSuccess}
-        onUpload={handleImageUpload}
         product_id={productId} // Truyền productId vào Table
       />
     </div>

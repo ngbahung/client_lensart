@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import { FiUpload, FiX } from "react-icons/fi";
 import Row from "./Row";
 
-const Table = ({ images, isLoading, error, onDelete, onUpdateSuccess, onUpload, product_id }) => {
+const Table = ({ images, isLoading, error, onDelete, onUpdateSuccess, product_id }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [preview, setPreview] = useState(null);
   const [uploading, setUploading] = useState(false);
@@ -69,28 +69,11 @@ const Table = ({ images, isLoading, error, onDelete, onUpdateSuccess, onUpload, 
     }
   };
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      if (file.size > 5 * 1024 * 1024) { // 5MB limit
-        alert('File size should not exceed 5MB');
-        return;
-      }
-      if (!file.type.startsWith('image/')) {
-        alert('Please upload an image file');
-        return;
-      }
-      onUpload(file);
-      fileInputRef.current.value = ''; // Reset file input
-    }
-  };
-
   return (
     <div className="bg-white p-6 rounded-md">
       {error && (
-        <div className="text-red-600 mb-4 p-2 bg-red-50 rounded border border-red-200">
-          <p className="font-medium">Error:</p>
-          <p>{error}</p>
+        <div className="text-amber-600 mb-4 p-2 bg-amber-50 rounded">
+          {error}
         </div>
       )}
 
@@ -102,7 +85,7 @@ const Table = ({ images, isLoading, error, onDelete, onUpdateSuccess, onUpload, 
             <input
               type="file"
               ref={fileInputRef}
-              onChange={handleFileChange}
+              onChange={handleFileSelect}
               className="hidden"
               accept="image/*"
             />
