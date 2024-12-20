@@ -194,7 +194,8 @@ const AllOrdersPage = () => {
 
 
   const handleUpdateSuccess = () => {
-    fetchOrders(); // Gọi lại API để lấy dữ liệu mới
+    setCurrentPage(1); // Reset to first page
+    fetchOrders(); // Reload the orders
   };
 
   return (
@@ -207,7 +208,7 @@ const AllOrdersPage = () => {
             error={error}
             onSearch={handleSearch}
             searchTerm={searchTerm}
-            onUpdateSuccess={handleUpdateSuccess} // Đổi tên prop
+            onUpdateSuccess={handleUpdateSuccess}
           />
         </div>
       </div>

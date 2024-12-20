@@ -158,7 +158,7 @@ const Navbar = () => {
                       <NavLink
                         to={`/admin/${item.toLowerCase().replace(' ', '-')}`}
                         className={`block px-4 py-2 ${
-                          isChildActive(item)
+                          isChildActive(item.toLowerCase().replace(' ', '-'))
                             ? 'text-[rgba(85,213,210,1)]'
                             : 'text-black-700 hover:text-[rgba(85,213,210,1)]'
                         }`}
@@ -197,17 +197,17 @@ const Navbar = () => {
                 <ul className="ml-[50px] mt-2 space-y-1">
                   {['All Orders', 'All Pending Orders', 'All Processed Orders', 'All Out For Delivery Orders', 'All Delivered Orders', 'All Canceled Orders'].map((item) => (
                     <li key={item} className="hover:bg-gray-100 rounded-lg ml-[12px]">
-                      <NavLink
-                        to={`/admin/${item.toLowerCase().replace(' ', '-')}`}
-                        className={`block px-4 py-2 ${
-                          isChildActive(item.toLowerCase())
-                            ? 'text-[rgba(85,213,210,1)]'
-                            : 'text-black-700 hover:text-[rgba(85,213,210,1)]'
-                        }`}
-                      >
-                        {item}
-                      </NavLink>
-                    </li>
+                    <NavLink
+                      to={`/admin/${item.toLowerCase().replaceAll(' ', '-')}`}
+                      className={`block px-4 py-2 ${
+                        isChildActive(item.toLowerCase().replaceAll(' ', '-'))
+                          ? 'text-[rgba(85,213,210,1)]'
+                          : 'text-black-700 hover:text-[rgba(85,213,210,1)]'
+                      }`}
+                    >
+                      {item}
+                    </NavLink>
+                  </li>
                   ))}
                 </ul>
               )}
@@ -302,9 +302,9 @@ const Navbar = () => {
                   {['User List', 'Add User', 'User Roles'].map((item) => (
                     <li key={item} className="hover:bg-gray-100 rounded-lg ml-[12px]">
                       <NavLink
-                        to={`/admin/${item.toLowerCase().replace(' ', '-')}`}
+                        to={`/admin/${item.toLowerCase().replaceAll(' ', '-')}`}
                         className={`block px-4 py-2 ${
-                          isChildActive(item.toLowerCase())
+                          isChildActive(item.toLowerCase().replaceAll(' ', '-'))
                             ? 'text-[rgba(85,213,210,1)]'
                             : 'text-black-700 hover:text-[rgba(85,213,210,1)]'
                         }`}

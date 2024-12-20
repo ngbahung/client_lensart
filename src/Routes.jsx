@@ -22,6 +22,8 @@ import ManageBlogsPage from './pages/Admin/ManageBlogsPage';
 import BranchesPage from './pages/Admin/BranchesPage';
 import BannersPage from './pages/Admin/BannersPage';
 import AllOrdersPage from './pages/Admin/Orders/AllOrdersPage';
+import AllPendingOrdersPage from './pages/Admin/Orders/AllPendingOrdersPage';
+import AllProcessedOrdersPage from './pages/Admin/Orders/AllProcessedOrdersPage';
 import CategoryPage from './pages/Admin/Categories/CategoryPage';
 import ShapePage from './pages/Admin/Categories/ShapePage';
 import MaterialsPage from './pages/Admin/Categories/MaterialsPage';
@@ -146,6 +148,16 @@ const AppRoutes = () => {
         <Route path="all-orders" element={
           <ProtectedAdminRoute>
             <AllOrdersPage />
+          </ProtectedAdminRoute>
+        } />
+        <Route path="all-pending-orders" element={
+          <ProtectedAdminRoute>
+            <AllPendingOrdersPage />
+          </ProtectedAdminRoute>
+        } />
+        <Route path="all-processed-orders" element={
+          <ProtectedAdminRoute>
+            <AllProcessedOrdersPage />
           </ProtectedAdminRoute>
         } />
       </Route>
