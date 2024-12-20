@@ -3,9 +3,7 @@ import PropTypes from "prop-types";
 
 const Row = ({ transaction }) => {
   const formatAmount = (amount) => {
-    // Remove any existing dots and spaces
-    const cleanAmount = amount.replace(/[.,\s]/g, '');
-    // Add dots for every 3 digits from the right
+    const cleanAmount = amount.toString().replace(/[.,\s]/g, '');
     return cleanAmount.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   };
 

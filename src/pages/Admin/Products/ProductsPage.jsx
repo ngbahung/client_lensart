@@ -29,15 +29,19 @@ const ProductsPage = () => {
     setIsLoading(true);
     try {
       const response = await axios.get('http://localhost:8000/api/products');
-      console.log("Fetching products:", response.data); // Debug log
-      if (response.data && response.data.data) {
-        setProducts(response.data.data);
-        setTotalPages(Math.ceil(response.data.data.length / ITEMS_PER_PAGE));
+      if (response.status === 200 && response.data && response.data.data) {
+        const allProducts = response.data.data;
+        setProducts(allProducts);
+        setTotalPages(Math.ceil(allProducts.length / ITEMS_PER_PAGE));
+        setError(null);
+        return true; // Add return value to indicate success
       }
+      throw new Error("Invalid response format");
     } catch (error) {
       console.error("Failed to fetch products:", error);
       setProducts(mockData);
       setTotalPages(Math.ceil(mockData.length / ITEMS_PER_PAGE));
+      return false; // Add return value to indicate failure
     } finally {
       setIsLoading(false);
     }

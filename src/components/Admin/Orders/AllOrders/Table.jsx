@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import { FiPlusCircle } from "react-icons/fi";
+import axios from 'axios';
 import Row from "./Row";
+import Detail from "./Detail";
 
-const Table = ({ blogs, isLoading, error, onStatusChange, onSearch, searchTerm, onDelete, onUpdateSuccess }) => { // Remove refreshBlogs
-  const [showCreateForm, setShowCreateForm] = useState(false);
-  const [editingBlog, setEditingBlog] = useState(null);
+const Table = ({ orders, isLoading, error, onSearch, searchTerm }) => {
+  const [showDetail, setShowDetail] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState(null);
 
-  const handleShowCreate = () => {
-    setShowCreateForm(true);
+  const handleShowDetail = (order) => {
+    setSelectedOrder(order);
+    setShowDetail(true);
   };
 
   const handleSearch = (e) => {
@@ -20,41 +22,16 @@ const Table = ({ blogs, isLoading, error, onStatusChange, onSearch, searchTerm, 
     }
   };
 
-  const handleEdit = (blog) => {
-    console.log("Editing blog:", blog); // Add this debug line
-    setEditingBlog(blog);
-  };
-
-  const handleEditSuccess = async () => {
-    try {
-      if (typeof onEditSuccess === 'function') {
-        await onEditSuccess();
-      }
-      setEditingBlog(null); // Reset form editing state
-    } catch (error) {
-      console.error("Error refreshing data:", error);
-    }
-  };
-
-  if (editingBlog) {
-    return <EditBlog
-      blog={editingBlog}
-      onClose={() => setEditingBlog(null)}
-      onEditSuccess={() => {
-        setEditingBlog(null);
-        onUpdateSuccess();
-      }}
-    />;
-  }
-
-  if (showCreateForm) {
-    return <CreateBlog 
-      onClose={() => setShowCreateForm(false)}
-      onCreateSuccess={() => {
-        setShowCreateForm(false);
-        onUpdateSuccess();
-      }}
-    />;
+  if (showDetail && selectedOrder) {
+    return (
+      <Detail
+        order={selectedOrder}
+        onClose={() => {
+          setShowDetail(false);
+          setSelectedOrder(null);
+        }}
+      />
+    );
   }
 
   return (
@@ -67,57 +44,47 @@ const Table = ({ blogs, isLoading, error, onStatusChange, onSearch, searchTerm, 
       <table className="min-w-full bg-white mb-4">
         <thead>
           <tr className="border-b border-[rgba(167,174,174,1)]">
-            <th colspan="3" className="py-2 px-4 text-left">
-              <h1 className="text-xl font-semibold">All Blogs</h1>
-            </th>
-            <th></th>
-            <th colspan="2" className="py-2 px-4 text-right">
-              <button
-                onClick={handleShowCreate}
-                className="px-4 py-2 bg-[rgba(85,213,210,1)] text-white rounded-[10px] hover:opacity-90 font-normal flex items-center gap-2 ml-auto"
-              >
-                <FiPlusCircle className="w-5 h-5" /> Create New
-              </button>
+            <th colspan="6" className="py-2 px-4 text-left">
+              <h1 className="text-xl font-semibold">All Orders</h1>
             </th>
           </tr>
           <tr>
             <th colSpan="6" className="py-2 px-4">
               <div className="flex items-center gap-2 justify-start">
-                <label htmlFor="searchId" className="font-medium text-[rgba(167,174,174,1)]">Search by ID/Title: </label>
+                <label htmlFor="searchId" className="font-medium text-[rgba(167,174,174,1)]">Search: </label>
                 <input
                   id="searchId"
                   type="text"
                   value={searchTerm}
                   onChange={handleSearch}
                   onKeyPress={handleKeyPress}
-                  className="border rounded-[10px] px-2 py-1 w-48 font-normal"
-                  placeholder="Enter ID or title..."
+                  className="border rounded-[10px] px-2 py-1 w-64 font-normal"
+                  placeholder="Search by ID, Name, Date..."
                 />
               </div>
             </th>
           </tr>
           <tr className="bg-[rgba(217,217,217,0.5)]">
             <th className="py-2 px-4 text-left w-[10%]">ID</th>
-            <th className="py-2 px-4 text-left w-[15%]">Image</th>
-            <th className="py-2 px-4 text-left w-[25%]">Title</th>
-            <th className="py-2 px-4 text-left w-[30%]">Description</th>
-            <th className="py-2 px-4 text-left w-[10%]">Status</th>
-            <th className="py-2 px-4 text-center w-[10%]">Action</th>
+            <th className="py-2 px-4 text-left w-[20%]">Customer Name</th>
+            <th className="py-2 px-4 text-left w-[15%]">Amount</th>
+            <th className="py-2 px-4 text-left w-[15%]">Date</th>
+            <th className="py-2 px-4 text-left w-[15%]">Order Status</th>
+            <th className="py-2 px-4 text-left w-[15%]">Payment Status</th>
+            <th className="py-2 px-4 text-center w-[10%]">Actions</th>
           </tr>
         </thead>
         <tbody>
           {isLoading ? (
             <tr>
-              <td colSpan="6" className="text-center py-4">Loading...</td> {/* Update colspan to 6 */}
+              <td colSpan="6" className="text-center py-4">Loading...</td>
             </tr>
           ) : (
-            blogs.map((blog) => (
+            orders.map((order) => (
               <Row 
-                key={blog.id} 
-                blog={blog} 
-                onStatusChange={onStatusChange}
-                onEdit={handleEdit}
-                onDelete={onDelete} // Pass onDelete prop
+                key={order.id} 
+                order={order}
+                onShowDetail={handleShowDetail}
               />
             ))
           )}

@@ -12,7 +12,8 @@ const Table = ({
   onStatusChange, 
   onSearch, 
   searchTerm,
-  onUpdate
+  onUpdate,
+  onEdit
 }) => {
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [editingBranch, setEditingBranch] = useState(null);
@@ -35,13 +36,19 @@ const Table = ({
     setEditingBranch(branch);
   };
 
+  const handleEditSubmit = async (branchId, updatedData) => {
+    const success = await onEdit(branchId, updatedData);
+    if (success) {
+      setEditingBranch(null);
+      onUpdate();
+    }
+  };
+
   if (editingBranch) {
     return <EditBranch 
       branch={editingBranch} 
-      onClose={() => {
-        setEditingBranch(null);
-        onUpdate(); // Replace window.location.reload()
-      }}
+      onSubmit={handleEditSubmit}
+      onClose={() => setEditingBranch(null)}
     />;
   }
 
@@ -146,6 +153,7 @@ Table.propTypes = {
   onSearch: PropTypes.func.isRequired,
   searchTerm: PropTypes.string.isRequired,
   onUpdate: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
 };
 
 export default Table;

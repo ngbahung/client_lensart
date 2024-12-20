@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
+import PropTypes from "prop-types";
 
-const CreateMaterial = ({ onClose, refreshMaterials }) => {
+const CreateMaterial = ({ onClose, onUpdate }) => {
   const [name, setName] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -20,12 +21,18 @@ const CreateMaterial = ({ onClose, refreshMaterials }) => {
         name: name.trim()
       });
       
-      console.log("Material saved:", response.data);
-      await refreshMaterials();
-      alert("Material saved successfully!");
-      onClose();
+      if (response.status === 200) {
+        const success = await onUpdate();
+        if (success) {
+          onClose();
+        } else {
+          throw new Error("Failed to refresh materials list");
+        }
+      } else {
+        throw new Error(response.data?.message || "Failed to create material");
+      }
     } catch (err) {
-      setError(err.response?.data?.message || "Failed to save material");
+      setError(err.response?.data?.message || err.message || "Failed to save material");
     } finally {
       setLoading(false);
     }
@@ -74,6 +81,11 @@ const CreateMaterial = ({ onClose, refreshMaterials }) => {
       </div>
     </div>
   );
+};
+
+CreateMaterial.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  onUpdate: PropTypes.func.isRequired,
 };
 
 export default CreateMaterial;

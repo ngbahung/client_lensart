@@ -30,7 +30,7 @@ const CouponsPage = () => {
     { id: 15, name: "MEMORIALDAY2023", status: "active" }
   ];
 
-  const refreshCoupons = async () => {
+  const fetchCoupons = async () => {
     setIsLoading(true);
     try {
       const response = await axios.get('http://localhost:8000/api/coupons');
@@ -50,25 +50,6 @@ const CouponsPage = () => {
   };
 
   useEffect(() => {
-    const fetchCoupons = async () => {
-      try {
-        const response = await axios.get('http://localhost:8000/api/coupons');
-        if (response.data) {
-          const allCoupons = response.data.data || mockData;
-          setCoupons(allCoupons);
-          // Tính tổng số trang dựa trên số lượng items
-          setTotalPages(Math.ceil(allCoupons.length / ITEMS_PER_PAGE));
-          setError(null);
-        }
-      } catch (error) {
-        console.error("Failed to fetch coupons:", error);
-        setCoupons(mockData);
-        setTotalPages(Math.ceil(mockData.length / ITEMS_PER_PAGE));
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     fetchCoupons();
   }, []);
 
@@ -132,7 +113,7 @@ const CouponsPage = () => {
             onStatusChange={handleStatusChange}
             onSearch={handleSearch}
             searchTerm={searchTerm}
-            refreshCoupons={refreshCoupons}
+            onUpdate={fetchCoupons}  // Thay refreshCoupons bằng fetchCoupons
           />
         </div>
       </div>

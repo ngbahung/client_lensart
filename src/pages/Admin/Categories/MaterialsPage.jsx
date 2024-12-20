@@ -30,45 +30,29 @@ const MaterialsPage = () => {
     { id: 15, name: "Thép không gỉ 316L", status: "active" }
   ];
 
-  const refreshMaterials = async () => {
+  const fetchMaterials = async () => {
     setIsLoading(true);
     try {
       const response = await axios.get('http://localhost:8000/api/materials');
-      if (response.data) {
-        const allMaterials = response.data.data || mockData;
+      if (response.status === 200 && response.data && response.data.data) {
+        const allMaterials = response.data.data;
         setMaterials(allMaterials);
         setTotalPages(Math.ceil(allMaterials.length / ITEMS_PER_PAGE));
         setError(null);
+        return true; // Add return value to indicate success
       }
+      throw new Error("Invalid response format");
     } catch (error) {
       console.error("Failed to fetch materials:", error);
       setMaterials(mockData);
       setTotalPages(Math.ceil(mockData.length / ITEMS_PER_PAGE));
+      return false; // Add return value to indicate failure
     } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    const fetchMaterials = async () => {
-      try {
-        const response = await axios.get('http://localhost:8000/api/materials');
-        if (response.data) {
-          const allMaterials = response.data.data || mockData;
-          setMaterials(allMaterials);
-          // Tính tổng số trang dựa trên số lượng items
-          setTotalPages(Math.ceil(allMaterials.length / ITEMS_PER_PAGE));
-          setError(null);
-        }
-      } catch (error) {
-        console.error("Failed to fetch materials:", error);
-        setMaterials(mockData);
-        setTotalPages(Math.ceil(mockData.length / ITEMS_PER_PAGE));
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     fetchMaterials();
   }, []);
 
@@ -130,7 +114,7 @@ const MaterialsPage = () => {
             onStatusChange={handleStatusChange}
             onSearch={handleSearch}
             searchTerm={searchTerm}
-            refreshMaterials={refreshMaterials}
+            onUpdate={fetchMaterials}
           />
         </div>
       </div>

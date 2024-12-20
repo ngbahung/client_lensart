@@ -4,7 +4,7 @@ import Row from "./Row";
 import CreateCoupon from "./CreateCoupon";
 import EditCoupon from './EditCoupon';
 
-const Table = ({ coupons, isLoading, error, onStatusChange, onSearch, searchTerm }) => {
+const Table = ({ coupons, isLoading, error, onStatusChange, onSearch, searchTerm, onUpdate }) => {
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [editingCoupon, setEditingCoupon] = useState(null);
 
@@ -30,11 +30,15 @@ const Table = ({ coupons, isLoading, error, onStatusChange, onSearch, searchTerm
     return <EditCoupon 
       coupon={editingCoupon} 
       onClose={() => setEditingCoupon(null)} 
+      onUpdate={onUpdate}  // Truyền onUpdate xuống
     />;
   }
 
   if (showCreateForm) {
-    return <CreateCoupon onClose={() => setShowCreateForm(false)} />;
+    return <CreateCoupon 
+      onClose={() => setShowCreateForm(false)}
+      onUpdate={onUpdate}  // Truyền onUpdate xuống
+    />;
   }
 
   return (

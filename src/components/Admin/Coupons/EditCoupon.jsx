@@ -3,7 +3,7 @@ import { FaAngleDown } from "react-icons/fa";
 import axios from "axios";
 import PropTypes from "prop-types";
 
-const EditCoupon = ({ coupon, onClose, refreshCoupons }) => {
+const EditCoupon = ({ coupon, onClose, onUpdate }) => {  // Thay refreshCoupons bằng onUpdate
   const [formData, setFormData] = useState({
     name: "",
     code: "",
@@ -92,7 +92,7 @@ const EditCoupon = ({ coupon, onClose, refreshCoupons }) => {
       });
 
       if (response.status === 200) {
-        await refreshCoupons();
+        await onUpdate();  // Gọi onUpdate thay vì refreshCoupons
         onClose();
       }
     } catch (err) {
@@ -221,7 +221,7 @@ EditCoupon.propTypes = {
     status: PropTypes.string.isRequired,
   }).isRequired,
   onClose: PropTypes.func.isRequired,
-  refreshCoupons: PropTypes.func.isRequired,
+  onUpdate: PropTypes.func.isRequired,
 };
 
 export default EditCoupon;

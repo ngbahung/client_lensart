@@ -12,15 +12,13 @@ const BannersPage = () => {
   useEffect(() => {
     const fetchBanner = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/banners');
-        if (response.data) {
-          const { id, image_url } = response.data;
-          setBannerId(id);
-          setPreviewUrl(image_url);
+        const response = await axios.get('http://localhost:8000/api/banner');
+        if (response.data && response.data.image_url) {
+          setPreviewUrl(response.data.image_url);
+          console.log('Fetched banner:', response.data.image_url);
         }
       } catch (err) {
         console.error('Error fetching banner:', err);
-        setBannerId(1);
         setPreviewUrl('https://tronhouse.com/assets/data/editor/source/meo-chup-hinh-anh-mat-kinh-thoi-trang-doc-dao-hap-dan-khach-hang/chup-hinh-mat-kinh.jpg');
         setError('Using mock data - API connection failed');
       } finally {
@@ -51,9 +49,10 @@ const BannersPage = () => {
 
       const formData = new FormData();
       formData.append('image', selectedImage);
+      console.log('Sending image:', selectedImage);
 
       const response = await axios.post(
-        `http://localhost:8000/api/banners/update/${bannerId}`,
+        `http://localhost:8000/api/banner/update`,
         formData,
         {
           headers: {
@@ -62,9 +61,8 @@ const BannersPage = () => {
         }
       );
 
-      if (response.status === 200) {
-        const { image_url } = response.data;
-        setPreviewUrl(image_url);
+      if (response.status === 200 && response.data.image_url) {
+        setPreviewUrl(response.data.image_url);
         setSelectedImage(null);
       }
     } catch (err) {

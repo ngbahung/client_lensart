@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const CreateCoupon = ({ onClose, refreshCoupons }) => {
+const CreateCoupon = ({ onClose, onUpdate }) => {  // Thay refreshCoupons bằng onUpdate
   const [formData, setFormData] = useState({
     name: "",
     code: "",
@@ -52,9 +52,7 @@ const CreateCoupon = ({ onClose, refreshCoupons }) => {
     
     try {
       const response = await axios.post('http://localhost:8000/api/coupons/create', postData);
-      console.log("Coupon saved:", response.data);
-      await refreshCoupons();
-      alert("Coupon saved successfully!");
+      await onUpdate();  // Gọi onUpdate thay vì refreshCoupons
       onClose();
     } catch (err) {
       const errorMessage = err.response?.data?.message || 

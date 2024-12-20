@@ -15,15 +15,14 @@ const TransactionsPage = () => {
   const mockData = [
     {
       id: 1,
-      order_id: "ORD001",
-      payment_method: "Credit Card",
-      amount: "150000"
-    },
-    {
-      id: 2,
-      order_id: "ORD002",
-      payment_method: "PayPal",
-      amount: "75500"
+      orderCode: 100001,
+      order_id: 1,
+      amount: 490000,
+      created_at: "19/12/2024 13:33:04",
+      order: {
+        payment_method: "Chuyển khoản",
+        payment_status: "Đã thanh toán"
+      }
     }
   ];
 
@@ -34,17 +33,25 @@ const TransactionsPage = () => {
   const fetchTransactions = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get('http://localhost:8000/api/transactions/all');
-      if (response.data) {
+      const response = await axios.get('http://localhost:8000/api/transactions');
+      if (response.data && response.data.status === "success") {
         const allTransactions = response.data.data || mockData;
-        setTransactions(allTransactions);
-        setTotalPages(Math.ceil(allTransactions.length / ITEMS_PER_PAGE));
+        const standardizedTransactions = allTransactions.map(transaction => ({
+          id: transaction.id,
+          order_id: transaction.orderCode?.toString() || 'N/A',
+          payment_method: transaction.order?.payment_method || 'N/A',
+          amount: transaction.amount?.toString() || '0',
+          created_at: transaction.created_at || 'N/A'
+        }));
+        setTransactions(standardizedTransactions);
+        setTotalPages(Math.ceil(standardizedTransactions.length / ITEMS_PER_PAGE));
         setError(null);
       }
     } catch (error) {
       console.error("Failed to fetch transactions:", error);
       setTransactions(mockData);
       setTotalPages(Math.ceil(mockData.length / ITEMS_PER_PAGE));
+      setError("Failed to fetch transactions. Using mock data.");
     } finally {
       setIsLoading(false);
     }

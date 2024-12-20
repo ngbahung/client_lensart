@@ -1,134 +1,112 @@
-import React, { useState } from "react";
-import { BiEdit } from "react-icons/bi";
+import React from "react";
+import { FaRegEye } from "react-icons/fa";
 import PropTypes from "prop-types";
-import ConfirmChangeStatusModal from "./ConfirmChangeStatusModal";
 
-const ToggleSwitch = ({ id, status, onToggle, disabled }) => {
-  return (
-    <div className="relative inline-flex items-center">
-      <input
-        type="checkbox"
-        id={`toggle-${id}`}
-        checked={status === 'active'} // Use string comparison
-        onChange={() => onToggle(id)}
-        className="sr-only"
-        disabled={disabled}
-      />
-      <label
-        htmlFor={`toggle-${id}`}
-        className={`w-16 h-8 flex items-center rounded-full cursor-pointer transition-colors ${
-          status === 'active' ? "bg-[#55d5d2]" : "bg-gray-400"
-        }`}
-      >
-        <span
-          className={`w-6 h-6 bg-white rounded-full shadow-md transform transition-transform duration-300 ${
-            status === 'active' ? "translate-x-9" : "translate-x-1"
-          }`}
-        ></span>
-      </label>
-    </div>
-  );
-};
-
-const Row = ({ blog, onStatusChange, onEdit }) => { // Remove onDelete from props
-  const [showStatusModal, setShowStatusModal] = useState(false);
-  const [isUpdating, setIsUpdating] = useState(false);
-
-  const handleStatusChange = () => {
-    setShowStatusModal(true);
+const Row = ({ order, onShowDetail }) => {
+  const formatAmount = (amount) => {
+    return amount?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   };
 
-  const handleConfirmStatusChange = async () => {
-    setIsUpdating(true);
-    try {
-      await onStatusChange(blog.id, !blog.status);
-      setShowStatusModal(false);
-    } catch (error) {
-      console.error("Error updating status:", error);
-    } finally {
-      setIsUpdating(false);
+  const getPaymentStatusStyle = (status) => {
+    switch (status) {
+      case "Đã thanh toán":
+        return "bg-[rgba(85,213,210,1)] text-white";
+      case "Chưa thanh toán":
+        return "bg-[rgba(217,217,217,1)] text-gray-800";
+      default:
+        return "bg-gray-100 text-gray-800";
     }
   };
 
-  const handleCancelStatusChange = () => {
-    setShowStatusModal(false);
+  const getOrderStatusStyle = (status) => {
+    switch (status) {
+      case 'Đang xử lý':
+        return 'bg-[rgba(111,212,210,0.5)] text-gray-800';
+      case 'Đã xử lý và sẵn sàng giao hàng':
+        return 'bg-[#FFEA79] text-gray-800';
+      case 'Đang giao hàng':
+        return 'bg-[rgba(236,144,92,0.75)] text-white';
+      case 'Đã giao':
+        return 'bg-[rgba(123,212,111,1)] text-white';
+      case 'Đã hủy':
+        return 'bg-[rgba(255,0,5,0.75)] text-white';
+      default:
+        return 'bg-gray-100 text-gray-800';
+    }
   };
 
-  const handleEdit = () => {
-    onEdit(blog);
+  const getOrderStatusLabel = (status) => {
+    switch (status) {
+      case 'Đang xử lý':
+        return 'Pending';
+      case 'Đã xử lý và sẵn sàng giao hàng':
+        return 'Processed';
+      case 'Đang giao hàng':
+        return 'Shipping';
+      case 'Đã giao':
+        return 'Delivered';
+      case 'Đã hủy':
+        return 'Canceled';
+      default:
+        return status;
+    }
+  };
+
+  const getPaymentStatusLabel = (status) => {
+    switch (status) {
+      case "Đã thanh toán":
+        return "Paid";
+      case "Chưa thanh toán":
+        return "Unpaid";
+      default:
+        return status;
+    }
   };
 
   return (
-    <>
-      <tr className="hover:bg-gray-100 h-[48px]">
-        <td className="py-2 px-4">{blog.id}</td>
-        <td className="py-2 px-4">
-          {blog.image_url ? (
-            <img 
-              src={blog.image_url} 
-              alt={blog.title} 
-              className="w-16 h-16 object-cover rounded"
-            />
-          ) : (
-            <div className="w-16 h-16 bg-gray-200 rounded flex items-center justify-center">
-              No image
-            </div>
-          )}
-        </td>
-        <td className="py-2 px-4">{blog.title}</td>
-        <td className="py-2 px-4">
-          <div className="line-clamp-2 text-sm text-gray-600">
-            {blog.description || 'No description'}
-          </div>
-        </td>
-        <td className="py-2 px-4">
-          <ToggleSwitch
-            id={blog.id}
-            status={blog.status} // Pass status directly as string
-            onToggle={handleStatusChange}
-            disabled={isUpdating}
-          />
-        </td>
-        <td className="h-full">
-          <div className="flex items-center justify-center h-full min-h-[64px]">
-            <button
-              className="p-1.5 rounded-md bg-[rgba(123,212,111,1)] hover:opacity-80"
-              onClick={handleEdit}
-            >
-              <BiEdit size={20} className="text-white" />
-            </button>
-          </div>
-        </td>
-      </tr>
-
-      {showStatusModal && (
-        <ConfirmChangeStatusModal
-          onConfirm={handleConfirmStatusChange}
-          onCancel={handleCancelStatusChange}
-          isLoading={isUpdating}
-        />
-      )}
-    </>
+    <tr className="hover:bg-gray-100 h-[48px]">
+      <td className="py-2 px-4">{order.id}</td>
+      <td className="py-2 px-4">{order.customer_name}</td>
+      <td className="py-2 px-4">{formatAmount(order.amount)} đ</td>
+      <td className="py-2 px-4">{order.date}</td>
+      <td className="py-2 px-4">
+        <div className="flex justify-start">
+          <span className={`px-2 py-1 rounded-full text-sm w-[120px] inline-block text-center ${getOrderStatusStyle(order.order_status)}`}>
+            {getOrderStatusLabel(order.order_status)}
+          </span>
+        </div>
+      </td>
+      <td className="py-2 px-4">
+        <div className="flex justify-start">
+          <span className={`px-2 py-1 rounded-full text-sm w-[100px] inline-block text-center ${getPaymentStatusStyle(order.payment_status)}`}>
+            {getPaymentStatusLabel(order.payment_status)}
+          </span>
+        </div>
+      </td>
+      <td className="py-2 px-4 text-center">
+        <div className="flex items-center justify-center h-full min-h-[64px]">
+          <button
+            className="p-1.5 rounded-md bg-[rgba(85,213,210,1)] hover:opacity-80"
+            onClick={() => onShowDetail(order)}
+          >
+            <FaRegEye size={20} className="text-white" />
+          </button>
+        </div>
+      </td>
+    </tr>
   );
 };
 
-ToggleSwitch.propTypes = {
-  id: PropTypes.number.isRequired,
-  status: PropTypes.oneOf(['active', 'inactive']).isRequired, // Update PropTypes to use string
-  onToggle: PropTypes.func.isRequired,
-  disabled: PropTypes.bool,
-};
-
 Row.propTypes = {
-  blog: PropTypes.shape({
+  order: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    image_url: PropTypes.string,
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string,
-    status: PropTypes.oneOf(['active', 'inactive']).isRequired, // Update PropTypes
+    customer_name: PropTypes.string.isRequired,
+    amount: PropTypes.number.isRequired,
+    date: PropTypes.string.isRequired,
+    order_status: PropTypes.string.isRequired,
+    payment_status: PropTypes.string.isRequired,
   }).isRequired,
-  onStatusChange: PropTypes.func.isRequired,
-  onEdit: PropTypes.func.isRequired,
+  onShowDetail: PropTypes.func.isRequired,
 };
 
 export default Row;

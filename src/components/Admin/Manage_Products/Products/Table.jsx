@@ -33,10 +33,12 @@ const Table = ({ products, isLoading, error, onStatusChange, onSearch, searchTer
 
   const handleUpdateAndClose = async () => {
     try {
-      await onUpdate();
-      handleCloseForm();
+      const success = await onUpdate();
+      if (success) {
+        handleCloseForm();
+      }
     } catch (error) {
-      console.error("Error updating:", error);
+      console.error("Error updating products:", error);
     }
   };
 

@@ -126,6 +126,26 @@ const BranchesPage = () => {
     setTotalPages(Math.ceil(filtered.length / ITEMS_PER_PAGE));
   };
 
+  const handleEdit = async (branchId, updatedData) => {
+    try {
+      const response = await axios.put(`http://localhost:8000/api/branches/${branchId}`, updatedData);
+      
+      if (response.status === 200) {
+        // Update local state with edited data
+        setBranches(prevBranches =>
+          prevBranches.map(branch =>
+            branch.id === branchId ? { ...branch, ...updatedData } : branch
+          )
+        );
+        return true; // Return success status
+      }
+    } catch (error) {
+      console.error("Failed to update branch:", error);
+      alert("Failed to update branch");
+      return false;
+    }
+  };
+
   return (
     <div className="bg-white p-6 rounded-md flex flex-col min-h-[calc(100vh-120px)]">
       <div className="flex-grow">
@@ -138,6 +158,7 @@ const BranchesPage = () => {
             onSearch={handleSearch}
             searchTerm={searchTerm}
             onUpdate={fetchBranches} // Add this prop
+            onEdit={handleEdit} // Add onEdit prop
           />
         </div>
       </div>
