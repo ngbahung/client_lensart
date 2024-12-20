@@ -13,16 +13,8 @@ import api from "../utils/api";
 export const getActiveBlogs = async () => {
     try {
         const response = await api.get("/active-blogs");
-        console.log('Raw API response:', response.data); // Debug log
-        
-        // Ensure we're handling both array and single object responses
-        let blogsData = response.data.data;
-        if (!Array.isArray(blogsData)) {
-            blogsData = blogsData ? [blogsData] : [];
-        }
-        
         return {
-            blogs: blogsData,
+            data: response.data.data || [], // Ensure we're accessing the correct data structure
             status: response.status
         };
     } catch (error) {
