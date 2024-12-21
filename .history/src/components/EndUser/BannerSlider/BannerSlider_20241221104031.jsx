@@ -49,7 +49,7 @@ const BannerSlider = () => {
                         <img 
                             src={banner.image_url} 
                             alt={banner.image_public_id || "Banner"}
-                            className="w-full h-[478px] md:h-[487px] object-cover" // Updated height here
+                            className="w-full h-[600px] object-cover"
                         />
                     </div>
                 ))}

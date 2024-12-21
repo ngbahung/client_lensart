@@ -19,27 +19,20 @@ const sliderSettings = {
 // Component BannerSlider: Hiển thị slider các banner
 const BannerSlider = () => {
     const [banners, setBanners] = useState([]);
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const loadBanners = async () => {
             try {
-                setLoading(true);
                 const bannerData = await fetchBanner();
-                if (bannerData && (Array.isArray(bannerData) ? bannerData.length > 0 : true)) {
-                    setBanners(Array.isArray(bannerData) ? bannerData : [bannerData]);
-                }
+                setBanners(Array.isArray(bannerData) ? bannerData : [bannerData]); // Handle single or multiple banners
             } catch (error) {
                 console.error('Error loading banners:', error);
-            } finally {
-                setLoading(false);
             }
         };
         loadBanners();
     }, []);
 
-    if (loading) return null;
-    if (!banners || banners.length === 0) return null;
+    if (banners.length === 0) return null;
 
     return (
         <div className="banner-slider mb-8">
@@ -49,7 +42,7 @@ const BannerSlider = () => {
                         <img 
                             src={banner.image_url} 
                             alt={banner.image_public_id || "Banner"}
-                            className="w-full h-[478px] md:h-[487px] object-cover" // Updated height here
+                            className="w-full h-[600px] object-cover"
                         />
                     </div>
                 ))}

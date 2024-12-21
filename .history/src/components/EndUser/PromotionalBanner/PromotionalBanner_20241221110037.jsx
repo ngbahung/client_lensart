@@ -27,11 +27,11 @@ const PromotionalBanner = () => {
 
     return (
         <div className="w-full px-0 py-4 md:py-8">
-            <div className="relative overflow-hidden">
+            <div className="relative overflow-hidden h-full">
                 <img 
                     src={banner.image_url}
                     alt={banner.image_public_id || "Promotional Banner"}
-                    className="w-full h-[478px] md:h-[487px] object-cover"
+                    className="w-full h-full object-cover"
                 />
             </div>
         </div>

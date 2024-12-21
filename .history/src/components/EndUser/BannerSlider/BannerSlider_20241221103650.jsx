@@ -19,38 +19,39 @@ const sliderSettings = {
 // Component BannerSlider: Hiển thị slider các banner
 const BannerSlider = () => {
     const [banners, setBanners] = useState([]);
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const loadBanners = async () => {
             try {
-                setLoading(true);
                 const bannerData = await fetchBanner();
-                if (bannerData && (Array.isArray(bannerData) ? bannerData.length > 0 : true)) {
-                    setBanners(Array.isArray(bannerData) ? bannerData : [bannerData]);
-                }
+                setBanners(bannerData);
             } catch (error) {
                 console.error('Error loading banners:', error);
-            } finally {
-                setLoading(false);
             }
         };
         loadBanners();
     }, []);
 
-    if (loading) return null;
-    if (!banners || banners.length === 0) return null;
+    if (banners.length === 0) return null;
 
     return (
         <div className="banner-slider mb-8">
             <Slider {...sliderSettings}>
-                {banners.filter(banner => banner.status === 'active').map(banner => (
+                {/* Lặp qua mảng banners để tạo các slide */}
+                {banners.map(banner => (
                     <div key={banner.id} className="relative">
+                        {/* Hình ảnh banner */}
                         <img 
                             src={banner.image_url} 
                             alt={banner.image_public_id || "Banner"}
-                            className="w-full h-[478px] md:h-[487px] object-cover" // Updated height here
+                            className="w-full h-[600px] object-cover"
                         />
+                        {/* Phần overlay chứa text, gradient từ đen đến trong suốt */}
+                        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/50 to-transparent p-8">
+                            <div className="container mx-auto">
+                                <h2 className="text-4xl font-bold text-white mb-2">{banner.image}</h2>
+                            </div>
+                        </div>
                     </div>
                 ))}
             </Slider>

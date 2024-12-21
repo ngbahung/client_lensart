@@ -3,26 +3,19 @@ import { fetchBanner } from '../../../api/bannerAPI';
 
 const PromotionalBanner = () => {
     const [banner, setBanner] = useState(null);
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const loadBanner = async () => {
             try {
-                setLoading(true);
                 const bannerData = await fetchBanner();
-                if (bannerData && bannerData.status === 'active') {
-                    setBanner(bannerData);
-                }
+                setBanner(bannerData); // Now directly using the data object
             } catch (error) {
                 console.error('Error loading banner:', error);
-            } finally {
-                setLoading(false);
             }
         };
         loadBanner();
     }, []);
 
-    if (loading) return null;
     if (!banner || banner.status !== 'active') return null;
 
     return (
