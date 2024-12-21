@@ -87,9 +87,7 @@ const ProductDetails = ({ product, selectedBranch, cityNames, productWishlistId 
     }, [product.isWishlisted]);
 
     const handleQuantityChange = (type) => {
-        // For lens products, only check selectedBranch
-        // For non-lens products, check both selectedColor and selectedBranch
-        if ((!isLensProduct && !selectedColor) || !selectedBranch) return;
+        if (!selectedColor || !selectedBranch) return;
 
         setQuantity(prev => {
             const newQuantity = type === "increment" ? prev + 1 : prev - 1;
