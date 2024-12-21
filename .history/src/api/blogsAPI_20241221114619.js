@@ -13,13 +13,23 @@ import api from "../utils/api";
 export const getActiveBlogs = async () => {
     try {
         const response = await api.get("/active-blogs");
-        console.log('Raw API response:', response.data); // Debug log
         
-        // Ensure we're handling both array and single object responses
-        let blogsData = response.data.blogs;
+        if (!response?.data?.data) {
+            throw new Error('Invalid response format');
+        }
+
+        let blogsData = response.data.data;
         if (!Array.isArray(blogsData)) {
             blogsData = blogsData ? [blogsData] : [];
         }
+
+        // Validate blog entries
+        blogsData = blogsData.filter(blog => 
+            blog && 
+            typeof blog === 'object' && 
+            blog.id && 
+            blog.title
+        );
         
         return {
             blogs: blogsData,
@@ -27,7 +37,7 @@ export const getActiveBlogs = async () => {
         };
     } catch (error) {
         console.error("Error fetching active blogs:", error);
-        throw error;
+        throw new Error(error.response?.data?.message || 'Failed to fetch blogs');
     }
 };
 

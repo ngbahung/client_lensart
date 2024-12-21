@@ -16,7 +16,7 @@ export const getActiveBlogs = async () => {
         console.log('Raw API response:', response.data); // Debug log
         
         // Ensure we're handling both array and single object responses
-        let blogsData = response.data.blogs;
+        let blogsData = response.data.data;
         if (!Array.isArray(blogsData)) {
             blogsData = blogsData ? [blogsData] : [];
         }
