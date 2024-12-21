@@ -5,62 +5,31 @@ import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-const LineGraph = ({ selectedBranch, selectedMonth, selectedYear }) => {
-  const [orderData, setOrderData] = useState(null);
-  const [loading, setLoading] = useState(true);
+const LineGraph = ({ data, loading, selectedBranch, selectedMonth, selectedYear }) => {
+  if (loading || !data) {
+    return (
+      <div className="bg-[rgba(239,249,249,1)] p-4 rounded-[8px] h-full w-full flex items-center justify-center">
+        Loading...
+      </div>
+    );
+  }
 
-  // Function to get days in month
-  const getDaysInMonth = (month, year) => {
-    const days = new Date(year, month, 0).getDate();
-    return Array.from({ length: days }, (_, i) => (i + 1).toString());
+  console.log('LineGraph received data:', data);
+
+  const days = Object.keys(data).sort((a, b) => parseInt(a) - parseInt(b));
+  
+  const getOrdersData = (day, type) => {
+    const value = data[day]?.[type];
+    console.log(`Day ${day} ${type}:`, value);
+    return parseInt(value) || 0;
   };
 
-  // Function to generate mock data for days in month
-  const generateMockDataForMonth = (daysCount) => {
-    return {
-      completedOrders: Array.from({ length: daysCount }, () => Math.floor(Math.random() * 20) + 10),
-      processedOrders: Array.from({ length: daysCount }, () => Math.floor(Math.random() * 10) + 5),
-      cancelledOrders: Array.from({ length: daysCount }, () => Math.floor(Math.random() * 5))
-    };
-  };
-
-  useEffect(() => {
-    const fetchOrderData = async () => {
-      try {
-        const { data } = await axios.get(
-          `${process.env.REACT_APP_API_URL}/api/orders/statistics`,
-          {
-            params: {
-              branch: selectedBranch,
-              month: selectedMonth,
-              year: selectedYear
-            }
-          }
-        );
-        setOrderData(data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        // Generate mock data when API fails
-        const daysInMonth = getDaysInMonth(parseInt(selectedMonth), parseInt(selectedYear));
-        const mockDataForMonth = generateMockDataForMonth(daysInMonth.length);
-        setOrderData({
-          days: daysInMonth,
-          ...mockDataForMonth
-        });
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchOrderData();
-  }, [selectedBranch, selectedMonth, selectedYear]);
-
-  const data = {
-    labels: orderData?.days || [],
+  const chartData = {
+    labels: days.map(day => `Day ${day}`),
     datasets: [
       {
-        label: 'Completed Orders',
-        data: orderData?.completedOrders || [],
+        label: 'Delivered Orders',
+        data: days.map(day => getOrdersData(day, 'delivered_orders')),
         fill: true,
         backgroundColor: 'rgba(236, 144, 92, 0.2)',
         borderColor: 'rgba(236, 144, 92, 1)',
@@ -68,7 +37,7 @@ const LineGraph = ({ selectedBranch, selectedMonth, selectedYear }) => {
       },
       {
         label: 'Processed Orders',
-        data: orderData?.processedOrders || [],
+        data: days.map(day => getOrdersData(day, 'processed_orders')),
         fill: true,
         backgroundColor: 'rgba(123, 212, 111, 0.2)',
         borderColor: 'rgba(123, 212, 111, 1)',
@@ -76,14 +45,16 @@ const LineGraph = ({ selectedBranch, selectedMonth, selectedYear }) => {
       },
       {
         label: 'Cancelled Orders',
-        data: orderData?.cancelledOrders || [],
+        data: days.map(day => getOrdersData(day, 'cancelled_orders')),
         fill: true,
         backgroundColor: 'rgba(143, 221, 220, 0.2)',
         borderColor: 'rgba(143, 221, 220, 1)',
         tension: 0.4
       }
-    ],
+    ]
   };
+
+  console.log('Chart data:', chartData);
 
   const options = {
     responsive: true,
@@ -115,17 +86,9 @@ const LineGraph = ({ selectedBranch, selectedMonth, selectedYear }) => {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="bg-[rgba(239,249,249,1)] p-4 rounded-[8px] h-full w-full flex items-center justify-center">
-        Loading...
-      </div>
-    );
-  }
-
   return (
     <div className="bg-[rgba(239,249,249,1)] p-4 rounded-[8px] h-full w-full">
-      <Line data={data} options={options} />
+      <Line data={chartData} options={options} />
     </div>
   );
 };

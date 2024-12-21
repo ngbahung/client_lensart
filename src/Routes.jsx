@@ -28,6 +28,8 @@ import AllOutForDeliveryOrdersPage from './pages/Admin/Orders/AllOutForDeliveryO
 import AllDeliveredOrdersPage from './pages/Admin/Orders/AllDeliveredOrdersPage';
 import AllCanceledOrdersPage from './pages/Admin/Orders/AllCanceledOrdersPage';
 import CategoryPage from './pages/Admin/Categories/CategoryPage';
+import CustomerListPage from './pages/Admin/Users/CustomerListPage';
+import ManagerListPage from './pages/Admin/Users/ManagerListPage';
 import ShapePage from './pages/Admin/Categories/ShapePage';
 import MaterialsPage from './pages/Admin/Categories/MaterialsPage';
 import FeaturesPage from './pages/Admin/Categories/FeaturesPage';
@@ -176,6 +178,16 @@ const AppRoutes = () => {
         <Route path="all-canceled-orders" element={
           <ProtectedAdminRoute>
             <AllCanceledOrdersPage />
+          </ProtectedAdminRoute>
+        } />
+        <Route path="customer-list" element={
+          <ProtectedAdminRoute>
+            <CustomerListPage />
+          </ProtectedAdminRoute>
+        } />
+        <Route path="manager-list" element={
+          <ProtectedAdminRoute>
+            <ManagerListPage />
           </ProtectedAdminRoute>
         } />
       </Route>

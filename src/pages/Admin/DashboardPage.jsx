@@ -1,19 +1,69 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from 'axios'; // Add this import
 import CardGroup from "../../components/Admin/Dashboard/CardGroup";
 import LineGraph from "../../components/Admin/Dashboard/LineGraph";
 import BarChart from "../../components/Admin/Dashboard/BarChart";
- 
+
 const DashboardPage = () => {
   const [selectedBranch, setSelectedBranch] = useState("Hồ Chí Minh");
   const [selectedMonth, setSelectedMonth] = useState("1");
-  const [selectedYear, setSelectedYear] = useState("2010");
+  const [selectedYear, setSelectedYear] = useState("2024");
+  const [dashboardData, setDashboardData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const branches = ["Hồ Chí Minh", "Đà Nẵng", "Hà Nội"];
   const months = Array.from({ length: 12 }, (_, i) => (i + 1).toString());
   const years = Array.from(
-    { length: new Date().getFullYear() - 2009 },
-    (_, i) => (2010 + i).toString()
+    { length: new Date().getFullYear() - 2023 },
+    (_, i) => (2024 + i).toString()
   ).reverse(); // Sort years in descending order
+
+  useEffect(() => {
+    const fetchDashboardData = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get(
+          'http://localhost:8000/api/dashboard',
+          {
+            params: {
+              branch_name: selectedBranch,
+              month: selectedMonth,
+              year: selectedYear
+            }
+          }
+        );
+        
+        if (response.data.status === "success") {
+          const responseData = response.data.data;
+          
+          // Deep clone and normalize the order_status_overview data
+          const normalizedData = {
+            ...responseData,
+            order_status_overview: Object.keys(responseData.order_status_overview)
+              .reduce((acc, day) => {
+                const dayData = responseData.order_status_overview[day];
+                acc[day] = {
+                  delivered_orders: parseInt(dayData.delivered_orders) || 0,
+                  processed_orders: parseInt(dayData.processed_orders) || 0,
+                  cancelled_orders: parseInt(dayData.cancelled_orders) || 0
+                };
+                return acc;
+              }, {})
+          };
+
+          console.log('Normalized dashboard data:', normalizedData);
+          setDashboardData(normalizedData);
+        }
+      } catch (error) {
+        console.error('Error fetching dashboard data:', error);
+        setDashboardData(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDashboardData();
+  }, [selectedBranch, selectedMonth, selectedYear]);
 
   return (
     <div className="bg-white p-6 rounded-md">
@@ -63,17 +113,23 @@ const DashboardPage = () => {
       </div>
       <div className="grid grid-cols-2 gap-4 mb-8 h-[400px]">
         <LineGraph 
+          data={dashboardData?.order_status_overview}
+          loading={loading}
           selectedBranch={selectedBranch}
           selectedMonth={selectedMonth}
           selectedYear={selectedYear}
         />
         <BarChart 
+          data={dashboardData?.daily_revenue}
+          loading={loading}
           selectedBranch={selectedBranch}
           selectedMonth={selectedMonth}
           selectedYear={selectedYear}
         />
       </div>
       <CardGroup 
+        data={dashboardData}
+        loading={loading}
         selectedBranch={selectedBranch}
         selectedMonth={selectedMonth}
         selectedYear={selectedYear}

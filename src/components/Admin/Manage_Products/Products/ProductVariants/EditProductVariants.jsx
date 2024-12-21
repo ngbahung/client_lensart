@@ -21,7 +21,13 @@ const EditProductVariants = ({ variant, onClose, onUpdate }) => {
     setError("");
 
     try {
-      const response = await axios.put(`http://localhost:8000/api/product-details/update/${variant.id}`, {
+      // Construct URL with all required parameters
+      const updateUrl = `http://localhost:8000/api/product-details/update/${variant.product_id}/${variant.branch_id}/${variant.color}`;
+      
+      console.log("Update URL:", updateUrl); // Debug log
+      console.log("Update data:", { quantity, status }); // Debug log
+
+      const response = await axios.post(updateUrl, {
         quantity: quantity,
         status: status
       });
@@ -31,6 +37,7 @@ const EditProductVariants = ({ variant, onClose, onUpdate }) => {
         onClose();
       }
     } catch (error) {
+      console.error("Update error:", error);
       setError(error.response?.data?.message || "Failed to update variant");
     } finally {
       setLoading(false);
@@ -139,7 +146,9 @@ const EditProductVariants = ({ variant, onClose, onUpdate }) => {
 EditProductVariants.propTypes = {
   variant: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    color: PropTypes.string,
+    product_id: PropTypes.number.isRequired, // Thêm product_id
+    branch_id: PropTypes.number.isRequired, // Thêm branch_id
+    color: PropTypes.string.isRequired,     // Thêm color
     quantity: PropTypes.number,
     status: PropTypes.string,
   }).isRequired,

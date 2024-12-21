@@ -5,56 +5,23 @@ import axios from 'axios';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const BarChart = ({ selectedBranch, selectedMonth, selectedYear }) => {
-  const [revenueData, setRevenueData] = useState(null);
-  const [loading, setLoading] = useState(true);
+const BarChart = ({ data, loading, selectedBranch, selectedMonth, selectedYear }) => {
+  if (loading || !data) {
+    return (
+      <div className="bg-[rgba(239,249,249,1)] p-4 rounded-[8px] h-full w-full flex items-center justify-center">
+        Loading...
+      </div>
+    );
+  }
 
-  const getDaysInMonth = (month, year) => {
-    const days = new Date(year, month, 0).getDate();
-    return Array.from({ length: days }, (_, i) => (i + 1).toString());
-  };
+  const sortedDays = Object.keys(data).sort((a, b) => parseInt(a) - parseInt(b));
 
-  const generateMockRevenueData = (daysCount) => {
-    return Array.from({ length: daysCount }, () => Math.floor(Math.random() * 5000) + 1000);
-  };
-
-  useEffect(() => {
-    const fetchRevenueData = async () => {
-      try {
-        const { data } = await axios.get(
-          `${process.env.REACT_APP_API_URL}/api/revenue/statistics`,
-          {
-            params: {
-              branch: selectedBranch,
-              month: selectedMonth,
-              year: selectedYear
-            }
-          }
-        );
-        setRevenueData(data);
-      } catch (error) {
-        console.error('Error fetching revenue data:', error);
-        // Generate mock data when API fails
-        const daysInMonth = getDaysInMonth(parseInt(selectedMonth), parseInt(selectedYear));
-        const mockRevenue = generateMockRevenueData(daysInMonth.length);
-        setRevenueData({
-          days: daysInMonth,
-          revenue: mockRevenue
-        });
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchRevenueData();
-  }, [selectedBranch, selectedMonth, selectedYear]);
-
-  const data = {
-    labels: revenueData?.days || [],
+  const chartData = {
+    labels: sortedDays.map(day => `Day ${day}`),
     datasets: [
       {
         label: 'Daily Revenue (VND)',
-        data: revenueData?.revenue || [],
+        data: sortedDays.map(day => Number(data[day])),
         backgroundColor: 'rgba(85,213,210,0.6)',
         borderColor: 'rgba(85,213,210,1)',
         borderWidth: 1
@@ -88,17 +55,9 @@ const BarChart = ({ selectedBranch, selectedMonth, selectedYear }) => {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="bg-[rgba(239,249,249,1)] p-4 rounded-[8px] h-full w-full flex items-center justify-center">
-        Loading...
-      </div>
-    );
-  }
-
   return (
     <div className="bg-[rgba(239,249,249,1)] p-4 rounded-[8px] h-full w-full">
-      <Bar data={data} options={options} />
+      <Bar data={chartData} options={options} />
     </div>
   );
 };

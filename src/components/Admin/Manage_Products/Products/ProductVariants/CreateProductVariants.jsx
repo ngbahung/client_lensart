@@ -3,7 +3,6 @@ import axios from "axios";
 import PropTypes from "prop-types";
 
 const CreateProductVariants = ({ onClose, onUpdate, productId }) => {
-  console.log("ProductID in CreateForm:", productId); // Debug log
   const [color, setColor] = useState("");
   const [quantity, setQuantity] = useState(0);
   const [error, setError] = useState("");
@@ -17,16 +16,17 @@ const CreateProductVariants = ({ onClose, onUpdate, productId }) => {
     
     setError("");
     setLoading(true);
+
+    const data = {
+      product_id: productId,
+      color: color.trim(),
+      quantity: quantity,
+      status: 'active' // Mặc định là active khi tạo mới
+    }
     
     try {
-      const response = await axios.post('http://localhost:8000/api/product-details/create', {
-        product_id: productId,
-        color: color.trim(),
-        quantity: quantity,
-        status: 'active' // Mặc định là active khi tạo mới
-      });
+      const response = await axios.post('http://localhost:8000/api/product-details/createForAllBranch',data);
       
-      console.log("Variant created:", response.data);
       await onUpdate();
       onClose();
     } catch (err) {

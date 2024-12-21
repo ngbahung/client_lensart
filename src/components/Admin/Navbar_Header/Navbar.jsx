@@ -281,15 +281,16 @@ const Navbar = () => {
               <button
                 onClick={() => toggleMenu('users')}
                 className={`w-full flex items-center justify-between px-4 py-3 ${
-                  isChildActive('/user-list') || isChildActive('/add-user') || 
-                  isChildActive('/user-roles')
+                  isChildActive('customer-list') || isChildActive('manager-list')
                     ? 'text-[rgba(85,213,210,1)]'
                     : 'text-black-700 hover:text-[rgba(85,213,210,1)]'
                 }`}
               >
                 <div className="flex items-center">
                   <FaUsers className={`w-5 h-5 ml-[30px] ${
-                    isChildActive('/user-list') ? 'text-[rgba(85,213,210,1)]' : 'text-black-500'
+                    isChildActive('customer-list') || isChildActive('manager-list')
+                      ? 'text-[rgba(85,213,210,1)]'
+                      : 'text-black-500'
                   }`} />
                   <span className="ml-3">Users</span>
                 </div>
@@ -299,12 +300,12 @@ const Navbar = () => {
               </button>
               {expandedMenus.users && (
                 <ul className="ml-[50px] mt-2 space-y-1">
-                  {['User List', 'Add User', 'User Roles'].map((item) => (
+                  {['Customer List', 'Manager List'].map((item) => (
                     <li key={item} className="hover:bg-gray-100 rounded-lg ml-[12px]">
                       <NavLink
-                        to={`/admin/${item.toLowerCase().replaceAll(' ', '-')}`}
+                        to={`/admin/${item.toLowerCase().replace(' ', '-')}`}
                         className={`block px-4 py-2 ${
-                          isChildActive(item.toLowerCase().replaceAll(' ', '-'))
+                          isChildActive(item.toLowerCase().replace(' ', '-'))
                             ? 'text-[rgba(85,213,210,1)]'
                             : 'text-black-700 hover:text-[rgba(85,213,210,1)]'
                         }`}

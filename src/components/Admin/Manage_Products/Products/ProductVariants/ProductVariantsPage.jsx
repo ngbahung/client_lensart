@@ -10,10 +10,9 @@ const ProductVariantsPage = ({ productId }) => {
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(5);
-  const ITEMS_PER_PAGE = 9; // Số lượng items mỗi trang
+  const ITEMS_PER_PAGE = 30; // Số lượng items mỗi trang
   const [searchTerm, setSearchTerm] = useState("");
 
-  console.log("ProductID in ProductVariantsPage:", productId); // Debug log
 
   const fetchVariants = async () => {
     if (!productId) {
@@ -26,20 +25,17 @@ const ProductVariantsPage = ({ productId }) => {
     try {
       const response = await axios.get(`http://localhost:8000/api/product-details/getByProductId/${productId}`);
       
-      console.log("Raw API Response:", response.data);
 
       if (response.data && response.data.data) {
         // Đảm bảo mỗi variant có status và các trường cần thiết
         const processedVariants = response.data.data.map(variant => ({
           ...variant,
           id: variant.id || 0,
-          status: variant.status === 'inactive' ? 'inactive' : 'active', // Mặc định active nếu không phải inactive
           branch_id: variant.branch_id || 0,
           color: variant.color || '',
           quantity: variant.quantity || 0
         }));
 
-        console.log("Processed variants:", processedVariants);
         
         setVariants(processedVariants);
         setTotalPages(Math.ceil(processedVariants.length / ITEMS_PER_PAGE));
@@ -81,26 +77,6 @@ const ProductVariantsPage = ({ productId }) => {
     setCurrentPage(page);
   };
 
-  const handleStatusChange = async (variantId) => {
-    try {
-      const currentVariant = variants.find(v => v.id === variantId);
-      const newStatus = currentVariant.status === 'active' ? 'inactive' : 'active';
-
-      const response = await axios.post(`http://localhost:8000/api/product-variants/switch-status/${variantId}`);
-
-      if (response.status === 200) {
-        setVariants(prevVariants =>
-          prevVariants.map(v =>
-            v.id === variantId ? { ...v, status: newStatus } : v
-          )
-        );
-      }
-    } catch (error) {
-      alert("Failed to update variant status");
-      console.error("Failed to update variant status:", error);
-    }
-  };
-
   const handleSearch = (value) => {
     const searchValue = value.toLowerCase().trim();
     setSearchTerm(searchValue);
@@ -124,11 +100,10 @@ const ProductVariantsPage = ({ productId }) => {
             variants={getCurrentPageItems()}
             isLoading={isLoading}
             error={error}
-            onStatusChange={handleStatusChange}
             onSearch={handleSearch}
             searchTerm={searchTerm}
             onUpdate={fetchVariants}
-            productId={productId} // Đảm bảo truyền productId xuống Table
+            productId={productId}
           />
         </div>
       </div>
