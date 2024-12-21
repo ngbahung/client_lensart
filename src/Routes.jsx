@@ -14,6 +14,8 @@ import CheckOutPage from './pages/EndUser/CheckOutPage';
 import OrderSuccessPage from './pages/EndUser/OrderSuccessPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import UserAccountPage from './pages/EndUser/UserAccountPage';
+import BlogDetailPage from './pages/EndUser/BlogDetailPage';
+import BlogsPage from './pages/EndUser/BlogsPage';
 
 import DashboardPage from './pages/Admin/DashboardPage';
 import TransactionsPage from './pages/Admin/TransactionsPage';
@@ -241,6 +243,11 @@ const AppRoutes = () => {
           <Route path=":productId" element={<ProductDetailPage />} />
         </Route>
         <Route path="product/:productId" element={<Navigate to={location => `/gong-kinh/${location.pathname.split('/').pop()}`} replace />} />
+        {/* Blog Routes */}
+        <Route path="blog">
+          <Route index element={<BlogsPage />} />
+          <Route path=":blogId" element={<BlogDetailPage />} />
+        </Route>
         {/* Add other user routes here */}
       </Route>
 
