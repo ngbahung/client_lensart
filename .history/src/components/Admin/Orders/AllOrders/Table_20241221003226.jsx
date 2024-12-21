@@ -84,10 +84,7 @@ const Table = ({ orders, isLoading, error, onSearch, searchTerm, onUpdateSuccess
             orders.map((order) => (
               <Row 
                 key={order.id} 
-                order={{
-                  ...order,
-                  amount: typeof order.amount === 'string' ? parseFloat(order.amount) : order.amount
-                }}
+                order={order}
                 onShowDetail={handleShowDetail}
               />
             ))

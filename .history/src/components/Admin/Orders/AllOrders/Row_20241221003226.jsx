@@ -3,9 +3,6 @@ import { FaRegEye } from "react-icons/fa";
 import PropTypes from "prop-types";
 
 const Row = ({ order, onShowDetail }) => {
-  // Convert amount to number if it's a string
-  const amount = typeof order.amount === 'string' ? parseFloat(order.amount) : order.amount;
-
   const formatAmount = (amount) => {
     return amount?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   };
@@ -70,7 +67,7 @@ const Row = ({ order, onShowDetail }) => {
     <tr className="hover:bg-gray-100 h-[48px]">
       <td className="py-2 px-4">{order.id}</td>
       <td className="py-2 px-4">{order.customer_name}</td>
-      <td className="py-2 px-4">{amount.toLocaleString('vi-VN')} VNĐ</td>
+      <td className="py-2 px-4">{formatAmount(order.amount)} đ</td>
       <td className="py-2 px-4">{order.date}</td>
       <td className="py-2 px-4">
         <div className="flex justify-start">
@@ -104,7 +101,7 @@ Row.propTypes = {
   order: PropTypes.shape({
     id: PropTypes.number.isRequired,
     customer_name: PropTypes.string.isRequired,
-    amount: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+    amount: PropTypes.number.isRequired,
     date: PropTypes.string.isRequired,
     order_status: PropTypes.string.isRequired,
     payment_status: PropTypes.string.isRequired,

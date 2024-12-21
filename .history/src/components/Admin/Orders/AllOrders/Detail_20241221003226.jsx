@@ -193,7 +193,7 @@ const Detail = ({ order, onClose, onUpdate }) => {
         <div ref={printRef} className="print-content">
           {/* Company Info */}
           <div className="print-section invoice-header text-center mb-8">
-            <h1 className="text-3xl font-bold" style={{ color: '#55D5D2' }}>LENS ART</h1>
+            <h1 className="text-3xl font-bold text-[#55D5D2]">LENS ART</h1>
             <p className="text-gray-600">Email: contact@gmail.lensart.vn</p>
             <p className="text-gray-600">Số điện thoại: 0823427942</p>
             <div className="border-b-2 border-gray-200 my-4"></div>
@@ -364,8 +364,7 @@ const Detail = ({ order, onClose, onUpdate }) => {
           <button
             onClick={handleSave}
             disabled={loading || orderDetail.order.status === "Đã hủy"}
-            className="px-6 py-2 text-white font-bold rounded-md shadow-md hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
-            style={{ backgroundColor: '#55D5D2' }}
+            className="px-6 py-2 bg-[rgba(85,213,210,1)] text-white font-bold rounded-md shadow-md hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? "Saving..." : "Save"}
           </button>
