@@ -47,14 +47,6 @@ const FilterSection = memo(({ title, options, type, onFilterChange, selectedFilt
   const [isExpanded, setIsExpanded] = useState(true);
   const hasActiveFilters = selectedFilters[type]?.length > 0;
 
-  // Add search functionality for brands
-  const [searchTerm, setSearchTerm] = useState('');
-  const shouldShowSearch = type === 'brands' && Array.isArray(options) && options.length > 8;
-
-  const filteredOptions = shouldShowSearch 
-    ? options.filter(opt => opt.label.toLowerCase().includes(searchTerm.toLowerCase()))
-    : options;
-
   const getOptionKey = (option, index) => {
     if (typeof option === 'object' && option.value) {
       return `${type}-${option.value}`;
@@ -69,9 +61,6 @@ const FilterSection = memo(({ title, options, type, onFilterChange, selectedFilt
     if (type === 'priceRange') {
       return formatPrice(option);
     }
-    if (type === 'features') {
-      return option.label || option;
-    }
     return option;
   };
 
@@ -79,22 +68,7 @@ const FilterSection = memo(({ title, options, type, onFilterChange, selectedFilt
     if (typeof option === 'object' && option.value) {
       return option.value;
     }
-    if (type === 'features') {
-      return option.id?.toString() || option;
-    }
     return option;
-  };
-
-  const shouldShowScroll = (type === 'brands' || type === 'features') && 
-    Array.isArray(options) && options.length > 8;
-
-  const handleFilterClick = (value) => {
-    try {
-      onFilterChange(type, value);
-    } catch (error) {
-      console.error('Error applying filter:', error);
-      toast.error('Không thể áp dụng bộ lọc');
-    }
   };
 
   return (
@@ -122,51 +96,32 @@ const FilterSection = memo(({ title, options, type, onFilterChange, selectedFilt
       <div className={`transition-all duration-300 ease-in-out overflow-hidden
         ${isExpanded ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'}`}>
         <div className="space-y-1 px-4 py-2">
-          {shouldShowSearch && (
-            <div className="mb-2">
-              <input
-                type="text"
-                placeholder="Tìm thương hiệu..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                onClick={(e) => e.stopPropagation()}
-                className="w-full px-3 py-2 border border-gray-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-              />
-            </div>
-          )}
-          <div className={shouldShowSearch ? 'max-h-[300px] overflow-y-auto' : ''}>
-            {Array.isArray(filteredOptions) ? filteredOptions.map((option, index) => {
-              const value = getValue(option);
-              const label = renderOption(option);
-              return (
-                <div 
-                  key={getOptionKey(option, index)}
-                  className={`flex items-center p-2 rounded-md transition-colors
-                    ${selectedFilters[type]?.includes(value) 
-                      ? 'bg-teal-50 hover:bg-teal-100/70' 
-                      : 'hover:bg-gray-50'}`}
-                >
-                  <input
-                    type="checkbox"
-                    name={type}
-                    value={value}
-                    checked={selectedFilters[type]?.includes(value) || false}
-                    onChange={() => handleFilterClick(value)}
-                    className="w-4 h-4 text-teal-600 border-gray-300 rounded 
-                      focus:ring-teal-500 focus:ring-offset-0 transition-colors cursor-pointer"
-                  />
-                  <label className="ml-3 text-sm text-gray-600 hover:text-gray-900 
-                    cursor-pointer select-none flex-1 font-medium">
-                    {label}
-                  </label>
-                </div>
-              );
-            }) : (
-              <div className="text-gray-500 text-sm p-2">
-                Không có tùy chọn
+          {options.map((option, index) => {
+            const value = getValue(option);
+            return (
+              <div 
+                key={getOptionKey(option, index)}
+                className={`flex items-center p-2 rounded-md transition-colors
+                  ${selectedFilters[type]?.includes(value) 
+                    ? 'bg-teal-50 hover:bg-teal-100/70' 
+                    : 'hover:bg-gray-50'}`}
+              >
+                <input
+                  type="checkbox"
+                  name={type}
+                  value={value}
+                  checked={selectedFilters[type]?.includes(value) || false}
+                  onChange={() => onFilterChange(type, value)}
+                  className="w-4 h-4 text-teal-600 border-gray-300 rounded 
+                    focus:ring-teal-500 focus:ring-offset-0 transition-colors cursor-pointer"
+                />
+                <label className="ml-3 text-sm text-gray-600 hover:text-gray-900 
+                  cursor-pointer select-none flex-1 font-medium">
+                  {renderOption(option)}
+                </label>
               </div>
-            )}
-          </div>
+            );
+          })}
         </div>
       </div>
     </div>

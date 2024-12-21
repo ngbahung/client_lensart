@@ -97,11 +97,10 @@ const GongKinhPage = ({ categoryId = 1, pageTitle = "Gọng Kính" }) => {
     // Add URL parameter handling
     useEffect(() => {
         const params = new URLSearchParams(location.search);
-        const locationState = location.state;
         const newFilters = { ...filters };
         let hasChanges = false;
 
-        // Handle URL parameters
+        // Handle each filter type from URL
         for (const [key, value] of params.entries()) {
             if (newFilters.hasOwnProperty(key) && value) {
                 newFilters[key] = [value];
@@ -109,16 +108,20 @@ const GongKinhPage = ({ categoryId = 1, pageTitle = "Gọng Kính" }) => {
             }
         }
 
-        // Handle location state if available
-        if (locationState?.filterType && locationState?.filterValue) {
-            newFilters[locationState.filterType] = [locationState.filterValue];
+        // Special handling for features and shapes filters
+        if (params.has('features')) {
+            newFilters.features = [params.get('features')];
+            hasChanges = true;
+        }
+        if (params.has('shapes')) {
+            newFilters.shapes = [params.get('shapes')];
             hasChanges = true;
         }
 
         if (hasChanges) {
             setFilters(newFilters);
         }
-    }, [location.search, location.state]);
+    }, [location.search]);
 
     // Update the filter handling
     useEffect(() => {
@@ -132,19 +135,14 @@ const GongKinhPage = ({ categoryId = 1, pageTitle = "Gọng Kính" }) => {
 
     // Update handleFilterChange to only update the filters state
     const handleFilterChange = (name, value) => {
-        try {
-            setFilters((prevFilters) => ({
-                ...prevFilters,
-                [name]: prevFilters[name]?.includes(value)
-                    ? prevFilters[name].filter((val) => val !== value)
-                    : [...(prevFilters[name] || []), value],
-            }));
-            setCurrentPage(1); // Reset to first page when filter changes
-            toast.info('Đã cập nhật bộ lọc');
-        } catch (error) {
-            console.error('Error updating filters:', error);
-            toast.error('Không thể cập nhật bộ lọc');
-        }
+        setFilters((prevFilters) => ({
+            ...prevFilters,
+            [name]: prevFilters[name]?.includes(value)
+                ? prevFilters[name].filter((val) => val !== value)
+                : [...(prevFilters[name] || []), value],
+        }));
+        setCurrentPage(1); // Reset to first page when filter changes
+        toast.info('Đã cập nhật bộ lọc');
     };
 
     // Add new useEffect to handle URL updates

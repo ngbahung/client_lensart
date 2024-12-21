@@ -97,28 +97,27 @@ const GongKinhPage = ({ categoryId = 1, pageTitle = "Gọng Kính" }) => {
     // Add URL parameter handling
     useEffect(() => {
         const params = new URLSearchParams(location.search);
-        const locationState = location.state;
         const newFilters = { ...filters };
         let hasChanges = false;
 
-        // Handle URL parameters
+        // Reset all filters first
+        Object.keys(newFilters).forEach(key => {
+            newFilters[key] = [];
+        });
+
+        // Parse each filter from URL
         for (const [key, value] of params.entries()) {
             if (newFilters.hasOwnProperty(key) && value) {
-                newFilters[key] = [value];
+                newFilters[key] = [decodeURIComponent(value)];
                 hasChanges = true;
             }
         }
 
-        // Handle location state if available
-        if (locationState?.filterType && locationState?.filterValue) {
-            newFilters[locationState.filterType] = [locationState.filterValue];
-            hasChanges = true;
-        }
-
+        // Only update state if there are changes
         if (hasChanges) {
             setFilters(newFilters);
         }
-    }, [location.search, location.state]);
+    }, [location.search]);
 
     // Update the filter handling
     useEffect(() => {
@@ -132,19 +131,14 @@ const GongKinhPage = ({ categoryId = 1, pageTitle = "Gọng Kính" }) => {
 
     // Update handleFilterChange to only update the filters state
     const handleFilterChange = (name, value) => {
-        try {
-            setFilters((prevFilters) => ({
-                ...prevFilters,
-                [name]: prevFilters[name]?.includes(value)
-                    ? prevFilters[name].filter((val) => val !== value)
-                    : [...(prevFilters[name] || []), value],
-            }));
-            setCurrentPage(1); // Reset to first page when filter changes
-            toast.info('Đã cập nhật bộ lọc');
-        } catch (error) {
-            console.error('Error updating filters:', error);
-            toast.error('Không thể cập nhật bộ lọc');
-        }
+        setFilters((prevFilters) => ({
+            ...prevFilters,
+            [name]: prevFilters[name]?.includes(value)
+                ? prevFilters[name].filter((val) => val !== value)
+                : [...(prevFilters[name] || []), value],
+        }));
+        setCurrentPage(1); // Reset to first page when filter changes
+        toast.info('Đã cập nhật bộ lọc');
     };
 
     // Add new useEffect to handle URL updates
@@ -177,64 +171,44 @@ const GongKinhPage = ({ categoryId = 1, pageTitle = "Gọng Kính" }) => {
 
     const filterProducts = (products) => {
         return products.filter(product => {
-            // Brand filter - safely handle null brand_id
+            // Brand filter
             const matchesBrand = filters.brands.length === 0 || 
-                filters.brands.some(brandId => 
-                    product.brand_id && brandId === product.brand_id.toString()
-                );
+                filters.brands.some(brandId => brandId === product.brand_id.toString());
 
-            // Shape filter - safely handle null shape_id
+            // Shape filter
             const matchesShape = filters.shapes.length === 0 || 
-                filters.shapes.some(shapeId => 
-                    product.shape_id && shapeId === product.shape_id.toString()
-                );
+                filters.shapes.some(shapeId => shapeId === product.shape_id.toString());
 
-            // Material filter - safely handle null material_id
+            // Material filter
             const matchesMaterial = filters.material.length === 0 || 
-                filters.material.some(materialId => 
-                    product.material_id && materialId === product.material_id.toString()
-                );
+                filters.material.some(materialId => materialId === product.material_id.toString());
 
-            // Features filter - safely handle null or undefined features
-            const matchesFeatures = filters.features.length === 0 || 
-                filters.features.some(featureId => {
-                    const featureOption = filterOptions.features.find(f => f.value === featureId);
-                    return product.features?.some(productFeature => 
-                        (productFeature?.id && productFeature.id.toString() === featureId) ||
-                        (productFeature?.feature_id && productFeature.feature_id.toString() === featureId)
-                    );
-                });
+            // Features filter (only for category 3 - contact lenses)
+            const matchesFeatures = categoryId !== 3 || filters.features.length === 0 || 
+                filters.features.includes(product.feature);
 
-            // Gender filter - safely handle null gender
+            // Gender filter
             const matchesGender = filters.gender.length === 0 || 
                 filters.gender.includes(
                     product.gender === 'female' ? 'Nữ' :
                     product.gender === 'male' ? 'Nam' : 'Unisex'
                 );
 
-            // Price range filter - safely handle null prices
+            // Price range filter
             const matchesPriceRange = filters.priceRange.length === 0 || 
                 filters.priceRange.some(range => {
                     const [min, max] = range.split('-').map(Number);
-                    const price = product.offer_price || product.price || 0;
+                    const price = product.offer_price || product.price;
                     if (max === 999999999) {
                         return price >= min;
                     }
                     return price >= min && price <= max;
                 });
 
-            // For category 3 (contact lenses), only check relevant filters
-            if (categoryId === 3) {
-                return matchesFeatures &&
-                       matchesBrand &&
-                       matchesGender &&
-                       matchesPriceRange;
-            }
-
-            // For other categories, check all filters
             return matchesBrand &&
                    matchesShape &&
                    matchesMaterial &&
+                   matchesFeatures &&
                    matchesGender &&
                    matchesPriceRange;
         });
@@ -282,14 +256,13 @@ const GongKinhPage = ({ categoryId = 1, pageTitle = "Gọng Kính" }) => {
     useEffect(() => {
         const fetchFilterData = async () => {
             try {
-                const [brands, materials, shapes, features] = await Promise.all([
+                const [brands, materials, shapes] = await Promise.all([
                     getBrands(),
                     getMaterials(),
-                    getShapes(),
-                    categoryId === 3 ? getFeatures() : Promise.resolve([])
+                    getShapes()
                 ]);
 
-                console.log('Fetched features:', features); // Debug log
+                console.log('Fetched brands:', brands); // Debug log
 
                 setFilterOptions(prev => ({
                     ...prev,
@@ -305,10 +278,6 @@ const GongKinhPage = ({ categoryId = 1, pageTitle = "Gọng Kính" }) => {
                         value: shape.id.toString(),
                         label: shape.name 
                     })),
-                    features: categoryId === 3 ? features.map(feature => ({
-                        value: feature.id.toString(),
-                        label: feature.name
-                    })) : [],
                     gender: [
                         { value: 'Nam', label: 'Nam' },
                         { value: 'Nữ', label: 'Nữ' },
@@ -326,7 +295,6 @@ const GongKinhPage = ({ categoryId = 1, pageTitle = "Gọng Kính" }) => {
                 setBrandsData(brands);
                 setMaterialsData(materials);
                 setShapesData(shapes);
-                setFeaturesData(features);
 
             } catch (error) {
                 toast.error('Không thể tải dữ liệu bộ lọc');
@@ -335,7 +303,7 @@ const GongKinhPage = ({ categoryId = 1, pageTitle = "Gọng Kính" }) => {
         };
 
         fetchFilterData();
-    }, [categoryId]);
+    }, []);
 
     if (loading) return <LoadingSkeleton />;
     if (error) return (
@@ -357,7 +325,7 @@ const GongKinhPage = ({ categoryId = 1, pageTitle = "Gọng Kính" }) => {
     // Update the getFilterLabel function
     const getFilterLabel = (key, value, filterOptions) => {
         // Find the matching option label for IDs
-        if (key === 'brands' || key === 'shapes' || key === 'material' || key === 'features') {
+        if (key === 'brands' || key === 'shapes' || key === 'material') {
             const option = filterOptions[key]?.find(opt => opt.value === value);
             return option ? option.label : value;
         }
@@ -436,10 +404,6 @@ const GongKinhPage = ({ categoryId = 1, pageTitle = "Gọng Kính" }) => {
                                 features: {
                                     title: "Tính năng",
                                     options: filterOptions.features
-                                },
-                                brands: {
-                                    title: "Thương hiệu",
-                                    options: filterOptions.brands
                                 }
                             }),
                             gender: {

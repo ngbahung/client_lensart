@@ -11,7 +11,6 @@ import SearchResults from './SearchResults';
 import { useCart } from '../../../contexts/CartContext';
 import { getFeatures } from '../../../api/featuresAPI';
 import { getShapes } from '../../../api/shapesAPI';
-import { toast } from 'react-toastify';
 
 const Header = () => {
     const { user, isAuthenticated, logout } = useAuth();
@@ -226,27 +225,19 @@ const Header = () => {
         </div>
     );
 
-    const handleSubItemClick = (item, subItem) => {
-        const url = `${item.path}?${subItem.filterType}=${encodeURIComponent(subItem.filterValue)}`;
-        setIsMobileMenuOpen(false);
-        navigate(url, { 
-            replace: true,
-            state: { 
-                filterType: subItem.filterType,
-                filterValue: subItem.filterValue 
-            }
-        });
-    };
-
     const renderDropdownItems = (item) => (
         Array.isArray(item.subItems) && item.subItems.map((subItem) => (
-            <button
+            <Link
                 key={subItem.name}
-                onClick={() => handleSubItemClick(item, subItem)}
-                className="w-full text-left block px-4 py-2 text-sm text-white hover:bg-[#5fc2c0] transition-colors"
+                to={`${item.path}?${subItem.filterType}=${encodeURIComponent(subItem.filterValue)}`}
+                className="block px-4 py-2 text-sm text-white hover:bg-[#5fc2c0] transition-colors"
+                onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    // You can add additional handling here if needed
+                }}
             >
                 {subItem.name}
-            </button>
+            </Link>
         ))
     );
 

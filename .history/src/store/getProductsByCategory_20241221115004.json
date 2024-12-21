@@ -1,0 +1,36 @@
+
+GET
+http://localhost:8000/api/active/products/getByCategoryId/1
+Auth Type
+Inherit auth from parent
+The authorization header will be automatically generated when you send the request. Learn more about 
+.
+This request is not inheriting any authorization helper at the moment. Save it in a collection to use the parent's authorization helper.
+200
+OK
+191 ms
+20.57 KB
+1201211171181191141151161091101111121131031041051061071081011029899100
+                    "image_public_id": "đen_wlauyb"                },                    "id": 12,                    "product_id": 3,                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734277268/%C4%91en_wlauyb.jpg",                    "image_public_id": "đen_-_4_nn66yb"                },                {            "images": [                {                    "id": 11,                    "product_id": 3,                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734277268/%C4%91en_-_4_nn66yb.jpg",            "shape_id": 2,            "gender": "unisex",            "price": 600000,            "offer_price": null,            "created_time": "2024-12-21 09:19:48",            "status": "active",            "brand_id": 9,            "material_id": 5,            "name": "Gọng kính MERCURY LV87137",            "description": "Vuông - Kim loại Titan",            "category_id": 1,
+                    "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734278384/%C4%91en_-_2_h2sonp.jpg",
+                    "image_public_id": "đen_-_2_h2sonp"
+                }
+            ]
+        },
+        {
+            "id": 8,
+            "name": "Gọng kính NEWBALANCE NB09361X",
+            "description": "Chữ nhật - Nhựa và kim loại",
+            "category_id": 1,
+            "brand_id": 11,
+            "material_id": 1,
+            "shape_id": 3,
+            "gender": "unisex",
+            "price": 1200000,
+            "offer_price": 1150000,
+            "created_time": "2024-12-21 09:19:48",
+            "status": "active",
+            "images": [
+                {
+
+Online

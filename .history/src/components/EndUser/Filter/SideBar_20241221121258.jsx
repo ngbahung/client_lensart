@@ -69,9 +69,6 @@ const FilterSection = memo(({ title, options, type, onFilterChange, selectedFilt
     if (type === 'priceRange') {
       return formatPrice(option);
     }
-    if (type === 'features') {
-      return option.label || option;
-    }
     return option;
   };
 
@@ -79,22 +76,7 @@ const FilterSection = memo(({ title, options, type, onFilterChange, selectedFilt
     if (typeof option === 'object' && option.value) {
       return option.value;
     }
-    if (type === 'features') {
-      return option.id?.toString() || option;
-    }
     return option;
-  };
-
-  const shouldShowScroll = (type === 'brands' || type === 'features') && 
-    Array.isArray(options) && options.length > 8;
-
-  const handleFilterClick = (value) => {
-    try {
-      onFilterChange(type, value);
-    } catch (error) {
-      console.error('Error applying filter:', error);
-      toast.error('Không thể áp dụng bộ lọc');
-    }
   };
 
   return (
@@ -135,12 +117,12 @@ const FilterSection = memo(({ title, options, type, onFilterChange, selectedFilt
             </div>
           )}
           <div className={shouldShowSearch ? 'max-h-[300px] overflow-y-auto' : ''}>
-            {Array.isArray(filteredOptions) ? filteredOptions.map((option, index) => {
-              const value = getValue(option);
-              const label = renderOption(option);
+            {filteredOptions.map((option, index) => {
+              const value = option.value || option;
+              const label = option.label || option;
               return (
                 <div 
-                  key={getOptionKey(option, index)}
+                  key={`${type}-${value}-${index}`}
                   className={`flex items-center p-2 rounded-md transition-colors
                     ${selectedFilters[type]?.includes(value) 
                       ? 'bg-teal-50 hover:bg-teal-100/70' 
@@ -151,7 +133,7 @@ const FilterSection = memo(({ title, options, type, onFilterChange, selectedFilt
                     name={type}
                     value={value}
                     checked={selectedFilters[type]?.includes(value) || false}
-                    onChange={() => handleFilterClick(value)}
+                    onChange={() => onFilterChange(type, value)}
                     className="w-4 h-4 text-teal-600 border-gray-300 rounded 
                       focus:ring-teal-500 focus:ring-offset-0 transition-colors cursor-pointer"
                   />
@@ -161,11 +143,7 @@ const FilterSection = memo(({ title, options, type, onFilterChange, selectedFilt
                   </label>
                 </div>
               );
-            }) : (
-              <div className="text-gray-500 text-sm p-2">
-                Không có tùy chọn
-              </div>
-            )}
+            })}
           </div>
         </div>
       </div>
