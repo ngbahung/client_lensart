@@ -1,0 +1,652 @@
+{
+    "data": [
+        {
+            "id": 1,
+            "name": "Gọng kính BOLON BT1529",
+            "description": "Viền trên đậm - Nhựa và kim loại",
+            "brand": "Bevis",
+            "category": "Gọng kính",
+            "shape_id": 1,
+            "material_id": 1,
+            "gender": "unisex",
+            "price": 500000,
+            "offer_price": null,
+            "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734273139/%C4%91en_v%C3%A0ng_zztpkw.jpg",
+            "product_details": [
+                {
+                    "product_id": 1,
+                    "branch_id": 1,
+                    "color": "Đen",
+                    "quantity": 9,
+                    "status": "active"
+                },
+                {
+                    "product_id": 1,
+                    "branch_id": 2,
+                    "color": "Đen",
+                    "quantity": 4,
+                    "status": "active"
+                },
+                {
+                    "product_id": 1,
+                    "branch_id": 3,
+                    "color": "Đen",
+                    "quantity": 4,
+                    "status": "active"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "name": "Gọng kính JILL STUART JL33072",
+            "description": "Đa giác - Titanium",
+            "brand": "Chemi",
+            "category": "Gọng kính",
+            "shape_id": 2,
+            "material_id": 2,
+            "gender": "unisex",
+            "price": 550000,
+            "offer_price": 500000,
+            "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734277159/h%E1%BB%93ng_xanh_ps8ind.png",
+            "product_details": [
+                {
+                    "product_id": 2,
+                    "branch_id": 1,
+                    "color": "Xanh Dương",
+                    "quantity": 8,
+                    "status": "active"
+                },
+                {
+                    "product_id": 2,
+                    "branch_id": 2,
+                    "color": "Xanh Dương",
+                    "quantity": 5,
+                    "status": "active"
+                },
+                {
+                    "product_id": 2,
+                    "branch_id": 3,
+                    "color": "Xanh Dương",
+                    "quantity": 5,
+                    "status": "active"
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "name": "Gọng kính MERCURY LV87137",
+            "description": "Vuông - Kim loại Titan",
+            "brand": "Essilor",
+            "category": "Gọng kính",
+            "shape_id": 3,
+            "material_id": 3,
+            "gender": "unisex",
+            "price": 600000,
+            "offer_price": null,
+            "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734277268/%C4%91en_-_2_x4rueabc",
+            "product_details": [
+                {
+                    "product_id": 3,
+                    "branch_id": 1,
+                    "color": "Đỏ",
+                    "quantity": 10,
+                    "status": "active"
+                },
+                {
+                    "product_id": 3,
+                    "branch_id": 2,
+                    "color": "Đỏ",
+                    "quantity": 3,
+                    "status": "active"
+                },
+                {
+                    "product_id": 3,
+                    "branch_id": 3,
+                    "color": "Đỏ",
+                    "quantity": 3,
+                    "status": "active"
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "name": "Gọng kính MERCURY LV87297",
+            "description": "Viền trên đậm - Kim loại Titan",
+            "brand": "Kodak",
+            "category": "Gọng kính",
+            "shape_id": 1,
+            "material_id": 3,
+            "gender": "unisex",
+            "price": 650000,
+            "offer_price": null,
+            "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734277396/%C4%91en_b%E1%BA%A1c_wsurvo.jpg",
+            "product_details": [
+                {
+                    "product_id": 4,
+                    "branch_id": 1,
+                    "color": "Xanh Lá",
+                    "quantity": 8,
+                    "status": "active"
+                },
+                {
+                    "product_id": 4,
+                    "branch_id": 2,
+                    "color": "Xanh Lá",
+                    "quantity": 4,
+                    "status": "active"
+                },
+                {
+                    "product_id": 4,
+                    "branch_id": 3,
+                    "color": "Xanh Lá",
+                    "quantity": 4,
+                    "status": "active"
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "name": "Gọng kính MOLSON MJ6119",
+            "description": "Đa giác - Nhựa và kim loại",
+            "brand": "Bevis",
+            "category": "Gọng kính",
+            "shape_id": 2,
+            "material_id": 1,
+            "gender": "unisex",
+            "price": 700000,
+            "offer_price": 650000,
+            "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734277739/tr%E1%BA%AFng_-_2_zt7xyn.png",
+            "product_details": [
+                {
+                    "product_id": 5,
+                    "branch_id": 1,
+                    "color": "Nâu",
+                    "quantity": 7,
+                    "status": "active"
+                },
+                {
+                    "product_id": 5,
+                    "branch_id": 2,
+                    "color": "Nâu",
+                    "quantity": 5,
+                    "status": "active"
+                },
+                {
+                    "product_id": 5,
+                    "branch_id": 3,
+                    "color": "Nâu",
+                    "quantity": 5,
+                    "status": "active"
+                }
+            ]
+        },
+        {
+            "id": 6,
+            "name": "Gọng kính MOLSON MJ6156",
+            "description": "Tròn - Titanium",
+            "brand": "Chemi",
+            "category": "Gọng kính",
+            "shape_id": 3,
+            "material_id": 2,
+            "gender": "unisex",
+            "price": 750000,
+            "offer_price": null,
+            "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734277944/1_bazxqm.jpg",
+            "product_details": [
+                {
+                    "product_id": 6,
+                    "branch_id": 1,
+                    "color": "Xám",
+                    "quantity": 11,
+                    "status": "active"
+                },
+                {
+                    "product_id": 6,
+                    "branch_id": 2,
+                    "color": "Xám",
+                    "quantity": 5,
+                    "status": "active"
+                },
+                {
+                    "product_id": 6,
+                    "branch_id": 3,
+                    "color": "Xám",
+                    "quantity": 5,
+                    "status": "active"
+                }
+            ]
+        },
+        {
+            "id": 7,
+            "name": "Gọng kính MOLSON MJ7272",
+            "description": "Đa giác - Kim loại Titan",
+            "brand": "Essilor",
+            "category": "Gọng kính",
+            "shape_id": 2,
+            "material_id": 3,
+            "gender": "unisex",
+            "price": 1100000,
+            "offer_price": null,
+            "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734278384/%C4%91en_-_2_h2sonp.jpg",
+            "product_details": [
+                {
+                    "product_id": 7,
+                    "branch_id": 1,
+                    "color": "Đen",
+                    "quantity": 10,
+                    "status": "active"
+                },
+                {
+                    "product_id": 7,
+                    "branch_id": 2,
+                    "color": "Đen",
+                    "quantity": 5,
+                    "status": "active"
+                },
+                {
+                    "product_id": 7,
+                    "branch_id": 3,
+                    "color": "Đen",
+                    "quantity": 5,
+                    "status": "active"
+                }
+            ]
+        },
+        {
+            "id": 8,
+            "name": "Gọng kính NEWBALANCE NB09361X",
+            "description": "Chữ nhật - Nhựa và kim loại",
+            "brand": "Kodak",
+            "category": "Gọng kính",
+            "shape_id": 1,
+            "material_id": 1,
+            "gender": "unisex",
+            "price": 1200000,
+            "offer_price": 1150000,
+            "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734278569/%C4%91en_bfiicm.jpg",
+            "product_details": [
+                {
+                    "product_id": 8,
+                    "branch_id": 1,
+                    "color": "Xanh Dương",
+                    "quantity": 10,
+                    "status": "active"
+                },
+                {
+                    "product_id": 8,
+                    "branch_id": 2,
+                    "color": "Xanh Dương",
+                    "quantity": 5,
+                    "status": "active"
+                },
+                {
+                    "product_id": 8,
+                    "branch_id": 3,
+                    "color": "Xanh Dương",
+                    "quantity": 5,
+                    "status": "active"
+                }
+            ]
+        },
+        {
+            "id": 9,
+            "name": "Gọng kính POVINO PO6843",
+            "description": "Nhựa và kim loại - Vuông",
+            "brand": "Bevis",
+            "category": "Gọng kính",
+            "shape_id": 3,
+            "material_id": 2,
+            "gender": "unisex",
+            "price": 1300000,
+            "offer_price": null,
+            "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734278644/B%E1%BA%A1c_iful8l.jpg",
+            "product_details": [
+                {
+                    "product_id": 9,
+                    "branch_id": 1,
+                    "color": "Đỏ",
+                    "quantity": 10,
+                    "status": "active"
+                },
+                {
+                    "product_id": 9,
+                    "branch_id": 2,
+                    "color": "Đỏ",
+                    "quantity": 5,
+                    "status": "active"
+                },
+                {
+                    "product_id": 9,
+                    "branch_id": 3,
+                    "color": "Đỏ",
+                    "quantity": 5,
+                    "status": "active"
+                }
+            ]
+        },
+        {
+            "id": 10,
+            "name": "Gọng kính POVINO PO22641",
+            "description": "Tròn - Nhựa và kim loại",
+            "brand": "Chemi",
+            "category": "Gọng kính",
+            "shape_id": 2,
+            "material_id": 1,
+            "gender": "unisex",
+            "price": 1400000,
+            "offer_price": null,
+            "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734278805/1_c0kzfp.jpg",
+            "product_details": [
+                {
+                    "product_id": 10,
+                    "branch_id": 1,
+                    "color": "Xanh Lá",
+                    "quantity": 8,
+                    "status": "active"
+                },
+                {
+                    "product_id": 10,
+                    "branch_id": 2,
+                    "color": "Xanh Lá",
+                    "quantity": 3,
+                    "status": "active"
+                },
+                {
+                    "product_id": 10,
+                    "branch_id": 3,
+                    "color": "Xanh Lá",
+                    "quantity": 3,
+                    "status": "active"
+                }
+            ]
+        },
+        {
+            "id": 11,
+            "name": "Gọng kính POVINO ST9380",
+            "description": "Chữ nhật - Kim loại Titan",
+            "brand": "Essilor",
+            "category": "Gọng kính",
+            "shape_id": 1,
+            "material_id": 3,
+            "gender": "unisex",
+            "price": 1500000,
+            "offer_price": null,
+            "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734278807/%C4%91en_b%E1%BA%A1c_owdjwd.jpg",
+            "product_details": [
+                {
+                    "product_id": 11,
+                    "branch_id": 1,
+                    "color": "Nâu",
+                    "quantity": 10,
+                    "status": "active"
+                },
+                {
+                    "product_id": 11,
+                    "branch_id": 2,
+                    "color": "Nâu",
+                    "quantity": 5,
+                    "status": "active"
+                },
+                {
+                    "product_id": 11,
+                    "branch_id": 3,
+                    "color": "Nâu",
+                    "quantity": 5,
+                    "status": "active"
+                }
+            ]
+        },
+        {
+            "id": 12,
+            "name": "Gọng kính RAYBAN RB6346-2904",
+            "description": "Viền trên đậm - Titanium",
+            "brand": "Kodak",
+            "category": "Gọng kính",
+            "shape_id": 3,
+            "material_id": 2,
+            "gender": "unisex",
+            "price": 1600000,
+            "offer_price": 1550000,
+            "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734444871/2_fmjc5a.jpg",
+            "product_details": [
+                {
+                    "product_id": 12,
+                    "branch_id": 1,
+                    "color": "Xám",
+                    "quantity": 10,
+                    "status": "active"
+                },
+                {
+                    "product_id": 12,
+                    "branch_id": 2,
+                    "color": "Xám",
+                    "quantity": 5,
+                    "status": "active"
+                },
+                {
+                    "product_id": 12,
+                    "branch_id": 3,
+                    "color": "Xám",
+                    "quantity": 5,
+                    "status": "active"
+                }
+            ]
+        },
+        {
+            "id": 13,
+            "name": "Gọng kính RAYBAN RX8763",
+            "description": "Titanium - Chữ nhật",
+            "brand": "Bevis",
+            "category": "Gọng kính",
+            "shape_id": 1,
+            "material_id": 2,
+            "gender": "unisex",
+            "price": 2100000,
+            "offer_price": null,
+            "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734444954/1_ogamwx.jpg",
+            "product_details": [
+                {
+                    "product_id": 13,
+                    "branch_id": 1,
+                    "color": "Đen",
+                    "quantity": 10,
+                    "status": "active"
+                },
+                {
+                    "product_id": 13,
+                    "branch_id": 2,
+                    "color": "Đen",
+                    "quantity": 5,
+                    "status": "active"
+                },
+                {
+                    "product_id": 13,
+                    "branch_id": 3,
+                    "color": "Đen",
+                    "quantity": 5,
+                    "status": "active"
+                }
+            ]
+        },
+        {
+            "id": 14,
+            "name": "Gọng kính SEESON THE CLASSICS JIL",
+            "description": "Vuông - Nhựa acetate",
+            "brand": "Chemi",
+            "category": "Gọng kính",
+            "shape_id": 3,
+            "material_id": 1,
+            "gender": "unisex",
+            "price": 2200000,
+            "offer_price": 2100000,
+            "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445051/1_uwickw.jpg",
+            "product_details": [
+                {
+                    "product_id": 14,
+                    "branch_id": 1,
+                    "color": "Xanh Dương",
+                    "quantity": 10,
+                    "status": "active"
+                },
+                {
+                    "product_id": 14,
+                    "branch_id": 2,
+                    "color": "Xanh Dương",
+                    "quantity": 5,
+                    "status": "active"
+                },
+                {
+                    "product_id": 14,
+                    "branch_id": 3,
+                    "color": "Xanh Dương",
+                    "quantity": 5,
+                    "status": "active"
+                }
+            ]
+        },
+        {
+            "id": 15,
+            "name": "Gọng kính MOLSON MJ7272",
+            "description": "Đa giác - Kim loại Titan",
+            "brand": "Essilor",
+            "category": "Gọng kính",
+            "shape_id": 2,
+            "material_id": 3,
+            "gender": "unisex",
+            "price": 2300000,
+            "offer_price": null,
+            "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445302/%C4%91en_-_2_ult5bw.jpg",
+            "product_details": [
+                {
+                    "product_id": 15,
+                    "branch_id": 1,
+                    "color": "Đỏ",
+                    "quantity": 10,
+                    "status": "active"
+                },
+                {
+                    "product_id": 15,
+                    "branch_id": 2,
+                    "color": "Đỏ",
+                    "quantity": 5,
+                    "status": "active"
+                },
+                {
+                    "product_id": 15,
+                    "branch_id": 3,
+                    "color": "Đỏ",
+                    "quantity": 5,
+                    "status": "active"
+                }
+            ]
+        },
+        {
+            "id": 16,
+            "name": "Gọng kính POVINO ST9380",
+            "description": "Chữ nhật - Kim loại Titan",
+            "brand": "Kodak",
+            "category": "Gọng kính",
+            "shape_id": 1,
+            "material_id": 3,
+            "gender": "unisex",
+            "price": 2400000,
+            "offer_price": null,
+            "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445389/%C4%91en_nh%C3%A1m_ehw7n3.jpg",
+            "product_details": [
+                {
+                    "product_id": 16,
+                    "branch_id": 1,
+                    "color": "Xanh Lá",
+                    "quantity": 9,
+                    "status": "active"
+                },
+                {
+                    "product_id": 16,
+                    "branch_id": 2,
+                    "color": "Xanh Lá",
+                    "quantity": 4,
+                    "status": "active"
+                },
+                {
+                    "product_id": 16,
+                    "branch_id": 3,
+                    "color": "Xanh Lá",
+                    "quantity": 4,
+                    "status": "active"
+                }
+            ]
+        },
+        {
+            "id": 17,
+            "name": "Gọng kính RAYBAN RX8763",
+            "description": "Titanium - Chữ nhật",
+            "brand": "Bevis",
+            "category": "Gọng kính",
+            "shape_id": 1,
+            "material_id": 2,
+            "gender": "unisex",
+            "price": 2500000,
+            "offer_price": 2400000,
+            "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445483/1_wuborb.jpg",
+            "product_details": [
+                {
+                    "product_id": 17,
+                    "branch_id": 1,
+                    "color": "Nâu",
+                    "quantity": 10,
+                    "status": "active"
+                },
+                {
+                    "product_id": 17,
+                    "branch_id": 2,
+                    "color": "Nâu",
+                    "quantity": 5,
+                    "status": "active"
+                },
+                {
+                    "product_id": 17,
+                    "branch_id": 3,
+                    "color": "Nâu",
+                    "quantity": 5,
+                    "status": "active"
+                }
+            ]
+        },
+        {
+            "id": 18,
+            "name": "Gọng kính SEESON THE CLASSICS JIL",
+            "description": "Vuông - Nhựa acetate",
+            "brand": "Chemi",
+            "category": "Gọng kính",
+            "shape_id": 3,
+            "material_id": 1,
+            "gender": "unisex",
+            "price": 2500000,
+            "offer_price": null,
+            "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734445537/1_ezdyvo.jpg",
+            "product_details": [
+                {
+                    "product_id": 18,
+                    "branch_id": 1,
+                    "color": "Xám",
+                    "quantity": 10,
+                    "status": "active"
+                },
+                {
+                    "product_id": 18,
+                    "branch_id": 2,
+                    "color": "Xám",
+                    "quantity": 5,
+                    "status": "active"
+                },
+                {
+                    "product_id": 18,
+                    "branch_id": 3,
+                    "color": "Xám",
+                    "quantity": 5,
+                    "status": "active"
+                }
+            ]
+        }
+    ]
+}

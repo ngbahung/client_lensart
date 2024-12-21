@@ -1,0 +1,65 @@
+import React from "react";
+import { toast } from 'react-toastify';
+import { Link, useLocation } from 'react-router-dom';
+import { HeartIcon } from '@heroicons/react/solid';
+
+function Sidebar({ activeView, onViewChange, userData, onLogout }) {
+  const location = useLocation();
+  const menuItems = [
+    { id: 'account', label: 'Thông tin tài khoản' },
+    { id: 'address', label: 'Thông tin địa chỉ' },
+    { id: 'orders', label: 'Đơn hàng của bạn' },
+    { id: 'favorites', label: 'Sản phẩm yêu thích' },
+    { id: 'password', label: 'Đổi mật khẩu' },
+  ];
+
+  const handleLogout = async () => {
+    try {
+      await onLogout();
+      toast.success('Đăng xuất thành công');
+    } catch (error) {
+      toast.error('Đăng xuất thất bại');
+    }
+  };
+
+  return (
+    <div className="w-80 min-w-[20rem] bg-white p-6 rounded shadow">
+      <h2 className="text-xl font-semibold mb-2">
+        {userData?.firstname} {userData?.lastname}
+      </h2>
+      <p className="text-gray-500 mb-4">#{userData?.id}</p>
+      <ul className="space-y-2 text-gray-700">
+        {menuItems.map(item => (
+          <li
+            key={item.id}
+            className={`cursor-pointer ${
+              activeView === item.id ? 'text-blue-500' : 'hover:text-blue-500'
+            }`}
+            onClick={() => onViewChange(item.id)}
+          >
+            {item.label}
+          </li>
+        ))}
+        <li>
+          <Link
+            to="/dashboard/favorites"
+            className={`flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md ${
+              location.pathname === '/dashboard/favorites' ? 'bg-gray-100' : ''
+            }`}
+          >
+            <HeartIcon className="w-5 h-5 mr-2" />
+            Sản phẩm yêu thích
+          </Link>
+        </li>
+      </ul>
+      <button 
+        onClick={handleLogout}
+        className="mt-6 text-red-500 hover:underline"
+      >
+        Đăng xuất
+      </button>
+    </div>
+  );
+}
+
+export default Sidebar;

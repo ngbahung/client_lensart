@@ -1,0 +1,28 @@
+{
+    "data": [
+        {
+            "id": 21,
+            "product_name": "Gọng kính JILL STUART JL33072",
+            "product_price": 500000,
+            "brands_name": "Chemi",
+            "category_name": "Gọng kính",
+            "color": "Xanh Dương",
+            "quantity": 1,
+            "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734277159/tr%E1%BA%AFng_b%E1%BA%A1c_hek1xt.png",
+            "branches_name": "Hồ Chí Minh",
+            "total_price": 500000
+        },
+        {
+            "id": 20,
+            "product_name": "Tròng kính Chemi - Chống UV",
+            "product_price": 550000,
+            "brands_name": "Bevis",
+            "category_name": "Tròng kính",
+            "color": "Xanh Dương",
+            "quantity": 1,
+            "image_url": "https://res.cloudinary.com/dlmzsfwcf/image/upload/v1734450449/Tr%C3%B2ng_k%C3%ADnh_Phi_C%E1%BA%A7u_Hai_M%E1%BA%B7t_Chemi_Double_Aspheric_jqszhf.jpg",
+            "branches_name": "Hồ Chí Minh",
+            "total_price": 550000
+        }
+    ]
+}
