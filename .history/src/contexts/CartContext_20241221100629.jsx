@@ -32,7 +32,7 @@ const transformCartData = (cartDetails) => {
     category: item.category_name,
     branch_name: item.branches_name,
     total_price: parseFloat(item.product_price) * item.quantity,
-    selected: false  // Changed from true to false
+    selected: true
   }));
 };
 

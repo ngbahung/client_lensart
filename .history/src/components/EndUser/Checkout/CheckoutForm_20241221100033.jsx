@@ -224,10 +224,9 @@ const CheckoutForm = () => {
           const paymentResponse = await createPayOSCheckout(orderResponse.data.id, shippingFee);
           
           if (paymentResponse.data.checkoutUrl) {
-            // Store order info and coupon clear flag in sessionStorage
+            // Store order info in sessionStorage for post-payment processing
             sessionStorage.setItem('pendingOrderId', orderResponse.data.id);
             sessionStorage.setItem('shouldClearCart', 'true');
-            sessionStorage.setItem('shouldClearCoupon', 'true');
             
             const returnUrl = new URL(paymentResponse.data.checkoutUrl);
             returnUrl.searchParams.append('orderId', orderResponse.data.id);
@@ -240,8 +239,8 @@ const CheckoutForm = () => {
           console.error('Payment creation error:', paymentError);
         }
       } else {
-        // COD payment - remove selected items and clear coupon immediately
-        await removeSelectedItems(); // This will now also clear the coupon
+        // COD payment - remove selected items immediately
+        await removeSelectedItems();
         toast.success('Đặt hàng thành công!');
         navigate('/order-success');
       }

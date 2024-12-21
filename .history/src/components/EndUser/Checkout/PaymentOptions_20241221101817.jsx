@@ -47,7 +47,7 @@ const PaymentOptions = ({ selected, onChange }) => {
                   <div className="w-3 h-3 rounded-full bg-orange-500" />
                 )}
               </div>
-              {method.icon && <div>{method.icon}</div>}
+              
               <div>
                 <div className="font-medium text-gray-800">{method.name}</div>
                 <div className="text-sm text-gray-500">{method.description}</div>

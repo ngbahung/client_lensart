@@ -32,7 +32,7 @@ const transformCartData = (cartDetails) => {
     category: item.category_name,
     branch_name: item.branches_name,
     total_price: parseFloat(item.product_price) * item.quantity,
-    selected: false  // Changed from true to false
+    selected: true
   }));
 };
 
@@ -189,27 +189,14 @@ const cartReducer = (state, action) => {
         total: calculateTotal(state.items)
       };
 
-    case 'REMOVE_SELECTED_ITEMS': {
-      // Filter out selected regular items and their associated lens items
-      const selectedItemIds = state.items.filter(item => item.selected).map(item => item.id);
-      const selectedLensIds = state.items
-        .filter(item => item.selected && item.associated_lens_id)
-        .map(item => item.associated_lens_id);
-      
-      const remainingItems = state.items.filter(item => 
-        !selectedItemIds.includes(item.id) && !selectedLensIds.includes(item.id)
-      );
-
+    case 'REMOVE_SELECTED_ITEMS':
       return {
         ...state,
-        items: remainingItems,
-        itemCount: remainingItems.length,
-        total: calculateTotal(remainingItems),
-        selectedBranchId: null,
-        coupon: null, // Clear coupon
-        discount: 0 // Reset discount
+        items: state.items.filter(item => !item.selected),
+        itemCount: state.items.filter(item => !item.selected).length,
+        total: calculateTotal(state.items.filter(item => !item.selected)),
+        selectedBranchId: null
       };
-    }
 
     default:
       return state;

@@ -32,7 +32,7 @@ const transformCartData = (cartDetails) => {
     category: item.category_name,
     branch_name: item.branches_name,
     total_price: parseFloat(item.product_price) * item.quantity,
-    selected: false  // Changed from true to false
+    selected: true
   }));
 };
 
@@ -190,15 +190,34 @@ const cartReducer = (state, action) => {
       };
 
     case 'REMOVE_SELECTED_ITEMS': {
-      // Filter out selected regular items and their associated lens items
-      const selectedItemIds = state.items.filter(item => item.selected).map(item => item.id);
-      const selectedLensIds = state.items
-        .filter(item => item.selected && item.associated_lens_id)
-        .map(item => item.associated_lens_id);
+      // Get IDs of selected frames and their associated lenses
+      const selectedFrameIds = state.items
+        .filter(item => item.selected)
+        .map(item => item.id);
       
-      const remainingItems = state.items.filter(item => 
-        !selectedItemIds.includes(item.id) && !selectedLensIds.includes(item.id)
-      );
+      // Get IDs of selected lenses and frames that have selected lenses
+      const selectedLensInfo = state.items
+        .filter(item => item.selected && (item.is_lens || item.lens_id))
+        .reduce((acc, item) => {
+          if (item.is_lens) {
+            acc.lensIds.push(item.id);
+            if (item.frame_id) acc.frameIds.push(item.frame_id);
+          } else if (item.lens_id) {
+            acc.lensIds.push(item.lens_id);
+            acc.frameIds.push(item.id);
+          }
+          return acc;
+        }, { lensIds: [], frameIds: [] });
+
+      // Combine all IDs that need to be removed
+      const idsToRemove = new Set([
+        ...selectedFrameIds,
+        ...selectedLensInfo.lensIds,
+        ...selectedLensInfo.frameIds
+      ]);
+
+      // Filter out all items that should be removed
+      const remainingItems = state.items.filter(item => !idsToRemove.has(item.id));
 
       return {
         ...state,
@@ -206,8 +225,8 @@ const cartReducer = (state, action) => {
         itemCount: remainingItems.length,
         total: calculateTotal(remainingItems),
         selectedBranchId: null,
-        coupon: null, // Clear coupon
-        discount: 0 // Reset discount
+        coupon: null,
+        discount: 0
       };
     }
 

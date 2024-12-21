@@ -43,7 +43,7 @@ const CheckoutForm = () => {
     wardMatch: null
   });
 
-  const { items, coupon, clearCart, removeSelectedItems } = useCart();
+  const { items, coupon, clearCart } = useCart();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -174,17 +174,11 @@ const CheckoutForm = () => {
     setLoading(true);
 
     try {
-      // Get selected items and their associated lens items from cart
+      // Get selected items from cart
       const selectedItems = items.filter(item => item.selected);
-      const selectedLensIds = selectedItems
-        .filter(item => item.associated_lens_id)
-        .map(item => item.associated_lens_id);
       
-      const lensItems = items.filter(item => selectedLensIds.includes(item.id));
-      const allOrderItems = [...selectedItems, ...lensItems];
-      
-      // Calculate subtotal and shipping fee including lens items
-      const subtotal = allOrderItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+      // Calculate subtotal and shipping fee
+      const subtotal = selectedItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
       const shippingFee = subtotal >= 1000000 ? 0 : 20000;
 
       // Get form data
@@ -196,21 +190,18 @@ const CheckoutForm = () => {
         locations.cities.find(c => c.value === formData.city)?.label
       }`;
 
-      // Prepare order data including lens items
+      // Prepare order data
       const orderData = {
         branch_id: selectedItems[0].branch_id,
         address: fullAddress,
         note: formData.notes,
         coupon_id: coupon?.id || null,
         shipping_fee: shippingFee,
-        payment_method: formData.paymentMethod === 'cod' ? 'Tiền mặt' : 'Chuyển khoản',
-        order_details: allOrderItems.map(item => ({
+        order_details: selectedItems.map(item => ({
           product_id: item.product_id,
           color: item.color,
           quantity: item.quantity,
-          total_price: item.price * item.quantity,
-          is_lens: item.is_lens || false,
-          associated_frame_id: item.associated_frame_id || null
+          total_price: item.price * item.quantity
         }))
       };
       console.log(orderData);
@@ -224,11 +215,7 @@ const CheckoutForm = () => {
           const paymentResponse = await createPayOSCheckout(orderResponse.data.id, shippingFee);
           
           if (paymentResponse.data.checkoutUrl) {
-            // Store order info and coupon clear flag in sessionStorage
-            sessionStorage.setItem('pendingOrderId', orderResponse.data.id);
-            sessionStorage.setItem('shouldClearCart', 'true');
-            sessionStorage.setItem('shouldClearCoupon', 'true');
-            
+            // Add orderId to the returnUrl
             const returnUrl = new URL(paymentResponse.data.checkoutUrl);
             returnUrl.searchParams.append('orderId', orderResponse.data.id);
             window.location.href = returnUrl.toString();
@@ -240,9 +227,9 @@ const CheckoutForm = () => {
           console.error('Payment creation error:', paymentError);
         }
       } else {
-        // COD payment - remove selected items and clear coupon immediately
-        await removeSelectedItems(); // This will now also clear the coupon
+        // COD payment
         toast.success('Đặt hàng thành công!');
+        await clearCart();
         navigate('/order-success');
       }
     } catch (error) {
