@@ -3,7 +3,6 @@ import axios from 'axios';
 import Table from './Table';
 import Pagination from "./Pagination";
 import PropTypes from 'prop-types';
-import Swal from 'sweetalert2';
 
 const ImageGalleryPage = ({ productId }) => {
   const [images, setImages] = useState([]);
@@ -114,43 +113,17 @@ const ImageGalleryPage = ({ productId }) => {
   };
 
   const handleDelete = async (imageId) => {
-    try {
-      const result = await Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#55d5d2',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!',
-        cancelButtonText: 'Cancel'
-      });
-
-      if (result.isConfirmed) {
-        setIsLoading(true);
-        const response = await axios.post(
-          `http://localhost:8000/api/product-images/delete/${imageId}`
-        );
-
+    if (window.confirm('Are you sure you want to delete this image?')) {
+      try {
+        const response = await axios.post(`http://localhost:8000/api/images/delete/${imageId}`);
         if (response.status === 200) {
           setImages(prevImages => prevImages.filter(image => image.id !== imageId));
-          Swal.fire(
-            'Deleted!',
-            'The image has been deleted.',
-            'success'
-          );
+          alert('Image deleted successfully');
         }
+      } catch (error) {
+        alert(error.response?.data?.message || "Failed to delete image");
+        console.error("Failed to delete image:", error);
       }
-    } catch (error) {
-      const errorMessage = error.response?.data?.message || 'Failed to delete image';
-      Swal.fire(
-        'Error!',
-        errorMessage,
-        'error'
-      );
-      console.error('Error deleting image:', error);
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -177,34 +150,6 @@ const ImageGalleryPage = ({ productId }) => {
     fetchImages(); // Gọi lại API để lấy dữ liệu mới
   };
 
-  const handleImageUpload = async (file) => {
-    setIsLoading(true);
-    const formData = new FormData();
-    formData.append('image', file);
-    formData.append('product_id', productId);
-
-    try {
-      const response = await axios.post(
-        'http://localhost:8000/api/product-images/create',
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        }
-      );
-
-      if (response.data && response.status === 200) {
-        await fetchImages(); // Refresh the images list
-      }
-    } catch (error) {
-      setError(error.response?.data?.message || 'Failed to upload image');
-      console.error('Error uploading image:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   return (
     <div className="container mx-auto px-4">
       <Table
@@ -213,7 +158,6 @@ const ImageGalleryPage = ({ productId }) => {
         error={error}
         onDelete={handleDelete}
         onUpdateSuccess={handleUpdateSuccess}
-        onUpload={handleImageUpload}
         product_id={productId} // Truyền productId vào Table
       />
     </div>

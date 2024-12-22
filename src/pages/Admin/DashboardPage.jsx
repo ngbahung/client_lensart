@@ -66,7 +66,7 @@ const DashboardPage = () => {
   }, [selectedBranch, selectedMonth, selectedYear]);
 
   return (
-    <div className="bg-white p-6 rounded-md mt-10">
+    <div className="bg-white p-6 rounded-md">
       <div className="flex justify-end gap-4 mb-6">
         <div className="flex flex-col gap-2 w-[150px]">
           <label className="text-[rgba(85,213,210,1)] font-bold text-center">Branch</label>
