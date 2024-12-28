@@ -311,13 +311,10 @@ const Header = () => {
                                     </div>
                                 )}
                             </div>
-                            <Link 
-                                to="/chinh-sach" 
-                                className="flex items-center p-2 md:px-4 md:py-2 rounded-full bg-[#F5A97F] text-white hover:bg-[#ec905c] transition-colors"
-                            >
+                            <button className="flex items-center p-2 md:px-4 md:py-2 rounded-full bg-[#F5A97F] text-white hover:bg-[#ec905c] transition-colors">
                                 <BiBookOpen className="h-5 w-5 md:mr-2" />
                                 <span className="font-semibold text-[15px] hidden md:inline">Chính sách</span>
-                            </Link>
+                            </button>
                         </div>
                     </div>
                 </div>

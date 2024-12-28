@@ -43,7 +43,6 @@ import Header_Admin from './components/Admin/Navbar_Header/Header';
 import ProtectedAdminRoute from './components/Admin/ProtectedAdminRoute';
 import AboutUsPage from './pages/EndUser/AboutUsPage';
 import ContactPage from './pages/EndUser/ContactPage';
-import PolicyPage from './pages/EndUser/PolicyPage';
 
 
 const UserLayout = () => (
@@ -259,7 +258,7 @@ const AppRoutes = () => {
           <Route index element={<ContactPage />} />
         </Route>
         <Route path="chinh-sach">
-          <Route index element={<PolicyPage />} />
+          
         </Route>
         {/* Add other user routes here */}
       </Route>

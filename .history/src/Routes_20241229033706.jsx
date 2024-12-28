@@ -41,10 +41,6 @@ import Product_ReviewsPage from './pages/Admin/Products/Product_ReviewsPage';
 import Navbar from './components/Admin/Navbar_Header/Navbar';
 import Header_Admin from './components/Admin/Navbar_Header/Header';
 import ProtectedAdminRoute from './components/Admin/ProtectedAdminRoute';
-import AboutUsPage from './pages/EndUser/AboutUsPage';
-import ContactPage from './pages/EndUser/ContactPage';
-import PolicyPage from './pages/EndUser/PolicyPage';
-
 
 const UserLayout = () => (
   <div className="min-h-screen flex flex-col pt-[128px] md:pt-[144px]">
@@ -252,15 +248,7 @@ const AppRoutes = () => {
           <Route index element={<BlogsPage />} />
           <Route path=":blogId" element={<BlogDetailPage />} />
         </Route>
-        <Route path="ve-lensart">
-          <Route index element={<AboutUsPage />} />
-        </Route>
-        <Route path="lien-he">
-          <Route index element={<ContactPage />} />
-        </Route>
-        <Route path="chinh-sach">
-          <Route index element={<PolicyPage />} />
-        </Route>
+        <Route path="ve-lensart"
         {/* Add other user routes here */}
       </Route>
 

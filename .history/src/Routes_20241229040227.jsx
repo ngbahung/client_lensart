@@ -259,7 +259,7 @@ const AppRoutes = () => {
           <Route index element={<ContactPage />} />
         </Route>
         <Route path="chinh-sach">
-          <Route index element={<PolicyPage />} />
+          <Route index element={<PolicyPage}
         </Route>
         {/* Add other user routes here */}
       </Route>
