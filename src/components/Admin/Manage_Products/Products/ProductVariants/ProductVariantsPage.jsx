@@ -13,9 +13,9 @@ const ProductVariantsPage = ({ productId }) => {
   const ITEMS_PER_PAGE = 30; // Số lượng items mỗi trang
   const [searchTerm, setSearchTerm] = useState("");
 
-
   const fetchVariants = async () => {
-    if (!productId) {
+    if (!productId || isNaN(productId)) {
+      console.error("Invalid product ID:", productId);
       setError("Invalid product ID");
       setIsLoading(false);
       return;
@@ -23,11 +23,11 @@ const ProductVariantsPage = ({ productId }) => {
 
     setIsLoading(true);
     try {
+      console.log('Fetching variants for product:', productId);
       const response = await axios.get(`http://localhost:8000/api/product-details/getByProductId/${productId}`);
-      
+      console.log('API response:', response.data);
 
-      if (response.data && response.data.data) {
-        // Đảm bảo mỗi variant có status và các trường cần thiết
+      if (response.data && Array.isArray(response.data.data)) {
         const processedVariants = response.data.data.map(variant => ({
           ...variant,
           id: variant.id || 0,
@@ -36,17 +36,18 @@ const ProductVariantsPage = ({ productId }) => {
           quantity: variant.quantity || 0
         }));
 
-        
+        console.log('Processed variants:', processedVariants);
         setVariants(processedVariants);
         setTotalPages(Math.ceil(processedVariants.length / ITEMS_PER_PAGE));
         setError(null);
       } else {
+        console.error('Invalid response format:', response.data);
         setVariants([]);
-        setError("No variants data received");
+        setError("Invalid data format received");
       }
     } catch (error) {
       console.error("Failed to fetch variants:", error);
-      setError("Failed to load variants");
+      setError(error.response?.data?.message || "Failed to load variants");
       setVariants([]);
     } finally {
       setIsLoading(false);
@@ -94,6 +95,11 @@ const ProductVariantsPage = ({ productId }) => {
 
   return (
     <div className="bg-white p-6 rounded-md flex flex-col min-h-[calc(100vh-120px)]">
+      {error && (
+        <div className="text-red-500 mb-4 p-2 bg-red-100 rounded">
+          Error: {error}
+        </div>
+      )}
       <div className="flex-grow">
         <div className="grid grid-cols-1 gap-4">
           <Table

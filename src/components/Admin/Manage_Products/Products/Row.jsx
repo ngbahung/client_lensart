@@ -4,7 +4,7 @@ import { FaCog, FaAngleDown, FaRegHeart } from "react-icons/fa";
 import PropTypes from "prop-types";
 import ConfirmChangeStatusModal from "./ConfirmChangeStatusModal";
 import ImageGalleryPage from './ImageGallery/ImageGalleryPage';
-import ProductVariantsPage from './ProductVariants/ProductVariantsPage';
+import ProductVariantsPage from './ProductVariants/ProductVariantsPage';  // Add this import
 
 const ToggleSwitch = ({ id, status, onToggle, disabled }) => {
   const isActive = status === 'active';
@@ -87,8 +87,6 @@ const Row = ({ product, onStatusChange, onEdit }) => {
       maximumFractionDigits: 0
     }).format(price);
   };
-
-  console.log("Product ID in Row:", product.id); // Thêm log để debug
 
   return (
     <>
@@ -183,7 +181,7 @@ const Row = ({ product, onStatusChange, onEdit }) => {
         </div>
       )}
 
-      {/* Color Variants Modal */}
+      {/* Add Product Variants Modal */}
       {showVariants && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-[20px] w-[90%] h-[90%] overflow-hidden shadow-xl">
@@ -198,13 +196,8 @@ const Row = ({ product, onStatusChange, onEdit }) => {
                 ×
               </button>
             </div>
-            <div className="p-4">
-              {product?.id && (
-                <ProductVariantsPage 
-                  productId={parseInt(product.id)} 
-                  key={product.id} // Add key to force re-render
-                />
-              )}
+            <div className="p-4 overflow-auto">
+              <ProductVariantsPage productId={product.id} />
             </div>
           </div>
         </div>

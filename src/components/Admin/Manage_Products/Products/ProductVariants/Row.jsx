@@ -4,10 +4,16 @@ import PropTypes from "prop-types";
 
 const Row = ({ variant, onEdit }) => {
   const handleEdit = () => {
+    console.log('Editing variant:', variant); // Add logging
+    if (!variant?.id) {
+      console.error('Invalid variant data');
+      return;
+    }
     onEdit(variant);
   };
 
-  if (!variant) {
+  if (!variant || !variant.id) {
+    console.warn('Missing variant data');
     return null;
   }
 
