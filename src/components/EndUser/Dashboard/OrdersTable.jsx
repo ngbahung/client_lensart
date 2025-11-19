@@ -2,14 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { formatDate } from '../../../utils/dateUtils';
 import { formatPrice } from '../../../utils/formatPrice';
 import { fetchOrders, cancelOrder } from '../../../api/ordersAPI';
+import { createPayOSCheckout } from '../../../api/checkoutAPI';
 import Swal from 'sweetalert2';
-import { FiShoppingBag, FiPackage } from 'react-icons/fi';
+import { FiShoppingBag, FiPackage, FiCreditCard } from 'react-icons/fi';
+import { toast } from 'react-toastify';
 
 function OrdersTable({ onOrderSelect }) {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [cancellingOrderId, setCancellingOrderId] = useState(null);
+  const [repayingOrderId, setRepayingOrderId] = useState(null);
 
   useEffect(() => {
     const loadOrders = async () => {
@@ -88,6 +91,46 @@ function OrdersTable({ onOrderSelect }) {
     }
   };
 
+  const handleRepayment = async (order) => {
+    setRepayingOrderId(order.id);
+    try {
+      // Calculate shipping fee (same logic as in checkout)
+      const shippingFee = order.total_price >= 1000000 ? 0 : 20000;
+      
+      const paymentResponse = await createPayOSCheckout(order.id, shippingFee);
+      
+      if (paymentResponse.data.checkoutUrl) {
+        // Store order info in sessionStorage
+        sessionStorage.setItem('pendingOrderId', order.id);
+        
+        const returnUrl = new URL(paymentResponse.data.checkoutUrl);
+        returnUrl.searchParams.append('orderId', order.id);
+        window.location.href = returnUrl.toString();
+      } else {
+        throw new Error('Invalid payment URL');
+      }
+    } catch (error) {
+      setRepayingOrderId(null);
+      toast.error('Không thể tạo liên kết thanh toán. Vui lòng thử lại sau.');
+      console.error('Payment creation error:', error);
+    }
+  };
+
+  const isWithin24Hours = (orderDate) => {
+    const now = new Date();
+    const orderTime = new Date(orderDate);
+    const diffInHours = (now - orderTime) / (1000 * 60 * 60);
+    return diffInHours <= 24;
+  };
+
+  const canRepayOrder = (order) => {
+    return (
+      order.payment_method === 'Chuyển khoản' &&
+      order.payment_status === 'Chưa thanh toán' &&
+      isWithin24Hours(order.date)
+    );
+  };
+
   const handleRowClick = (orderId, e) => {
     // Prevent navigation when clicking the cancel button
     if (e.target.closest('button')) return;
@@ -106,6 +149,29 @@ function OrdersTable({ onOrderSelect }) {
           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
         </svg>
       ) : 'Hủy đơn'}
+    </button>
+  );
+
+  const RepayButton = ({ order, className }) => (
+    <button
+      onClick={() => handleRepayment(order)}
+      disabled={repayingOrderId === order.id}
+      className={`${className} disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center min-w-[100px]`}
+    >
+      {repayingOrderId === order.id ? (
+        <>
+          <svg className="animate-spin h-4 w-4 mr-2" viewBox="0 0 24 24">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+          </svg>
+          <span className="text-xs">Đang xử lý...</span>
+        </>
+      ) : (
+        <>
+          <FiCreditCard className="mr-2" />
+          Thanh toán
+        </>
+      )}
     </button>
   );
 
@@ -145,12 +211,20 @@ function OrdersTable({ onOrderSelect }) {
       </div>
       <div className="flex justify-between items-center mt-4 pt-3 border-t border-gray-100">
         <div className="text-lg font-bold text-[#6fd4d2]">{formatPrice(order.total_price)}</div>
-        {order.order_status === 'Đang xử lý' && (
-          <CancelButton
-            orderId={order.id}
-            className="px-4 py-2 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-lg hover:from-red-600 hover:to-red-700 text-sm font-medium shadow-md"
-          />
-        )}
+        <div className="flex gap-2">
+          {order.order_status === 'Đang xử lý' && (
+            <CancelButton
+              orderId={order.id}
+              className="px-4 py-2 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-lg hover:from-red-600 hover:to-red-700 text-sm font-medium shadow-md"
+            />
+          )}
+          {canRepayOrder(order) && (
+            <RepayButton
+              order={order}
+              className="px-4 py-2 bg-gradient-to-r from-[#6fd4d2] to-[#55d5d2] text-white rounded-lg hover:from-[#55d5d2] hover:to-[#45c5c2] text-sm font-medium shadow-md"
+            />
+          )}
+        </div>
       </div>
     </div>
   );
@@ -260,13 +334,21 @@ function OrdersTable({ onOrderSelect }) {
                     <td className="px-4 py-3">
                       <span className="font-bold text-[#6fd4d2] text-sm">{formatPrice(order.total_price)}</span>
                     </td>
-                    <td className="px-4 py-3 text-center">
-                      {order.order_status === 'Đang xử lý' && (
-                        <CancelButton
-                          orderId={order.id}
-                          className="px-3 py-1.5 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-lg hover:from-red-600 hover:to-red-700 font-medium shadow-sm text-xs"
-                        />
-                      )}
+                    <td className="px-4 py-3">
+                      <div className="flex gap-2 justify-center">
+                        {order.order_status === 'Đang xử lý' && (
+                          <CancelButton
+                            orderId={order.id}
+                            className="px-3 py-1.5 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-lg hover:from-red-600 hover:to-red-700 font-medium shadow-sm text-xs"
+                          />
+                        )}
+                        {canRepayOrder(order) && (
+                          <RepayButton
+                            order={order}
+                            className="px-3 py-1.5 bg-gradient-to-r from-[#6fd4d2] to-[#55d5d2] text-white rounded-lg hover:from-[#55d5d2] hover:to-[#45c5c2] font-medium shadow-sm text-xs"
+                          />
+                        )}
+                      </div>
                     </td>
                   </tr>
                 ))}
