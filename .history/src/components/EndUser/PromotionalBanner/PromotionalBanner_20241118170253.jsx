@@ -2,7 +2,7 @@ import React from 'react';
 
 const PromotionalBanner = ({ imageSrc, title, description }) => {
     return (
-        <div className="w-full px-0 py-4 md:py-8">
+        <div className="w-full px-0 pb-4 md:pb-8">
             <div className="relative overflow-hidden">
                 <img 
                     src={imageSrc}

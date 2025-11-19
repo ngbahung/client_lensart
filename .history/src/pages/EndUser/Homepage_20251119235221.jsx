@@ -23,7 +23,7 @@ const LoadingSpinner = () => (
 
 const SliderSection = ({ title, children }) => (
     <div className="container mx-auto px-4 md:px-8">
-        <div className="pb-4 md:pb-8">
+        <div className="py-4 md:p-8">
             <h2 className="text-xl md:text-2xl font-semibold text-[#55d5d2] mb-4 md:mb-6 px-2 md:px-4 border-b-2 border-[#ecaa83] pb-2">
                 {title}
             </h2>

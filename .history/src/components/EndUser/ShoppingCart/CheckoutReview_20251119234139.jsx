@@ -103,12 +103,10 @@ const CheckoutReview = () => {
             <span>-{formatPrice(coupon.discount_price)}</span>
           </div>
         )}
-        {hasSelectedItems && (
-          <div className="flex justify-between py-1">
-            <span>Phí vận chuyển:</span>
-            <span>{formatPrice(shipping)}</span>
-          </div>
-        )}
+        <div className="flex justify-between py-1">
+          <span>Phí vận chuyển:</span>
+          <span>{formatPrice(shipping)}</span>
+        </div>
         <div className="flex justify-between py-2 border-t border-gray-300 mt-3">
           <span className="text-lg font-bold">Tổng thanh toán:</span>
           <span className="text-lg font-bold text-orange-500">{formatPrice(finalTotal)}</span>

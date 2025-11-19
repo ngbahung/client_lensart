@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://provinces.open-api.vn/api/v1';
+const BASE_URL = 'https://provinces.open-api.vn/api/v2';
 
 const publicApi = axios.create({
   baseURL: BASE_URL
@@ -38,8 +38,11 @@ export const fetchDistricts = async (cityCode) => {
 
 export const fetchWards = async (districtCode) => {
   try {
-    const { data } = await publicApi.get(`/d/${districtCode}?depth=2`);
-    return data.wards
+    const { data } = await publicApi.get(`/w/${districtCode}?depth=2`);
+    // The new API returns ward data directly for /w/{code} endpoint
+    // If data.wards exists (from district), use it; otherwise data is the ward itself
+    const wards = data.wards || [data];
+    return wards
       .map(ward => ({
         value: String(ward.code),
         label: ward.name
