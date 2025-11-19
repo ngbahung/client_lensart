@@ -5,6 +5,8 @@ import { fetchCities, fetchDistricts, fetchWards } from '../../../services/locat
 import { getUserData } from '../../../api/userAPI';
 import { parseAddress } from '../../../utils/addressParser';
 import { toast } from 'react-toastify';
+import { updateAddress } from '../../../api/userAPI';
+import Swal from 'sweetalert2';
 
 function AddressForm() {
   const [address, setAddress] = useState({
@@ -21,6 +23,7 @@ function AddressForm() {
   });
 
   const [loading, setLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const initializeForm = async () => {
@@ -122,10 +125,55 @@ function AddressForm() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Address data:', address);
-    // TODO: Implement API call to save address
+
+    if (!address.cityCode || !address.districtCode || !address.wardCode || !address.detail.trim()) {
+      toast.error('Vui lòng điền đầy đủ thông tin địa chỉ');
+      return;
+    }
+
+    const result = await Swal.fire({
+      title: 'Xác nhận thay đổi',
+      text: 'Bạn có chắc chắn muốn cập nhật địa chỉ?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#55d5d2',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Đồng ý',
+      cancelButtonText: 'Hủy',
+      reverseButtons: true
+    });
+
+    if (result.isConfirmed) {
+      try {
+        setIsSubmitting(true);
+        const cityName = locations.cities.find(city => city.value === address.cityCode)?.label;
+        const districtName = locations.districts.find(district => district.value === address.districtCode)?.label;
+        const wardName = locations.wards.find(ward => ward.value === address.wardCode)?.label;
+
+        const formattedAddress = `${address.detail}, ${wardName}, ${districtName}, ${cityName}`;
+        const userData = await getUserData();
+        
+        await updateAddress(userData.id, formattedAddress);
+        
+        await Swal.fire({
+          title: 'Thành công!',
+          text: 'Đã cập nhật địa chỉ mới.',
+          icon: 'success',
+          confirmButtonColor: '#55d5d2'
+        });
+      } catch (error) {
+        await Swal.fire({
+          title: 'Lỗi!',
+          text: 'Không thể cập nhật địa chỉ.',
+          icon: 'error',
+          confirmButtonColor: '#d33'
+        });
+      } finally {
+        setIsSubmitting(false);
+      }
+    }
   };
 
   if (loading) {
@@ -146,48 +194,68 @@ function AddressForm() {
     <div className="flex-1 ml-8 bg-white p-6 rounded shadow">
       <h2 className="text-2xl font-semibold mb-6">Thông tin địa chỉ</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
-        <select
-          className="w-full px-4 py-3 rounded-full bg-[#eff9f9] border border-[#E8F0FE]"
-          value={address.cityCode}
-          onChange={(e) => setAddress(prev => ({ ...prev, cityCode: e.target.value }))}
-        >
-          <option value="">Chọn Tỉnh/Thành phố</option>
-          {locations.cities.map(city => (
-            <option key={city.value} value={city.value}>{city.label}</option>
-          ))}
-        </select>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Tỉnh/Thành phố <span className="text-red-500">*</span>
+          </label>
+          <select
+            className="w-full px-4 py-3 rounded-full bg-[#eff9f9] border border-[#E8F0FE]"
+            value={address.cityCode}
+            onChange={(e) => setAddress(prev => ({ ...prev, cityCode: e.target.value }))}
+          >
+            <option value="">Chọn Tỉnh/Thành phố</option>
+            {locations.cities.map(city => (
+              <option key={city.value} value={city.value}>{city.label}</option>
+            ))}
+          </select>
+        </div>
 
-        <select
-          className="w-full px-4 py-3 rounded-full bg-[#eff9f9] border border-[#E8F0FE]"
-          value={address.districtCode}
-          onChange={(e) => setAddress(prev => ({ ...prev, districtCode: e.target.value }))}
-        >
-          <option value="">Chọn Quận/Huyện</option>
-          {locations.districts.map(district => (
-            <option key={district.value} value={district.value}>{district.label}</option>
-          ))}
-        </select>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Quận/Huyện <span className="text-red-500">*</span>
+          </label>
+          <select
+            className="w-full px-4 py-3 rounded-full bg-[#eff9f9] border border-[#E8F0FE]"
+            value={address.districtCode}
+            onChange={(e) => setAddress(prev => ({ ...prev, districtCode: e.target.value }))}
+          >
+            <option value="">Chọn Quận/Huyện</option>
+            {locations.districts.map(district => (
+              <option key={district.value} value={district.value}>{district.label}</option>
+            ))}
+          </select>
+        </div>
 
-        <select
-          className="w-full px-4 py-3 rounded-full bg-[#eff9f9] border border-[#E8F0FE]"
-          value={address.wardCode}
-          onChange={(e) => setAddress(prev => ({ ...prev, wardCode: e.target.value }))}
-        >
-          <option value="">Chọn Phường/Xã</option>
-          {locations.wards.map(ward => (
-            <option key={ward.value} value={ward.value}>{ward.label}</option>
-          ))}
-        </select>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Phường/Xã <span className="text-red-500">*</span>
+          </label>
+          <select
+            className="w-full px-4 py-3 rounded-full bg-[#eff9f9] border border-[#E8F0FE]"
+            value={address.wardCode}
+            onChange={(e) => setAddress(prev => ({ ...prev, wardCode: e.target.value }))}
+          >
+            <option value="">Chọn Phường/Xã</option>
+            {locations.wards.map(ward => (
+              <option key={ward.value} value={ward.value}>{ward.label}</option>
+            ))}
+          </select>
+        </div>
 
         <TextInput
           type="text"
-          label="Địa chỉ chi tiết"
+          label={<>Địa chỉ chi tiết <span className="text-red-500">*</span></>}
           placeholder="Nhập địa chỉ chi tiết"
           value={address.detail}
           onChange={(e) => setAddress(prev => ({ ...prev, detail: e.target.value }))}
         />
 
-        <Button type="submit">Lưu thông tin</Button>
+        <Button 
+          type="submit" 
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? 'Đang lưu...' : 'Lưu thông tin'}
+        </Button>
       </form>
     </div>
   );

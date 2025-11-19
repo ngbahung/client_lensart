@@ -7,6 +7,7 @@ import { parseAddress } from '../../../utils/addressParser';
 import { toast } from 'react-toastify';
 import { updateAddress } from '../../../api/userAPI';
 import Swal from 'sweetalert2';
+import { FiMapPin } from 'react-icons/fi';
 
 function AddressForm() {
   const [address, setAddress] = useState({
@@ -178,58 +179,83 @@ function AddressForm() {
 
   if (loading) {
     return (
-      <div className="flex-1 ml-8 bg-white p-6 rounded shadow animate-pulse">
-        <div className="h-8 bg-gray-200 rounded w-1/3 mb-6"></div>
+      <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-gray-100 animate-pulse">
+        <div className="h-8 bg-gray-200 rounded-xl w-1/3 mb-8"></div>
         <div className="space-y-4">
-          <div className="h-12 bg-gray-200 rounded"></div>
-          <div className="h-12 bg-gray-200 rounded"></div>
-          <div className="h-12 bg-gray-200 rounded"></div>
-          <div className="h-12 bg-gray-200 rounded"></div>
+          <div className="h-14 bg-gray-200 rounded-xl"></div>
+          <div className="h-14 bg-gray-200 rounded-xl"></div>
+          <div className="h-14 bg-gray-200 rounded-xl"></div>
+          <div className="h-14 bg-gray-200 rounded-xl"></div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="flex-1 ml-8 bg-white p-6 rounded shadow">
-      <h2 className="text-2xl font-semibold mb-6">Thông tin địa chỉ</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <select
-          className="w-full px-4 py-3 rounded-full bg-[#eff9f9] border border-[#E8F0FE]"
-          value={address.cityCode}
-          onChange={(e) => setAddress(prev => ({ ...prev, cityCode: e.target.value }))}
-        >
-          <option value="">Chọn Tỉnh/Thành phố</option>
-          {locations.cities.map(city => (
-            <option key={city.value} value={city.value}>{city.label}</option>
-          ))}
-        </select>
+    <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-gray-100 transition-all duration-300">
+      {/* Header with gradient accent */}
+      <div className="flex items-center space-x-4 mb-8 pb-4 border-b-2 border-[#ecaa83]/30">
+        <div className="p-3 bg-gradient-to-br from-[#6fd4d2] to-[#55d5d2] rounded-xl shadow-md">
+          <FiMapPin className="w-6 h-6 text-white" />
+        </div>
+        <div>
+          <h2 className="text-2xl font-bold text-gray-800">Thông tin địa chỉ</h2>
+          <p className="text-sm text-gray-500 mt-1">Quản lý địa chỉ giao hàng của bạn</p>
+        </div>
+      </div>
+      
+      <form onSubmit={handleSubmit} className="space-y-5">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Tỉnh/Thành phố <span className="text-red-500">*</span>
+          </label>
+          <select
+            className="w-full px-4 py-3 rounded-full bg-[#eff9f9] border border-[#E8F0FE]"
+            value={address.cityCode}
+            onChange={(e) => setAddress(prev => ({ ...prev, cityCode: e.target.value }))}
+          >
+            <option value="">Chọn Tỉnh/Thành phố</option>
+            {locations.cities.map(city => (
+              <option key={city.value} value={city.value}>{city.label}</option>
+            ))}
+          </select>
+        </div>
 
-        <select
-          className="w-full px-4 py-3 rounded-full bg-[#eff9f9] border border-[#E8F0FE]"
-          value={address.districtCode}
-          onChange={(e) => setAddress(prev => ({ ...prev, districtCode: e.target.value }))}
-        >
-          <option value="">Chọn Quận/Huyện</option>
-          {locations.districts.map(district => (
-            <option key={district.value} value={district.value}>{district.label}</option>
-          ))}
-        </select>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Quận/Huyện <span className="text-red-500">*</span>
+          </label>
+          <select
+            className="w-full px-4 py-3 rounded-full bg-[#eff9f9] border border-[#E8F0FE]"
+            value={address.districtCode}
+            onChange={(e) => setAddress(prev => ({ ...prev, districtCode: e.target.value }))}
+          >
+            <option value="">Chọn Quận/Huyện</option>
+            {locations.districts.map(district => (
+              <option key={district.value} value={district.value}>{district.label}</option>
+            ))}
+          </select>
+        </div>
 
-        <select
-          className="w-full px-4 py-3 rounded-full bg-[#eff9f9] border border-[#E8F0FE]"
-          value={address.wardCode}
-          onChange={(e) => setAddress(prev => ({ ...prev, wardCode: e.target.value }))}
-        >
-          <option value="">Chọn Phường/Xã</option>
-          {locations.wards.map(ward => (
-            <option key={ward.value} value={ward.value}>{ward.label}</option>
-          ))}
-        </select>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Phường/Xã <span className="text-red-500">*</span>
+          </label>
+          <select
+            className="w-full px-4 py-3 rounded-full bg-[#eff9f9] border border-[#E8F0FE]"
+            value={address.wardCode}
+            onChange={(e) => setAddress(prev => ({ ...prev, wardCode: e.target.value }))}
+          >
+            <option value="">Chọn Phường/Xã</option>
+            {locations.wards.map(ward => (
+              <option key={ward.value} value={ward.value}>{ward.label}</option>
+            ))}
+          </select>
+        </div>
 
         <TextInput
           type="text"
-          label="Địa chỉ chi tiết"
+          label={<>Địa chỉ chi tiết <span className="text-red-500">*</span></>}
           placeholder="Nhập địa chỉ chi tiết"
           value={address.detail}
           onChange={(e) => setAddress(prev => ({ ...prev, detail: e.target.value }))}

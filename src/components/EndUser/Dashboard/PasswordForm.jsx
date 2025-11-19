@@ -112,16 +112,22 @@ function PasswordForm() {
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md max-w-md mx-auto">
-      <div className="flex items-center space-x-4 mb-6">
-        <FiLock className="w-6 h-6 text-blue-600" />
-        <h2 className="text-2xl font-semibold">Đổi mật khẩu</h2>
+    <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-gray-100 max-w-2xl mx-auto transition-all duration-300">
+      {/* Header with gradient accent */}
+      <div className="flex items-center space-x-4 mb-8 pb-4 border-b-2 border-[#ecaa83]/30">
+        <div className="p-3 bg-gradient-to-br from-[#6fd4d2] to-[#55d5d2] rounded-xl shadow-md">
+          <FiLock className="w-6 h-6 text-white" />
+        </div>
+        <div>
+          <h2 className="text-2xl font-bold text-gray-800">Đổi mật khẩu</h2>
+          <p className="text-sm text-gray-500 mt-1">Cập nhật mật khẩu để bảo mật tài khoản</p>
+        </div>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Mật khẩu mới
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
+            Mật khẩu mới <span className="text-red-500">*</span>
           </label>
           <PasswordInput
             placeholder="Nhập mật khẩu mới"
@@ -129,56 +135,75 @@ function PasswordForm() {
             onChange={(e) => handleChange('newPassword')(e)}
           />
           {errors.newPassword && (
-            <p className="mt-1 text-sm text-red-500">{errors.newPassword}</p>
+            <p className="mt-2 text-sm text-red-500 flex items-center">
+              <FiX className="w-4 h-4 mr-1" />
+              {errors.newPassword}
+            </p>
           )}
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Xác nhận mật khẩu mới
-            </label>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
+            Xác nhận mật khẩu mới <span className="text-red-500">*</span>
+          </label>
           <PasswordInput
             placeholder="Nhập lại mật khẩu mới"
             value={passwords.confirmPassword}
             onChange={(e) => handleChange('confirmPassword')(e)}
           />
           {errors.confirmPassword && (
-            <p className="mt-1 text-sm text-red-500">{errors.confirmPassword}</p>
+            <p className="mt-2 text-sm text-red-500 flex items-center">
+              <FiX className="w-4 h-4 mr-1" />
+              {errors.confirmPassword}
+            </p>
           )}
         </div> 
 
         {passwords.newPassword && (
-          <div className="space-y-2 text-sm">
-            <p className="font-medium text-gray-700">Yêu cầu mật khẩu:</p>
+          <div className="bg-gradient-to-br from-[#eff9f9] to-white p-5 rounded-xl border border-[#6fd4d2]/20 space-y-3">
+            <p className="font-semibold text-gray-800 mb-3 flex items-center">
+              <span className="w-1 h-5 bg-gradient-to-b from-[#6fd4d2] to-[#55d5d2] rounded-full mr-2"></span>
+              Yêu cầu mật khẩu:
+            </p>
             {Object.entries(passwordStrength).map(([key, valid]) => (
-              <div key={key} className="flex items-center space-x-2">
-                {valid ? (
-                  <FiCheck className="w-4 h-4 text-green-500" />
-                ) : (
-                  <FiX className="w-4 h-4 text-red-500" />
-                )}
-                <span className={valid ? 'text-green-600' : 'text-red-600'}>
+              <div key={key} className="flex items-center space-x-3 group">
+                <div className={`w-5 h-5 rounded-full flex items-center justify-center transition-all duration-200 ${
+                  valid ? 'bg-green-500' : 'bg-gray-300'
+                }`}>
+                  {valid ? (
+                    <FiCheck className="w-3 h-3 text-white" />
+                  ) : (
+                    <FiX className="w-3 h-3 text-white" />
+                  )}
+                </div>
+                <span className={`text-sm font-medium transition-colors ${
+                  valid ? 'text-green-600' : 'text-gray-600'
+                }`}>
                   {key === 'length' && 'Ít nhất 8 ký tự'}
                   {key === 'number' && 'Ít nhất 1 số'}
-                  {key === 'special' && 'Ít nhất 1 ký tự đặc biệt'}
+                  {key === 'special' && 'Ít nhất 1 ký tự đặc biệt (!@#$%^&*)'}
                 </span>
               </div>
             ))}
           </div>
         )}
 
-        <Button 
-          type="submit" 
-          disabled={isSubmitting}
-          className="mt-6 w-full flex items-center justify-center space-x-2"
-        >
-          {isSubmitting ? 'Đang xử lý...' : (
-            <>
-              <FiLock className="w-5 h-5" />
-              <span>Đổi mật khẩu</span>
-            </>
-          )}
-        </Button>
+        <div className="pt-4 border-t border-gray-200">
+          <Button 
+            type="submit" 
+            disabled={isSubmitting}
+            className="w-full flex items-center justify-center space-x-2 shadow-md hover:shadow-lg"
+          >
+            {isSubmitting ? (
+              <span>Đang xử lý...</span>
+            ) : (
+              <>
+                <FiLock className="w-5 h-5" />
+                <span>Đổi mật khẩu</span>
+              </>
+            )}
+          </Button>
+        </div>
       </form>
     </div>
   );

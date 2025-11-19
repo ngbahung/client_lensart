@@ -4,12 +4,26 @@ import Swal from 'sweetalert2';
 import { fetchOrderById, cancelOrder } from '../../../api/ordersAPI';
 import { formatPrice } from '../../../utils/formatPrice';
 import { formatDate } from '../../../utils/dateUtils';
+import { FiPackage, FiUser, FiMapPin, FiCalendar, FiCreditCard } from 'react-icons/fi';
 
 function OrderDetail({ orderId, onBack }) {
   const [orderDetail, setOrderDetail] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [cancelling, setCancelling] = useState(false);
+
+  const getStatusColor = (status) => {
+    const colors = {
+      'Đang giao hàng': 'bg-purple-100 text-purple-700 border border-purple-200',
+      'Đã giao': 'bg-green-100 text-green-700 border border-green-200',
+      'Chờ xử lý': 'bg-yellow-100 text-yellow-700 border border-yellow-200',
+      'Đã hủy': 'bg-red-100 text-red-700 border border-red-200',
+      'Đã thanh toán': 'bg-blue-100 text-blue-700 border border-blue-200',
+      'Chưa thanh toán': 'bg-orange-100 text-orange-700 border border-orange-200',
+      'Đang xử lý': 'bg-cyan-100 text-cyan-700 border border-cyan-200'
+    };
+    return colors[status] || 'bg-gray-100 text-gray-700 border border-gray-200';
+  };
 
   useEffect(() => {
     const fetchOrderDetails = async () => {
@@ -70,45 +84,114 @@ function OrderDetail({ orderId, onBack }) {
     }
   };
 
-  if (loading) return <div className="text-center py-4">Đang tải...</div>;
-  if (error) return <div className="text-center py-4 text-red-500">{error}</div>;
-  if (!orderDetail) return <div className="text-center py-4">Không tìm thấy đơn hàng</div>;
+  if (loading) return (
+    <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 text-center">
+      <div className="animate-spin rounded-full h-12 w-12 border-4 border-[#6fd4d2] border-t-transparent mx-auto mb-4"></div>
+      <p className="text-gray-600">Đang tải...</p>
+    </div>
+  );
+  if (error) return (
+    <div className="bg-white p-8 rounded-2xl shadow-lg border border-red-100 text-center">
+      <div className="text-red-500 mb-2">⚠️</div>
+      <p className="text-red-500">{error}</p>
+    </div>
+  );
+  if (!orderDetail) return (
+    <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 text-center">
+      <p className="text-gray-500">Không tìm thấy đơn hàng</p>
+    </div>
+  );
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md">
-      <div className="flex items-center justify-between mb-6">
+    <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-gray-100 transition-all duration-300">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8 pb-4 border-b-2 border-[#ecaa83]/30">
         <button
           onClick={onBack}
-          className="flex items-center gap-2 text-gray-600 hover:text-gray-900"
+          className="flex items-center gap-2 text-gray-600 hover:text-[#6fd4d2] transition-colors font-medium group"
         >
-          <FaArrowLeft /> Quay lại
+          <FaArrowLeft className="group-hover:-translate-x-1 transition-transform" /> Quay lại
         </button>
-        <h2 className="text-xl font-semibold">Chi tiết đơn hàng #{orderId}</h2>
+        <div className="flex items-center space-x-3">
+          <div className="p-2.5 bg-gradient-to-br from-[#6fd4d2] to-[#55d5d2] rounded-lg">
+            <FiPackage className="w-5 h-5 text-white" />
+          </div>
+          <h2 className="text-xl md:text-2xl font-bold text-gray-800">Đơn hàng #{orderId}</h2>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        <div>
-          <h3 className="font-semibold mb-2">Thông tin khách hàng</h3>
-          <p>Tên: {`${orderDetail.user.firstname} ${orderDetail.user.lastname}`}</p>
-          <p>SĐT: {orderDetail.user.phone}</p>
-          <p>Địa chỉ: {orderDetail.address}</p>
-        </div>
-        <div>
-          <h3 className="font-semibold mb-2">Thông tin đơn hàng</h3>
-          <p>Ngày đặt: {formatDate(orderDetail.date)}</p>
-          <p>Phương thức: {orderDetail.payment_method}</p>
-          <p>Trạng thái thanh toán: {orderDetail.payment_status}</p>
-          <p>Trạng thái đơn hàng: {orderDetail.order_status}</p>
-          {orderDetail.note && (
-            <p className="mt-2">
-              <span className="font-semibold">Ghi chú: </span>
-              <span className="text-gray-700">{orderDetail.note}</span>
+        {/* Customer Info */}
+        <div className="bg-gradient-to-br from-[#eff9f9] to-white p-6 rounded-xl border border-[#6fd4d2]/20">
+          <div className="flex items-center space-x-3 mb-4">
+            <div className="p-2 bg-gradient-to-br from-[#6fd4d2] to-[#55d5d2] rounded-lg">
+              <FiUser className="w-5 h-5 text-white" />
+            </div>
+            <h3 className="font-bold text-gray-800">Thông tin khách hàng</h3>
+          </div>
+          <div className="space-y-2 text-sm">
+            <p className="flex items-start">
+              <span className="font-medium text-gray-600 w-20">Tên:</span>
+              <span className="text-gray-800">{`${orderDetail.user.firstname} ${orderDetail.user.lastname}`}</span>
             </p>
-          )}
-          <div className="mt-4 pt-4 border-t">
-            <h3 className="font-semibold mb-2">Chi nhánh</h3>
-            <p>Tên chi nhánh: {orderDetail.branch.name}</p>
-            <p>Địa chỉ: {orderDetail.branch.address}</p>
+            <p className="flex items-start">
+              <span className="font-medium text-gray-600 w-20">SĐT:</span>
+              <span className="text-gray-800">{orderDetail.user.phone}</span>
+            </p>
+            <p className="flex items-start">
+              <span className="font-medium text-gray-600 w-20">Địa chỉ:</span>
+              <span className="text-gray-800">{orderDetail.address}</span>
+            </p>
+          </div>
+        </div>
+
+        {/* Order Info */}
+        <div className="bg-gradient-to-br from-[#eff9f9] to-white p-6 rounded-xl border border-[#6fd4d2]/20">
+          <div className="flex items-center space-x-3 mb-4">
+            <div className="p-2 bg-gradient-to-br from-[#6fd4d2] to-[#55d5d2] rounded-lg">
+              <FiCalendar className="w-5 h-5 text-white" />
+            </div>
+            <h3 className="font-bold text-gray-800">Thông tin đơn hàng</h3>
+          </div>
+          <div className="space-y-2 text-sm">
+            <p className="flex items-center">
+              <span className="font-medium text-gray-600 w-32">Ngày đặt:</span>
+              <span className="text-gray-800">{formatDate(orderDetail.date)}</span>
+            </p>
+            <p className="flex items-center">
+              <span className="font-medium text-gray-600 w-32">Phương thức:</span>
+              <span className="text-gray-800">{orderDetail.payment_method}</span>
+            </p>
+            <p className="flex items-center">
+              <span className="font-medium text-gray-600 w-32">TT thanh toán:</span>
+              <span className={`px-2 py-0.5 rounded-lg text-xs font-semibold ${getStatusColor(orderDetail.payment_status)}`}>
+                {orderDetail.payment_status}
+              </span>
+            </p>
+            <p className="flex items-center">
+              <span className="font-medium text-gray-600 w-32">TT đơn hàng:</span>
+              <span className={`px-2 py-0.5 rounded-lg text-xs font-semibold ${getStatusColor(orderDetail.order_status)}`}>
+                {orderDetail.order_status}
+              </span>
+            </p>
+            {orderDetail.note && (
+              <p className="mt-3 pt-3 border-t border-gray-200">
+                <span className="font-semibold text-gray-700">Ghi chú:</span>
+                <span className="text-gray-600 block mt-1">{orderDetail.note}</span>
+              </p>
+            )}
+          </div>
+          
+          {/* Branch Info */}
+          <div className="mt-4 pt-4 border-t border-gray-200">
+            <div className="flex items-center space-x-2 mb-3">
+              <FiMapPin className="w-4 h-4 text-[#6fd4d2]" />
+              <h4 className="font-bold text-gray-800 text-sm">Chi nhánh</h4>
+            </div>
+            <div className="space-y-1 text-sm">
+              <p className="text-gray-800 font-medium">{orderDetail.branch.name}</p>
+              <p className="text-gray-600">{orderDetail.branch.address}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -118,34 +201,44 @@ function OrderDetail({ orderId, onBack }) {
           <button
             onClick={handleCancelOrder}
             disabled={cancelling}
-            className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md disabled:opacity-50"
+            className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-6 py-2.5 rounded-xl disabled:opacity-50 font-medium shadow-md transition-all duration-200"
           >
             {cancelling ? 'Đang hủy...' : 'Hủy đơn hàng'}
           </button>
         </div>
       )}
 
+      {/* Products Table */}
       <div className="mt-6">
-        <h3 className="font-semibold mb-4">Chi tiết sản phẩm</h3>
-        <div className="overflow-x-auto">
+        <div className="flex items-center space-x-3 mb-4">
+          <div className="p-2 bg-gradient-to-br from-[#6fd4d2] to-[#55d5d2] rounded-lg">
+            <FiPackage className="w-5 h-5 text-white" />
+          </div>
+          <h3 className="font-bold text-gray-800">Chi tiết sản phẩm</h3>
+        </div>
+        <div className="overflow-x-auto rounded-xl border border-gray-200">
           <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+            <thead className="bg-gradient-to-r from-[#eff9f9] to-white">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Sản phẩm</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Màu sắc</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Giá</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Số lượng</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tổng</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase">Sản phẩm</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase">Màu sắc</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase">Giá</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase">Số lượng</th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase">Tổng</th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-white divide-y divide-gray-100">
               {orderDetail.order_details.map((item, index) => (
-                <tr key={index}>
-                  <td className="px-6 py-4 whitespace-nowrap">{item.name}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{item.color}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{formatPrice(item.price)}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{item.quantity}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{formatPrice(item.total_price)}</td>
+                <tr key={index} className="hover:bg-gradient-to-r hover:from-[#eff9f9] hover:to-white transition-all duration-200">
+                  <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-800">{item.name}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className="bg-gray-100 px-3 py-1 rounded-lg text-sm text-gray-700">{item.color}</span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-gray-700">{formatPrice(item.price)}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-center">
+                    <span className="bg-[#6fd4d2]/10 text-[#6fd4d2] px-3 py-1 rounded-lg font-semibold">{item.quantity}</span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap font-bold text-[#6fd4d2]">{formatPrice(item.total_price)}</td>
                 </tr>
               ))}
             </tbody>
@@ -153,33 +246,42 @@ function OrderDetail({ orderId, onBack }) {
         </div>
       </div>
 
-      <div className="mt-6 border-t pt-4">
+      {/* Summary */}
+      <div className="mt-8 border-t-2 border-[#ecaa83]/30 pt-6">
         <div className="flex justify-end">
-          <div className="w-64">
-            <div className="flex justify-between mb-2">
-              <span>Tạm tính:</span>
-              <span>{formatPrice(orderDetail.total_price)}</span>
+          <div className="w-full md:w-96 bg-gradient-to-br from-[#eff9f9] to-white p-6 rounded-xl border border-[#6fd4d2]/20">
+            <div className="flex items-center space-x-2 mb-4">
+              <FiCreditCard className="w-5 h-5 text-[#6fd4d2]" />
+              <h4 className="font-bold text-gray-800">Tổng thanh toán</h4>
             </div>
-            {orderDetail.coupon && (
-              <div className="flex justify-between mb-2 text-green-600">
-                <span>Giảm giá:</span>
-                <span>-{formatPrice(orderDetail.coupon.discount_price)}</span>
+            <div className="space-y-3">
+              <div className="flex justify-between text-gray-700">
+                <span>Tạm tính:</span>
+                <span className="font-medium">{formatPrice(orderDetail.total_price)}</span>
               </div>
-            )}
-            {orderDetail.total_price < 1000000 && (
-              <div className="flex justify-between mb-2">
-                <span>Phí vận chuyển:</span>
-                <span>{formatPrice(20000)}</span>
+              {orderDetail.coupon && (
+                <div className="flex justify-between text-green-600 font-medium">
+                  <span>Giảm giá:</span>
+                  <span>-{formatPrice(orderDetail.coupon.discount_price)}</span>
+                </div>
+              )}
+              {orderDetail.total_price < 1000000 && (
+                <div className="flex justify-between text-gray-700">
+                  <span>Phí vận chuyển:</span>
+                  <span className="font-medium">{formatPrice(20000)}</span>
+                </div>
+              )}
+              <div className="border-t-2 border-[#6fd4d2]/20 pt-3 mt-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-lg font-bold text-gray-800">Tổng cộng:</span>
+                  <span className="text-2xl font-bold text-[#6fd4d2]">
+                    {formatPrice(
+                      orderDetail.total_price + 
+                      (orderDetail.total_price < 1000000 ? 20000 : 0)
+                    )}
+                  </span>
+                </div>
               </div>
-            )}
-            <div className="flex justify-between font-bold text-lg">
-              <span>Tổng cộng:</span>
-              <span>
-                {formatPrice(
-                  orderDetail.total_price + 
-                  (orderDetail.total_price < 1000000 ? 20000 : 0)
-                )}
-              </span>
             </div>
           </div>
         </div>

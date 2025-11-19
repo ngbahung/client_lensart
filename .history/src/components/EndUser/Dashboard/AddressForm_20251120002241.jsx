@@ -7,7 +7,6 @@ import { parseAddress } from '../../../utils/addressParser';
 import { toast } from 'react-toastify';
 import { updateAddress } from '../../../api/userAPI';
 import Swal from 'sweetalert2';
-import { FiMapPin } from 'react-icons/fi';
 
 function AddressForm() {
   const [address, setAddress] = useState({
@@ -206,11 +205,11 @@ function AddressForm() {
       
       <form onSubmit={handleSubmit} className="space-y-5">
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
             Tỉnh/Thành phố <span className="text-red-500">*</span>
           </label>
           <select
-            className="w-full px-4 py-3.5 rounded-xl bg-[#eff9f9] border-2 border-[#6fd4d2]/20 focus:border-[#6fd4d2] focus:outline-none focus:ring-2 focus:ring-[#6fd4d2]/20 transition-all duration-200"
+            className="w-full px-4 py-3 rounded-full bg-[#eff9f9] border border-[#E8F0FE]"
             value={address.cityCode}
             onChange={(e) => setAddress(prev => ({ ...prev, cityCode: e.target.value }))}
           >
@@ -222,11 +221,11 @@ function AddressForm() {
         </div>
 
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
             Quận/Huyện <span className="text-red-500">*</span>
           </label>
           <select
-            className="w-full px-4 py-3.5 rounded-xl bg-[#eff9f9] border-2 border-[#6fd4d2]/20 focus:border-[#6fd4d2] focus:outline-none focus:ring-2 focus:ring-[#6fd4d2]/20 transition-all duration-200"
+            className="w-full px-4 py-3 rounded-full bg-[#eff9f9] border border-[#E8F0FE]"
             value={address.districtCode}
             onChange={(e) => setAddress(prev => ({ ...prev, districtCode: e.target.value }))}
           >
@@ -238,11 +237,11 @@ function AddressForm() {
         </div>
 
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
             Phường/Xã <span className="text-red-500">*</span>
           </label>
           <select
-            className="w-full px-4 py-3.5 rounded-xl bg-[#eff9f9] border-2 border-[#6fd4d2]/20 focus:border-[#6fd4d2] focus:outline-none focus:ring-2 focus:ring-[#6fd4d2]/20 transition-all duration-200"
+            className="w-full px-4 py-3 rounded-full bg-[#eff9f9] border border-[#E8F0FE]"
             value={address.wardCode}
             onChange={(e) => setAddress(prev => ({ ...prev, wardCode: e.target.value }))}
           >
@@ -256,20 +255,17 @@ function AddressForm() {
         <TextInput
           type="text"
           label={<>Địa chỉ chi tiết <span className="text-red-500">*</span></>}
-          placeholder="Nhập địa chỉ chi tiết (Số nhà, tên đường...)"
+          placeholder="Nhập địa chỉ chi tiết"
           value={address.detail}
           onChange={(e) => setAddress(prev => ({ ...prev, detail: e.target.value }))}
         />
 
-        <div className="pt-4 border-t border-gray-200">
-          <Button 
-            type="submit" 
-            disabled={isSubmitting}
-            className="shadow-md hover:shadow-lg"
-          >
-            {isSubmitting ? 'Đang lưu...' : 'Lưu thông tin'}
-          </Button>
-        </div>
+        <Button 
+          type="submit" 
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? 'Đang lưu...' : 'Lưu thông tin'}
+        </Button>
       </form>
     </div>
   );
