@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { getUserData } from '../../../api/userAPI';
 import { useAuth } from '../../../contexts/AuthContext';
@@ -12,6 +13,7 @@ import { FiMenu, FiLoader } from 'react-icons/fi';
 import OrderDetail from "./OrderDetail";
 
 function UserDashboard() {
+  const location = useLocation();
   const [activeView, setActiveView] = useState('account');
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -25,6 +27,15 @@ function UserDashboard() {
     { id: '2', quantity: 1, status: 'delivered', createdAt: '2024-01-10', total: 750000 },
     { id: '3', quantity: 3, status: 'shipping', createdAt: '2024-01-05', total: 1200000 },
   ];
+
+  // Handle URL query parameters for view switching
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const view = searchParams.get('view');
+    if (view && ['account', 'address', 'orders', 'favorites', 'password'].includes(view)) {
+      setActiveView(view);
+    }
+  }, [location.search]);
 
   useEffect(() => {
     const fetchUserData = async () => {

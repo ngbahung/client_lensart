@@ -188,39 +188,101 @@ const Header = () => {
         { name: 'Liên hệ', path: '/lien-he' },
     ];
 
-    // Update user display in dropdown
+    // Update user display in dropdown with enhanced menu
     const userDropdown = (
         <div className="py-2">
             {isAuthenticated && user ? (
                 <>
-                    <Link to="/profile" 
-                        className="flex items-center px-4 py-2 text-sm text-white hover:bg-[#e88547] transition-colors"
+                    {/* User Info Header */}
+                    <div className="px-4 py-3 bg-[#d67d4e] mb-2">
+                        <div className="flex items-center space-x-3">
+                            <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center ring-2 ring-white/50">
+                                <span className="text-white font-bold text-sm">
+                                    {user?.firstname?.[0]?.toUpperCase() || 'U'}
+                                </span>
+                            </div>
+                            <div className="flex-1 min-w-0">
+                                <p className="text-sm font-bold text-white truncate">
+                                    {user.firstname} {user.lastname}
+                                </p>
+                                <p className="text-xs text-white/80 truncate">{user.email}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Menu Items */}
+                    <Link 
+                        to="/profile" 
+                        className="flex items-center px-4 py-2.5 text-sm text-white hover:bg-[#d67d4e] transition-all duration-200 group"
                         onClick={() => setIsDropdownOpen(false)}
                     >
-                        <BiUser className="mr-2" />
-                        {user.lastname || user.email}
+                        <BiUser className="mr-3 w-4 h-4 group-hover:scale-110 transition-transform" />
+                        <span>Thông tin tài khoản</span>
                     </Link>
+
+                    <Link 
+                        to="/profile?view=address" 
+                        className="flex items-center px-4 py-2.5 text-sm text-white hover:bg-[#d67d4e] transition-all duration-200 group"
+                        onClick={() => setIsDropdownOpen(false)}
+                    >
+                        <FiMapPin className="mr-3 w-4 h-4 group-hover:scale-110 transition-transform" />
+                        <span>Địa chỉ giao hàng</span>
+                    </Link>
+
+                    <Link 
+                        to="/profile?view=orders" 
+                        className="flex items-center px-4 py-2.5 text-sm text-white hover:bg-[#d67d4e] transition-all duration-200 group"
+                        onClick={() => setIsDropdownOpen(false)}
+                    >
+                        <FiShoppingBag className="mr-3 w-4 h-4 group-hover:scale-110 transition-transform" />
+                        <span>Đơn hàng của tôi</span>
+                    </Link>
+
+                    <Link 
+                        to="/profile?view=favorites" 
+                        className="flex items-center px-4 py-2.5 text-sm text-white hover:bg-[#d67d4e] transition-all duration-200 group"
+                        onClick={() => setIsDropdownOpen(false)}
+                    >
+                        <FiHeart className="mr-3 w-4 h-4 group-hover:scale-110 transition-transform" />
+                        <span>Sản phẩm yêu thích</span>
+                    </Link>
+
+                    <Link 
+                        to="/profile?view=password" 
+                        className="flex items-center px-4 py-2.5 text-sm text-white hover:bg-[#d67d4e] transition-all duration-200 group"
+                        onClick={() => setIsDropdownOpen(false)}
+                    >
+                        <FiLock className="mr-3 w-4 h-4 group-hover:scale-110 transition-transform" />
+                        <span>Đổi mật khẩu</span>
+                    </Link>
+
+                    {/* Divider */}
+                    <div className="my-2 border-t border-white/20"></div>
+
+                    {/* Logout Button */}
                     <button
                         onClick={handleLogout}
-                        className="w-full flex items-center px-4 py-2 text-sm text-white hover:bg-[#e88547] transition-colors"
+                        className="w-full flex items-center px-4 py-2.5 text-sm text-white hover:bg-red-500/90 transition-all duration-200 group"
                     >
-                        <BiLogOut className="mr-2" />
-                        Đăng xuất
+                        <BiLogOut className="mr-3 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        <span>Đăng xuất</span>
                     </button>
                 </>
             ) : (
                 <>
                     <Link to="/login" 
-                        className="flex items-center px-4 py-2 text-sm text-white hover:bg-[#e88547] transition-colors"
+                        className="flex items-center px-4 py-2.5 text-sm text-white hover:bg-[#d67d4e] transition-all duration-200 group"
+                        onClick={() => setIsDropdownOpen(false)}
                     >
-                        <BiUser className="mr-2" />
-                        Đăng nhập
+                        <BiUser className="mr-3 w-4 h-4 group-hover:scale-110 transition-transform" />
+                        <span>Đăng nhập</span>
                     </Link>
                     <Link to="/register" 
-                        className="flex items-center px-4 py-2 text-sm text-white hover:bg-[#e88547] transition-colors"
+                        className="flex items-center px-4 py-2.5 text-sm text-white hover:bg-[#d67d4e] transition-all duration-200 group"
+                        onClick={() => setIsDropdownOpen(false)}
                     >
-                        <BiCog className="mr-2" />
-                        Đăng ký
+                        <BiCog className="mr-3 w-4 h-4 group-hover:scale-110 transition-transform" />
+                        <span>Đăng ký</span>
                     </Link>
                 </>
             )}
@@ -307,7 +369,7 @@ const Header = () => {
 
                                 {/* Account Dropdown */}
                                 {isDropdownOpen && (
-                                    <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-[#ec905c] z-50 transform transition-all duration-300 ease-in-out">
+                                    <div className="absolute right-0 mt-2 w-64 rounded-xl shadow-2xl bg-gradient-to-b from-[#ec905c] to-[#e88547] z-50 transform transition-all duration-300 ease-in-out overflow-hidden border-t-2 border-white/20">
                                         {userDropdown}
                                     </div>
                                 )}
