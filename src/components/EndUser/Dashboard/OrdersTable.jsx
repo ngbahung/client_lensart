@@ -212,7 +212,7 @@ function OrdersTable({ onOrderSelect }) {
       <div className="flex justify-between items-center mt-4 pt-3 border-t border-gray-100">
         <div className="text-lg font-bold text-[#6fd4d2]">{formatPrice(order.total_price)}</div>
         <div className="flex gap-2">
-          {order.order_status === 'Đang xử lý' && (
+          {order.payment_method === 'Tiền mặt' && order.order_status === 'Đang xử lý' && (
             <CancelButton
               orderId={order.id}
               className="px-4 py-2 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-lg hover:from-red-600 hover:to-red-700 text-sm font-medium shadow-md"
@@ -336,7 +336,7 @@ function OrdersTable({ onOrderSelect }) {
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex gap-2 justify-center">
-                        {order.order_status === 'Đang xử lý' && (
+                        {order.payment_method === 'Tiền mặt' && order.order_status === 'Đang xử lý' && (
                           <CancelButton
                             orderId={order.id}
                             className="px-3 py-1.5 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-lg hover:from-red-600 hover:to-red-700 font-medium shadow-sm text-xs"
