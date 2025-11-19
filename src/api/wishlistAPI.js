@@ -16,10 +16,15 @@ export const createWishlist = async (productId) => {
         const response = await api.post('/wishlists/create', {
             product_id: productId
         });
+        
+        // Check if product is already in wishlist
+        const alreadyInWishlist = response.data.data?.original?.message === "Product already in wishlist";
+        
         return {
-            success: response.data.success,
-            message: response.data.message,
-            data: response.data.data
+            success: true,
+            message: response.data.message || 'Product added to wishlist',
+            data: response.data.data,
+            alreadyExists: alreadyInWishlist
         };
     } catch (error) {
         throw new Error(error.response?.data?.message || 'Error creating wishlist');
@@ -51,20 +56,28 @@ export const clearWishlist = async () => {
 export const moveProductToCart = async (wishlistDetailId) => {
     try {
         const response = await api.post(`/wishlists/move-to-cart/${wishlistDetailId}`);
-        return response.data;
+        return {
+            success: true,
+            message: response.data?.message || 'Product moved to cart successfully',
+            data: response.data?.data || response.data
+        };
     } catch (error) {
         console.error('Error moving product to cart:', error);
-        throw error;
+        throw new Error(error.response?.data?.message || 'Error moving product to cart');
     }
 }
 
 export const moveAllToCart = async () => {
     try {
         const response = await api.post('/wishlists/move-all-to-cart');
-        return response.data;
+        return {
+            success: true,
+            message: response.data?.message || 'All products moved to cart successfully',
+            data: response.data?.data || response.data
+        };
     } catch (error) {
         console.error('Error moving all products to cart:', error);
-        throw error;
+        throw new Error(error.response?.data?.message || 'Error moving all products to cart');
     }
 }
 
@@ -78,7 +91,7 @@ export const checkWishlistStatus = async (productId) => {
         
         return {
             isWishlisted: Boolean(wishlistItem),
-            wishlistDetailId: wishlistItem ? wishlistItem.id : null
+            wishlistDetailId: wishlistItem ? wishlistItem.wishlist_detail_id : null
         };
     } catch (error) {
         console.error('Error checking wishlist status:', error);

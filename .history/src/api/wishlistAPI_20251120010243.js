@@ -16,10 +16,15 @@ export const createWishlist = async (productId) => {
         const response = await api.post('/wishlists/create', {
             product_id: productId
         });
+        
+        // Check if product is already in wishlist
+        const alreadyInWishlist = response.data.data?.original?.message === "Product already in wishlist";
+        
         return {
-            success: response.data.success,
-            message: response.data.message,
-            data: response.data.data
+            success: true,
+            message: response.data.message || 'Product added to wishlist',
+            data: response.data.data,
+            alreadyExists: alreadyInWishlist
         };
     } catch (error) {
         throw new Error(error.response?.data?.message || 'Error creating wishlist');
@@ -58,18 +63,33 @@ export const moveProductToCart = async (wishlistDetailId) => {
     }
 }
 
-r
+export const moveAllToCart = async () => {
+    try {
+        const response = await api.post('/wishlists/move-all-to-cart');
+        return response.data;
+    } catch (error) {
+        console.error('Error moving all products to cart:', error);
+        throw error;
+    }
+}
 
 export const checkWishlistStatus = async (productId) => {
     try {
         const response = await api.get('/wishlists');
-        // Adjust to new structure
         const details = response.data?.data?.details || [];
-        return details.some(item => 
+        const wishlistItem = details.find(item => 
             parseInt(item.product_id) === parseInt(productId)
         );
+        
+        return {
+            isWishlisted: Boolean(wishlistItem),
+            wishlistDetailId: wishlistItem ? wishlistItem.wishlist_detail_id : null
+        };
     } catch (error) {
         console.error('Error checking wishlist status:', error);
-        return false;
+        return {
+            isWishlisted: false,
+            wishlistDetailId: null
+        };
     }
 };

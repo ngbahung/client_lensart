@@ -5,9 +5,11 @@ import { getWishlists, deleteWishlist, clearWishlist, moveProductToCart, moveAll
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 import { FiHeart, FiTrash2, FiShoppingCart } from 'react-icons/fi';
+import { useCart } from '../../../contexts/CartContext';
 
 function FavoritesTable() {
   const navigate = useNavigate();
+  const { refreshCart } = useCart();
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -109,19 +111,27 @@ function FavoritesTable() {
   const handleMoveToCart = async (wishlistDetailId) => {
     try {
       const response = await moveProductToCart(wishlistDetailId);
-      if (response.success) {
-        setFavorites(favorites.filter(item => item.wishlist_detail_id !== wishlistDetailId));
-        Swal.fire({
-          title: 'Thành công!',
-          text: 'Đã thêm sản phẩm vào giỏ hàng',
-          icon: 'success',
-          timer: 1500,
-          showConfirmButton: false,
-          position: 'top-end',
-          toast: true
-        });
-      }
+      
+      // Remove item from favorites list immediately
+      setFavorites(prevFavorites => 
+        prevFavorites.filter(item => item.wishlist_detail_id !== wishlistDetailId)
+      );
+      
+      // Refresh cart to update cart count
+      await refreshCart();
+      
+      // Show success notification
+      Swal.fire({
+        title: 'Thành công!',
+        text: response.message || 'Đã thêm sản phẩm vào giỏ hàng',
+        icon: 'success',
+        timer: 1500,
+        showConfirmButton: false,
+        position: 'top-end',
+        toast: true
+      });
     } catch (error) {
+      console.error('Move to cart error:', error);
       Swal.fire({
         title: 'Lỗi!',
         text: error.message || 'Không thể thêm vào giỏ hàng',
@@ -147,32 +157,32 @@ function FavoritesTable() {
       });
 
       if (result.isConfirmed) {
-        // Use Promise.all to move all items to cart concurrently
-        const movePromises = favorites.map(item => 
-          moveAllToCart()
-        );
-
-        const results = await Promise.all(movePromises);
-        const allSuccessful = results.every(result => result.success);
-
-        if (allSuccessful) {
-          setFavorites([]);
-          await fetchFavorites(); // Reload the table
-          Swal.fire({
-            title: 'Thành công!',
-            text: 'Đã thêm tất cả sản phẩm vào giỏ hàng',
-            icon: 'success',
-            timer: 1500,
-            showConfirmButton: false,
-            position: 'top-end',
-            toast: true
-          });
-        }
+        const response = await moveAllToCart();
+        
+        // Clear favorites list immediately
+        setFavorites([]);
+        
+        // Refresh cart to update cart count
+        await refreshCart();
+        
+        // Show success notification
+        Swal.fire({
+          title: 'Thành công!',
+          text: response.message || 'Đã thêm tất cả sản phẩm vào giỏ hàng',
+          icon: 'success',
+          timer: 1500,
+          showConfirmButton: false,
+          position: 'top-end',
+          toast: true
+        });
       }
     } catch (error) {
+      console.error('Move all to cart error:', error);
+      // Reload favorites to get correct state if there was an error
+      await fetchFavorites();
       Swal.fire({
         title: 'Lỗi!',
-        text: 'Không thể thêm sản phẩm vào giỏ hàng',
+        text: error.message || 'Không thể thêm sản phẩm vào giỏ hàng',
         icon: 'error',
         timer: 1500,
         position: 'top-end',
