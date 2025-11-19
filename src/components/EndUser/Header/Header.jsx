@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { BiUser, BiBookOpen, BiSearch, BiLogOut, BiCog, BiChevronDown, BiMenu } from "react-icons/bi";
 import { BsCart3 } from "react-icons/bs";
 import { AiOutlineClose } from "react-icons/ai";
+import { FiShoppingBag, FiHeart, FiLock, FiMapPin } from 'react-icons/fi';
 import Logo from '../../Logo';
 import { useAuth } from '../../../contexts/AuthContext';
 import { debounce } from 'lodash';
@@ -323,71 +324,88 @@ const Header = () => {
                 </div>
 
                 {/* Hàng 2: Navigation chính (ẩn trên mobile) */}
-                <div className='hidden md:block bg-[#6fd4d2]'>
-                    <div className="container mx-auto px-4 ">
-                        <div className="flex items-center justify-between h-16">
+                <div className='hidden md:block bg-gradient-to-r from-[#6fd4d2] to-[#55d5d2] shadow-md'>
+                    <div className="container mx-auto px-4">
+                        <div className="flex items-center justify-between h-14">
                             <div>
                                 {/* Navigation */}
-                                <nav className="hidden md:flex space-x-4 lg:space-x-8">
+                                <nav className="hidden md:flex space-x-1 lg:space-x-2">
                                     {navItems.map((item) => (
                                         <div key={item.path} className="relative group">
                                             <Link
                                                 to={item.path}
-                                                className="flex items-center text-gray-600 hover:text-white transition-colors text-sm lg:text-base pb-2"
+                                                className="flex items-center px-4 py-4 text-white/90 hover:text-white hover:bg-white/10 rounded-t-lg transition-all duration-200 text-sm lg:text-base font-medium group"
                                             >
-                                                {item.name}
-                                                <BiChevronDown className="h-5 w-5 ml-1 transition-transform group-hover:rotate-180" />
+                                                <span className="relative">
+                                                    {item.name}
+                                                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
+                                                </span>
+                                                <BiChevronDown className="h-4 w-4 ml-1.5 transition-transform duration-300 group-hover:rotate-180" />
                                             </Link>
                                             
-                                            {/* Navigation Dropdown */}
-                                            <div className="absolute left-0 invisible group-hover:visible opacity-0 group-hover:opacity-100 
-                                                transition-all duration-300 ease-in-out mt-0 w-48 bg-[#6fd4d2] rounded-md shadow-lg z-50">
+                                            {/* Navigation Dropdown with enhanced styling */}
+                                            <div className="absolute left-0 top-full invisible group-hover:visible opacity-0 group-hover:opacity-100 
+                                                transition-all duration-300 ease-in-out mt-0 w-56 bg-white rounded-b-xl rounded-tr-xl shadow-2xl z-50 overflow-hidden border-t-2 border-[#6fd4d2]">
                                                 <div className="py-2">
-                                                    {renderDropdownItems(item)}
+                                                    {Array.isArray(item.subItems) && item.subItems.map((subItem) => (
+                                                        <button
+                                                            key={subItem.name}
+                                                            onClick={() => handleSubItemClick(item, subItem)}
+                                                            className="w-full text-left block px-4 py-2.5 text-sm text-gray-700 hover:bg-gradient-to-r hover:from-[#eff9f9] hover:to-[#6fd4d2]/10 hover:text-[#6fd4d2] transition-all duration-200 font-medium relative group/item"
+                                                        >
+                                                            <span className="relative z-10">{subItem.name}</span>
+                                                            <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-0 bg-[#6fd4d2] transition-all duration-200 group-hover/item:h-full"></span>
+                                                        </button>
+                                                    ))}
                                                 </div>
                                             </div>
                                         </div>
                                     ))}
                                 </nav>
                             </div>
-                            <div className="hidden md:flex items-center justify-end space-x-4 lg:space-x-8 py-3">
+                            
+                            {/* Right side links */}
+                            <div className="hidden md:flex items-center space-x-1 lg:space-x-2">
                                 <Link 
                                     to="/ve-lensart" 
-                                    className="text-gray-700 hover:text-white transition-colors text-sm lg:text-base"
+                                    className="px-4 py-2 text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-200 text-sm lg:text-base font-medium relative group"
                                 >
-                                    Về LensArt
+                                    <span className="relative">
+                                        Về LensArt
+                                        <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
+                                    </span>
                                 </Link>
                                 
-                                <div className="relative group">
-                                    <Link 
-                                        to="/blog"  // Update this path
-                                        className="flex items-center text-gray-700 hover:text-white transition-colors text-sm lg:text-base"
-                                    >
+                                <Link 
+                                    to="/blog"
+                                    className="px-4 py-2 text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-200 text-sm lg:text-base font-medium relative group"
+                                >
+                                    <span className="relative">
                                         Blog
-                                    </Link>
-                                </div>
+                                        <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
+                                    </span>
+                                </Link>
 
-                                <div className="relative group">
-                                    <Link 
-                                        to="/lien-he" 
-                                        className="flex items-center text-gray-700 hover:text-white transition-colors text-sm lg:text-base"
-                                    >
+                                <Link 
+                                    to="/lien-he" 
+                                    className="px-4 py-2 text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-200 text-sm lg:text-base font-medium relative group"
+                                >
+                                    <span className="relative">
                                         Liên hệ
-                                    </Link>
-                                </div>
-                            </div>
+                                        <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
+                                    </span>
+                                </Link>
 
-                            {/* Desktop Cart Button */}
-                            <div className="relative hidden md:block">
+                                {/* Desktop Cart Button with enhanced styling */}
                                 <Link 
                                     to="/gio-hang" 
-                                    className="flex items-center text-gray-700 hover:text-white transition-colors text-sm lg:text-base"
+                                    className="flex items-center space-x-2 px-4 py-2 ml-2 bg-white/15 hover:bg-white/25 text-white rounded-lg transition-all duration-200 text-sm lg:text-base font-medium shadow-md hover:shadow-lg group"
                                 >
                                     <span>Giỏ hàng</span>
                                     <div className="relative">
-                                        <BsCart3 className="h-5 w-5 ml-2" />
+                                        <BsCart3 className="h-5 w-5 transition-transform duration-200 group-hover:scale-110" />
                                         {itemCount > 0 && (
-                                            <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+                                            <span className="absolute -top-2 -right-2 bg-gradient-to-br from-[#F5A97F] to-[#ec905c] text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold shadow-lg animate-pulse">
                                                 {itemCount}
                                             </span>
                                         )}
