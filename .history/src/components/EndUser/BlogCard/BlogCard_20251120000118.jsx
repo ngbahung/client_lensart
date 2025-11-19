@@ -15,9 +15,9 @@ const BlogCard = ({ blog }) => {
   };
 
   return (
-    <div className="max-w-sm rounded-xl overflow-hidden shadow-lg bg-white transition-all duration-300 hover:shadow-xl cursor-pointer" onClick={handleReadMore}>
+    <div className="w-full h-[280px] md:h-[340px] rounded-xl overflow-hidden shadow-lg bg-white transition-all duration-300 hover:shadow-xl cursor-pointer flex flex-col" onClick={handleReadMore}>
       {blog?.image_url && (
-        <div className="w-full h-36 md:h-48 overflow-hidden group">
+        <div className="w-full h-36 md:h-48 overflow-hidden group flex-shrink-0">
           <img 
             src={blog.image_url} 
             alt={blog.title} 
@@ -26,11 +26,11 @@ const BlogCard = ({ blog }) => {
         </div>
       )}
 
-      <div className="p-3 md:p-4">
-        <h3 className="font-medium text-base md:text-lg mb-2">
+      <div className="p-3 md:p-4 flex flex-col justify-between flex-grow">
+        <h3 className="font-medium text-base md:text-lg mb-2 line-clamp-2">
           {blog?.title}
         </h3>
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center mt-auto">
           <div className="text-xs md:text-sm text-gray-500">
             Ngày {blog?.created_time ? formatDate(blog.created_time) : ''}
           </div>

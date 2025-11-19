@@ -26,12 +26,12 @@ const PromotionalBanner = () => {
     if (!banner || banner.status !== 'active') return null;
 
     return (
-        <div className="w-full px-0 py-4 md:py-8">
-            <div className="relative overflow-hidden h-full"> {/* Added h-full */}
+        <div className="w-full px-0 pb-4 md:pb-8">
+            <div className="relative overflow-hidden">
                 <img 
                     src={banner.image_url}
                     alt={banner.image_public_id || "Promotional Banner"}
-                    className="w-full h-full object-cover" {/* Updated to h-full */}
+                    className="w-full h-[478px] md:h-[487px] object-cover"
                 />
             </div>
         </div>

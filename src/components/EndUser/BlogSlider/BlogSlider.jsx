@@ -49,10 +49,10 @@ const BlogSlider = ({ blogs = [] }) => {
   if (!blogs.length) return null;
 
   return (
-    <div className="blog-slider relative px-4 sm:px-12">
+    <div className="blog-slider relative px-4 sm:px-12 pb-8">
       <Slider {...settings}>
         {blogs.map((blog) => (
-          <div key={blog.id} className="px-2 mb-4 sm:mb-0">
+          <div key={blog.id} className="px-2 mb-8 sm:mb-12">
             <BlogCard blog={blog} />
           </div>
         ))}

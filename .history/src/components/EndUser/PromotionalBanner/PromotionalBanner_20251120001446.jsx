@@ -26,7 +26,7 @@ const PromotionalBanner = () => {
     if (!banner || banner.status !== 'active') return null;
 
     return (
-        <div className="w-full px-0 py-4 md:py-8">
+        <div className="w-full px-0 py-4 md:pb-8">
             <div className="relative overflow-hidden">
                 <img 
                     src={banner.image_url}

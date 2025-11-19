@@ -3,23 +3,30 @@ import { fetchBanner } from '../../../api/bannerAPI';
 
 const PromotionalBanner = () => {
     const [banner, setBanner] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const loadBanner = async () => {
             try {
+                setLoading(true);
                 const bannerData = await fetchBanner();
-                setBanner(bannerData); // Now directly using the data object
+                if (bannerData && bannerData.status === 'active') {
+                    setBanner(bannerData);
+                }
             } catch (error) {
                 console.error('Error loading banner:', error);
+            } finally {
+                setLoading(false);
             }
         };
         loadBanner();
     }, []);
 
+    if (loading) return null;
     if (!banner || banner.status !== 'active') return null;
 
     return (
-        <div className="w-full px-0 py-4 md:py-8">
+        <div className="w-full px-0 pb-4 md:py-8">
             <div className="relative overflow-hidden">
                 <img 
                     src={banner.image_url}
