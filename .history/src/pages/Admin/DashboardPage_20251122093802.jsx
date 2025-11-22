@@ -5,9 +5,14 @@ import LineGraph from "../../components/Admin/Dashboard/LineGraph";
 import BarChart from "../../components/Admin/Dashboard/BarChart";
 
 const DashboardPage = () => {
+  // Get current date for default values
+  const currentDate = new Date();
+  const currentMonth = (currentDate.getMonth() + 1).toString(); // getMonth() returns 0-11
+  const currentYear = currentDate.getFullYear().toString();
+  
   const [selectedBranch, setSelectedBranch] = useState("Hồ Chí Minh");
-  const [selectedMonth, setSelectedMonth] = useState("1");
-  const [selectedYear, setSelectedYear] = useState("2024");
+  const [selectedMonth, setSelectedMonth] = useState(currentMonth);
+  const [selectedYear, setSelectedYear] = useState(currentYear);
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -66,7 +71,7 @@ const DashboardPage = () => {
   }, [selectedBranch, selectedMonth, selectedYear]);
 
   return (
-    <div className="bg-white p-6 rounded-md mt">
+    <div className="bg-white p-6 rounded-md mt-10">
       <div className="flex justify-end gap-4 mb-6">
         <div className="flex flex-col gap-2 w-[150px]">
           <label className="text-[rgba(85,213,210,1)] font-bold text-center">Branch</label>
