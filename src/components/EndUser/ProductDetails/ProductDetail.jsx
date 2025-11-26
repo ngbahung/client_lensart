@@ -13,6 +13,7 @@ const ProductDetails = ({ product, selectedBranch, cityNames, productWishlistId 
     const [availableQuantity, setAvailableQuantity] = useState(0);
     const [isWishlisted, setIsWishlisted] = useState(product.isWishlisted);
     const [isWishlistLoading, setIsWishlistLoading] = useState(false);
+    const [currentWishlistId, setCurrentWishlistId] = useState(productWishlistId);
     const { isAuthenticated } = useAuth();
     const navigate = useNavigate();
     const [colorQuantities, setColorQuantities] = useState({});
@@ -84,7 +85,8 @@ const ProductDetails = ({ product, selectedBranch, cityNames, productWishlistId 
     // Update initial wishlist state when product changes
     useEffect(() => {
         setIsWishlisted(product.isWishlisted);
-    }, [product.isWishlisted]);
+        setCurrentWishlistId(productWishlistId);
+    }, [product.isWishlisted, productWishlistId]);
 
     const handleQuantityChange = (type) => {
         // For lens products, only check selectedBranch
@@ -115,29 +117,52 @@ const ProductDetails = ({ product, selectedBranch, cityNames, productWishlistId 
             return;
         }
 
-        setIsWishlistLoading(true);
+        // Optimistic update - change UI immediately
+        const previousWishlistState = isWishlisted;
+        const previousWishlistId = currentWishlistId;
+        
         setIsHeartAnimating(true);
+        setIsWishlisted(!isWishlisted);
         
         try {
-            if (isWishlisted) {
-                // Use productWishlistId instead of product.id for deletion
-                const response = await deleteWishlist(productWishlistId);
+            if (previousWishlistState) {
+                // User is removing from wishlist
+                const response = await deleteWishlist(currentWishlistId);
                 if (response.success) {
-                    setIsWishlisted(false);
+                    setCurrentWishlistId(null);
                     toast.success('Đã xóa khỏi danh sách yêu thích');
+                } else {
+                    // Revert on failure
+                    setIsWishlisted(previousWishlistState);
+                    setCurrentWishlistId(previousWishlistId);
+                    throw new Error(response.message || 'Không thể xóa khỏi danh sách yêu thích');
                 }
             } else {
+                // User is adding to wishlist
                 const response = await createWishlist(product.id);
                 if (response.success) {
-                    setIsWishlisted(true);
-                    toast.success('Đã thêm vào danh sách yêu thích');
+                    // Store the wishlist detail ID from the response
+                    setCurrentWishlistId(response.data?.wishlist_detail_id || response.data?.id);
+                    
+                    if (response.alreadyExists) {
+                        toast.info('Sản phẩm đã có trong danh sách yêu thích');
+                    } else {
+                        toast.success('Đã thêm vào danh sách yêu thích');
+                    }
+                } else {
+                    // Revert on failure
+                    setIsWishlisted(previousWishlistState);
+                    setCurrentWishlistId(previousWishlistId);
+                    throw new Error(response.message || 'Không thể thêm vào danh sách yêu thích');
                 }
             }
         } catch (error) {
             console.error('Wishlist operation error:', error);
-            toast.error('Có lỗi xảy ra. Vui lòng thử lại sau.');
+            // Revert the optimistic update on error
+            setIsWishlisted(previousWishlistState);
+            setCurrentWishlistId(previousWishlistId);
+            toast.error(error.message || 'Có lỗi xảy ra. Vui lòng thử lại sau.');
         } finally {
-            setIsWishlistLoading(false);
             setTimeout(() => setIsHeartAnimating(false), 300);
         }
     };

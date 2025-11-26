@@ -5,9 +5,14 @@ import LineGraph from "../../components/Admin/Dashboard/LineGraph";
 import BarChart from "../../components/Admin/Dashboard/BarChart";
 
 const DashboardPage = () => {
+  // Get current date for default values
+  const currentDate = new Date();
+  const currentMonth = (currentDate.getMonth() + 1).toString(); // getMonth() returns 0-11
+  const currentYear = currentDate.getFullYear().toString();
+  
   const [selectedBranch, setSelectedBranch] = useState("Hồ Chí Minh");
-  const [selectedMonth, setSelectedMonth] = useState("1");
-  const [selectedYear, setSelectedYear] = useState("2024");
+  const [selectedMonth, setSelectedMonth] = useState(currentMonth);
+  const [selectedYear, setSelectedYear] = useState(currentYear);
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(true);
 

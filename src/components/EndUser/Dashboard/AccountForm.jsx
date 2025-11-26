@@ -84,50 +84,58 @@ function AccountForm({ userData }) {
   };
 
   return (
-    <div className="bg-white p-6 md:p-8 rounded-lg shadow-md transition-all duration-300">
-      <div className="flex items-center space-x-4 mb-6">
-        <FiUser className="w-6 h-6 text-blue-600" />
-        <h2 className="text-2xl font-semibold">Thông tin tài khoản</h2>
+    <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-gray-100 transition-all duration-300">
+      {/* Header with gradient accent */}
+      <div className="flex items-center space-x-4 mb-8 pb-4 border-b-2 border-[#ecaa83]/30">
+        <div className="p-3 bg-gradient-to-br from-[#6fd4d2] to-[#55d5d2] rounded-xl shadow-md">
+          <FiUser className="w-6 h-6 text-white" />
+        </div>
+        <div>
+          <h2 className="text-2xl font-bold text-gray-800">Thông tin tài khoản</h2>
+          <p className="text-sm text-gray-500 mt-1">Cập nhật thông tin cá nhân của bạn</p>
+        </div>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        <TextInput
-          label="Email"
-          name="email"
-          value={userData?.email}
-          disabled={true}
-          className="bg-gray-100 cursor-not-allowed"
-        />
-        <TextInput
-          type="text"
-          label="Họ *"
-          name="firstname"
-          value={formData.firstname}
-          onChange={handleChange}
-        />
+        <div className="space-y-4">
+          <TextInput
+            label="Email"
+            name="email"
+            value={userData?.email}
+            disabled={true}
+            className="bg-gray-100 cursor-not-allowed"
+          />
+          <TextInput
+            type="text"
+            label={<>Họ <span className="text-red-500">*</span></>}
+            name="firstname"
+            value={formData.firstname}
+            onChange={handleChange}
+          />
 
-        <TextInput
-          type="text"
-          label="Tên *"
-          name="lastname"
-          value={formData.lastname}
-          onChange={handleChange}
-        />
+          <TextInput
+            type="text"
+            label={<>Tên <span className="text-red-500">*</span></>}
+            name="lastname"
+            value={formData.lastname}
+            onChange={handleChange}
+          />
 
-        <TextInput
-          type="tel"
-          label="Số điện thoại *"
-          name="phone"
-          value={formData.phone}
-          onChange={handleChange}
-        />
+          <TextInput
+            type="tel"
+            label={<>Số điện thoại <span className="text-red-500">*</span></>}
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+          />
+        </div>
 
-        <div className="flex items-center justify-end gap-4 pt-4 border-t">
+        <div className="flex items-center justify-end gap-3 pt-6 border-t border-gray-200">
           {isDirty && (
             <button
               type="button"
               onClick={handleCancel}
-              className="flex items-center px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors"
+              className="flex items-center px-5 py-2.5 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-xl transition-all duration-200 font-medium"
             >
               <FiX className="w-4 h-4 mr-2" />
               Hủy
@@ -136,7 +144,7 @@ function AccountForm({ userData }) {
           <Button
             type="submit"
             disabled={isSubmitting || !isDirty}
-            className={`flex items-center ${!isDirty ? 'opacity-50 cursor-not-allowed' : ''}`}
+            className={`flex items-center shadow-md hover:shadow-lg ${!isDirty ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
             <FiSave className="w-4 h-4 mr-2" />
             {isSubmitting ? 'Đang lưu...' : 'Lưu thay đổi'}

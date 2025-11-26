@@ -47,7 +47,7 @@ import PolicyPage from './pages/EndUser/PolicyPage';
 
 
 const UserLayout = () => (
-  <div className="min-h-screen flex flex-col pt-[128px] md:pt-[144px]">
+  <div className="min-h-screen flex flex-col pt-16 md:pt-32">
     <Header />
     <main className="flex-1">
       <Outlet />

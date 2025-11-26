@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { createReview } from '../../api/reviewsAPI';
 import { useAuth } from '../../contexts/AuthContext';
+import { useCart } from '../../contexts/CartContext';
 import { checkWishlistStatus } from '../../api/wishlistAPI';
 import ProductDetailSkeleton from '../../components/EndUser/Loading/ProductDetailSkeleton';
 
@@ -46,6 +47,7 @@ const CITY_NAMES = {
 const ProductDetailPage = () => {
     const { productId } = useParams();
     const { user, isAuthenticated } = useAuth();
+    const { refreshCart } = useCart();
     const [product, setProduct] = useState({
         branchPrices: [], // Initialize with empty array
         // ...other product properties

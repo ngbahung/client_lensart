@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { FiPlusCircle } from "react-icons/fi";
+import { FaSearch } from "react-icons/fa";
 import Row from "./Row";
 import CreateBlog from "./CreateBlog";
 import EditBlog from './EditBlog';
 
-const Table = ({ blogs, isLoading, error, onStatusChange, onSearch, searchTerm, onDelete, onUpdateSuccess }) => { // Remove refreshBlogs
+const Table = ({ blogs, isLoading, error, onStatusChange, onSearch, searchTerm, onDelete, onUpdateSuccess }) => {
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [editingBlog, setEditingBlog] = useState(null);
 
@@ -23,19 +24,8 @@ const Table = ({ blogs, isLoading, error, onStatusChange, onSearch, searchTerm, 
   };
 
   const handleEdit = (blog) => {
-    console.log("Editing blog:", blog); // Add this debug line
+    console.log("Editing blog:", blog);
     setEditingBlog(blog);
-  };
-
-  const handleEditSuccess = async () => {
-    try {
-      if (typeof onEditSuccess === 'function') {
-        await onEditSuccess();
-      }
-      setEditingBlog(null); // Reset form editing state
-    } catch (error) {
-      console.error("Error refreshing data:", error);
-    }
   };
 
   if (editingBlog) {
@@ -60,71 +50,116 @@ const Table = ({ blogs, isLoading, error, onStatusChange, onSearch, searchTerm, 
   }
 
   return (
-    <div className="bg-white p-6 rounded-md">
+    <div className="bg-white">
       {error && (
-        <div className="text-amber-600 mb-4 p-2 bg-amber-50 rounded">
-          {error}
+        <div className="mx-6 mt-6 p-4 bg-red-50 border-l-4 border-red-500 rounded-r-lg">
+          <p className="text-red-700 font-medium">{error}</p>
         </div>
       )}
-      <table className="min-w-full bg-white mb-4">
-        <thead>
-          <tr className="border-b border-[rgba(167,174,174,1)]">
-            <th colspan="3" className="py-2 px-4 text-left">
-              <h1 className="text-xl font-semibold">All Blogs</h1>
-            </th>
-            <th></th>
-            <th colspan="2" className="py-2 px-4 text-right">
-              <button
-                onClick={handleShowCreate}
-                className="px-4 py-2 bg-[rgba(85,213,210,1)] text-white rounded-[10px] hover:opacity-90 font-normal flex items-center gap-2 ml-auto"
-              >
-                <FiPlusCircle className="w-5 h-5" /> Create New
-              </button>
-            </th>
-          </tr>
-          <tr>
-            <th colSpan="6" className="py-2 px-4">
-              <div className="flex items-center gap-2 justify-start">
-                <label htmlFor="searchId" className="font-medium text-[rgba(167,174,174,1)]">Search by ID/Title: </label>
-                <input
-                  id="searchId"
-                  type="text"
-                  value={searchTerm}
-                  onChange={handleSearch}
-                  onKeyPress={handleKeyPress}
-                  className="border rounded-[10px] px-2 py-1 w-48 font-normal"
-                  placeholder="Enter ID or title..."
-                />
-              </div>
-            </th>
-          </tr>
-          <tr className="bg-[rgba(217,217,217,0.5)]">
-            <th className="py-2 px-4 text-left w-[10%]">ID</th>
-            <th className="py-2 px-4 text-left w-[15%]">Image</th>
-            <th className="py-2 px-4 text-left w-[25%]">Title</th>
-            <th className="py-2 px-4 text-left w-[30%]">Description</th>
-            <th className="py-2 px-4 text-left w-[10%]">Status</th>
-            <th className="py-2 px-4 text-center w-[10%]">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {isLoading ? (
+      
+      {/* Header Section */}
+      <div className="px-6 py-5 border-b border-gray-200">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <h2 className="text-2xl font-bold text-gray-800">All Blogs</h2>
+            <p className="text-sm text-gray-500 mt-1">Manage and organize your blog posts</p>
+          </div>
+          <button
+            onClick={handleShowCreate}
+            className="px-6 py-3 bg-gradient-to-r from-[#55d5d2] to-[#3fb8b5] text-white rounded-lg hover:shadow-lg font-semibold flex items-center gap-2 transition-all transform hover:scale-105"
+          >
+            <FiPlusCircle className="w-5 h-5" />
+            <span>Create New Blog</span>
+          </button>
+        </div>
+
+        {/* Search Bar */}
+        <div className="mt-4">
+          <div className="relative max-w-md">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <FaSearch className="text-gray-400" />
+            </div>
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={handleSearch}
+              onKeyPress={handleKeyPress}
+              className="block w-full pl-10 pr-4 py-2.5 border-2 border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#55d5d2] focus:border-transparent transition-all"
+              placeholder="Search by ID or title..."
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Table */}
+      <div className="overflow-x-auto">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gradient-to-r from-gray-50 to-gray-100">
             <tr>
-              <td colSpan="6" className="text-center py-4">Loading...</td> {/* Update colspan to 6 */}
+              <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider w-[10%]">
+                ID
+              </th>
+              <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider w-[15%]">
+                Image
+              </th>
+              <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider w-[25%]">
+                Title
+              </th>
+              <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider w-[30%]">
+                Description
+              </th>
+              <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider w-[10%]">
+                Status
+              </th>
+              <th className="px-6 py-4 text-center text-xs font-bold text-gray-700 uppercase tracking-wider w-[10%]">
+                Actions
+              </th>
             </tr>
-          ) : (
-            blogs.map((blog) => (
-              <Row 
-                key={blog.id} 
-                blog={blog} 
-                onStatusChange={onStatusChange}
-                onEdit={handleEdit}
-                onDelete={onDelete} // Pass onDelete prop
-              />
-            ))
-          )}
-        </tbody>
-      </table>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            {isLoading ? (
+              <tr>
+                <td colSpan="6" className="px-6 py-12 text-center">
+                  <div className="flex flex-col items-center justify-center">
+                    <div className="w-12 h-12 rounded-full border-4 border-[#55d5d2] border-t-transparent animate-spin mb-4"></div>
+                    <p className="text-gray-600 font-medium">Loading blogs...</p>
+                  </div>
+                </td>
+              </tr>
+            ) : blogs.length === 0 ? (
+              <tr>
+                <td colSpan="6" className="px-6 py-12 text-center">
+                  <div className="flex flex-col items-center justify-center">
+                    <p className="text-xl font-semibold text-gray-700 mb-2">No blogs found</p>
+                    <p className="text-gray-500 mb-6">
+                      {searchTerm ? 'Try adjusting your search terms' : 'Create your first blog to get started'}
+                    </p>
+                    {!searchTerm && (
+                      <button
+                        onClick={handleShowCreate}
+                        className="px-6 py-3 bg-gradient-to-r from-[#55d5d2] to-[#3fb8b5] text-white rounded-lg hover:shadow-lg font-semibold flex items-center gap-2 transition-all"
+                      >
+                        <FiPlusCircle className="w-5 h-5" />
+                        <span>Create First Blog</span>
+                      </button>
+                    )}
+                  </div>
+                </td>
+              </tr>
+            ) : (
+              blogs.map((blog) => (
+                <Row 
+                  key={blog.id} 
+                  blog={blog} 
+                  onStatusChange={onStatusChange}
+                  onEdit={handleEdit}
+                  onDelete={onDelete}
+                />
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
