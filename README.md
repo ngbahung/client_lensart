@@ -68,7 +68,8 @@ npm run preview:staging
 ```
 
 ### 🚀 Deploy lên Azure Static Web Apps
-📖 **Xem hướng dẫn chi tiết:** [AZURE_DEPLOYMENT.md](./AZURE_DEPLOYMENT.md)
+📖 **Deployment Strategy:** [BLUE_GREEN_DEPLOYMENT.md](./BLUE_GREEN_DEPLOYMENT.md)
+📖 **Azure Setup Guide:** [AZURE_DEPLOYMENT.md](./AZURE_DEPLOYMENT.md)
 
 ## 2. Hướng dẫn chạy Server:
 

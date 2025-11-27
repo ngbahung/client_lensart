@@ -55,25 +55,27 @@ const env = import.meta.env.VITE_APP_ENV;
 
 ---
 
-## 🚀 Deploy to Azure
+## 🚀 Deploy to Azure (Blue/Green Strategy)
 
-### Quick Steps:
+### Deployment Flow:
 ```bash
-# 1. Đọc hướng dẫn
-code AZURE_DEPLOYMENT.md
-
-# 2. Push code
+# 1. Push to main → Auto deploy to STAGING (Green)
 git add .
-git commit -m "feat: setup environment and deployment"
+git commit -m "feat: new feature"
 git push origin main
 
-# 3. GitHub Actions sẽ tự động deploy!
+# 2. Test staging environment
+# Visit: https://lensart-staging.azurestaticapps.net
+
+# 3. When ready, promote to PRODUCTION (Blue)
+# → GitHub Actions UI → Run workflow → Select 'production'
 ```
 
-### Branches:
-- `main` → Production
-- `staging` → Staging
-- Pull Requests → Preview environments
+### Environments:
+- 🟢 **Staging (Green)**: Auto-deploy from main branch
+- 🔵 **Production (Blue)**: Manual deploy with approval
+
+📖 **Full Guide:** [BLUE_GREEN_DEPLOYMENT.md](./BLUE_GREEN_DEPLOYMENT.md)
 
 ---
 

@@ -25,8 +25,9 @@
 
 ### 3. ✅ Cấu hình tự động
 
-- ✅ GitHub Actions workflow cho auto-deployment
-- ✅ Support nhiều môi trường (dev, staging, production)
+- ✅ GitHub Actions workflow với Blue/Green Deployment
+- ✅ Staging environment (Green) - auto-deploy
+- ✅ Production environment (Blue) - manual approval
 - ✅ Build optimization với code splitting
 - ✅ Security headers đã được cấu hình
 
