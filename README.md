@@ -30,10 +30,45 @@
 # HƯỚNG DẪN CÀI ĐẶT
 
 ## 1. Hướng dẫn chạy Client:
+
+### Bước 1: Cài đặt dependencies
 ```bash
 npm install
+```
+
+### Bước 2: Cấu hình Environment Variables
+```bash
+# Copy file mẫu .env
+cp .env.example .env
+
+# Sau đó mở file .env và cập nhật URL API của bạn
+# VITE_API_BASE_URL=http://127.0.0.1:8000/api
+```
+
+📖 **Xem thêm:** [ENV_SETUP.md](./ENV_SETUP.md) để biết chi tiết về cấu hình environment variables
+
+### Bước 3: Chạy development server
+```bash
 npm run dev
 ```
+
+### 📦 Các lệnh build và preview:
+```bash
+# Build cho production
+npm run build
+
+# Build cho staging
+npm run build:staging
+
+# Preview production build
+npm run preview:production
+
+# Preview staging build
+npm run preview:staging
+```
+
+### 🚀 Deploy lên Azure Static Web Apps
+📖 **Xem hướng dẫn chi tiết:** [AZURE_DEPLOYMENT.md](./AZURE_DEPLOYMENT.md)
 
 ## 2. Hướng dẫn chạy Server:
 
