@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"; // Add useEffect
 import { FaAngleDown } from "react-icons/fa";
-import api from "../../../../../utils/api";
+import api from "../../../../utils/api";
 
 const CreateProduct = ({ onClose, onUpdate }) => {
   const [name, setName] = useState("");

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaAngleDown } from "react-icons/fa";
-import api from "../../../../../utils/api";
+import api from "../../../../utils/api";
 import PropTypes from "prop-types";
 
 const EditCategory = ({ category, onClose, onUpdate }) => {

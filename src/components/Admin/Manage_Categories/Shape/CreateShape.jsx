@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import api from "../../../../../utils/api";
+import api from "../../../../utils/api";
 import PropTypes from "prop-types";
 
 const CreateShape = ({ onClose, onUpdate }) => {
