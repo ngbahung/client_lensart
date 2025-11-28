@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaAngleDown } from "react-icons/fa";
-import axios from "axios";
+import api from "../../../utils/api";
 import PropTypes from "prop-types";
 
 const EditCoupon = ({ coupon, onClose, onUpdate }) => {  // Thay refreshCoupons bằng onUpdate
@@ -83,7 +83,7 @@ const EditCoupon = ({ coupon, onClose, onUpdate }) => {  // Thay refreshCoupons 
     setLoading(true);
 
     try {
-      const response = await axios.post(`http://localhost:8000/api/coupons/update/${coupon.id}`, {
+      const response = await api.post(`/coupons/update/${coupon.id}`, {
         name: formData.name.trim(),
         code: formData.code.trim().toUpperCase(),
         quantity: parseInt(formData.quantity),

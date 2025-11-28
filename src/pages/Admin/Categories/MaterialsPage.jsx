@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../../utils/api';
 import Table from '../../../components/Admin/Manage_Categories/Materials/Table';
 import Pagination from "../../../components/Admin/Manage_Categories/Materials/Pagination";
 
@@ -33,7 +33,7 @@ const MaterialsPage = () => {
   const fetchMaterials = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get('http://localhost:8000/api/materials');
+      const response = await api.get('/materials');
       if (response.status === 200 && response.data && response.data.data) {
         const allMaterials = response.data.data;
         setMaterials(allMaterials);
@@ -77,7 +77,7 @@ const MaterialsPage = () => {
       const currentMaterial = materials.find(mat => mat.id === materialId);
       const newStatus = currentMaterial.status === 'active' ? 'inactive' : 'active';
       
-      const response = await axios.post(`http://localhost:8000/api/materials/switch-status/${materialId}`);
+      const response = await api.post(`/materials/switch-status/${materialId}`);
       
       if (response.status === 200) {
         setMaterials(prevMaterials => 

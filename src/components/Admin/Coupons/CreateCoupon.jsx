@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import api from "../../../utils/api";
 
 const CreateCoupon = ({ onClose, onUpdate }) => {  // Thay refreshCoupons bằng onUpdate
   const [formData, setFormData] = useState({
@@ -51,7 +51,7 @@ const CreateCoupon = ({ onClose, onUpdate }) => {  // Thay refreshCoupons bằng
     };
     
     try {
-      const response = await axios.post('http://localhost:8000/api/coupons/create', postData);
+      const response = await api.post('/coupons/create', postData);
       await onUpdate();  // Gọi onUpdate thay vì refreshCoupons
       onClose();
     } catch (err) {

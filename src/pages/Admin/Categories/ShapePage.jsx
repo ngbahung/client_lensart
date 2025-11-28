@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../../utils/api';
 import Table from '../../../components/Admin/Manage_Categories/Shape/Table';
 import Pagination from "../../../components/Admin/Manage_Categories/Shape/Pagination";
 
@@ -30,7 +30,7 @@ const ShapePage = () => {
   const fetchShapes = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get('http://localhost:8000/api/shapes');
+      const response = await api.get('/shapes');
       if (response.data) {
         const allShapes = response.data.data || mockData;
         setShapes(allShapes);
@@ -71,7 +71,7 @@ const ShapePage = () => {
       const currentShape = shapes.find(shape => shape.id === shapeId);
       const newStatus = currentShape.status === 'active' ? 'inactive' : 'active';
       
-      const response = await axios.post(`http://localhost:8000/api/shapes/switch-status/${shapeId}`);
+      const response = await api.post(`/shapes/switch-status/${shapeId}`);
       
       if (response.status === 200) {
         setShapes(prevShapes => 

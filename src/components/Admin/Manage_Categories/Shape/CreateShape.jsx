@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import api from "../../../../../utils/api";
 import PropTypes from "prop-types";
 
 const CreateShape = ({ onClose, onUpdate }) => {
@@ -17,7 +17,7 @@ const CreateShape = ({ onClose, onUpdate }) => {
     setLoading(true);
     
     try {
-      const response = await axios.post('http://localhost:8000/api/shapes/create', {
+      const response = await api.post('/shapes/create', {
         name: name.trim()
       });
       

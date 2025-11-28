@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaAngleDown } from "react-icons/fa";
-import axios from "axios";
+import api from "../../../../utils/api";
 import PropTypes from "prop-types";
 import { fetchCities, fetchDistricts, fetchWards } from "../../../../services/locationApi";
 import { parseAddress } from "../../../../utils/addressParser";
@@ -162,7 +162,7 @@ const EditManager = ({ Manager, onClose, onUpdate }) => {
     const fullAddress = `${addressDetail}, ${wardLabel}, ${districtLabel}, ${cityLabel}`.replace(/^,\s+/, '');
 
     try {
-      const response = await axios.post(`http://localhost:8000/api/users/update/${Manager.id}`, {
+      const response = await api.post(`/users/update/${Manager.id}`, {
         firstname,
         lastname,
         phone,

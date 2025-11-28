@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaAngleDown } from "react-icons/fa";
-import axios from "axios";
+import api from "../../../../../utils/api";
 import PropTypes from "prop-types";
 
 const EditMaterial = ({ material, onClose, onUpdate }) => {
@@ -21,7 +21,7 @@ const EditMaterial = ({ material, onClose, onUpdate }) => {
     setError("");
 
     try {
-      const response = await axios.post(`http://localhost:8000/api/materials/update/${material.id}`, {
+      const response = await api.post(`/materials/update/${material.id}`, {
         name: name,
         status: status // status is already 'active' or 'inactive' from select
       });

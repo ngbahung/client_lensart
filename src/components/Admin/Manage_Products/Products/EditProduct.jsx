@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaAngleDown } from "react-icons/fa";
-import axios from "axios";
+import api from "../../../../../utils/api";
 import PropTypes from "prop-types";
 
 const EditProduct = ({ product, onClose, onUpdate }) => {
@@ -107,7 +107,7 @@ const EditProduct = ({ product, onClose, onUpdate }) => {
         features: features.length > 0 ? features : null,
       };
       
-      const response = await axios.post(`http://localhost:8000/api/products/update/${product.id}`, productData);
+      const response = await api.post(`/products/update/${product.id}`, productData);
       
       if (response.status === 200) {
         const success = await onUpdate();
@@ -153,7 +153,7 @@ const EditProduct = ({ product, onClose, onUpdate }) => {
   const fetchFeatures = async () => {
     setLoadingFeatures(true);
     try {
-      const response = await axios.get('http://localhost:8000/api/features');
+      const response = await api.get('/features');
       console.log('Features API Response:', response.data);
 
       if (response.data && Array.isArray(response.data.data)) {
@@ -230,7 +230,7 @@ const EditProduct = ({ product, onClose, onUpdate }) => {
   const fetchCategories = async () => {
     setLoadingCategories(true);
     try {
-      const response = await axios.get('http://localhost:8000/api/categories');
+      const response = await api.get('/categories');
       console.log('API Response:', response.data); // Debug log
 
       if (response.data && Array.isArray(response.data.data)) {
@@ -261,7 +261,7 @@ const EditProduct = ({ product, onClose, onUpdate }) => {
   const fetchBrands = async () => {
     setLoadingBrands(true);
     try {
-      const response = await axios.get('http://localhost:8000/api/brands');
+      const response = await api.get('/brands');
       console.log('Brands API Response:', response.data);
 
       if (response.data && Array.isArray(response.data.data)) {
@@ -292,7 +292,7 @@ const EditProduct = ({ product, onClose, onUpdate }) => {
   const fetchMaterials = async () => {
     setLoadingMaterials(true);
     try {
-      const response = await axios.get('http://localhost:8000/api/materials');
+      const response = await api.get('/materials');
       console.log('Materials API Response:', response.data);
 
       if (response.data && Array.isArray(response.data.data)) {
@@ -322,7 +322,7 @@ const EditProduct = ({ product, onClose, onUpdate }) => {
   const fetchShapes = async () => {
     setLoadingShapes(true);
     try {
-      const response = await axios.get('http://localhost:8000/api/shapes');
+      const response = await api.get('/shapes');
       console.log('Shapes API Response:', response.data);
 
       if (response.data && Array.isArray(response.data.data)) {
@@ -352,7 +352,7 @@ const EditProduct = ({ product, onClose, onUpdate }) => {
   // Sửa lại hàm fetchProductFeatures
   const fetchProductFeatures = async (productId) => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/product-features/getByProductId/${productId}`);
+      const response = await api.get(`/product-features/getByProductId/${productId}`);
       console.log('Product Features Response:', response.data);
 
       if (response.data && response.data.data) {

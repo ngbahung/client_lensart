@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaAngleDown } from "react-icons/fa";
-import axios from "axios";
+import api from "../../../utils/api";
 import PropTypes from "prop-types";
 
 const EditBranch = ({ branch, onClose, onSubmit }) => {
@@ -19,7 +19,7 @@ const EditBranch = ({ branch, onClose, onSubmit }) => {
   useEffect(() => {
     const fetchManagers = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/users/getByRole/2');
+        const response = await api.get('/users/getByRole/2');
         if (response.data && response.data.data) {
           console.log(response.data.data);
           const activeManagers = response.data.data.filter(manager => manager.status === 'active');
@@ -71,7 +71,7 @@ const EditBranch = ({ branch, onClose, onSubmit }) => {
     console.log(formData);
 
     try {
-      const response = await axios.post(`http://localhost:8000/api/branches/update/${branch.id}`, {
+      const response = await api.post(`/branches/update/${branch.id}`, {
         name: formData.branch_name,
         address: formData.address,
         manager_id: Number(formData.manager_id), // Ensure manager_id is a number

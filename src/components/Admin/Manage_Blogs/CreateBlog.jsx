@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import api from "../../../utils/api";
 import PropTypes from "prop-types";
 import MDEditor from '@uiw/react-md-editor';
 
@@ -72,7 +72,7 @@ const CreateBlog = ({ onClose, onCreateSuccess }) => {
       formData.append('description', description.trim());
       formData.append('content', content);
 
-      const response = await axios.post('http://localhost:8000/api/blogs/create', formData, {
+      const response = await api.post('/blogs/create', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

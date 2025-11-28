@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import axios from 'axios';
+import api from '../../utils/api';
 import { toast } from 'react-toastify';
 import { FiUploadCloud, FiImage, FiTrash2, FiCheck } from 'react-icons/fi';
 
@@ -27,7 +27,7 @@ const BannersPage = () => {
   const fetchBanner = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('http://localhost:8000/api/banner', {
+      const response = await api.get('/banner', {
         headers: getAuthHeaders()
       });
       if (response.data?.status === 'success' && response.data.data) {
@@ -119,7 +119,7 @@ const BannersPage = () => {
 
       const adminToken = localStorage.getItem('adminToken');
       const response = await axios.post(
-        'http://localhost:8000/api/banner/update',
+        '/banner/update',
         formData,
         {
           headers: {
@@ -155,7 +155,7 @@ const BannersPage = () => {
 
     try {
       setUploading(true);
-      const response = await axios.post('http://localhost:8000/api/banner/switch-status', {}, {
+      const response = await api.post('/banner/switch-status', {}, {
         headers: getAuthHeaders()
       });
       

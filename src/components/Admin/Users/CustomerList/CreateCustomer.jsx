@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FaAngleDown } from "react-icons/fa";
-import axios from "axios";
+import api from "../../../../utils/api";
 import { fetchCities, fetchDistricts, fetchWards } from "../../../../services/locationApi";
 
 const CreateCustomer = ({ onClose, onUpdate }) => {
@@ -118,7 +118,7 @@ const CreateCustomer = ({ onClose, onUpdate }) => {
 
       console.log('Sending data:', userData); // For debugging
 
-      const response = await axios.post('http://localhost:8000/api/users/create', userData);
+      const response = await api.post('/users/create', userData);
 
       if (response.status === 201) {
         await onUpdate(); // Gọi hàm update từ props

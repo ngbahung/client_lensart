@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import api from "../../../../../utils/api";
 
 const CreateCategory = ({ onClose, onUpdate }) => {
   const [name, setName] = useState("");
@@ -16,7 +16,7 @@ const CreateCategory = ({ onClose, onUpdate }) => {
     setLoading(true);
     
     try {
-      const response = await axios.post('http://localhost:8000/api/categories/create', {
+      const response = await api.post('/categories/create', {
         name: name.trim()
       });
       

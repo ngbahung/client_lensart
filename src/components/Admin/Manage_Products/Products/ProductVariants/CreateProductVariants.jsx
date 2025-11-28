@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import api from "../../../../../utils/api";
 import PropTypes from "prop-types";
 
 const CreateProductVariants = ({ onClose, onUpdate, productId }) => {
@@ -25,7 +25,7 @@ const CreateProductVariants = ({ onClose, onUpdate, productId }) => {
     }
     
     try {
-      const response = await axios.post('http://localhost:8000/api/product-details/createForAllBranch',data);
+      const response = await api.post('/product-details/createForAllBranch',data);
       
       await onUpdate();
       onClose();

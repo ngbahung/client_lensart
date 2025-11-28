@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../../utils/api';
 import Table from '../../../components/Admin/Users/ManagerList/Table';
 import Pagination from "../../../components/Admin/Users/ManagerList/Pagination";
 
@@ -50,7 +50,7 @@ const ManagerListPage = () => {
   const fetchManagers = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get('http://localhost:8000/api/users/getByRole/2');
+      const response = await api.get('/users/getByRole/2');
       if (response.data) {
         const allManagers = response.data.data || [];
         setManagers(allManagers);
@@ -93,7 +93,7 @@ const ManagerListPage = () => {
       const currentManager = Managers.find(cust => cust.id === ManagerId);
       const newStatus = currentManager.status === 'active' ? 'inactive' : 'active';
 
-      const response = await axios.post(`http://localhost:8000/api/users/switch-status/${ManagerId}`);
+      const response = await api.post(`/users/switch-status/${ManagerId}`);
       
       if (response.status === 200) {
         setManagers(prevManagers => 

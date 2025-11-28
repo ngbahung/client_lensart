@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../utils/api';
 import Table from '../../components/Admin/Coupons/Table';
 import Pagination from "../../components/Admin/Coupons/Pagination";
 
@@ -33,7 +33,7 @@ const CouponsPage = () => {
   const fetchCoupons = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get('http://localhost:8000/api/coupons');
+      const response = await api.get('/coupons');
       if (response.data) {
         const allCoupons = response.data.data || mockData;
         setCoupons(allCoupons);
@@ -76,7 +76,7 @@ const CouponsPage = () => {
 
       console.log(couponId)
       
-      const response = await axios.post(`http://localhost:8000/api/coupons/switch-status/${couponId}`);
+      const response = await api.post(`/coupons/switch-status/${couponId}`);
       
       if (response.status === 200) {
         setCoupons(prevCoupons => 

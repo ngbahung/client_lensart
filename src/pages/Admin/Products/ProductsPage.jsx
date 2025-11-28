@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../../utils/api';
 import Table from '../../../components/Admin/Manage_Products/Products/Table';
 import Pagination from "../../../components/Admin/Manage_Products/Products/Pagination";
 
@@ -28,7 +28,7 @@ const ProductsPage = () => {
   const fetchProducts = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get('http://localhost:8000/api/products');
+      const response = await api.get('/products');
       if (response.status === 200 && response.data && response.data.data) {
         const allProducts = response.data.data;
         setProducts(allProducts);
@@ -73,7 +73,7 @@ const ProductsPage = () => {
 
   const handleStatusChange = async (productId) => {
     try {
-      await axios.post(`http://localhost:8000/api/products/switch-status/${productId}`);
+      await api.post(`/products/switch-status/${productId}`);
       
       setProducts(prevProducts => 
         prevProducts.map(product => 

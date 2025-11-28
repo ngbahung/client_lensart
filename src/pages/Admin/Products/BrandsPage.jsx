@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../../utils/api';
 import Table from '../../../components/Admin/Manage_Products/Brands/Table';
 import Pagination from "../../../components/Admin/Manage_Products/Brands/Pagination";
 
@@ -27,7 +27,7 @@ const BrandsPage = () => {
 
   const fetchBrands = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/brands');
+      const response = await api.get('/brands');
       if (response.data) {
         const allBrands = response.data.data || mockData;
         setBrands(allBrands);
@@ -68,7 +68,7 @@ const BrandsPage = () => {
       const currentBrand = brands.find(brand => brand.id === brandId);
       const newStatus = currentBrand.status === 'active' ? 'inactive' : 'active';
       
-      const response = await axios.post(`http://localhost:8000/api/brands/switch-status/${brandId}`);
+      const response = await api.post(`/brands/switch-status/${brandId}`);
       
       if (response.status === 200) {
         setBrands(prevBrands => 

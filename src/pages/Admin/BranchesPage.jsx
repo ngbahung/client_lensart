@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../utils/api';
 import Table from "../../components/Admin/Branches/Table";  // Updated import path
 import Pagination from "../../components/Admin/Branches/Pagination";  // Updated import path
 
@@ -48,7 +48,7 @@ const BranchesPage = () => {
   const fetchBranches = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get('http://localhost:8000/api/branches');
+      const response = await api.get('/branches');
       if (response.data) {
         const allBranches = response.data.data || mockData;
         // Standardize field names
@@ -100,7 +100,7 @@ const BranchesPage = () => {
       
       const newStatus = branch.status === 'active' ? 'inactive' : 'active';
       
-      const response = await axios.post(`http://localhost:8000/api/branches/switch-status/${branchId}`);
+      const response = await api.post(`/branches/switch-status/${branchId}`);
       
       if (response.status === 200) {
         setBranches(prevBranches => 
@@ -128,7 +128,7 @@ const BranchesPage = () => {
 
   const handleEdit = async (branchId, updatedData) => {
     try {
-      const response = await axios.put(`http://localhost:8000/api/branches/${branchId}`, updatedData);
+      const response = await api.put(`/branches/${branchId}`, updatedData);
       
       if (response.status === 200) {
         // Update local state with edited data

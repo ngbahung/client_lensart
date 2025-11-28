@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../../utils/api';
 import Table from '../../../components/Admin/Manage_Categories/Features/Table';
 import Pagination from "../../../components/Admin/Manage_Categories/Features/Pagination";
 
@@ -30,7 +30,7 @@ const FeaturesPage = () => {
   const fetchFeatures = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get('http://localhost:8000/api/features');
+      const response = await api.get('/features');
       if (response.status === 200 && response.data && response.data.data) {
         const allFeatures = response.data.data;
         setFeatures(allFeatures);
@@ -74,7 +74,7 @@ const FeaturesPage = () => {
       const feature = features.find(f => f.id === featureId);
       const newStatus = feature.status === 'active' ? 'inactive' : 'active';
       
-      const response = await axios.post(`http://localhost:8000/api/features/switch-status/${featureId}`);
+      const response = await api.post(`/features/switch-status/${featureId}`);
       
       if (response.status === 200) {
         setFeatures(prevFeatures => 

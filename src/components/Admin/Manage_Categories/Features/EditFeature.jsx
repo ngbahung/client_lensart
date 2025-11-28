@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaAngleDown } from "react-icons/fa";
-import axios from "axios";
+import api from "../../../../../utils/api";
 import PropTypes from "prop-types";
 
 const EditFeature = ({ feature, onClose, onUpdate }) => {  // Add onUpdate prop
@@ -21,7 +21,7 @@ const EditFeature = ({ feature, onClose, onUpdate }) => {  // Add onUpdate prop
     setError("");
 
     try {
-      const response = await axios.post(`http://localhost:8000/api/features/update/${feature.id}`, {
+      const response = await api.post(`/features/update/${feature.id}`, {
         name: name,
         status: status === 'active' ? 'active' : 'inactive'
       });

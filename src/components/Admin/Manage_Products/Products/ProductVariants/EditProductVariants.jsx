@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaAngleDown } from "react-icons/fa";
-import axios from "axios";
+import api from "../../../../../utils/api";
 import PropTypes from "prop-types";
 
 const EditProductVariants = ({ variant, onClose, onUpdate }) => {
@@ -22,12 +22,12 @@ const EditProductVariants = ({ variant, onClose, onUpdate }) => {
 
     try {
       // Construct URL with all required parameters
-      const updateUrl = `http://localhost:8000/api/product-details/update/${variant.product_id}/${variant.branch_id}/${variant.color}`;
+      const updateUrl = `/product-details/update/${variant.product_id}/${variant.branch_id}/${variant.color}`;
       
       console.log("Update URL:", updateUrl); // Debug log
       console.log("Update data:", { quantity, status }); // Debug log
 
-      const response = await axios.post(updateUrl, {
+      const response = await api.post(updateUrl, {
         quantity: quantity,
         status: status
       });

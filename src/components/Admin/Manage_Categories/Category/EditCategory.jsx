@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaAngleDown } from "react-icons/fa";
-import axios from "axios";
+import api from "../../../../../utils/api";
 import PropTypes from "prop-types";
 
 const EditCategory = ({ category, onClose, onUpdate }) => {
@@ -21,7 +21,7 @@ const EditCategory = ({ category, onClose, onUpdate }) => {
     setError("");
 
     try {
-      const response = await axios.post(`http://localhost:8000/api/categories/update/${category.id}`, {
+      const response = await api.post(`/categories/update/${category.id}`, {
         name: name,
         status: status // status is already 'active' or 'inactive' from select
       });

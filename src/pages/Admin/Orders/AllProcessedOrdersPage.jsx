@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../../utils/api';
 import Table from '../../../components/Admin/Orders/AllProcessedOrders/Table';
 import Pagination from "../../../components/Admin/Orders/AllProcessedOrders/Pagination";
 
@@ -101,7 +101,7 @@ const AllProcessedOrdersPage = () => {
     setIsLoading(true);
     const status = "Đã xử lý và sẵn sàng giao hàng";
     try {
-      const response = await axios.get(`http://localhost:8000/api/orders/getByStatus/${status}`, {
+      const response = await api.get(`/orders/getByStatus/${status}`, {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'

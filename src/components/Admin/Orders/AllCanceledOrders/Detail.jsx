@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { FaArrowLeft } from "react-icons/fa";
-import axios from "axios";
+import api from "../../../../utils/api";
 
 const Detail = ({ order, onClose }) => {
   const printRef = useRef();
@@ -14,7 +14,7 @@ const Detail = ({ order, onClose }) => {
   useEffect(() => {
     const fetchOrderDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/api/orders/getById/${order.id}`);
+        const response = await api.get(`/orders/getById/${order.id}`);
         if (response.data && response.data.data) {
           const data = response.data.data;
           setOrderDetail({

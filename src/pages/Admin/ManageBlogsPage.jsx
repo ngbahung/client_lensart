@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../utils/api';
 import Table from '../../components/Admin/Manage_Blogs/Table';
 import Pagination from "../../components/Admin/Manage_Blogs/Pagination";
 import { FaBlog, FaEye, FaEyeSlash, FaChartLine } from 'react-icons/fa';
@@ -65,7 +65,7 @@ const ManageBlogsPage = () => {
   const fetchBlogs = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get('http://localhost:8000/api/blogs');
+      const response = await api.get('/blogs');
       if (response.data) {
         const allBlogs = response.data.data || mockData;
         setBlogs(allBlogs);
@@ -101,7 +101,7 @@ const ManageBlogsPage = () => {
       const currentBlog = blogs.find(blog => blog.id === blogId);
       const newStatus = currentBlog.status === 'inactive' ? 'active' : 'inactive';
       
-      const response = await axios.post(`http://localhost:8000/api/blogs/switch-status/${blogId}`);
+      const response = await api.post(`/blogs/switch-status/${blogId}`);
       
       if (response.status === 200) {
         setBlogs(prevBlogs => 
@@ -119,7 +119,7 @@ const ManageBlogsPage = () => {
   const handleDelete = async (blogId) => {
     if (window.confirm('Are you sure you want to delete this blog?')) {
       try {
-        const response = await axios.post(`http://localhost:8000/api/blogs/delete/${blogId}`);
+        const response = await api.post(`/blogs/delete/${blogId}`);
         if (response.status === 200) {
           setBlogs(prevBlogs => prevBlogs.filter(blog => blog.id !== blogId));
           alert('Blog deleted successfully');

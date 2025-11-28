@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from 'axios'; // Add this import
+import api from '../../utils/api';
 import CardGroup from "../../components/Admin/Dashboard/CardGroup";
 import LineGraph from "../../components/Admin/Dashboard/LineGraph";
 import BarChart from "../../components/Admin/Dashboard/BarChart";
@@ -27,8 +27,8 @@ const DashboardPage = () => {
     const fetchDashboardData = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(
-          'http://localhost:8000/api/dashboard',
+        const response = await api.get(
+          '/dashboard',
           {
             params: {
               branch_name: selectedBranch,

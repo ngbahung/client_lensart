@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../utils/api';
 import Table from '../../components/Admin/Transactions/Table';
 import Pagination from "../../components/Admin/Transactions/Pagination";
 
@@ -33,7 +33,7 @@ const TransactionsPage = () => {
   const fetchTransactions = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get('http://localhost:8000/api/transactions');
+      const response = await api.get('/transactions');
       if (response.data && response.data.status === "success") {
         const allTransactions = response.data.data || mockData;
         const standardizedTransactions = allTransactions.map(transaction => ({
@@ -61,7 +61,7 @@ const TransactionsPage = () => {
     setIsLoading(true);
     try {
       // Call refresh endpoint first
-      await axios.post('http://localhost:8000/api/transactions/refresh');
+      await api.post('/transactions/refresh');
       // Then fetch updated data
       await fetchTransactions();
     } catch (error) {

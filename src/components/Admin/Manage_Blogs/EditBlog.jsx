@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaAngleDown } from "react-icons/fa";
-import axios from "axios";
+import api from "../../../utils/api";
 import PropTypes from "prop-types";
 import MDEditor from '@uiw/react-md-editor';
 
@@ -65,8 +65,8 @@ const EditBlog = ({ blog, onClose, onEditSuccess }) => {
         formData.append('image', blob, 'existing-image.jpg');
       }
 
-      const response = await axios.post(
-        `http://localhost:8000/api/blogs/update/${blog.id}`,
+      const response = await api.post(
+        `/blogs/update/${blog.id}`,
         formData,
         {
           headers: {

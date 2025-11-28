@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"; // Add useEffect
 import { FaAngleDown } from "react-icons/fa";
-import axios from "axios";
+import api from "../../../../../utils/api";
 
 const CreateProduct = ({ onClose, onUpdate }) => {
   const [name, setName] = useState("");
@@ -30,7 +30,7 @@ const CreateProduct = ({ onClose, onUpdate }) => {
   const fetchBrands = async () => {
     setLoadingBrands(true);
     try {
-      const response = await axios.get('http://localhost:8000/api/brands');
+      const response = await api.get('/brands');
       if (response.data && Array.isArray(response.data.data)) {
         const activeBrands = response.data.data.filter(brand => brand.status === 'active');
         setBrands(activeBrands);
@@ -49,7 +49,7 @@ const CreateProduct = ({ onClose, onUpdate }) => {
   const fetchCategories = async () => {
     setLoadingCategories(true);
     try {
-      const response = await axios.get('http://localhost:8000/api/categories');
+      const response = await api.get('/categories');
       if (response.data && Array.isArray(response.data.data)) {
         const activeCategories = response.data.data.filter(category => category.status === 'active');
         setCategories(activeCategories);
@@ -68,7 +68,7 @@ const CreateProduct = ({ onClose, onUpdate }) => {
   const fetchShapes = async () => {
     setLoadingShapes(true);
     try {
-      const response = await axios.get('http://localhost:8000/api/shapes');
+      const response = await api.get('/shapes');
       if (response.data && Array.isArray(response.data.data)) {
         const activeShapes = response.data.data.filter(shape => shape.status === 'active');
         setShapes(activeShapes);
@@ -87,7 +87,7 @@ const CreateProduct = ({ onClose, onUpdate }) => {
   const fetchMaterials = async () => {
     setLoadingMaterials(true);
     try {
-      const response = await axios.get('http://localhost:8000/api/materials');
+      const response = await api.get('/materials');
       if (response.data && Array.isArray(response.data.data)) {
         const activeMaterials = response.data.data.filter(material => material.status === 'active');
         setMaterials(activeMaterials);
@@ -106,7 +106,7 @@ const CreateProduct = ({ onClose, onUpdate }) => {
   const fetchFeatures = async () => {
     setLoadingFeatures(true);
     try {
-      const response = await axios.get('http://localhost:8000/api/features');
+      const response = await api.get('/features');
       if (response.data && Array.isArray(response.data.data)) {
         const activeFeatures = response.data.data.filter(feature => feature.status === 'active');
         setFeaturesList(activeFeatures);
@@ -171,7 +171,7 @@ const CreateProduct = ({ onClose, onUpdate }) => {
         features: selectedFeatures.length > 0 ? selectedFeatures : null,
       };
 
-      const response = await axios.post('http://localhost:8000/api/products/create', productData);
+      const response = await api.post('/products/create', productData);
       
       if (response.status === 200) {
         const success = await onUpdate();

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../../utils/api';
 import Table from '../../../components/Admin/Orders/AllOrders/Table';
 import Pagination from "../../../components/Admin/Orders/AllOrders/Pagination";
 
@@ -100,7 +100,7 @@ const AllOrdersPage = () => {
   const fetchOrders = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get('http://localhost:8000/api/orders', {
+      const response = await api.get('/orders', {
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'

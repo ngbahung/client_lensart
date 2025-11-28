@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../../utils/api';
 import Table from '../../../components/Admin/Users/CustomerList/Table';
 import Pagination from "../../../components/Admin/Users/CustomerList/Pagination";
 
@@ -50,7 +50,7 @@ const CustomerListPage = () => {
   const fetchCustomers = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get('http://localhost:8000/api/users/getByRole/3');
+      const response = await api.get('/users/getByRole/3');
       if (response.data) {
         const allCustomers = response.data.data || [];
         setCustomers(allCustomers);
@@ -93,7 +93,7 @@ const CustomerListPage = () => {
       const currentCustomer = customers.find(cust => cust.id === customerId);
       const newStatus = currentCustomer.status === 'active' ? 'inactive' : 'active';
 
-      const response = await axios.post(`http://localhost:8000/api/users/switch-status/${customerId}`);
+      const response = await api.post(`/users/switch-status/${customerId}`);
       
       if (response.status === 200) {
         setCustomers(prevCustomers => 

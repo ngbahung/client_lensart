@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../../../../utils/api';
 import Table from './Table';
 import Pagination from "./Pagination";
 import PropTypes from 'prop-types';
@@ -24,7 +24,7 @@ const ProductVariantsPage = ({ productId }) => {
     setIsLoading(true);
     try {
       console.log('Fetching variants for product:', productId);
-      const response = await axios.get(`http://localhost:8000/api/product-details/getByProductId/${productId}`);
+      const response = await api.get(`/product-details/getByProductId/${productId}`);
       console.log('API response:', response.data);
 
       if (response.data && Array.isArray(response.data.data)) {

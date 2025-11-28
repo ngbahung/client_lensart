@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaAngleDown } from "react-icons/fa";
-import axios from "axios";
+import api from "../../../../utils/api";
 import PropTypes from "prop-types";
 
 const EditBrand = ({ brand, onClose, onUpdate }) => {  // Replace refreshBrands with onUpdate
@@ -21,7 +21,7 @@ const EditBrand = ({ brand, onClose, onUpdate }) => {  // Replace refreshBrands 
     setError("");
 
     try {
-      const response = await axios.post(`http://localhost:8000/api/brands/update/${brand.id}`, {
+      const response = await api.post(`/brands/update/${brand.id}`, {
         name: name,
         status: status  // Send directly as 'active' or 'inactive'
       });

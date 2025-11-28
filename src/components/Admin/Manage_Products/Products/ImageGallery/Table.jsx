@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import { FiUpload, FiX } from "react-icons/fi";
+import api from "../../../../../utils/api";
 import Row from "./Row";
 
 const Table = ({ images, isLoading, error, onDelete, onUpdateSuccess, product_id }) => {
@@ -42,24 +43,19 @@ const Table = ({ images, isLoading, error, onDelete, onUpdateSuccess, product_id
       formData.append('product_id', product_id);
 
       console.log('Sending request to server...');
-      const response = await fetch('http://localhost:8000/api/product-images/create', {
-        method: 'POST',
-        body: formData,
+      const response = await api.post('/product-images/create', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       });
 
       console.log('Response status:', response.status);
-      const responseText = await response.text();
-      console.log('Response text:', responseText);
+      console.log('Response data:', response.data);
 
-      if (!response.ok) {
-        throw new Error(`Upload failed: ${responseText}`);
-      }
-
-      const data = JSON.parse(responseText);
       setSelectedFile(null);
       setPreview(null);
       if (onUpdateSuccess) {
-        onUpdateSuccess(data);
+        onUpdateSuccess(response.data);
       }
     } catch (error) {
       console.error('Error uploading image:', error);

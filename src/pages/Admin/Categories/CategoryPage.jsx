@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../../utils/api';
 import Table from '../../../components/Admin/Manage_Categories/Category/Table';
 import Pagination from "../../../components/Admin/Manage_Categories/Category/Pagination";
 
@@ -50,7 +50,7 @@ const CategoryPage = () => {
   const fetchCategories = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get('http://localhost:8000/api/categories');
+      const response = await api.get('/categories');
       if (response.data) {
         const allCategories = response.data.data || mockData;
         setCategories(allCategories);
@@ -91,7 +91,7 @@ const CategoryPage = () => {
       const currentCategory = categories.find(cat => cat.id === categoryId);
       const newStatus = currentCategory.status === 'active' ? 'inactive' : 'active';
 
-      const response = await axios.post(`http://localhost:8000/api/categories/switch-status/${categoryId}`);
+      const response = await api.post(`/categories/switch-status/${categoryId}`);
       
       if (response.status === 200) {
         setCategories(prevCategories => 

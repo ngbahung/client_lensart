@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../../../../utils/api';
 import Table from './Table';
 import Pagination from "./Pagination";
 import PropTypes from 'prop-types';
@@ -61,7 +61,7 @@ const ImageGalleryPage = ({ productId }) => {
   const fetchImages = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get(`http://localhost:8000/api/product-images/getByProductId/${productId}`);
+      const response = await api.get(`/product-images/getByProductId/${productId}`);
       if (response.data && response.data.data) {
         const allImages = response.data.data;
         setImages(allImages);
@@ -97,7 +97,7 @@ const ImageGalleryPage = ({ productId }) => {
       const currentImage = images.find(image => image.id === imageId);
       const newStatus = currentImage.status === 'inactive' ? 'active' : 'inactive';
       
-      const response = await axios.post(`http://localhost:8000/api/images/switch-status/${imageId}`);
+      const response = await api.post(`/images/switch-status/${imageId}`);
       
       if (response.status === 200) {
         setImages(prevImages => 
@@ -115,7 +115,7 @@ const ImageGalleryPage = ({ productId }) => {
   const handleDelete = async (imageId) => {
     if (window.confirm('Are you sure you want to delete this image?')) {
       try {
-        const response = await axios.post(`http://localhost:8000/api/images/delete/${imageId}`);
+        const response = await api.post(`/images/delete/${imageId}`);
         if (response.status === 200) {
           setImages(prevImages => prevImages.filter(image => image.id !== imageId));
           alert('Image deleted successfully');

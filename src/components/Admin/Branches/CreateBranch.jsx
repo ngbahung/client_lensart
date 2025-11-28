@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaAngleDown } from "react-icons/fa";
-import axios from "axios";
+import api from "../../../utils/api";
 
 const CreateBranch = ({ onClose }) => {
   const [formData, setFormData] = useState({
@@ -16,7 +16,7 @@ const CreateBranch = ({ onClose }) => {
   useEffect(() => {
     const fetchManagers = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/users/getByRole/2');
+        const response = await api.get('/users/getByRole/2');
         if (response.data && response.data.data) {
           // Filter only active managers
           const activeManagers = response.data.data.filter(manager => manager.status === 'active');
@@ -42,7 +42,7 @@ const CreateBranch = ({ onClose }) => {
     setLoading(true);
 
     try {
-      const response = await axios.post('http://localhost:8000/api/branches/create', {
+      const response = await api.post('/branches/create', {
         name: formData.branch_name.trim(),
         address: formData.address.trim(),
         manager_id: Number(formData.manager_id),
