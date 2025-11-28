@@ -15,17 +15,41 @@ import {
 const Logo = () => {
   const [imageError, setImageError] = useState(false);
   
+  // SVG fallback logo - không cần load file ngoài
+  const FallbackLogo = () => (
+    <svg 
+      className="h-10 w-auto sm:h-14 md:h-16 lg:h-20" 
+      viewBox="0 0 160 60" 
+      fill="none" 
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect width="160" height="60" rx="6" fill="#55D5D2"/>
+      <text 
+        x="80" 
+        y="38" 
+        fontFamily="Arial, sans-serif" 
+        fontSize="24" 
+        fontWeight="bold" 
+        fill="white" 
+        textAnchor="middle"
+      >
+        LensArt
+      </text>
+    </svg>
+  );
+  
   return (
     <Link to='/' className="hidden md:flex flex-shrink-0 justify-center md:justify-start">
-      <img 
-        src="/src/assets/images/Logo_Footer.png" 
-        alt="Logo" 
-        className="h-10 w-auto sm:h-14 md:h-16 lg:h-20 transition-all duration-200"
-        onError={(e) => {
-          setImageError(true);
-          e.target.src = '/src/assets/images/fallback-logo.png';
-        }}
-      />
+      {imageError ? (
+        <FallbackLogo />
+      ) : (
+        <img 
+          src="/src/assets/images/Logo_Footer.png" 
+          alt="Logo" 
+          className="h-10 w-auto sm:h-14 md:h-16 lg:h-20 transition-all duration-200"
+          onError={() => setImageError(true)}
+        />
+      )}
     </Link>
   );
 };
