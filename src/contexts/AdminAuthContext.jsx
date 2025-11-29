@@ -65,6 +65,14 @@ export const AdminAuthProvider = ({ children }) => {
       const token = await adminLogin(credentials);
       const userData = { email: credentials.email };
       
+      // Store token in localStorage
+      localStorage.setItem('adminToken', token);
+      localStorage.setItem('adminEmail', credentials.email);
+      
+      // Set Authorization header
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      
+      // Dispatch to update context state
       dispatch({
         type: 'ADMIN_LOGIN_SUCCESS',
         payload: { token, user: userData }

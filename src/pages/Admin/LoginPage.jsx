@@ -6,18 +6,26 @@ import { toast } from 'react-toastify';
 import Logo from '../../components/Logo';
 import InputField from '../../components/Admin/Login/InputField';
 import LoginButton from '../../components/Admin/Login/Button';
-import { adminLogin } from '../../api/authAPI';
+import { useAdminAuth } from '../../contexts/AdminAuthContext';
 
 const LoginPage = () => {
-    useEffect(() => {
-        document.title = 'Login Admin | LensArt';
-    }, []);
-
     const navigate = useNavigate();
+    const { login, isAuthenticated, loading } = useAdminAuth();
     const [formData, setFormData] = useState({ email: '', password: '' });
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
+
+    useEffect(() => {
+        document.title = 'Login Admin | LensArt';
+    }, []);
+
+    // Redirect to dashboard if already logged in
+    useEffect(() => {
+        if (!loading && isAuthenticated) {
+            navigate('/admin/dashboard', { replace: true });
+        }
+    }, [isAuthenticated, loading, navigate]);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -37,26 +45,25 @@ const LoginPage = () => {
         if (!validateForm()) return;
         
         setIsLoading(true);
+        setError('');
+        
         try {
-            const token = await adminLogin({
+            // Use AdminAuthContext login method - this will update context state
+            await login({
                 email: formData.email,
                 password: formData.password
             });
 
-            // Store admin token
-            localStorage.setItem('adminToken', token);
-            localStorage.setItem('adminEmail', formData.email);
-
-            // Set Authorization header for subsequent requests
-            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-
             // Show success notification
             toast.success('Đăng nhập thành công!');
 
-            navigate('/admin/dashboard');
+            // Small delay to ensure context is updated before navigation
+            setTimeout(() => {
+                navigate('/admin/dashboard', { replace: true });
+            }, 100);
         } catch (err) {
-            setError(err.response?.data?.message || 'Đăng nhập thất bại. Vui lòng thử lại.');
-        } finally {
+            console.error('Login error:', err);
+            setError(err.response?.data?.message || err.message || 'Đăng nhập thất bại. Vui lòng thử lại.');
             setIsLoading(false);
         }
     };
