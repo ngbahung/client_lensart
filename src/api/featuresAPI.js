@@ -14,7 +14,7 @@ export const getFeatures = async () => {
 // get feature by id
 export const getFeatureById = async (featureId) => {
     try {
-      const response = await axios.get(`/active/features/getById/${featureId}`);
+      const response = await api.get(`/active/features/getById/${featureId}`);
       return response.data.data;
     } catch (error) {
       console.error('Error fetching feature:', error);

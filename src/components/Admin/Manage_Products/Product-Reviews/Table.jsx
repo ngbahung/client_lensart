@@ -22,7 +22,7 @@ const Table = ({ reviews, isLoading, error, onStatusChange, onSearch, searchTerm
       <table className="min-w-full bg-white mb-4">
         <thead>
           <tr className="border-b border-[rgba(167,174,174,1)]">
-            <th colspan="6" className="py-2 px-4 text-left">
+            <th colSpan="6" className="py-2 px-4 text-left">
               <h1 className="text-xl font-semibold">All Reviews</h1>
             </th>
           </tr>

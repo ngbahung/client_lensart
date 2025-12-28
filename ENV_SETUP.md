@@ -46,6 +46,7 @@ npm run dev
 | Variable | Description | Example |
 |----------|-------------|---------|
 | `VITE_API_BASE_URL` | Backend API endpoint | `http://127.0.0.1:8000/api` |
+| `VITE_APP_URL` | Frontend app URL (for PayOS redirects) | `http://localhost:3000` (dev) / `https://your-app.azurestaticapps.net` (prod) |
 | `VITE_APP_ENV` | Environment name | `development` / `staging` / `production` |
 | `VITE_APP_NAME` | Application name | `LensArt` |
 | `VITE_APP_VERSION` | App version | `1.0.0` |
@@ -66,6 +67,7 @@ npm run dev
 
 ```env
 VITE_API_BASE_URL=http://127.0.0.1:8000/api
+VITE_APP_URL=http://localhost:3000
 VITE_APP_ENV=development
 ```
 
@@ -82,6 +84,7 @@ npm run dev
 
 ```env
 VITE_API_BASE_URL=https://your-staging-api.azurewebsites.net/api
+VITE_APP_URL=https://your-staging-app.azurestaticapps.net
 VITE_APP_ENV=staging
 ```
 
@@ -103,6 +106,7 @@ npm run preview:staging
 
 ```env
 VITE_API_BASE_URL=https://your-production-api.azurewebsites.net/api
+VITE_APP_URL=https://your-production-app.azurestaticapps.net
 VITE_APP_ENV=production
 ```
 

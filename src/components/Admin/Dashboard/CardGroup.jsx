@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import Card from './Card';
 
 const CardGroup = ({ data, loading }) => {

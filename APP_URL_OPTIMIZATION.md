@@ -7,6 +7,7 @@
 // Hardcoded localhost trong checkoutAPI.js
 returnUrl: "http://localhost:5173/order-success",
 cancelUrl: "http://localhost:5173/gio-hang",
+// ❌ Port 5173 không khớp với vite.config.js (port 3000)
 ```
 
 **Vấn đề:**
@@ -24,7 +25,7 @@ cancelUrl: "http://localhost:5173/gio-hang",
 Thêm biến môi trường mới để lưu frontend URL:
 
 ```env
-VITE_APP_URL=http://localhost:5173
+VITE_APP_URL=http://localhost:3000
 ```
 
 ### 2. Dynamic URL trong checkoutAPI.js
@@ -35,7 +36,10 @@ VITE_APP_URL=http://localhost:5173
 export const createPayOSCheckout = async (orderId, shipping_fee) => {
   try {
     // ✅ Get base URL from environment variable
-    const baseUrl = import.meta.env.VITE_APP_URL || 'http://localhost:5173';
+    // Development: localhost:3000 (matching vite.config.js)
+    // Production/Azure: VITE_APP_URL from env or window.location.origin
+    const baseUrl = import.meta.env.VITE_APP_URL || 
+                    (import.meta.env.DEV ? 'http://localhost:3000' : window.location.origin);
     
     const response = await api.post(`/transactions/orders/${orderId}/create`, {
       returnUrl: `${baseUrl}/order-success`,
@@ -56,7 +60,7 @@ export const createPayOSCheckout = async (orderId, shipping_fee) => {
 ### 1. **`src/api/checkoutAPI.js`** ✅
 - Thay hardcoded URLs bằng dynamic URLs
 - Sử dụng `import.meta.env.VITE_APP_URL`
-- Fallback: `http://localhost:5173`
+- Fallback: `http://localhost:3000` (dev) hoặc `window.location.origin` (production)
 
 ### 2. **`.env.example`** ✅ NEW
 - Template cho environment variables
@@ -81,7 +85,7 @@ export const createPayOSCheckout = async (orderId, shipping_fee) => {
 VITE_API_BASE_URL=http://localhost:8000/api
 
 # Frontend URL (for payment callbacks)
-VITE_APP_URL=http://localhost:5173
+VITE_APP_URL=http://localhost:3000
 
 # App Info
 VITE_APP_ENV=development
@@ -148,7 +152,7 @@ Value: https://your-app.azurestaticapps.net
 const baseUrl = import.meta.env.VITE_APP_URL || 'http://localhost:5173';
 
 // Development
-returnUrl: "http://localhost:5173/order-success"
+returnUrl: "http://localhost:3000/order-success"
 
 // Staging
 returnUrl: "https://staging.lensart.com/order-success"
@@ -177,7 +181,7 @@ const shareUrl = `${import.meta.env.VITE_APP_URL}/products/${productId}`;
 
 | Environment | VITE_API_BASE_URL | VITE_APP_URL | VITE_APP_ENV |
 |-------------|-------------------|--------------|--------------|
-| **Development** | `http://localhost:8000/api` | `http://localhost:5173` | `development` |
+| **Development** | `http://localhost:8000/api` | `http://localhost:3000` | `development` |
 | **Staging** | `https://staging-api.azurewebsites.net/api` | `https://staging-app.azurestaticapps.net` | `staging` |
 | **Production** | `https://api.azurewebsites.net/api` | `https://lensart.com` | `production` |
 
@@ -191,7 +195,7 @@ const shareUrl = `${import.meta.env.VITE_APP_URL}/products/${productId}`;
 # 1. Create .env file
 cat > .env << EOF
 VITE_API_BASE_URL=http://localhost:8000/api
-VITE_APP_URL=http://localhost:5173
+VITE_APP_URL=http://localhost:3000
 VITE_APP_ENV=development
 VITE_APP_NAME=LensArt
 EOF
@@ -328,7 +332,8 @@ const baseUrl = "http://localhost:5173";
 ### 2. ✅ Provide fallback values
 ```javascript
 // ✅ Good - has fallback for local dev
-const baseUrl = import.meta.env.VITE_APP_URL || 'http://localhost:5173';
+const baseUrl = import.meta.env.VITE_APP_URL || 
+                (import.meta.env.DEV ? 'http://localhost:3000' : window.location.origin);
 
 // ❌ Bad - will break if env not set
 const baseUrl = import.meta.env.VITE_APP_URL;
@@ -349,7 +354,9 @@ VITE_BASE             // Base of what?
 ```javascript
 // In .env.example with comments
 # Frontend app URL (for payment callbacks, OAuth, etc.)
-VITE_APP_URL=http://localhost:5173
+# Development: http://localhost:3000 (matching vite.config.js)
+# Production: https://your-domain.azurestaticapps.net
+VITE_APP_URL=http://localhost:3000
 ```
 
 ---
@@ -358,7 +365,7 @@ VITE_APP_URL=http://localhost:5173
 
 ### Before:
 ```
-❌ Hardcoded localhost:5173 in source code
+❌ Hardcoded localhost:5173 in source code (port mismatch with vite.config.js)
 ❌ Payment callbacks fail on production
 ❌ Must edit code for each environment
 ❌ Difficult to test payment flow

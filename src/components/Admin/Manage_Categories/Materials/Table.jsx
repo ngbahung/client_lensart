@@ -52,7 +52,7 @@ const Table = ({ materials, isLoading, error, onStatusChange, onSearch, searchTe
       <table className="min-w-full bg-white mb-4">
         <thead>
           <tr className="border-b border-[rgba(167,174,174,1)]">
-            <th colspan="3" className="py-2 px-4 text-left">
+            <th colSpan="3" className="py-2 px-4 text-left">
               <h1 className="text-xl font-semibold">All Materials</h1>
             </th>
             <th colSpan="1" className="py-2 px-4 text-right place-items-center"> 

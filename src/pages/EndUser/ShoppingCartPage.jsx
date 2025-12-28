@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useCart } from '../../contexts/CartContext';
 import { useAuth } from '../../contexts/AuthContext';
 import ShoppingCart from '../../components/EndUser/ShoppingCart/ShoppingCart';
@@ -15,7 +15,37 @@ const cartBreadcrumbItems = [
 const ShoppingCartPage = () => {
   const { items: cartItems, loading, error, refreshCart } = useCart();
   const navigate = useNavigate();
+  const location = useLocation();
   const { isAuthenticated } = useAuth();
+  
+  // Handle PayOS cancellation redirect
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const cancel = searchParams.get('cancel');
+    const status = searchParams.get('status');
+    const orderCode = searchParams.get('orderCode');
+    
+    // Check if this is a PayOS cancellation redirect
+    if (cancel === 'true' || status === 'CANCELLED') {
+      // Show notification to user
+      toast.warning('Bạn đã hủy thanh toán. Đơn hàng của bạn vẫn được lưu trong giỏ hàng.', {
+        autoClose: 3000
+      });
+      
+      // Refresh cart to ensure latest data
+      if (isAuthenticated) {
+        refreshCart();
+      }
+      
+      // Clean up URL by removing query parameters and ensure we're on cart page
+      if (location.pathname !== '/gio-hang') {
+        navigate('/gio-hang', { replace: true });
+      } else {
+        // Already on cart page, just clean up query params
+        navigate('/gio-hang', { replace: true });
+      }
+    }
+  }, [location.search, location.pathname, navigate, isAuthenticated, refreshCart]);
   
   useEffect(() => {
     document.title = 'Giỏ hàng | LensArt EyeWear';

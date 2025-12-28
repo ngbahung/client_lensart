@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from 'axios';
 import Row from "./Row";
 import Detail from "./Detail";
 
@@ -45,7 +44,7 @@ const Table = ({ orders, isLoading, error, onSearch, searchTerm, onUpdateSuccess
       <table className="min-w-full bg-white mb-4">
         <thead>
           <tr className="border-b border-[rgba(167,174,174,1)]">
-            <th colspan="6" className="py-2 px-4 text-left">
+            <th colSpan="6" className="py-2 px-4 text-left">
               <h1 className="text-xl font-semibold">All Pending Orders</h1>
             </th>
           </tr>

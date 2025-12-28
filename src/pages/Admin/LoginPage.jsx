@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BiHide, BiShow } from 'react-icons/bi';
-import axios from 'axios';
 import { toast } from 'react-toastify';
 import Logo from '../../components/Logo';
 import InputField from '../../components/Admin/Login/InputField';

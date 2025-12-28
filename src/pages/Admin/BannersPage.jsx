@@ -118,7 +118,7 @@ const BannersPage = () => {
       formData.append('status', 'active');
 
       const adminToken = localStorage.getItem('adminToken');
-      const response = await axios.post(
+      const response = await api.post(
         '/banner/update',
         formData,
         {

@@ -221,6 +221,14 @@ export const CartProvider = ({ children }) => {
   const { isAuthenticated } = useAuth();
 
   useEffect(() => {
+    // Skip cart operations when in admin context
+    const isAdminContext = window.location.pathname.startsWith('/admin');
+    
+    if (isAdminContext) {
+      // Don't fetch cart in admin pages - it's not needed
+      return;
+    }
+    
     if (isAuthenticated) {
       fetchCart();
     } else {
@@ -229,6 +237,12 @@ export const CartProvider = ({ children }) => {
   }, [isAuthenticated]);
 
   const fetchCart = async () => {
+    // Skip cart fetch if in admin context
+    const isAdminContext = window.location.pathname.startsWith('/admin');
+    if (isAdminContext) {
+      return;
+    }
+    
     dispatch({ type: 'FETCH_CART_START' });
     try {
       const cartData = await getCartDetails();
@@ -363,8 +377,40 @@ export const CartProvider = ({ children }) => {
     dispatch({ type: 'REMOVE_COUPON' });
   };
 
-  const removeSelectedItems = () => {
-    dispatch({ type: 'REMOVE_SELECTED_ITEMS' });
+  const removeSelectedItems = async () => {
+    try {
+      // Get selected items and their associated lens items
+      const selectedItems = state.items.filter(item => item.selected);
+      const selectedItemIds = selectedItems.map(item => item.id);
+      const selectedLensIds = selectedItems
+        .filter(item => item.associated_lens_id)
+        .map(item => item.associated_lens_id);
+      
+      // Get all items to delete (selected items + their associated lens items)
+      const itemsToDelete = state.items.filter(item => 
+        selectedItemIds.includes(item.id) || selectedLensIds.includes(item.id)
+      );
+
+      // Delete each item from backend
+      const deletePromises = itemsToDelete.map(item => 
+        deleteCartItem(item.id).catch(error => {
+          console.error(`Failed to delete cart item ${item.id}:`, error);
+          // Continue with other deletions even if one fails
+          return null;
+        })
+      );
+
+      await Promise.all(deletePromises);
+
+      // Update state after successful deletion
+      dispatch({ type: 'REMOVE_SELECTED_ITEMS' });
+      
+      // Refresh cart to ensure sync with backend
+      await fetchCart();
+    } catch (error) {
+      console.error('Error removing selected items:', error);
+      toast.error('Có lỗi xảy ra khi xóa sản phẩm khỏi giỏ hàng');
+    }
   };
 
   return (

@@ -1,6 +1,5 @@
 import { createContext, useContext, useReducer, useEffect } from 'react';
 import { adminLogin, adminLogout } from '../api/authAPI';
-import axios from 'axios';
 
 const AdminAuthContext = createContext(null);
 
@@ -30,7 +29,6 @@ const adminAuthReducer = (state, action) => {
     case 'ADMIN_LOGOUT':
       localStorage.removeItem('adminToken');
       localStorage.removeItem('adminEmail');
-      delete axios.defaults.headers.common['Authorization'];
       return {
         ...state,
         isAuthenticated: false,
@@ -49,7 +47,7 @@ export const AdminAuthProvider = ({ children }) => {
     const initializeAuth = async () => {
       const token = localStorage.getItem('adminToken');
       if (token) {
-        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        // Token is automatically handled by api interceptor
         // You can add admin user data fetching here if needed
         dispatch({ type: 'ADMIN_AUTH_INIT', payload: { email: localStorage.getItem('adminEmail') } });
       } else {
@@ -69,8 +67,7 @@ export const AdminAuthProvider = ({ children }) => {
       localStorage.setItem('adminToken', token);
       localStorage.setItem('adminEmail', credentials.email);
       
-      // Set Authorization header
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      // Token is automatically handled by api interceptor
       
       // Dispatch to update context state
       dispatch({

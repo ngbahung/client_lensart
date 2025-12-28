@@ -98,7 +98,7 @@ const Row = ({ coupon, onStatusChange, onEdit }) => {
 
 ToggleSwitch.propTypes = {
   id: PropTypes.number.isRequired,
-  status: PropTypes.bool.isRequired,
+  status: PropTypes.oneOf(['active', 'inactive']).isRequired,
   onToggle: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
 };

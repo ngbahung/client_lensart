@@ -2,33 +2,160 @@ import React, { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { FaCheckCircle, FaBox, FaShippingFast, FaReceipt } from 'react-icons/fa';
 import { getPaymentInfo, updatePaymentStatus } from '../../api/checkoutAPI';
+import { useCart } from '../../contexts/CartContext';
 
 const OrderSuccessPage = () => {
   const [searchParams] = useSearchParams();
   const [paymentInfo, setPaymentInfo] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { removeSelectedItems, removeCoupon } = useCart();
 
   useEffect(() => {
     const fetchPaymentDetails = async () => {
-      const transactionId = searchParams.get('transactionId');
+      // PayOS redirects with: code, id (payment link id), status, orderCode
+      // We may also have orderId appended by our code
+      const transactionId = searchParams.get('transactionId') || searchParams.get('id');
       const orderId = searchParams.get('orderId');
+      const paymentStatus = searchParams.get('status');
+      const code = searchParams.get('code');
       
-      if (transactionId && orderId) {
+      console.log('🔍 OrderSuccessPage - Payment redirect params:', {
+        transactionId,
+        orderId,
+        paymentStatus,
+        code,
+        allParams: Object.fromEntries(searchParams.entries())
+      });
+      
+      // Check if we should clear cart (from PayOS payment flow)
+      const shouldClearCart = sessionStorage.getItem('shouldClearCart') === 'true';
+      const shouldClearCoupon = sessionStorage.getItem('shouldClearCoupon') === 'true';
+      const pendingOrderId = sessionStorage.getItem('pendingOrderId');
+      
+      console.log('🔍 OrderSuccessPage - SessionStorage flags:', {
+        shouldClearCart,
+        shouldClearCoupon,
+        pendingOrderId
+      });
+      
+      // Determine the actual order ID to use
+      const actualOrderId = orderId || pendingOrderId;
+      
+      // If payment was successful (code === '00' or status === 'PAID')
+      const isPaymentSuccess = code === '00' || paymentStatus === 'PAID';
+      
+      console.log('🔍 OrderSuccessPage - Payment status check:', {
+        isPaymentSuccess,
+        actualOrderId
+      });
+      
+      if (isPaymentSuccess && actualOrderId) {
+        try {
+          console.log('✅ Payment successful, updating status and clearing cart...');
+          
+          // Update payment status on backend
+          await updatePaymentStatus(actualOrderId);
+          console.log('✅ Payment status updated on backend');
+          
+          // Clear cart items that were paid for
+          if (shouldClearCart) {
+            console.log('🗑️ Clearing cart items...');
+            await removeSelectedItems();
+            console.log('✅ Cart items cleared');
+            sessionStorage.removeItem('shouldClearCart');
+          }
+          
+          // Clear coupon if used
+          if (shouldClearCoupon) {
+            removeCoupon();
+            sessionStorage.removeItem('shouldClearCoupon');
+          }
+          
+          // Clear pending order ID
+          sessionStorage.removeItem('pendingOrderId');
+          
+          // Try to fetch payment info if we have transactionId
+          if (transactionId) {
+            try {
+              const data = await getPaymentInfo(transactionId);
+              setPaymentInfo(data);
+            } catch (error) {
+              console.error('Failed to fetch payment info:', error);
+              // Set basic payment info from URL params
+              setPaymentInfo({
+                orderId: actualOrderId,
+                status: 'PAID',
+                paymentMethod: 'Chuyển khoản',
+                amount: 0 // Will be updated by backend
+              });
+            }
+          } else {
+            // Set basic payment info from URL params
+            setPaymentInfo({
+              orderId: actualOrderId,
+              status: 'PAID',
+              paymentMethod: 'Chuyển khoản',
+              amount: 0 // Will be updated by backend
+            });
+          }
+        } catch (error) {
+          console.error('❌ Failed to process payment:', error);
+          // Still clear cart if payment was successful
+          if (shouldClearCart) {
+            console.log('🗑️ Attempting to clear cart despite error...');
+            try {
+              await removeSelectedItems();
+              console.log('✅ Cart cleared despite error');
+            } catch (clearError) {
+              console.error('❌ Failed to clear cart:', clearError);
+            }
+            sessionStorage.removeItem('shouldClearCart');
+          }
+          if (shouldClearCoupon) {
+            removeCoupon();
+            sessionStorage.removeItem('shouldClearCoupon');
+          }
+          sessionStorage.removeItem('pendingOrderId');
+        }
+      } else if (transactionId && actualOrderId) {
+        // Fallback: try to fetch payment info even if status is not clear
+        console.log('⚠️ Payment status unclear, fetching payment info...');
         try {
           const data = await getPaymentInfo(transactionId);
+          console.log('📊 Payment info fetched:', data);
           if (data.status === 'PAID') {
-            await updatePaymentStatus(orderId);
+            await updatePaymentStatus(actualOrderId);
+            
+            // Clear cart items that were paid for
+            if (shouldClearCart) {
+              console.log('🗑️ Clearing cart items (fallback)...');
+              await removeSelectedItems();
+              console.log('✅ Cart items cleared (fallback)');
+              sessionStorage.removeItem('shouldClearCart');
+            }
+            
+            // Clear coupon if used
+            if (shouldClearCoupon) {
+              removeCoupon();
+              sessionStorage.removeItem('shouldClearCoupon');
+            }
+            
+            // Clear pending order ID
+            sessionStorage.removeItem('pendingOrderId');
           }
           setPaymentInfo(data);
         } catch (error) {
           console.error('Failed to fetch payment info:', error);
         }
+      } else {
+        console.warn('⚠️ No payment success indicators found or missing order ID');
       }
+      
       setLoading(false);
     };
 
     fetchPaymentDetails();
-  }, [searchParams]);
+  }, [searchParams, removeSelectedItems, removeCoupon]);
 
   if (loading) {
     return (

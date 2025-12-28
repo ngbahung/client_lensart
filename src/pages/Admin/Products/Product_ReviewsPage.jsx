@@ -41,7 +41,7 @@ const Product_ReviewsPage = () => {
           id: review.id,
           product_name: review.product_name || 'Unknown Product',
           user_name: review.user_name || 'Unknown User',
-          rating: review.rating || 0,
+          rating: typeof review.rating === 'string' ? parseInt(review.rating, 10) : (review.rating || 0),
           review: review.review || '',
           status: review.status || 'inactive'
         }));
