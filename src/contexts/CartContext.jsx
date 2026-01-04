@@ -52,7 +52,9 @@ const cartReducer = (state, action) => {
       return { ...state, loading: true };
 
     case 'FETCH_CART_SUCCESS':
-      const transformedItems = transformCartData(action.payload);
+      const transformedItems = action.payload && Array.isArray(action.payload) 
+        ? transformCartData(action.payload)
+        : [];
       return {
         ...state,
         loading: false,
